@@ -1,0 +1,260 @@
+.product-list-wrp .categories-header input{
+    width: auto;
+    font-size: 14px;
+    padding-left: 20px;
+    font-weight: 600;
+    color: var(--secondryColor);
+    background: #f9f9f9;
+    border: 1px solid #f9f9f9 !important;
+}
+.product-list-wrp .categories-header input:focus{
+    box-shadow: none;
+}
+.product-rating i{
+    font-size: 12px;
+}
+.product-rating .fa-solid.fa-star{
+    color: orange;
+}
+.product-list-wrp .categories-info table tbody td{
+    font-size: 14px !important;
+    color: var(--primaryColor);
+    font-weight: 600;
+}
+.product-list-wrp a{
+    color: var(--primaryColor);
+}
+
+/* =====product-details-wrp=== */
+.product-details-wrp {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+.product-details-wrp h3{
+    font-size: 20px;
+    line-height: 25px;
+    font-weight: 600;
+    color: var(--primaryColor);
+    text-transform: capitalize;
+    margin-bottom: 30px;
+}
+.product-details-wrp .product-category-select label{
+    font-size: 14px;
+    color: var(--primaryColor);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.product-details-wrp .product-category-select select{
+    font-size: 14px;
+    color: var(--secondryColor);
+}
+.product-details-wrp .product-category-select p{
+    font-size: 12px;
+    color: var(--secondryColor);
+    margin-top: 5px;
+}
+.add-newcat-btn{
+    background: rgba(48,79,253, 0.1);
+    color: var(--commonBtn);
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin: 10px 0px;
+    display: inline-block;
+}
+.product-tags label{
+    font-size: 14px;
+    color: var(--primaryColor);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.product-tags ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 7px;
+    margin: 0px 0;
+    border-radius: 5px;
+    border: 1px solid #a6a6a6;
+}
+
+.product-tags ul li {
+    color: var(--primaryColor);
+    margin: 4px 3px;
+    list-style: none;
+    border-radius: 5px;
+    background: #F2F2F2;
+    padding: 5px 8px 5px 10px;
+    border: 1px solid #e3e1e1;
+    font-size: 12px;
+    font-weight: 600;
+
+}
+
+.product-tags ul li i {
+    height: 20px;
+    width: 20px;
+    color: #808080;
+    margin-left: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    background: #dfdfdf;
+    justify-content: center;
+    display: inline-flex;
+    align-items: center;
+
+}
+
+.product-tags ul input {
+    flex: 1;
+    padding: 5px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100px;
+}
+.product-tags .details p{
+    font-size: 13px;
+    color: var(--secondryColor);
+    margin-top: 5px;
+}
+.edit-product-tabs .nav-tabs .nav-link{
+    font-size: 16px;
+    color: var(--primaryColor);
+    border: 0;
+    border-bottom: 2px solid transparent;
+    transition: color .2s ease;
+    position: relative;
+    padding: .5rem 0;
+    margin: 0 1rem;
+}
+.edit-product-tabs .nav-tabs .nav-item.show .nav-link, .edit-product-tabs .nav-tabs .nav-link.active{
+    background-color: transparent;
+    border-bottom: 2px solid var(--commonBtn);
+    color: var(--commonBtn);
+}
+.tab-content .dropzone.dz-clickable {
+    min-height: auto;
+    padding: 1.5rem 1.75rem;
+    text-align: center;
+    cursor: pointer;
+    border: 1px dashed var(--commonBtn);
+    background-color: rgba(48,79,253, 0.1);
+    border-radius: 10px !important;
+}
+
+.edit-product-pricing .form-check{
+    padding: 0px !important;
+    display: flex;
+    align-items: center !important;
+}
+
+.edit-product-pricing .form-check.form-check-solid .form-check-input:not(:checked) {
+    background-color: #F1F1F4;
+    padding: 0px !important;
+}
+
+.edit-product-pricing .form-check.form-check-solid .form-check-input {
+    border: 0;
+    padding: 0px !important;
+}
+.edit-product-pricing .form-check.form-check-sm .form-check-input {
+    height: 15px !important;
+    width: 15px !important;
+    padding: 0px !important;
+}
+.edit-product-pricing .form-check-custom .form-check-input {
+    margin: 0;
+    float: none;
+    flex-shrink: 0;
+    padding: 0px !important;
+}
+.edit-product-pricing .form-check-input[type=radio] {
+    border-radius: 50%;
+    padding: 0px !important;
+}
+.edit-product-pricing label span.fw-bold{
+    font-size: 15px !important;
+    color: var(--primaryColor) !important;
+}
+.edit-product-pricing label.btn{
+    padding: 15px !important;
+    border: 1px dashed #DBDFE9 !important;
+}
+.edit-product-pricing label.btn.active{
+    border: 1px dashed var(--commonBtn) !important;
+}
+.edit-product-pricing label.btn.active span{
+    color: var(--commonBtn) !important;
+}
+#kt_ecommerce_add_product_discount_percentage label{
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--primaryColor);
+    display: block !important;
+}
+.percentage-slider-content{
+    text-align: center;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+.percentage-slider-content .kt_ecommerce_add_product_discount_label{
+    font-size: 30px;
+    color: var(--primaryColor);
+    font-weight: 600;
+    text-align: center;
+}
+.percentage-slider-content .kt_ecommerce_add_product_discount_icon{
+    font-size: 15px;
+    color: var(--primaryColor);
+    font-weight: 600;
+    text-align: center;
+}
+.percentage-slider-slide input{
+    border: none !important;
+}
+.percentage-slider-slide input:focus{
+    box-shadow: none !important;
+}
+#kt_ecommerce_add_product_discount_fixed p{
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--secondryColor);
+}
+.product-category-select label{
+    margin-bottom: 8px;
+}
+.product-category-select select{
+    font-size: 14px;
+    color: var(--secondryColor);
+}
+
+.edit-product-variation .product-category-select div button{
+    background: #FFEEF3;
+    border: 1px solid #FFEEF3;
+    border-radius: 5px;
+    color: #F8285A;
+    padding: 10px;
+    font-size: 12px;
+    line-height: normal;
+}
+
+.edit-product-variation .product-category-select div{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+
+@media only screen and (max-width: 500px) {
+    .edit-product-variation .product-category-select div{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

@@ -1,0 +1,16 @@
+:root{
+    --primaryColor: #495057;
+    --secondryColor: #74788D;
+    --sidenavColor: #8C98BB;
+    --commonBtn: #304FFD;
+    --addBtn: #FF965D;
+    --loginlinearcolor:rgba(48, 79, 253, 0.10);
+    --subtitleColor: #FF965D;
+    --loginsubtitle: #304FFD;
+    --dark-blue:#1C2742;
+    --light-grey:#6D7794;
+    --white: #fff;
+    --light-hover:#293552;
+    --common-bg:#F5F6F8;
+    --cmnBorder:#CED4DA;
+}

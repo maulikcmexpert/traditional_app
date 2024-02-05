@@ -1,0 +1,89 @@
+.visitors-chart-header .sort-product span{
+    color: var(--primaryColor);
+    font-family: "IBM Plex Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.visitors-chart-header .sort-product select {
+    border: none !important;
+    color: var(--secondryColor);
+    font-family: "IBM Plex Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: auto;
+    padding: 0px !important;
+}
+.visitors-chart-header .sort-product{
+    display: flex;
+    align-items: center;
+}
+
+
+.sales-info-wrp{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    padding-left: 25px;
+}
+.sales-info{
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+}
+.sales-info h3{
+    color: var(--primaryColor);
+    font-family: 'IBM Plex Sans';
+    font-size: 25.2px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 0px;
+}
+.sales-info p{
+    color: var(--secondryColor);
+    font-family: 'IBM Plex Sans';
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 0px;
+}
+.sales-income h3{
+    color: #304FFD !important;
+}
+#chart7 .apexcharts-legend.position-bottom {
+    top: auto !important;
+    bottom: -5px !important;
+    text-align: center !important;
+    justify-content: center !important;
+    padding-bottom: 5px !important;
+}
+
+
+@media only screen and (max-width: 1199px) {
+    .sales-info h3{
+        font-size: 20px;
+    }
+    .sales-info p{
+        font-size: 14px;
+    }
+    .sales-info {
+        gap: 10px;
+    }
+    .sales-info-wrp {
+        margin-bottom: 30px;
+    }
+}
+@media only screen and (max-width: 575px){
+    .sales-info-wrp{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
