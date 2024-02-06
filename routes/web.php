@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\admin\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,8 +21,20 @@ Route::get( '/', function () {
 
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    
+    return view('layouts.layout');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
+
+// });
+
+Route::middleware(['admin', 'auth', 'verified'])->group(function () {
+    Route::get('/testuser', [DashboardController::class, 'index'])->name('testuser');
+    Route::get('/adduser', [DashboardController::class, 'UserDetail'])->name('adduser');
+})->prefix('admin');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

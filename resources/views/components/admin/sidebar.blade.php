@@ -16,12 +16,12 @@
             <div class="menu-title">Dashboard</div>
         </a>
         <ul>
-            <li> <a href="index.php"><i class="fa-solid fa-circle"></i> Dashboard - 1</a>
+            <li> <a href="{{ route ('testuser') }}"><i class="fa-solid fa-circle"></i> Dashboard</a>
             </li>
-            <li> <a href="index_2.php"><i class="fa-solid fa-circle"></i> Dashboard - 2</a>
+            {{-- <li> <a href="index_2.php"><i class="fa-solid fa-circle"></i> Dashboard - 2</a>
             </li>
             <li> <a href="dashboardV3.php"><i class="fa-solid fa-circle"></i> Dashboard - 3</a>
-            </li>
+            </li> --}}
         </ul>
     </li>
 
@@ -43,7 +43,8 @@
             <div class="menu-title">Layouts</div>
         </a>
         <ul>
-            <li> <a href="javascript:void(0)"><i class="fa-solid fa-circle"></i> Option-1</a>
+            <li> <a href="{{ route ('adduser') }}"><i class="fa-solid fa-circle"></i> Option-1</a>
+            {{-- <li> <a href="javascript:void(0)"><i class="fa-solid fa-circle"></i> Option-1</a> --}}
             </li>
             <!-- <li> <a href="app-chat-box.html"><i class="fa-solid fa-circle"></i> Chat Box</a>
             </li>

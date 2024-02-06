@@ -1,3 +1,4 @@
+@extends('layouts.layout')
 @section('content')
 <!-- -----content-page---- -->
 <section class="page-wrapper">
@@ -205,7 +206,7 @@
                                 <button>Upgrade Account!</button>
                             </div>
                             <div class="upgrade-account-img">
-                                <img src="./assets/img/upgrad-account-img.png" alt="">
+                                <img src="{{asset('admin/assets/img/upgrad-account-img.png')}}" alt="">
                             </div>
                         </div>
                     </div>
@@ -276,7 +277,7 @@
                                     <td>
                                         <div class="user-details">
                                             <div class="user-img">
-                                                <img src="./assets/img/user-img-1.png" alt="user-img">
+                                                <img src="{{asset('admin/assets/img/user-img-1.png')}}" alt="user-img">
                                             </div>
                                             <div class="user-content">
                                                 <h6>Glenn Holden</h6>
@@ -295,7 +296,7 @@
                                     <td>
                                         <div class="user-details">
                                             <div class="user-img">
-                                                <img src="./assets/img/user-img-1.png" alt="user-img">
+                                                <img src="{{asset('admin/assets/img/user-img-1.png')}}" alt="user-img">
                                             </div>
                                             <div class="user-content">
                                                 <h6>Lolita Hamill</h6>
@@ -314,7 +315,7 @@
                                     <td>
                                         <div class="user-details">
                                             <div class="user-img">
-                                                <img src="./assets/img/user-img-1.png" alt="user-img">
+                                                <img src="{{asset('admin/assets/img/user-img-1.png')}}" alt="user-img">
                                             </div>
                                             <div class="user-content">
                                                 <h6>Lolita Hamill</h6>
@@ -333,7 +334,7 @@
                                     <td>
                                         <div class="user-details">
                                             <div class="user-img">
-                                                <img src="./assets/img/user-img-1.png" alt="user-img">
+                                                <img src="{{asset('admin/assets/img/user-img-1.png')}}" alt="user-img">
                                             </div>
                                             <div class="user-content">
                                                 <h6>Lolita Hamill</h6>
@@ -352,7 +353,7 @@
                                     <td>
                                         <div class="user-details">
                                             <div class="user-img">
-                                                <img src="./assets/img/user-img-1.png" alt="user-img">
+                                                <img src="{{asset('admin/assets/img/user-img-1.png')}}" alt="user-img">
                                             </div>
                                             <div class="user-content">
                                                 <h6>Lolita Hamill</h6>

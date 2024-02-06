@@ -10,9 +10,14 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        echo "hi";exit;
+        return view('admin.dashbord');
+    }
+    
+    public function UserDetail(Request $request){
+        
+        return view('admin.add');
     }
 
     /**

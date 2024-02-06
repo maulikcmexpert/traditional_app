@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\admin\Auth;
 
-use App\Http\Controllers\admin\{
-    DashboardController,
-};
+use App\Http\Middleware\AdminMiddleware;
+
+use App\Http\Controllers\admin\DashboardController;
 
 use Illuminate\Support\Facades\Session;
 
@@ -41,10 +41,29 @@ use Illuminate\Support\Facades\Session;
 
 
 
-Route::group(['middleware' => admin::Class], function () {
+// Route::prefix('admin')->middleware(AdminMiddleware::class)->group(function () {
+//         echo 1;die;
+//     // Route::resources([
+//     //     'dashboard' => DashboardController::class
+//     // ]);
+// });
 
-    Route::resources([
 
-        'dashboard' => DashboardController::class
-    ]);
-})->prefix('admin');
+// Route::prefix('admin')->middleware(['admin','auth','verified'])->group(function () {
+//         // echo 1;
+//         // die;
+//     // Route::resources([
+//     //     'dashboard' => DashboardController::class
+//     // ]);
+// });
+
+
+// Route::middleware(['admin','auth','verified'])->group(function () {
+
+// Route::get('/testuser', [DashboardController::class, 'index'])->name('testuser');
+
+// });
+
+// Route::middleware(['admin', 'auth', 'verified'])->group(function () {
+//     Route::get('/testuser', [DashboardController::class, 'index'])->name('testuser');
+// });
