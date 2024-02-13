@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,16 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            'username' => "superadmin",
-            'email' => 'superadmin@gmail.com',
-            'password' => Hash::make('admin@123'),
-        ]);
 
         DB::table('users')->insert([
-            'username' => "admin",
+            'name' => "admin",
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin@123'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
     }
 }

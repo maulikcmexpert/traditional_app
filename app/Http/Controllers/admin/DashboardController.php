@@ -12,11 +12,14 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.dashbord');
+        $title = 'Dashboard';
+        $page = 'admin.dashboard';
+        return view('layouts.layout', compact('page', 'title'));
     }
-    
-    public function UserDetail(Request $request){
-        
+
+    public function UserDetail(Request $request)
+    {
+
         return view('admin.add');
     }
 

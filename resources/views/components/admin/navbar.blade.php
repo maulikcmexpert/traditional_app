@@ -3,75 +3,22 @@
         <div class="mobile-toggle-menu"><i class="fa-solid fa-bars"></i>
         </div>
 
-        <div class="search-bar d-lg-block d-none" data-bs-toggle="modal" data-bs-target="#SearchModal">
-            <a href="#" class="btn d-flex align-items-center"><i
-                    class="fa-solid fa-magnifying-glass"></i>Search...</a>
-        </div>
 
         <div class="top-menu ms-auto">
             <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item mobile-search-icon d-flex d-lg-none" data-bs-toggle="modal"
-                    data-bs-target="#SearchModal">
+                <li class="nav-item mobile-search-icon d-flex d-lg-none" data-bs-toggle="modal" data-bs-target="#SearchModal">
                     <a class="nav-link" href="#"><i class="fa-solid fa-magnifying-glass"></i>
                     </a>
                 </li>
-                <li class="nav-item dropdown dropdown-laungauge">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
-                        data-bs-toggle="dropdown"><img src="{{asset('admin/assets/img/country-img.png')}}">
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><img
-                                    src="{{asset('admin/assets/images/county/01.png')}}" width="20" alt=""><span
-                                    class="ms-2">English</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><img
-                                    src="{{asset('admin/assets/images/county/02.png')}}" width="20" alt=""><span
-                                    class="ms-2">Catalan</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><img
-                                    src="{{asset('admin/assets/images/county/03.png')}}" width="20" alt=""><span
-                                    class="ms-2">French</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><img
-                                    src="{{asset('admin/assets/images/county/04.png')}}" width="20" alt=""><span
-                                    class="ms-2">Belize</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><img
-                                    src="{{asset('admin/assets/images/county/05.png')}}" width="20" alt=""><span
-                                    class="ms-2">Colombia</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><img
-                                    src="{{asset('admin/assets/images/county/06.png')}}" width="20" alt=""><span
-                                    class="ms-2">Spanish</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><img
-                                    src="{{asset('admin/assets/images/county/07.png')}}" width="20" alt=""><span
-                                    class="ms-2">Georgian</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><img
-                                    src="{{asset('admin/assets/images/county/08.png')}}" width="20" alt=""><span
-                                    class="ms-2">Hindi</span></a>
-                        </li>
-                    </ul>
-                </li>
 
-                <!-- <li class="nav-item dark-mode d-none d-sm-flex">
-                    <a class="nav-link dark-mode-icon" href="#"><i class='bx bx-moon'></i>
-                    </a>
-                </li> -->
 
                 <li class="nav-item dropdown dropdown-app d-none">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"
-                        href="#">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown" href="#">
                         <svg preserveAspectRatio="none" viewBox="0 0 512 512">
-                            <rect x="48" y="48" width="176" height="176" rx="20" ry="20"
-                                style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                            <rect x="288" y="48" width="176" height="176" rx="20" ry="20"
-                                style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                            <rect x="48" y="288" width="176" height="176" rx="20" ry="20"
-                                style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                            <rect x="288" y="288" width="176" height="176" rx="20" ry="20"
-                                style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                            <rect x="48" y="48" width="176" height="176" rx="20" ry="20" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                            <rect x="288" y="48" width="176" height="176" rx="20" ry="20" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                            <rect x="48" y="288" width="176" height="176" rx="20" ry="20" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                            <rect x="288" y="288" width="176" height="176" rx="20" ry="20" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
                         </svg>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end p-0">
@@ -141,8 +88,7 @@
                                     <a href="#">
                                         <div class="app-box text-center">
                                             <div class="app-icon">
-                                                <img src="{{asset('admin/assets/images/app/stack-overflow.png')}}" width="30"
-                                                    alt="">
+                                                <img src="{{asset('admin/assets/images/app/stack-overflow.png')}}" width="30" alt="">
                                             </div>
                                             <div class="app-name">
                                                 <p class="mb-0 mt-1">Stack</p>
@@ -178,8 +124,7 @@
                                     <a href="#">
                                         <div class="app-box text-center">
                                             <div class="app-icon">
-                                                <img src="{{asset('admin/assets/images/app/google-calendar.png')}}" width="30"
-                                                    alt="">
+                                                <img src="{{asset('admin/assets/images/app/google-calendar.png')}}" width="30" alt="">
                                             </div>
                                             <div class="app-name">
                                                 <p class="mb-0 mt-1">Calendar</p>
@@ -203,8 +148,7 @@
                                     <a href="#">
                                         <div class="app-box text-center">
                                             <div class="app-icon">
-                                                <img src="{{asset('admin/assets/images/app/google-photos.png')}}" width="30"
-                                                    alt="">
+                                                <img src="{{asset('admin/assets/images/app/google-photos.png')}}" width="30" alt="">
                                             </div>
                                             <div class="app-name">
                                                 <p class="mb-0 mt-1">Photos</p>
@@ -305,15 +249,13 @@
                 </li>
 
                 <li class="nav-item dropdown d-none">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"
-                        href="#">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown" href="#">
                         <i class="fa-regular fa-clone"></i>
                     </a>
                 </li>
 
                 <li class="nav-item dropdown dropdown-large dropdown-notification">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
-                        data-bs-toggle="dropdown"><span class="alert-count">7</span>
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" data-bs-toggle="dropdown"><span class="alert-count">7</span>
                         <i class="fa-regular fa-bell"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
@@ -327,8 +269,7 @@
                             <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
                                     <div class="user-online">
-                                        <img src="{{asset('admin/assets/images/avatars/avatar-1.png')}}" class="msg-avatar"
-                                            alt="user avatar">
+                                        <img src="{{asset('admin/assets/images/avatars/avatar-1.png')}}" class="msg-avatar" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5
@@ -352,8 +293,7 @@
                             <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
                                     <div class="user-online">
-                                        <img src="{{asset('admin/assets/images/avatars/avatar-2.png')}}" class="msg-avatar"
-                                            alt="user avatar">
+                                        <img src="{{asset('admin/assets/images/avatars/avatar-2.png')}}" class="msg-avatar" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Althea Cabardo <span class="msg-time float-end">14
@@ -380,8 +320,7 @@
                                     <div class="notify bg-light-info text-info">Ss
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h6 class="msg-name">New Product Approved <span
-                                                class="msg-time float-end">2 hrs ago</span></h6>
+                                        <h6 class="msg-name">New Product Approved <span class="msg-time float-end">2 hrs ago</span></h6>
                                         <p class="msg-info">Your new product has approved</p>
                                     </div>
                                 </div>
@@ -389,12 +328,10 @@
                             <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
                                     <div class="user-online">
-                                        <img src="{{asset('admin/assets/images/avatars/avatar-4.png')}}" class="msg-avatar"
-                                            alt="user avatar">
+                                        <img src="{{asset('admin/assets/images/avatars/avatar-4.png')}}" class="msg-avatar" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h6 class="msg-name">Katherine Pechon <span
-                                                class="msg-time float-end">15
+                                        <h6 class="msg-name">Katherine Pechon <span class="msg-time float-end">15
                                                 min ago</span></h6>
                                         <p class="msg-info">Making this the first true generator</p>
                                     </div>
@@ -402,12 +339,10 @@
                             </a>
                             <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
-                                    <div class="notify bg-light-success text-success"><i
-                                            class='bx bx-check-square'></i>
+                                    <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h6 class="msg-name">Your item is shipped <span
-                                                class="msg-time float-end">5 hrs
+                                        <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5 hrs
                                                 ago</span></h6>
                                         <p class="msg-info">Successfully shipped your item</p>
                                     </div>
@@ -429,8 +364,7 @@
                             <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
                                     <div class="user-online">
-                                        <img src="{{asset('admin/assets/images/avatars/avatar-8.png')}}" class="msg-avatar"
-                                            alt="user avatar">
+                                        <img src="{{asset('admin/assets/images/avatars/avatar-8.png')}}" class="msg-avatar" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6
@@ -450,9 +384,7 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown dropdown-large d-none">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span
-                            class="alert-count">8</span>
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="alert-count">8</span>
                         <i class='bx bx-shopping-bag'></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
@@ -467,8 +399,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/11.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/11.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -486,8 +417,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/02.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/02.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -505,8 +435,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/03.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/03.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -524,8 +453,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/04.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/04.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -543,8 +471,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/05.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/05.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -562,8 +489,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/06.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/06.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -581,8 +507,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/07.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/07.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -600,8 +525,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/08.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/08.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -619,8 +543,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="{{asset('admin/assets/images/products/09.png')}}" class=""
-                                                alt="product image">
+                                            <img src="{{asset('admin/assets/images/products/09.png')}}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -649,8 +572,7 @@
             </ul>
         </div>
         <div class="user-box dropdown">
-            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
-                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="user-img-wrp">
                     <img src="{{asset('admin/assets/images/avatars/avatar-2.png')}}" class="user-img" alt="user avatar">
                 </div>
@@ -660,35 +582,15 @@
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item d-flex align-items-center" href="userprofile.php"><i
-                            class="fa-regular fa-user"></i><span>Profile</span></a>
+                <li><a class="dropdown-item d-flex align-items-center" href="userprofile.php"><i class="fa-regular fa-user"></i><span>Profile</span></a>
                 </li>
-                <!-- <li><a class="dropdown-item d-flex align-items-center" href="#"><i
-                            class="bx bx-cog fs-5"></i><span>Settings</span></a>
-                </li> -->
-                <!-- <li><a class="dropdown-item d-flex align-items-center" href="#"><i
-                            class="bx bx-home-circle fs-5"></i><span>Dashboard</span></a>
-                </li> -->
-                <!-- <li><a class="dropdown-item d-flex align-items-center" href="#"><i
-                            class="bx bx-dollar-circle fs-5"></i><span>Earnings</span></a>
-                </li> -->
-                <!-- <li><a class="dropdown-item d-flex align-items-center" href="#"><i
-                            class="bx bx-download fs-5"></i><span>Downloads</span></a>
-                </li> -->
-                
-                <li><a class="dropdown-item d-flex align-items-center" href="login.php"><i class="fa-solid fa-arrow-right-to-bracket"></i>
-                <span>Login</span></a>
-                </li>
-                <li>
-                    <div class="dropdown-divider mb-0"></div>
-                </li>
-                <li><a class="dropdown-item d-flex align-items-center" href="#"><i
-                            class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+
+
+
+                <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
                 </li>
             </ul>
         </div>
-        <div class="setting-wrp">
-            <i class="fa-solid fa-gear"></i>
-        </div>
+
     </nav>
 </div>
