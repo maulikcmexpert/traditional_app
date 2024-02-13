@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -12,15 +13,12 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
+
         $title = 'Dashboard';
         $page = 'admin.dashboard';
+        toastr()->success('Data has been saved successfully!', 'Congrats');
+
         return view('layouts.layout', compact('page', 'title'));
-    }
-
-    public function UserDetail(Request $request)
-    {
-
-        return view('admin.add');
     }
 
     /**

@@ -583,7 +583,13 @@
                      <li><a class="dropdown-item d-flex align-items-center" href="userprofile.php"><i class="fa-regular fa-user"></i><span>Profile</span></a>
                      </li>
 
-                     <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+                     <li>
+
+                         <form action="{{ route('logout') }}" method="post">
+                             @csrf
+                             <button class="dropdown-item d-flex align-items-center" type="submit"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></button>
+                         </form>
+
                      </li>
                  </ul>
              </div>
