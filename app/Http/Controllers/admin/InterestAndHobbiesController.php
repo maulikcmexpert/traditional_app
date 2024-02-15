@@ -24,8 +24,8 @@ class InterestAndHobbiesController extends Controller
     {
         $page = 'admin.interest_and_hobbies.list';
         $title = 'Interest and hobby';
-
-        return $dataTable->render('layouts.layout', compact('page', 'title'));
+        $js = 'admin.interest_and_hobbies.scriptjs';
+        return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
@@ -46,9 +46,9 @@ class InterestAndHobbiesController extends Controller
     {
 
 
-        try{
+        try {
             DB::beginTransaction();
-            foreach($request->interest_and_hobby as $val){
+            foreach ($request->interest_and_hobby as $val) {
 
                 $interestandhobby = new InterestAndHobby();
                 $interestandhobby->interest_and_hobby = $val;
@@ -57,7 +57,7 @@ class InterestAndHobbiesController extends Controller
             DB::commit();
             toastr()->success('Interest and hobby created successfully !');
             return redirect()->route('interest_and_hobby.index');
-        }catch(Exception $e){
+        } catch (Exception $e) {
 
             toastr()->error("something went wrong");
             return redirect()->route('interest_and_hobby.create');
@@ -66,10 +66,6 @@ class InterestAndHobbiesController extends Controller
             toastr()->error($e->getMessage());
             return redirect()->route('interest_and_hobby.create');
         }
-
-
-
-
     }
 
     /**
@@ -77,7 +73,6 @@ class InterestAndHobbiesController extends Controller
      */
     public function show(string $id)
     {
-
     }
 
     /**
@@ -90,7 +85,7 @@ class InterestAndHobbiesController extends Controller
         $title = 'Update interest and hobby';
         $js = 'admin.interest_and_hobbies.scriptjs';
         $getData = InterestAndHobby::Findorfail($ids);
-        return view('layouts.layout', compact('page', 'title','getData','js'));
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
@@ -98,24 +93,24 @@ class InterestAndHobbiesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try{
+        try {
             DB::beginTransaction();
             $ids = decrypt($id);
-        $update = InterestAndHobby::Findorfail($ids);
-        $update->interest_and_hobby = $request->interest_and_hobby;
-        $update->save();
-        DB::commit();
-        toastr()->success('Interest and hobby updated successfully !');
-        return redirect()->route('interest_and_hobby.index');
-    }catch(Exception $e){
+            $update = InterestAndHobby::Findorfail($ids);
+            $update->interest_and_hobby = $request->interest_and_hobby;
+            $update->save();
+            DB::commit();
+            toastr()->success('Interest and hobby updated successfully !');
+            return redirect()->route('interest_and_hobby.index');
+        } catch (Exception $e) {
 
-        toastr()->error("something went wrong");
-        return redirect()->route('interest_and_hobby.create');
-    } catch (QueryException $e) {
-        DB::rollBack();
-        toastr()->error($e->getMessage());
-        return redirect()->route('interest_and_hobby.create');
-    }
+            toastr()->error("something went wrong");
+            return redirect()->route('interest_and_hobby.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('interest_and_hobby.create');
+        }
     }
 
     /**
@@ -123,20 +118,16 @@ class InterestAndHobbiesController extends Controller
      */
     public function destroy(string $id)
     {
-        try{
+        try {
             $ids = decrypt($id);
             $delete = InterestAndHobby::Findorfail($ids)->delete();
-            toastr()->success('Interest and hobby deleted successfully !');
-            return redirect()->route('interest_and_hobby.index');
-    }catch(Exception $e){
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
 
-        toastr()->error("something went wrong");
-        return redirect()->route('interest_and_hobby.create');
-    } catch (QueryException $e) {
-        DB::rollBack();
-        toastr()->error($e->getMessage());
-        return redirect()->route('interest_and_hobby.create');
-    }
+            return response()->json(false);
+        }
     }
 
 

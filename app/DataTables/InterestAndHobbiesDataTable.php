@@ -31,7 +31,7 @@ class InterestAndHobbiesDataTable extends DataTable
 
 
                 return '<div><a href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
-                <a href="' . $deleteRoute . '"><i class="fas fa-trash text-danger"></i></a></div>
+                <a href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a></div>
                 ';
             })
             ->setRowId('id');

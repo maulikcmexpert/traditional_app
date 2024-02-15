@@ -74,33 +74,6 @@
 
 
 
-        // $(document).on('click', '#add', function(e) {
-        //     e.preventDefault();
-
-        //     var error = 0;
-        //     $(".interest_and_hobby").each(function() {
-        //         $(this).next().html("");
-        //         if ($(this).val() == "") {
-        //             $(this).next().html("<span class='text-danger'>Please enter interest and hobby </span>")
-        //             error++;
-        //         }
-        //     });
-
-        //     $(".icon").each(function() {
-        //         $(this).next().html("");
-        //         if ($(this).val() == "") {
-        //             $(this).next().html("<span class='text-danger'>Please upload icon </span>")
-        //             error++;
-        //         }
-        //     });
-
-
-        //     if (error == 0) {
-        //         $("#interest_and_hobbies").submit();
-        //     }
-        // });
-
-
 
         $("#interest_and_hobby").validate({
             rules: {
@@ -139,13 +112,45 @@
 
 
 
-        $(document).on('click','#edit',function(){
-            if($("#interest_and_hobby").valid()){
+        $(document).on('click', '#edit', function() {
+            if ($("#interest_and_hobby").valid()) {
                 $("#interest_and_hobby").submit();
             }
         })
 
 
+        $(document).on("click", "#delete", function(event) {
+            var userURL = $(this).data("url");
+            event.preventDefault();
+            swal({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        method: "DELETE",
+                        url: userURL,
+                        dataType: "json",
+                        success: function(output) {
+                            if (output == true) {
+                                table.ajax.reload();
+                                toastr.success("Interest and hobby deleted successfully !");
+                            } else {
+                                toastr.error("Interest and hobby don't Deleted !");
+                            }
+                        },
+                    });
+                }
+            });
+        });
 
 
     });
