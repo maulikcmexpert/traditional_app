@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('interest_and_hobbies', function (Blueprint $table) {
             $table->id();
             $table->string('interest_and_hobby');
-            $table->string('icon');
-            $table->timestamps();
+             $table->timestamps();
         });
     }
 

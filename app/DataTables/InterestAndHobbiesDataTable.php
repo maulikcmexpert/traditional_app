@@ -25,8 +25,9 @@ class InterestAndHobbiesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($row) {
 
-                $editRoute = route('interest_and_hobbies.edit', $row->id);
-                $deleteRoute = route('interest_and_hobbies.destroy', $row->id);
+                $id = encrypt($row->id);
+                $editRoute = route('interest_and_hobby.edit', $id);
+                $deleteRoute = route('interest_and_hobby.destroy', $id);
 
 
                 return '<div><a href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
@@ -77,7 +78,7 @@ class InterestAndHobbiesDataTable extends DataTable
         return [
 
             Column::make('interest_and_hobby'),
-            Column::make('icon'),
+
             Column::make('action'),
 
         ];

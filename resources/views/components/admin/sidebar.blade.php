@@ -48,7 +48,7 @@
          </li>
 
          <li>
-             <a href="{{ route('interest_and_hobbies.index')}}" class="">
+             <a href="{{ route('interest_and_hobby.index')}}" class="">
                  <div class="parent-icon">
                      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                          <mask id="mask0_0_1414" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">

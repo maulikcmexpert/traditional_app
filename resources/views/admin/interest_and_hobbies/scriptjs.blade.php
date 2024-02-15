@@ -11,13 +11,12 @@
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-
-
         $("#interest .interest_and_hobby").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
         });
+
 
         $('#add').click(function(e) {
             e.preventDefault();
@@ -65,7 +64,7 @@
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
                     console.log("No duplicate interest and hobby, submitting form");
-                    $("#interest_and_hobbies").submit();
+                    $("#interest_and_hobby").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
@@ -100,6 +99,54 @@
         //         $("#interest_and_hobbies").submit();
         //     }
         // });
+
+
+
+        $("#interest_and_hobby").validate({
+            rules: {
+                interest_and_hobby: {
+                    required: true,
+                    remote: {
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        url: "{{route('interest_and_hobby.exist')}}",
+                        method: "POST",
+                        data: {
+                            interest_and_hobby: function() {
+                                return $("input[name='interest_and_hobby']").val();
+                            },
+                            id: function() {
+                                return $("input[name='id']").val();
+                            },
+                        },
+                    },
+                },
+
+            },
+            messages: {
+                interest_and_hobby: {
+                    required: "Please enter interest and hobby",
+                    remote: "Interest and hobby already exist",
+                },
+
+            },
+
+
+        });
+
+
+
+        $(document).on('click','#edit',function(){
+            if($("#interest_and_hobby").valid()){
+                $("#interest_and_hobby").submit();
+            }
+        })
+
+
+
 
     });
 </script>

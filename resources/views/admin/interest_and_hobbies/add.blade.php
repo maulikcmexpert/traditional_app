@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('interest_and_hobbies.index')}}">Interest and hobbies</a></li>
+                <li class="breadcrumb-item"><a href="{{route('interest_and_hobby.index')}}">Interest and hobbies</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Add</li>
             </ol>
         </nav>
@@ -23,13 +23,13 @@
                 <!-- end card header -->
                 <div class="card-body">
                     <div class="live-preview">
-                        <form method="POST" id="interest_and_hobbies" action="{{ route('interest_and_hobbies.store')}}" enctype="multipart/form-data">
+                        <form method="POST" id="interest_and_hobby" action="{{ route('interest_and_hobby.store')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group" id="interest">
                                 <div class="row gy-4">
                                     <div class="col-xxl-6 col-md-6">
                                         <label class="form-label">Interest and hobbies</label>
-                                        <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" id="interest_and_hobby" />
+                                        <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
 
                                         <span class="text-danger"> @if ($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
 
