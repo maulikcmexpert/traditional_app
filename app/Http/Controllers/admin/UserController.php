@@ -4,21 +4,22 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\DataTables\UserDataTable;
 
-class DashboardController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(UserDataTable $dataTable)
     {
 
-        $title = 'Dashboard';
-        $page = 'admin.dashboard';
-        // toastr()->success('Data has been saved successfully!', 'Congrats');
+        $page = 'admin.user.list';
+        $title = 'Users Management';
 
-        return view('layouts.layout', compact('page', 'title'));
+
+        return $dataTable->render('layouts.layout', compact('page', 'title'));
     }
 
     /**

@@ -27,8 +27,8 @@
 <script src="{{asset('admin/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
-<script src="{{asset('admin/assets/plugins/apexcharts-bundle/js/apexcharts.min.js')}}"></script>
-<script src="{{asset('admin/assets/plugins/apexcharts-bundle/js/apex-custom.js')}}"></script>
+<!-- <script src="{{asset('admin/assets/plugins/apexcharts-bundle/js/apexcharts.min.js')}}"></script> -->
+<!-- <script src="{{asset('admin/assets/plugins/apexcharts-bundle/js/apex-custom.js')}}"></script> -->
 
 <script src="{{asset('admin/assets/plugins/%40fullcalendar/core/main.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/%40fullcalendar/bootstrap/main.min.js')}}"></script>
@@ -42,7 +42,7 @@
 <script src="{{asset('admin/assets/plugins/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js')}}"></script>
 
 <!-- mailbox init -->
-<script src="{{asset('admin/assets/js/mailbox.init.js')}}"></script>
+<!-- <script src="{{asset('admin/assets/js/mailbox.init.js')}}"></script> -->
 
 <!-- list.js min js -->
 <script src="{{asset('admin/assets/plugins/list.js/list.min.js')}}"></script>
@@ -51,12 +51,12 @@
 <script src="{{asset('admin/assets/plugins/list.pagination.js/list.pagination.min.js')}}"></script>
 
 <!-- invoicelist init js -->
-<script src="{{asset('admin/assets/js/invoiceslist.init.js')}}"></script>
+<!-- <script src="{{asset('admin/assets/js/invoiceslist.init.js')}}"></script> -->
 
 <!-- Sweet Alerts js -->
 <script src="{{asset('admin/assets/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 
-<script src="{{asset('admin/assets/js/invoicedetails.js')}}"></script>
+<!-- <script src="{{asset('admin/assets/js/invoicedetails.js')}}"></script> -->
 
 <!-- dropzone min -->
 <script src="{{asset('admin/assets/plugins/dropzone/dropzone-min.js')}}"></script>
@@ -65,7 +65,7 @@
 <script src="{{asset('admin/assets/plugins/cleave.js/cleave.min.js')}}"></script>
 
 <!--Invoice create init js-->
-<script src="{{asset('admin/assets/js/invoicecreate.init.js')}}"></script>
+<!-- <script src="{{asset('admin/assets/js/invoicecreate.init.js')}}"></script> -->
 
 <!-- prismjs plugin -->
 <script src="{{asset('admin/assets/plugins/prismjs/prism.js')}}"></script>
@@ -74,7 +74,7 @@
 <script src="{{asset('admin/assets/plugins/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js')}}"></script>
 
 <!-- quill js -->
-<script src="{{asset('admin/assets/plugins/quill/quill.min.js')}}"></script>
+<!-- <script src="{{asset('admin/assets/plugins/quill/quill.min.js')}}"></script> -->
 
 <!-- init js -->
 <script src="{{asset('admin/assets/js/form-editor.init.js')}}"></script>
@@ -85,11 +85,14 @@
 
 <!--app JS-->
 <script src="{{asset('admin/assets/js/app.js')}}"></script>
+<script src="{{asset('admin/assets/js/jquery.validate.min.js')}}"></script>
+<script src="{{asset('admin/assets/js/additional-methods.min.js')}}"></script>
+
 <script>
-    new PerfectScrollbar(".app-container")
+    new PerfectScrollbar(".app-container");
 </script>
 
-
+@stack('scripts')
 
 
 </body>

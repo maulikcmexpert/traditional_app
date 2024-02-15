@@ -13,14 +13,17 @@
         <x-admin.bodyheader />
 
         <section class="page-wrapper">
-            <div class="page-content">
-                @include($page)
-            </div>
+
+            @include($page)
+
         </section>
     </div>
     <x-admin.footer />
     <x-admin.footerscript />
 
+    @if(isset($js))
+    @include($js)
+    @endif
 </body>
 
 </html>

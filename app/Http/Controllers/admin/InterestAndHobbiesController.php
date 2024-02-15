@@ -4,21 +4,19 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\DataTables\InterestAndHobbiesDataTable;
 
-class DashboardController extends Controller
+class InterestAndHobbiesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(InterestAndHobbiesDataTable $dataTable)
     {
+        $page = 'admin.interest_and_hobbies.list';
+        $title = 'Interest and hobbies';
 
-        $title = 'Dashboard';
-        $page = 'admin.dashboard';
-        // toastr()->success('Data has been saved successfully!', 'Congrats');
-
-        return view('layouts.layout', compact('page', 'title'));
+        return $dataTable->render('layouts.layout', compact('page', 'title'));
     }
 
     /**
@@ -26,7 +24,10 @@ class DashboardController extends Controller
      */
     public function create()
     {
-        //
+        $page = 'admin.interest_and_hobbies.add';
+        $title = 'Add Interest and hobbies';
+        $js = 'admin.interest_and_hobbies.scriptjs';
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
