@@ -13,4 +13,5 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'user' => UserController::class,
         'interest_and_hobbies' => InterestAndHobbiesController::class,
     ]);
+    Route::post('interest_and_hobbies/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
 });

@@ -11,7 +11,7 @@ class PostInterestAndHobbies extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class PostInterestAndHobbies extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'interest_and_hobby.*' => ['required', 'string', 'max:255', 'unique:interest_and_hobbies,interest_and_hobby'],
         ];
     }
 }

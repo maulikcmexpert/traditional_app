@@ -5,6 +5,15 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\InterestAndHobbiesDataTable;
+use App\Http\Requests\{
+    PostInterestAndHobbies
+};
+use App\Models\{
+    InterestAndHobby
+};
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class InterestAndHobbiesController extends Controller
 {
@@ -33,9 +42,9 @@ class InterestAndHobbiesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostInterestAndHobbies $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -68,5 +77,49 @@ class InterestAndHobbiesController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+
+
+    public function interestAndHobbyExist(Request $request)
+    {
+        try {
+
+            $eventType = InterestAndHobby::where(['interest_and_hobby' => $request->interest_and_hobby])->get();
+
+            if (count($eventType) > 0) {
+
+                if (isset($request->id) && !empty($request->id)) {
+
+
+
+                    if ($eventType[0]->id == decrypt($request->id)) {
+
+
+
+                        $return =  true;
+
+                        echo json_encode($return);
+
+                        exit;
+                    }
+                }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
     }
 }

@@ -27,15 +27,13 @@
                             @csrf
                             <div class="form-group" id="interest">
                                 <div class="row gy-4">
-                                    <div class="col-xxl-4 col-md-4">
+                                    <div class="col-xxl-6 col-md-6">
                                         <label class="form-label">Interest and hobbies</label>
                                         <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" id="interest_and_hobby" />
-                                        <span></span>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <label class="form-label">Upload icon</label>
-                                        <input type="file" class="form-control icon" name="icon[]" id="icon" />
-                                        <span></span>
+
+                                        <span class="text-danger"> @if ($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
+
+
                                     </div>
                                     <div class="col-lg-4">
                                         <span class="btn btn-primary" id="addMore"><i class="fa-solid fa-plus"></i></span>
@@ -44,7 +42,7 @@
 
                             </div>
 
-                            <div><input type="submit" id="add" class="btn btn-primary" value="Add"></div>
+                            <div><input type="button" id="add" class="btn btn-primary" value="Add"></div>
 
                         </form>
                         <!--end row-->
@@ -60,16 +58,14 @@
 <div id="addMoreData" style="display: none;">
     <div class="row gy-4">
 
-        <div class="col-xxl-4 col-md-4">
+        <div class="col-xxl-6 col-md-6">
             <label class="form-label">Interest and hobbies</label>
             <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
-            <span></span>
+
+            <span class="text-danger"> @if($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
+
         </div>
-        <div class="col-lg-4">
-            <label class="form-label">Upload icon</label>
-            <input type="file" class="form-control icon" name="icon[]" id="icon" />
-            <span></span>
-        </div>
+
         <div class="col-lg-4">
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>
