@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lifestyles', function (Blueprint $table) {
+        Schema::create('verification_objects', function (Blueprint $table) {
             $table->id();
-            $table->string('life_style')->nullable();
-            // $table->string('icon');
+            $table->string('question')->nullable();
+            $table->string('post_image')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lifestyles');
+        Schema::dropIfExists('verification_objects');
     }
 };

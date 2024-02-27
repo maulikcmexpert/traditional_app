@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lifestyles', function (Blueprint $table) {
+        Schema::create('zodiac_signs', function (Blueprint $table) {
             $table->id();
-            $table->string('life_style')->nullable();
-            // $table->string('icon');
+            $table->string('zodiac_sign')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lifestyles');
+        Schema::dropIfExists('zodiac_signs');
     }
 };

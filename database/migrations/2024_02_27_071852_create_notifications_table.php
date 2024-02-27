@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('approach_requests', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('sender_id')->nullable();
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('receiver_id')->nullable();
-            $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
-            $table->enum('status', ['pending', 'accepted', 'rejected', 'not_approved', 'leave']);
+            $table->string('notification_type')->nullable();
+            $table->enum('read',['0','1'])->comment('0 = not read,1 = read');
             $table->string('message')->nullable();
-
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('approach_requests');
+        Schema::dropIfExists('notifications');
     }
 };

@@ -13,17 +13,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('username');
             $table->string('country_code')->nullable();
             $table->string('phone_number')->nullable();
-            $table->string('gender')->nullable();
-            $table->enum('status', ['0', '1'])->default('0');
-            $table->enum('role', ['user', 'admin', 'super_admin'])->default('user');
+            $table->string('email')->unique();
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('role', ['user', 'admin', 'organization'])->default('user');
             $table->string('otp')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->enum('is_verified',['0','1'])->comment('0 = OTP not verified, 1 = Verified');
             $table->timestamps();
         });
     }

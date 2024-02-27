@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_showstoppers_answers', function (Blueprint $table) {
+        Schema::create('contact_us', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('question_id')->nullable();
-            $table->foreign('question_id')->references('id')->on('showstoppers_questions')->onDelete('cascade');
-            $table->boolean('answer');
+            $table->string('message')->nullable();
+            $table->enum('status',['0','1'])->comment('0 = pending,1= resolved');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_showstoppers_answers');
+        Schema::dropIfExists('contact_us');
     }
 };

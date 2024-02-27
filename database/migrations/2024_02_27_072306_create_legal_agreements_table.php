@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lifestyles', function (Blueprint $table) {
+        Schema::create('legal_agreements', function (Blueprint $table) {
             $table->id();
-            $table->string('life_style')->nullable();
-            // $table->string('icon');
+            $table->text('privacy_policy')->nullable();
+            $table->text('term_and_condition')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lifestyles');
+        Schema::dropIfExists('legal_agreements');
     }
 };
