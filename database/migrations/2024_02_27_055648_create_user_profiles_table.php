@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->binary('profile')->nullable();
-            $table->enum('is_default',['0','1']);
+            $table->enum('is_default', ['0', '1'])->default('0');
             $table->timestamps();
         });
     }

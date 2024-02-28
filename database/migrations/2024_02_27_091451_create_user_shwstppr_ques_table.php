@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('question');
             $table->string('option_1');
             $table->string('option_2');
-            $table->enum('prefered_option',['option_1','option_2']);
+            $table->enum('prefered_option', ['option_1', 'option_2']);
             $table->timestamps();
         });
     }

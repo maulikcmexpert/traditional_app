@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('subscription_price')->nullable();
-            $table->enum('subscription_type',['normal','pro']);
+            $table->enum('subscription_type', ['normal', 'pro']);
             $table->string('duration')->nullable();
-            $table->enum('status',['0','1'])->comment('0 = inactive,1=active');
+            $table->enum('status', ['0', '1'])->comment('0 = inactive,1=active');
             $table->string('subscription_name')->nullable();
             $table->string('display_name')->nullable();
             $table->text('details')->nullable();

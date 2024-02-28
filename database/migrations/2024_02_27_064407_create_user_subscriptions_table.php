@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
             $table->date('start_date');
             $table->date('exp_date');
-            $table->enum('payment_type',['online','in_app']);
-            $table->enum('subscription_status',['active','inactive']);
+            $table->enum('payment_type', ['online', 'in_app']);
+            $table->enum('subscription_status', ['active', 'inactive']);
             $table->string('amount')->nullable();
             $table->timestamps();
         });
