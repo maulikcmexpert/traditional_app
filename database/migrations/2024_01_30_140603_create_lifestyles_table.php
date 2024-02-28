@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('lifestyles', function (Blueprint $table) {
             $table->id();
             $table->string('life_style')->nullable();
-            // $table->string('icon');
             $table->timestamps();
         });
     }

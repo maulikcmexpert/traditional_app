@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('to_be_blocked_user_id')->nullable();
             $table->foreign('to_be_blocked_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('reason')->nullable();
-            $table->enum('status',['block','unblock']);
+            // $table->enum('status',['block','unblock']);
             $table->dateTime('deleted_at');
             $table->timestamps();
         });

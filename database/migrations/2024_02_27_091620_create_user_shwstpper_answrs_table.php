@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('question_id')->nullable();
-            $table->foreign('question_id')->references('id')->on('showstoppers_questions')->onDelete('cascade');
-            $table->boolean('answer');
+            $table->foreign('question_id')->references('id')->on('user_shwstppr_ques')->onDelete('cascade');
+            $table->enum('prefered_answer',['option_1','option_2']);
             $table->timestamps();
         });
     }
