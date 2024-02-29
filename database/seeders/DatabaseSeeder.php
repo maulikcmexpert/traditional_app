@@ -16,13 +16,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        DB::table('users')->insert([
-            'username' => "admin",
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('admin@123'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+        $this->call([
+            CitySeeder::class,
+            StateSeeder::class,
+            CountrySeeder::class, // Include the CountrySeeder here
+            // Add more seeders here if needed
         ]);
+
+        // DB::table('users')->insert([
+        //     'username' => "admin",
+        //     'email' => 'admin@gmail.com',
+        //     'password' => Hash::make('admin@123'),
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now()
+        // ]);
     }
 }
