@@ -26,11 +26,11 @@ class UsersController extends BaseController
 
 
         foreach ($country as $value) {
-            dd($value['country']);
+
             $cont = new Country();
-            $cont->country = $value->country;
-            $cont->iso = $value->iso;
-            $cont->country_code = $value->country_code;
+            $cont->country = $value['country'];
+            $cont->iso = $value['iso'];
+            $cont->country_code = $value['country_code'];
             $cont->save();
         }
     }
