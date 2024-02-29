@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('verification_objects', function (Blueprint $table) {
             $table->id();
             $table->string('question')->nullable();
-            $table->string('post_image')->nullable();
+            $table->binary('post_image')->nullable();
             $table->timestamps();
         });
     }

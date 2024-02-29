@@ -17,10 +17,11 @@ return new class extends Migration
             $table->string('country_code')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email')->unique()->nullable();
+            $table->string('password')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->enum('user_type', ['user', 'admin', 'organization'])->default('user');
             $table->string('otp')->nullable();
-            $table->enum('is_verified',['0','1'])->comment('0 = OTP not verified, 1 = Verified');
+            $table->enum('is_verified', ['0', '1'])->default('0')->comment('0 = OTP not verified, 1 = Verified');
             $table->rememberToken();
             $table->timestamps();
         });

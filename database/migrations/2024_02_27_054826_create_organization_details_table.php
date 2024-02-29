@@ -19,11 +19,11 @@ return new class extends Migration
             $table->date('established_year');
             $table->unsignedBigInteger('size_of_organization_id')->nullable();
             $table->foreign('size_of_organization_id')->references('id')->on('size_of_organizations')->onDelete('cascade');
+            $table->text('address');
             $table->unsignedBigInteger('city')->nullable();
             $table->foreign('city')->references('id')->on('cities')->onDelete('cascade');
             $table->unsignedBigInteger('state')->nullable();
             $table->foreign('state')->references('id')->on('states')->onDelete('cascade');
-            $table->text('address');
             $table->text('about_us');
             $table->timestamps();
         });

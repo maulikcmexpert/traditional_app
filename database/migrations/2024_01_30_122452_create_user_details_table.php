@@ -17,7 +17,11 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('date_of_birth');
             $table->text('address');
-            $table->enum('gender',['male','female']);
+            $table->unsignedBigInteger('city_id')->nullable();
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+            $table->enum('gender', ['male', 'female']);
             $table->double('lattitude')->nullable();
             $table->double('longitude')->nullable();
             $table->string('height')->nullable();
@@ -33,8 +37,7 @@ return new class extends Migration
             $table->unsignedBigInteger('state')->nullable();
             $table->foreign('state')->references('id')->on('users')->onDelete('cascade');
             $table->integer('age')->nullable();
-            // $table->string('profile');
-            // $table->string('religion');
+
             $table->timestamps();
         });
     }
