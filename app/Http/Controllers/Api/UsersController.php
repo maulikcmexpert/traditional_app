@@ -26,7 +26,7 @@ class UsersController extends BaseController
 
 
         foreach ($country as $value) {
-            dd($value->country);
+            dd($value['country']);
             $cont = new Country();
             $cont->country = $value->country;
             $cont->iso = $value->iso;
