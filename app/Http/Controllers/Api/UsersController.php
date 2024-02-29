@@ -23,6 +23,8 @@ class UsersController extends BaseController
     public function addCountry(Request $request)
     {
         $country = $request->country;
+
+        dd($country);
         foreach ($country as $value) {
             $cont = new Country();
             $cont->country = $value->country;
