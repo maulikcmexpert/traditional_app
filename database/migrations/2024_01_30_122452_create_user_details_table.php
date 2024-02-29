@@ -37,7 +37,7 @@ return new class extends Migration
             $table->unsignedBigInteger('state')->nullable();
             $table->foreign('state')->references('id')->on('users')->onDelete('cascade');
             $table->integer('age')->nullable();
-
+            $table->string('color_racism')->nullable();
             $table->timestamps();
         });
     }
