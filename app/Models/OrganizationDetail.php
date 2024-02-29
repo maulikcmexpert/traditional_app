@@ -24,6 +24,11 @@ class OrganizationDetail extends Model
     ];
     public function organization()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'organization_id');
+    }
+
+    public function size_of_organization()
+    {
+        return $this->belongsTo(SizeOfOrganization::class, 'size_of_organization_id');
     }
 }
