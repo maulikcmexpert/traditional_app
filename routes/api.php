@@ -14,8 +14,10 @@ use App\Http\Controllers\Api\ListController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     // Route::post('login', [AuthenticationController::class, 'store']);
+    Route::post('addCountry', [UsersController::class, 'addCountry']);
     Route::post('user_signup', [UsersController::class, 'user_signup'])->name('user_signup');
     Route::get('country_list', [ListController::class, 'CountryList'])->name('country_list');
     Route::get('state_list', [ListController::class, 'StateList'])->name('state_list');
