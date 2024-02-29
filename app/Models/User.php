@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\{
     UserDetail,
+    OrganizationDetail,
     UserLifestyle,
     UserShowstoppersAnswer
 };
@@ -23,9 +24,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
-        'password',
     ];
 
     /**
@@ -50,7 +50,12 @@ class User extends Authenticatable
 
     public function userdetail()
     {
-        return $this->hasOne(UserDetail::class);
+        return $this->hasOne(UserDetail::class, 'user_id', 'id');
+    }
+
+    public function user_profile()
+    {
+        return $this->hasOne(OrganizationDetail::class, 'organization_id', 'id');
     }
 
     public function userlifestyles()
@@ -58,8 +63,8 @@ class User extends Authenticatable
         return $this->hasMany(UserLifestyle::class, 'user_id', 'id');
     }
 
-    public function user_showstoppers_answers()
-    {
-        return $this->hasMany(UserShowstoppersAnswer::class, 'user_id', 'id');
-    }
+    // public function user_showstoppers_answers()
+    // {
+    //     return $this->hasMany(UserShowstoppersAnswer::class, 'user_id', 'id');
+    // }
 }
