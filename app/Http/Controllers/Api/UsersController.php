@@ -30,7 +30,7 @@ class UsersController extends BaseController
             $cont = new Country();
             $cont->country = $value['country'];
             $cont->iso = $value['iso'];
-            $cont->country_code = $value['country_code'];
+            $cont->country_code = $value['code'];
             $cont->save();
         }
     }
