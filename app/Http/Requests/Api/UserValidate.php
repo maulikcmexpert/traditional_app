@@ -26,11 +26,12 @@ class UserValidate extends FormRequest
     {
 
         return [
-            'username'=>['required','string','max:200'],
+            'full_name'=>['required','string','max:200'],
             'country_code'=>['required','string','max:5'],
-            'phone_number'=>['required','string','max:10','unique:users,phone_number'],
+            'mobile_number'=>['required','string','max:10','unique:users,mobile_number'],
             'email'=>['required','string','max:50','unique:users,email'],
             'user_type'=>['required','in:user,admin,organization'],
+            'date_of_birth'=>['required'],
             'state'=>['required'],
             'city'=>['required'],
         ];
@@ -39,7 +40,7 @@ class UserValidate extends FormRequest
     public function messages()
     {
         return [
-            'mobile.required' => 'Mobile number should be string.',
+            'mobile_number.required' => 'Mobile number should be string.',
             'user_type.in'=>'Type should be only user,admin,organization'
         ];
     }
@@ -48,9 +49,8 @@ class UserValidate extends FormRequest
     {
 
         if (!$this->expectsJson()) {
-            throw new HttpResponseException(response()->json(['status'=>false,'message' =>'Validation error','data' => $validator->errors()], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
+            throw new HttpResponseException(response()->json(['status'=>false,'message' =>$validator->errors()->first()], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
         }
-
         parent::failedValidation($validator);
     }
 }
