@@ -14,6 +14,6 @@ class ZodiacSign extends Model
 
     public function user_detail()
     {
-        return $this->hasOne(UserDetail::class);
+        return $this->hasMany(UserDetail::class);
     }
 }

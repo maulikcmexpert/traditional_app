@@ -32,10 +32,8 @@ return new class extends Migration
             $table->foreign('zodiac_sign_id')->references('id')->on('zodiac_signs')->onDelete('cascade');
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->foreign('organization_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('city')->nullable();
-            $table->foreign('city')->references('id')->on('zodiac_signs')->onDelete('cascade');
-            $table->unsignedBigInteger('state')->nullable();
-            $table->foreign('state')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('religion_id')->nullable();
+            $table->foreign('religion_id')->references('id')->on('religions')->unsigned()->onDelete('cascade');
             $table->integer('age')->nullable();
             $table->string('color_racism')->nullable();
             $table->timestamps();

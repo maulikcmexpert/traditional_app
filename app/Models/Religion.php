@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Religion extends Model
 {
     use HasFactory;
+
+    public function user_detail()
+    {
+        return $this->hasMany(UserDetail::class, 'id', 'religon_id');
+    }
 }
