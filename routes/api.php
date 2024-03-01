@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ListController;
+use App\Http\Controllers\Api\AuthenticationController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,8 +17,10 @@ use App\Http\Controllers\Api\ListController;
 |
 */
 Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
-    // Route::post('login', [AuthenticationController::class, 'store']);
     Route::post('user_signup', [UsersController::class, 'user_signup'])->name('user_signup');
+    Route::post('organization_signup', [UsersController::class, 'organization_signup'])->name('organization_signup');
+    Route::post('login', [UsersController::class, 'signIn'])->name('login');
+    Route::get('sizeoforganization_list', [ListController::class, 'SizeOfOrganizationList'])->name('sizeoforganization_list');
     Route::get('country_list', [ListController::class, 'CountryList'])->name('country_list');
     Route::get('state_list', [ListController::class, 'StateList'])->name('state_list');
     Route::get('city_list', [ListController::class, 'CityList'])->name('city_list');
@@ -25,4 +29,5 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('interest_hobby_list', [ListController::class, 'InterestAndHobbyLIST'])->name('interest_hobby_list');
     Route::get('life_style_list', [ListController::class, 'LifieStyleLIST'])->name('life_style_list');
     Route::post('otp_verify', [UsersController::class, 'otp_verify'])->name('otp_verify');
+    Route::get('check', [UsersController::class, 'check'])->name('check');
 });

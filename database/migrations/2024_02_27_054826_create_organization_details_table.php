@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('organization_details', function (Blueprint $table) {
             $table->id();
             $table->binary('profile')->nullable();
+            $table->string('profile_name')->nullable();
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->foreign('organization_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('established_year');

@@ -14,12 +14,14 @@ class AuthenticationController extends BaseController
 {
     public function store(Request $request)
     {
+
         if (
             Auth::attempt([
-                'country_code' => $request['country_code'],
-                'mobile' => $request['mobile'],
+                'otp' => $request['otp'],
+                'mobile_number' => $request['mobile_number'],
             ])
         ) {
+
             $user = User::find(Auth::user()->id);
             $user->accessToken = $user->createToken('appToken')->accessToken;
 

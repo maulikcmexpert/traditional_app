@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
-class UserValidate extends FormRequest
+class OrgranizationValid extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,14 +26,16 @@ class UserValidate extends FormRequest
     {
 
         return [
-            'full_name'=>['required','string','max:200'],
+            'organization_name'=>['required','string','max:200'],
             'country_code'=>['required','string','max:5'],
             'mobile_number'=>['required','string','max:10','unique:users,mobile_number'],
             'email'=>['required','string','max:50','unique:users,email'],
-            'user_type'=>['required','in:user,admin,organization'],
-            'date_of_birth'=>['required'],
+            'organization_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'established_year'=>['required'],
+            'size_of_organization'=>['required'],
             'state_id'=>['required'],
             'city_id'=>['required'],
+            'address'=>['required'],
         ];
     }
 
@@ -41,7 +43,7 @@ class UserValidate extends FormRequest
     {
         return [
             'mobile_number.required' => 'Mobile number should be string.',
-            'user_type.in'=>'Type should be only user,admin,organization'
+            // 'user_type.in'=>'Type should be only user,admin,organization'
         ];
     }
 

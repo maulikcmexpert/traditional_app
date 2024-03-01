@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\BaseController as BaseController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Country;
+use App\Models\SizeOfOrganization;
 use App\Models\State;
 use App\Models\City;
 use App\Models\User;
@@ -44,6 +45,10 @@ class ListController extends BaseController{
     public function ZodiacSignLIST(Request $request){
         $ZodiacSign=ZodiacSign::select('id',  'zodiac_sign as name')->get();
         return $this->sendResponse(__('messages.zodiacsign_list'), $ZodiacSign);
+    }
+    public function SizeOfOrganizationList(Request $request){
+        $ZodiacSign=SizeOfOrganization::select('id',  'size_range as range')->get();
+        return $this->sendResponse(__('messages.sizeoforganization_list'), $ZodiacSign);
     }
 
     public function InterestAndHobbyLIST(Request $request){

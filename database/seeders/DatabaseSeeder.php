@@ -17,20 +17,23 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        DB::table('users')->insert([
-            'full_name' => "admin",
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('admin@123'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
         // DB::table('users')->insert([
-        //     'username' => "admin",
+        //     'full_name' => "admin",
         //     'email' => 'admin@gmail.com',
         //     'password' => Hash::make('admin@123'),
         //     'created_at' => Carbon::now(),
         //     'updated_at' => Carbon::now()
         // ]);
+
+        $this->call([
+            CountrySeeder::class,
+            StateSeeder::class,
+            CitySeeder::class,
+            LifestyleSeeder::class,
+            InterestAndHobbySeeder::class,
+            ZodiacSeeder::class,
+            OrganizationSeeder::class,
+            // Other seeders if you have
+        ]);
     }
 }
