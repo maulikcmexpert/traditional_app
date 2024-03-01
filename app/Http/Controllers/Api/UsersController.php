@@ -30,7 +30,7 @@ class UsersController extends BaseController
 
         foreach ($city as $value) {
 
-            $state = State::where('state', $value->name)->get();
+            $state = State::where('state', $value['name'])->get();
             foreach ($state as $val) {
 
                 $cont = new City();
