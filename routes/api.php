@@ -16,7 +16,10 @@ use App\Http\Controllers\Api\AuthenticationController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
+    // Route::post('login', [AuthenticationController::class, 'store']);
+
     Route::post('user_signup', [UsersController::class, 'user_signup'])->name('user_signup');
     Route::post('organization_signup', [UsersController::class, 'organization_signup'])->name('organization_signup');
     Route::post('login', [UsersController::class, 'signIn'])->name('login');
