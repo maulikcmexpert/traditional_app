@@ -25,19 +25,15 @@ class UsersController extends BaseController
 
     public function addCountry(Request $request)
     {
-        $city = $request->city;
+        $state = $request->state;
 
 
-        foreach ($city as $value) {
+        foreach ($state as $value) {
 
-            $state = State::where('state', $value['name'])->get();
-            foreach ($state as $val) {
+            $state = State::where('state', $value['name'])->first();
+            $state->code = $value['country_code'];
 
-                $cont = new City();
-                $cont->city = $value['city'];
-                $cont->state_id = $val->id;
-                $cont->save();
-            }
+            $state->save();
         }
         echo "done";
     }
