@@ -23,20 +23,6 @@ use App\Models\InterestAndHobby;
 class UsersController extends BaseController
 {
 
-    public function addCountry(Request $request)
-    {
-        $state = $request->state;
-
-
-        foreach ($state as $value) {
-
-            $state = State::where('state', $value['name'])->first();
-            $state->code = $value['country_code'];
-
-            $state->save();
-        }
-        echo "done";
-    }
     public function user_signup(UserValidate $request)
     {
         $user = new User();
