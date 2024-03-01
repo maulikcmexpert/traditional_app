@@ -10,29 +10,36 @@ use App\Http\Requests\Api\UserValidate;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Country;
+use App\Models\State;
+use App\Models\City;
 use App\Models\UserEducationDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\UploadedFile;
 use App\Http\Resources\Api\UserResource;
+use App\Models\InterestAndHobby;
 
 class UsersController extends BaseController
 {
 
     public function addCountry(Request $request)
     {
-        $country = $request->country;
+        $city = $request->city;
 
 
-        foreach ($country as $value) {
+        foreach ($city as $value) {
 
-            $cont = new Country();
-            $cont->country = $value['country'];
-            $cont->iso = $value['iso'];
-            $cont->country_code = $value['code'];
-            $cont->save();
+            $state = State::where('state', $value->name)->get();
+            foreach ($state as $val) {
+
+                $cont = new City();
+                $cont->city = $value['city'];
+                $cont->state_id = $val->id;
+                $cont->save();
+            }
         }
+        echo "done";
     }
     public function user_signup(UserValidate $request)
     {
