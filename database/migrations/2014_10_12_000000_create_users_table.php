@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('country_code')->nullable();
-            $table->unsignedBigInteger('country')->nullable();
-            $table->foreign('country')->references('id')->on('countries')->onDelete('cascade');
             $table->string('mobile_number')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password')->nullable();
