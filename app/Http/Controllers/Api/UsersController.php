@@ -215,12 +215,12 @@ class UsersController extends BaseController
             $expirationDatetime = Carbon::parse($givenDatetime);
 
             // Add 30 seconds to the expiration datetime
-            $expirationDatetime->addSeconds(30);
+            // $expirationDatetime->addSeconds(30);
 
-            $currentDatetime = Carbon::now();
-            if ($currentDatetime->gt($expirationDatetime)) {
-                return response()->json(["status" => false, 'message' => 'OTP has expired']);
-            }
+            // $currentDatetime = Carbon::now();
+            // if ($currentDatetime->gt($expirationDatetime)) {
+            //     return response()->json(["status" => false, 'message' => 'OTP has expired']);
+            // }
             $user->is_verified = '1';
             $user->save();
             $token = Token::where('user_id', $user->id)->first();
@@ -236,25 +236,22 @@ class UsersController extends BaseController
 
             if ($user->user_type == 'user') {
                 $user_profile = UserProfile::where('user_id', $user->id)->first();
-                $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->first();
+                $user_lifeStyle = UserLifestyle::where('user_id', $user->id)->exists();
                 $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
 
 
-                $conditionMet = false;
 
-                if ($user_profile == null && !$conditionMet) {
+
+                if ($user_profile == null) {
                     $step = "Profile";
-                    $conditionMet = true;
                 }
 
-                if (!empty($zodiac->zodiac_sign_id) && $zodiac->zodiac_sign_id != null && !$conditionMet) {
+                if ($user_lifeStyle = false) {
                     $step = "Zodiac";
-                    $conditionMet = true;
                 }
 
-                if ($userLoveLangrate == false && !$conditionMet) {
+                if ($userLoveLangrate == false) {
                     $step = "Rate";
-                    $conditionMet = true;
                 }
 
 
