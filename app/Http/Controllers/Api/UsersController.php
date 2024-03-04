@@ -96,8 +96,7 @@ class UsersController extends BaseController
 
                 $image = $request->organization_profile;
 
-                $imageName = $organizationId;
-
+                $imageName = $organizationId . $image->getClientOriginalExtension();
 
                 $image->move(public_path('storage/profile'), $imageName);
                 $organization_detail->profile = $imageName;
@@ -318,9 +317,8 @@ class UsersController extends BaseController
                         $is_default = "1";
                     }
                     $image = $value;
-                    $mimeType = $image->getClientOriginalExtension();
-                    dd($mimeType);
-                    $imageName = $user->id;
+
+                    $imageName = $user->id . $image->getClientOriginalExtension();
                     $image->move(public_path('storage/profile'), $imageName);
 
                     UserProfile::create([
