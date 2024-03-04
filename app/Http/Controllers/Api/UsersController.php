@@ -30,6 +30,18 @@ use Illuminate\Database\QueryException;
 
 class UsersController extends BaseController
 {
+
+    protected $perPage;
+    protected $user;
+
+    public function __construct()
+    {
+
+        $this->perPage = 5;
+        $this->user = Auth::guard('api')->user();
+    }
+
+
     public function userSignup(UserValidate $request)
     {
         try {
@@ -295,7 +307,6 @@ class UsersController extends BaseController
 
 
 
-            $user  = Auth::guard('api')->user();
 
             if (!empty($request->profile)) {
 
@@ -305,7 +316,7 @@ class UsersController extends BaseController
 
 
 
-                $profileOldImages = UserProfile::where('user_id', $user->id)->get();
+                $profileOldImages = UserProfile::where('user_id', $this->user->id)->get();
                 if (!empty($profileOldImages)) {
 
 
@@ -328,12 +339,12 @@ class UsersController extends BaseController
                     }
                     $image = $value;
 
-                    $imageName = $user->id . '_' . $key . '.' . $image->getClientOriginalExtension();
+                    $imageName = $this->user->id . '_' . $key . '.' . $image->getClientOriginalExtension();
                     $image->move(public_path('storage/profile'), $imageName);
 
                     UserProfile::create([
 
-                        'user_id' => $user->id,
+                        'user_id' => $this->user->id,
 
                         'profile' => $imageName,
 
@@ -364,7 +375,6 @@ class UsersController extends BaseController
             DB::beginTransaction();
 
 
-            $user  = Auth::guard('api')->user();
 
             $lifeStyles = $request->life_styles;
             $interest_and_hobby = $request->interest_and_hobby;
@@ -373,11 +383,11 @@ class UsersController extends BaseController
             if (isset($lifeStyles) && is_array($lifeStyles)) {
                 // if exists then delete prev data //
 
-                UserLifestyle::where('user_id', $user->id)->delete();
+                UserLifestyle::where('user_id', $this->user->id)->delete();
 
                 foreach ($lifeStyles as $val) {
                     $life_style = new UserLifestyle();
-                    $life_style->user_id = $user->id;
+                    $life_style->user_id = $this->user->id;
                     $life_style->lifestyle_id = $val;
                     $life_style->save();
                 }
@@ -385,17 +395,17 @@ class UsersController extends BaseController
 
             if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
                 // if exists then delete prev data //
-                UserInterestAndHobby::where('user_id', $user->id)->delete();
+                UserInterestAndHobby::where('user_id', $this->user->id)->delete();
                 foreach ($interest_and_hobby as $val) {
                     $interest_and_hobby = new UserInterestAndHobby();
-                    $interest_and_hobby->user_id = $user->id;
+                    $interest_and_hobby->user_id = $this->user->id;
                     $interest_and_hobby->interest_and_hobby_id = $val;
                     $interest_and_hobby->save();
                 }
             }
 
             if (isset($zodiac_sign_id) && !empty($zodiac_sign_id)) {
-                $user_zodiac = UserDetail::where('user_id', $user->id)->first();
+                $user_zodiac = UserDetail::where('user_id', $this->user->id)->first();
                 $user_zodiac->zodiac_sign_id = $zodiac_sign_id;
                 $user_zodiac->save();
             }
@@ -421,19 +431,18 @@ class UsersController extends BaseController
             DB::beginTransaction();
 
 
-            $user  = Auth::guard('api')->user();
             $params = $request->json()->all();
 
             $lang_keys = array_keys($params);
 
-            $checkExist = UserLoveLang::where('user_id', $user->id)->delete();
+            $checkExist = UserLoveLang::where('user_id', $this->user->id)->delete();
 
 
             foreach ($lang_keys as $val) {
 
                 $user_love_lang = new UserLoveLang();
                 $user_love_lang->love_lang = $val;
-                $user_love_lang->user_id = $user->id;
+                $user_love_lang->user_id = $this->user->id;
                 $user_love_lang->rate = $request[$val];
                 $user_love_lang->save();
             }
@@ -455,22 +464,22 @@ class UsersController extends BaseController
     }
 
 
-    public function ShowsStoperQuesAdd(Request $request)
+    public function addShowsStoperQues(Request $request)
     {
         try {
             DB::beginTransaction();
-            // \DB::enableQueryLog();
+
             foreach ($request->question as $questions) {
                 $que = new UserShwstpprQue();
-                $que->user_id = $request->user_id;
+                $que->user_id = $this->user->id;
                 $que->question = $questions['question'];
                 $que->option_1 = $questions['option_1'];
                 $que->option_2 = $questions['option_2'];
                 $que->prefered_option = $questions['prefered_option'];
                 $que->save();
             }
-            // dd(\DB::getQueryLog());
-            return response()->json(["status" => true, 'message' => 'Shows Stoppers Question Add Successfully'], 400);
+
+            return response()->json(["status" => true, 'message' => 'Shows stoppers question created successfully']);
         } catch (QueryException $e) {
 
             DB::rollBack();
