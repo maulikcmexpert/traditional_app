@@ -192,13 +192,17 @@ class UsersController extends BaseController
                 return response()->json(["status" => false, 'message' => 'OTP has expired']);
             }
             $user->is_verified = '1';
+            $user->save();
             $token = Token::where('user_id', $user->id)->first();
 
             if ($token) {
                 $token->delete();
             }
-            $user->save();
+
+            Auth::login($user);
+
             $token = Auth::user()->createToken('API Token')->accessToken;
+
 
             $user_profile = UserProfile::where('user_id', $user->id)->first();
             $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
