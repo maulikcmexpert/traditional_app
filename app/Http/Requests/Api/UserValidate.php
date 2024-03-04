@@ -40,7 +40,6 @@ class UserValidate extends FormRequest
     {
         return [
             'mobile_number.required' => 'Mobile number should be string.',
-
         ];
     }
 
