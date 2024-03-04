@@ -23,7 +23,7 @@ use Illuminate\Database\QueryException;
 
 class UsersController extends BaseController
 {
-    public function user_signup(UserValidate $request)
+    public function userSignup(UserValidate $request)
     {
         try {
             DB::beginTransaction();
@@ -70,7 +70,7 @@ class UsersController extends BaseController
         }
     }
 
-    public function organization_signup(OrgranizationValid $request)
+    public function organizationSignup(OrgranizationValid $request)
     {
         try {
             DB::beginTransaction();
@@ -182,7 +182,7 @@ class UsersController extends BaseController
 
 
 
-    public function otp_verify(Request $request)
+    public function otpVerify(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'mobile_number' => 'required',
@@ -278,6 +278,10 @@ class UsersController extends BaseController
 
         //     return response()->json(['status' => false, 'message' => "something went wrong"]);
         // }
+    }
+
+    public function storeProfile(Request $request)
+    {
     }
 
 
