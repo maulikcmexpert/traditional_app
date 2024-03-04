@@ -360,7 +360,7 @@ class UsersController extends BaseController
             DB::beginTransaction();
 
 
-            $user = Auth::guard('api')->user();
+            $user  = Auth::guard('api')->user();
             $lifeStyles = $request->life_styles;
             $interest_and_hobby = $request->interest_and_hobby;
             $zodiac_sign_id = $request->zodiac_sign_id;

@@ -27,7 +27,7 @@ class StoreProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
