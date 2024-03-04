@@ -197,7 +197,7 @@ class UsersController extends BaseController
 
         try {
             DB::beginTransaction();
-            $user = User::with('userdetail')->where('mobile_number', $mobile_number)
+            $user = User::where('mobile_number', $mobile_number)
                 ->where('otp', $otp)
                 ->first();
 
@@ -227,7 +227,7 @@ class UsersController extends BaseController
             Auth::login($user);
 
             $token = Auth::user()->createToken('API Token')->accessToken;
-
+            $step = "";
 
             $user_profile = UserProfile::where('user_id', $user->id)->first();
             $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
@@ -242,15 +242,28 @@ class UsersController extends BaseController
                 $step = "Home";
             }
 
-            $response = [
-                'status' => true,
-                'message' => __('messages.otp_verify'),
-                'access_token' => $token,
-                'gender' => $user->userdetail->gender,
-                'user_type' => $user->user_type,
-                'user_id' => $user->id,
-                'step' => $step,
-            ];
+
+            if ($user->user_type == 'user') {
+
+                $response = [
+                    'status' => true,
+                    'message' => __('messages.otp_verify'),
+                    'access_token' => $token,
+                    'gender' => $user->userdetail->gender,
+                    'user_type' => $user->user_type,
+                    'user_id' => $user->id,
+                    'step' => $step,
+                ];
+            } elseif ($user->user_type == 'organization') {
+                $response = [
+                    'status' => true,
+                    'message' => __('messages.otp_verify'),
+                    'access_token' => $token,
+                    'user_type' => $user->user_type,
+                    'user_id' => $user->id,
+                    'step' => $step,
+                ];
+            }
             DB::commit();
             return response()->json($response);
         } catch (QueryException $e) {
