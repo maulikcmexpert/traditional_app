@@ -359,7 +359,7 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
             // \DB::enableQueryLog();
-
+            dd($request);
             $user = Auth::guard('api')->user();
             $lifeStyles = $request->life_styles;
             $interest_and_hobby = $request->interest_and_hobby;
