@@ -12,11 +12,13 @@ use App\Models\UserLifestyle;
 use App\Models\UserShwstpprQue;
 use App\Models\User;
 use App\Models\UserDetail;
+use App\Models\UserLoveLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Laravel\Passport\Token;
 
 class UsersController extends BaseController
 {
@@ -175,38 +177,44 @@ class UsersController extends BaseController
             if (!$user) {
                 return response()->json(['status' => false, 'message' => 'Invalid OTP']);
             }
-            // $givenDatetime = $user->updated_at;
+            $givenDatetime = $user->updated_at;
 
-            // // Parse the given datetime using Carbon
-            // $expirationDatetime = Carbon::parse($givenDatetime);
+            // Parse the given datetime using Carbon
+            $expirationDatetime = Carbon::parse($givenDatetime);
 
-            // // Add 30 seconds to the expiration datetime
-            // $expirationDatetime->addSeconds(30);
+            // Add 30 seconds to the expiration datetime
+            $expirationDatetime->addSeconds(30);
 
-            // $currentDatetime = Carbon::now();
-            // if ($currentDatetime->gt($expirationDatetime)) {
-            //     return response()->json(["status" => false, 'message' => 'OTP has expired'], 400);
-            // }
+            $currentDatetime = Carbon::now();
+            if ($currentDatetime->gt($expirationDatetime)) {
+                return response()->json(["status" => false, 'message' => 'OTP has expired']);
+            }
             $user->is_verified = '1';
-            $accessToken = $user->createToken('appToken')->accessToken;
-            $user->remember_token = $accessToken->token;
+            $token = Token::where('user_id', $user->id)->first();
+
+            if ($token) {
+                $token->delete();
+            }
+            $token = Auth::user()->createToken('API Token')->accessToken;
             $user->save();
 
             $user_profile = UserProfile::where('user_id', $user->id)->first();
             $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
-
-            // $user_intrest = UserInterestAndHobby::where('user_id', $user->id)->first();
-            // $user_lifestyle = UserLifestyle::where('user_id', $user->id)->first();
+            $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
             if ($user_profile  == null) {
                 $step = "Profile";
             } else if ($zodiac == false) {
-                $step = "personality";
+                $step = "Zodiac";
+            } else if ($userLoveLangrate == false) {
+                $step = "Rate";
+            } else {
+                $step = "Home";
             }
 
             $response = [
                 'status' => true,
                 'message' => __('messages.otp_verify'),
-                'access_token' => $accessToken->token,
+                'access_token' => $token,
                 'gender' => $user->userdetail->gender,
                 'user_type' => $user->user_type,
                 'user_id' => $user->id,
