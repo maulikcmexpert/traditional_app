@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('state')->nullable();
             $table->string('country_code')->nullable();
+            $table->string('code')->nullable();
             $table->timestamps();
         });
     }
