@@ -363,7 +363,7 @@ class UsersController extends BaseController
         $user = Auth::guard('api')->user();
         $lifeStyles = $request->life_styles;
         $interest_and_hobby = $request->interest_and_hobby;
-        $zodiac_id = $request->zodiac_id;
+        $zodiac_sign_id = $request->zodiac_sign_id;
 
         if (isset($lifeStyles) && is_array($lifeStyles)) {
             foreach ($lifeStyles as $val) {
@@ -383,9 +383,9 @@ class UsersController extends BaseController
             }
         }
 
-        if (isset($zodiac_id) && !empty($zodiac_id)) {
+        if (isset($zodiac_sign_id) && !empty($zodiac_sign_id)) {
             $user_zodiac = UserDetail::where('user_id', $user->id)->first();
-            $user_zodiac->zodiac_id = $zodiac_id;
+            $user_zodiac->zodiac_sign_id = $zodiac_sign_id;
             $user_zodiac->save();
         }
         DB::commit();
