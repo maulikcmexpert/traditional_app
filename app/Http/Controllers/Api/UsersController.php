@@ -478,7 +478,7 @@ class UsersController extends BaseController
                 $que->prefered_option = $questions['prefered_option'];
                 $que->save();
             }
-
+            DB::commit();
             return response()->json(["status" => true, 'message' => 'Shows stoppers question created successfully']);
         } catch (QueryException $e) {
 
