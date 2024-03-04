@@ -469,17 +469,21 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
 
-            foreach ($request->question as $questions) {
-                $que = new UserShwstpprQue();
-                $que->user_id = $this->user->id;
-                $que->question = $questions['question'];
-                $que->option_1 = $questions['option_1'];
-                $que->option_2 = $questions['option_2'];
-                $que->prefered_option = $questions['prefered_option'];
-                $que->save();
+            $checkCount = UserShwstpprQue::where('user_id', $this->user->id)->count();
+            if ($checkCount <= 3) {
+                foreach ($request->question as $questions) {
+                    $que = new UserShwstpprQue();
+                    $que->user_id = $this->user->id;
+                    $que->question = $questions['question'];
+                    $que->option_1 = $questions['option_1'];
+                    $que->option_2 = $questions['option_2'];
+                    $que->prefered_option = $questions['prefered_option'];
+                    $que->save();
+                }
+                DB::commit();
+                return response()->json(["status" => true, 'message' => 'Shows stoppers question created successfully']);
             }
-            DB::commit();
-            return response()->json(["status" => true, 'message' => 'Shows stoppers question created successfully']);
+            return response()->json(["status" => false, 'message' => 'Shows stoppers question not create more then 3 questions']);
         } catch (QueryException $e) {
 
             DB::rollBack();
