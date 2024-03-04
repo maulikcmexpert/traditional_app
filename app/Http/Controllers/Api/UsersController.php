@@ -120,12 +120,14 @@ class UsersController extends BaseController
             ];
 
             return response()->json($response);
-        } catch (QueryException $e) {
+        }
+        // catch (QueryException $e) {
 
-            DB::rollBack();
+        //     DB::rollBack();
 
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // }
+        catch (\Exception $e) {
 
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
