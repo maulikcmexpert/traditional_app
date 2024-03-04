@@ -31,6 +31,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('interest_hobby_list', [ListController::class, 'interestAndHobbyList'])->name('interest_hobby_list');
     Route::get('life_style_list', [ListController::class, 'lifieStyleList'])->name('life_style_list');
     Route::post('otp_verify', [UsersController::class, 'otpVerify'])->name('otp_verify');
+
+
+
+    Route::post('store_profile', [UsersController::class, 'storeProfile'])->name('otp_verify');
     Route::get('check', [UsersController::class, 'check'])->name('check');
     Route::post('showsstopperque_add', [UsersController::class, 'ShowsStoperQuesAdd'])->name('showsstopperque_add');
     // Route::middleware(['check_user'])->group( function () {
