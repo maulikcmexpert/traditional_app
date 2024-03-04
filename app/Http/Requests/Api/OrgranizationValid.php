@@ -24,7 +24,6 @@ class OrgranizationValid extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             'organization_name'=>['required','string','max:200'],
             'country_code'=>['required','string','max:5'],
