@@ -34,7 +34,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
 
 
-    Route::post('store_profile', [UsersController::class, 'storeProfile'])->name('otp_verify');
+    Route::post('store_profile', [UsersController::class, 'storeProfile'])->name('otp_verify')->middleware('check_user');
+
     Route::get('check', [UsersController::class, 'check'])->name('check');
     Route::post('showsstopperque_add', [UsersController::class, 'ShowsStoperQuesAdd'])->name('showsstopperque_add');
     // Route::middleware(['check_user'])->group( function () {

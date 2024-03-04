@@ -5,7 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 class checkUserMiddleware
 {
     /**
@@ -15,8 +16,9 @@ class checkUserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::guard('api')->user();
-        dd($user);
+        if (!Auth::guard('api')->check()) {
+            return response()->json(['status' => false, 'message' => 'Unauthorized'], 401);
+        }
         return $next($request);
     }
 }
