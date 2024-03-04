@@ -356,42 +356,42 @@ class UsersController extends BaseController
 
     public function userPersonality(UserPersonalityRequest $request)
     {
-        try {
-            DB::beginTransaction();
-            // \DB::enableQueryLog();
+        // try {
+        DB::beginTransaction();
+        // \DB::enableQueryLog();
 
-            $user = Auth::guard('api')->user();
-            $lifeStyles = $request->life_styles;
-            $interest_and_hobby = $request->interest_and_hobby;
-            $zodiac_id = $request->zodiac_id;
+        $user = Auth::guard('api')->user();
+        $lifeStyles = $request->life_styles;
+        $interest_and_hobby = $request->interest_and_hobby;
+        $zodiac_id = $request->zodiac_id;
 
-            if (isset($lifeStyles) && is_array($lifeStyles)) {
-                foreach ($lifeStyles as $val) {
-                    $life_style = new UserLifestyle();
-                    $life_style->user_id = $request->user_id;
-                    $life_style->lifestyle_id = $val;
-                    $life_style->save();
-                }
+        if (isset($lifeStyles) && is_array($lifeStyles)) {
+            foreach ($lifeStyles as $val) {
+                $life_style = new UserLifestyle();
+                $life_style->user_id = $request->user_id;
+                $life_style->lifestyle_id = $val;
+                $life_style->save();
             }
-
-            if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
-                foreach ($interest_and_hobby as $val) {
-                    $interest_and_hobby = new UserInterestAndHobby();
-                    $interest_and_hobby->user_id = $request->user_id;
-                    $interest_and_hobby->interest_and_hobby_id = $val;
-                    $interest_and_hobby->save();
-                }
-            }
-
-            if (isset($zodiac_id) && !empty($zodiac_id)) {
-                $user_zodiac = UserDetail::where('user_id', $user->id)->first();
-                $user_zodiac->zodiac_id = $zodiac_id;
-                $user_zodiac->save();
-            }
-            DB::commit();
-
-            return response()->json(["status" => true, 'message' => 'Personality are updated']);
         }
+
+        if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
+            foreach ($interest_and_hobby as $val) {
+                $interest_and_hobby = new UserInterestAndHobby();
+                $interest_and_hobby->user_id = $request->user_id;
+                $interest_and_hobby->interest_and_hobby_id = $val;
+                $interest_and_hobby->save();
+            }
+        }
+
+        if (isset($zodiac_id) && !empty($zodiac_id)) {
+            $user_zodiac = UserDetail::where('user_id', $user->id)->first();
+            $user_zodiac->zodiac_id = $zodiac_id;
+            $user_zodiac->save();
+        }
+        DB::commit();
+
+        return response()->json(["status" => true, 'message' => 'Personality are updated']);
+        // }
 
         // catch (QueryException $e) {
 
@@ -399,11 +399,11 @@ class UsersController extends BaseController
 
         //     return response()->json(['status' => false, 'message' => "db error"]);
         // }
-        catch (\Exception $e) {
+        // catch (\Exception $e) {
 
 
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
-        }
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
