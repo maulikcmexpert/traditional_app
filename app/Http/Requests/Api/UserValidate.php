@@ -30,7 +30,6 @@ class UserValidate extends FormRequest
             'country_code'=>['required','string','max:5'],
             'mobile_number'=>['required','string','max:10','unique:users,mobile_number'],
             'email'=>['required','string','max:50','unique:users,email'],
-            'user_type'=>['required','in:user,admin,organization'],
             'date_of_birth'=>['required'],
             'state_id'=>['required'],
             'city_id'=>['required'],
@@ -41,7 +40,7 @@ class UserValidate extends FormRequest
     {
         return [
             'mobile_number.required' => 'Mobile number should be string.',
-            'user_type.in'=>'Type should be only user,admin,organization'
+
         ];
     }
 

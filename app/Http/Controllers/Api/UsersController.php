@@ -6,6 +6,10 @@ use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Http\Requests\Api\UserValidate;
 use App\Http\Requests\Api\OrgranizationValid;
 use App\Models\OrganizationDetail;
+use App\Models\UserProfile;
+use App\Models\UserInterestAndHobby;
+use App\Models\UserLifestyle;
+use App\Models\UserShwstpprQue;
 use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
@@ -13,20 +17,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+
 class UsersController extends BaseController
 {
     public function user_signup(UserValidate $request)
     {
         try {
             DB::beginTransaction();
-
             $user = new User();
             $user->full_name = $request->full_name;
             $user->country_code = $request->country_code;
             $user->country = $request->country;
             $user->mobile_number = $request->mobile_number;
             $user->email = $request->email;
-            $user->user_type = $request->user_type;
+            $user->user_type = "user";
             $randomNumber = rand(1000, 9999);
             $user->otp = $randomNumber;
             $user->save();
@@ -116,7 +120,7 @@ class UsersController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'mobile_number' => 'required',
-            'country_id' => 'required',
+            'country_code' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -174,23 +178,65 @@ class UsersController extends BaseController
             if (!$user) {
                 return response()->json(['error' => 'Invalid OTP'], 401);
             }
-            $givenDatetime =$user->updated_at;
+            $givenDatetime = $user->updated_at;
+
+            // Parse the given datetime using Carbon
             $expirationDatetime = Carbon::parse($givenDatetime);
-            $expirationDatetime->addMinutes(2);
+
+            // Add 30 seconds to the expiration datetime
+            $expirationDatetime->addSeconds(30);
 
             $currentDatetime = Carbon::now();
             if ($currentDatetime->gt($expirationDatetime)) {
-                return response()->json(["status"=>false,'message' => 'OTP has expired'], 500);
+                return response()->json(["status" => false, 'message' => 'OTP has expired'], 500);
             }
             $user->is_verified = '1';
             $accessToken = $user->createToken('appToken')->accessToken;
             $user->remember_token = $accessToken->token;
             $user->save();
+
+            $user_profile = UserProfile::where('user_id', $user->id)->first();
+            $user_intrest = UserInterestAndHobby::where('user_id', $user->id)->first();
+            $user_lifestyle = UserLifestyle::where('user_id', $user->id)->first();
+            $response=[
+                'status'=>true,
+                'message'=>__('messages.otp_verify'),
+                'access_token'=>$accessToken->token,
+                'user_id' => $user->id,
+                'user_profile'=>($user_profile!="")?true:false,
+                'user_intrest'=>($user_intrest!="")?true:false,
+                'user_lifestyle'=>($user_lifestyle!="")?true:false,
+            ];
             DB::commit();
-            return response()->json(['status' => true, 'message' => __('messages.otp_verify'), 'access_token' => $accessToken->token,]);
+            return response()->json($response);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'db error'], 500);
         }
+    }
+
+
+    public function ShowsStoperQuesAdd(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            // \DB::enableQueryLog();
+            foreach ($request->question as $questions) {
+                $que = new UserShwstpprQue();
+                $que->user_id = $request->user_id;
+                $que->question = $questions['question'];
+                $que->option_1 = $questions['option_1'];
+                $que->option_2 = $questions['option_2'];
+                $que->prefered_option = $questions['prefered_option'];
+
+                $que->saveOrFail();
+            }
+            // dd(\DB::getQueryLog());
+            return response()->json(["status" => true, 'message' => 'Shows Stoppers Question Add Successfully'], 500);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'db error'], 500);
+        }
+
     }
 }

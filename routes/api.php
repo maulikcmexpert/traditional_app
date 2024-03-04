@@ -18,7 +18,6 @@ use App\Http\Controllers\Api\AuthenticationController;
 */
 
 Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
-    // Route::post('login', [AuthenticationController::class, 'store']);
 
     Route::post('user_signup', [UsersController::class, 'user_signup'])->name('user_signup');
     Route::post('organization_signup', [UsersController::class, 'organization_signup'])->name('organization_signup');
@@ -33,4 +32,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('life_style_list', [ListController::class, 'LifieStyleLIST'])->name('life_style_list');
     Route::post('otp_verify', [UsersController::class, 'otp_verify'])->name('otp_verify');
     Route::get('check', [UsersController::class, 'check'])->name('check');
+    Route::post('showsstopperque_add', [UsersController::class, 'ShowsStoperQuesAdd'])->name('showsstopperque_add');
+    // Route::middleware(['check_user'])->group( function () {
+    //     Route::get('country_list_login', [ListController::class, 'CountryList']);
+    // });
 });
