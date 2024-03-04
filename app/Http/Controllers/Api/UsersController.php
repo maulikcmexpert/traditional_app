@@ -74,8 +74,8 @@ class UsersController extends BaseController
     {
         try {
             DB::beginTransaction();
-            $fileName = $request->file('organization_profile')->getClientOriginalName();
-            $imageData = file_get_contents($request->file('organization_profile'));
+
+
             $organization = new User();
             $organization->full_name = $request->organization_name;
             $organization->country_code = $request->country_code;
@@ -90,7 +90,20 @@ class UsersController extends BaseController
             $organizationId = $organization->id;
             $organization_detail = new OrganizationDetail();
             $organization_detail->organization_id = $organizationId;
-            $organization_detail->profile = $imageData;
+
+            if (!empty($request->organization_profile)) {
+
+
+
+                $image = $request->organization_profile;
+
+                $imageName = $organizationId;
+
+
+                $image->move(public_path('storage/profile'), $imageName);
+                $organization_detail->profile = $imageName;
+            }
+
             $organization_detail->size_of_organization_id = $request->size_of_organization;
             $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
             $organization_detail->city = $request->city_id;
@@ -104,7 +117,7 @@ class UsersController extends BaseController
                 'message' => __('messages.registered'),
                 'mobile_number' => $organization->mobile_number,
                 'country_code' => $organization->country_code,
-                'otp' => $organization->otp,
+                'otp' => strval($organization->otp),
             ];
 
             return response()->json($response);
