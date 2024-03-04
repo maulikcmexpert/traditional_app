@@ -145,7 +145,7 @@ class UsersController extends BaseController
                 'message' => "Otp Send Successfully",
                 'mobile_number' => $user->mobile_number,
                 'country_code' => $user->country_code,
-                'otp' => $user->otp,
+                'otp' => strval($user->otp),
             ];
             DB::commit();
             return response()->json($response);
@@ -154,6 +154,8 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => 'db error']);
         }
     }
+
+
 
     public function otp_verify(Request $request)
     {
@@ -195,8 +197,8 @@ class UsersController extends BaseController
             if ($token) {
                 $token->delete();
             }
-            $token = Auth::user()->createToken('API Token')->accessToken;
             $user->save();
+            $token = Auth::user()->createToken('API Token')->accessToken;
 
             $user_profile = UserProfile::where('user_id', $user->id)->first();
             $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
