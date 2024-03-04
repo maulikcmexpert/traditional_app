@@ -236,7 +236,7 @@ class UsersController extends BaseController
 
             if ($user->user_type == 'user') {
                 $user_profile = UserProfile::where('user_id', $user->id)->first();
-                $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
+                $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->first();
                 $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
 
 
@@ -247,7 +247,7 @@ class UsersController extends BaseController
                     $conditionMet = true;
                 }
 
-                if ($zodiac == false && !$conditionMet) {
+                if (!empty($zodiac->zodiac_sign_id) && $zodiac->zodiac_sign_id != null && !$conditionMet) {
                     $step = "Zodiac";
                     $conditionMet = true;
                 }
@@ -371,13 +371,14 @@ class UsersController extends BaseController
 
 
             $user  = Auth::guard('api')->user();
-            dd($user);
+
             $lifeStyles = $request->life_styles;
             $interest_and_hobby = $request->interest_and_hobby;
             $zodiac_sign_id = $request->zodiac_sign_id;
 
             if (isset($lifeStyles) && is_array($lifeStyles)) {
                 // if exists then delete prev data //
+                dd($user->id);
                 UserLifestyle::where('user_id', $user->id)->delete();
 
                 foreach ($lifeStyles as $val) {
