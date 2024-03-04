@@ -61,9 +61,8 @@ class UsersController extends BaseController
             $response = [
                 'status' => false,
                 'message' => 'db error',
-                'error' => $e->getMessage(),
             ];
-            return response()->json($response, 400);
+            return response()->json($response);
         }
     }
 
@@ -108,7 +107,7 @@ class UsersController extends BaseController
             return response()->json($response);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['status' => false, 'message' => "db error"]);
         }
     }
 
@@ -134,7 +133,7 @@ class UsersController extends BaseController
                 ->first();
 
             if (!$user) {
-                return response()->json(['error' => 'Invalid Mobile number  or Country code'], 401);
+                return response()->json(['status' => false, 'error' => 'Invalid Mobile number or Country code']);
             }
             $randomNumber = rand(1000, 9999);
             $user->otp = $randomNumber;
@@ -150,7 +149,7 @@ class UsersController extends BaseController
             return response()->json($response);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'db error'], 400);
+            return response()->json(['status' => false, 'message' => 'db error']);
         }
     }
 
@@ -162,19 +161,19 @@ class UsersController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => false, 'error' => $validator->errors()], 400);
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
         $otp = $request->otp;
         $mobile_number = $request->mobile_number;
 
         try {
             DB::beginTransaction();
-            $user = User::where('mobile_number', $mobile_number)
+            $user = User::with('userdetail')->where('mobile_number', $mobile_number)
                 ->where('otp', $otp)
                 ->first();
 
             if (!$user) {
-                return response()->json(['error' => 'Invalid OTP'], 401);
+                return response()->json(['status' => false, 'message' => 'Invalid OTP']);
             }
             // $givenDatetime = $user->updated_at;
 
@@ -194,13 +193,13 @@ class UsersController extends BaseController
             $user->save();
 
             $user_profile = UserProfile::where('user_id', $user->id)->first();
-            $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->get();
+            $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
 
             // $user_intrest = UserInterestAndHobby::where('user_id', $user->id)->first();
             // $user_lifestyle = UserLifestyle::where('user_id', $user->id)->first();
-            if ($user_profile == "") {
+            if ($user_profile  == null) {
                 $step = "Profile";
-            } else if ($zodiac[0]->zodiac_sign_id == "") {
+            } else if ($zodiac == false) {
                 $step = "personality";
             }
 
@@ -208,6 +207,8 @@ class UsersController extends BaseController
                 'status' => true,
                 'message' => __('messages.otp_verify'),
                 'access_token' => $accessToken->token,
+                'gender' => $user->userdetail->gender,
+                'user_type' => $user->user_type,
                 'user_id' => $user->id,
                 'step' => $step,
             ];
@@ -215,7 +216,7 @@ class UsersController extends BaseController
             return response()->json($response);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'db error'], 400);
+            return response()->json(['status' => false, 'message' => 'db error']);
         }
     }
 
@@ -238,7 +239,7 @@ class UsersController extends BaseController
             return response()->json(["status" => true, 'message' => 'Shows Stoppers Question Add Successfully'], 400);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'db error'], 400);
+            return response()->json(['status' => false, 'message' => 'db error']);
         }
     }
 }
