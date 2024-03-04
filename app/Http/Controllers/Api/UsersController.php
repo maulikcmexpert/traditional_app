@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
-use App\Http\Requests\Api\UserValidate;
-use App\Http\Requests\Api\OrgranizationValid;
+use App\Http\Requests\Api\{
+    UserValidate,
+    StoreProfileRequest,
+    OrgranizationValid,
+    UserPersonalityRequest
+};
+
+
 use App\Models\OrganizationDetail;
 use App\Models\UserProfile;
 use App\Models\UserInterestAndHobby;
@@ -279,7 +285,7 @@ class UsersController extends BaseController
         // }
     }
 
-    public function storeProfile(Request $request)
+    public function storeProfile(StoreProfileRequest $request)
     {
         try {
 
@@ -336,6 +342,55 @@ class UsersController extends BaseController
 
                 return response()->json(['status' => true, 'message' => "Profile images stored successfully"]);
             }
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function userPersonality(UserPersonalityRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            // \DB::enableQueryLog();
+
+            $user = Auth::guard('api')->user();
+            $lifeStyles = $request->life_styles;
+            $interest_and_hobby = $request->interest_and_hobby;
+            $zodiac_id = $request->zodiac_id;
+
+            if (isset($lifeStyles) && is_array($lifeStyles)) {
+                foreach ($lifeStyles as $val) {
+                    $life_style = new UserLifestyle();
+                    $life_style->user_id = $request->user_id;
+                    $life_style->lifestyle_id = $val;
+                    $life_style->save();
+                }
+            }
+
+            if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
+                foreach ($interest_and_hobby as $val) {
+                    $interest_and_hobby = new UserInterestAndHobby();
+                    $interest_and_hobby->user_id = $request->user_id;
+                    $interest_and_hobby->interest_and_hobby_id = $val;
+                    $interest_and_hobby->save();
+                }
+            }
+
+            if (isset($zodiac_id) && !empty($zodiac_id)) {
+                $user_zodiac = UserDetail::where('user_id', $user->id)->first();
+                $user_zodiac->userdetail->zodiac_id = $zodiac_id;
+                $user_zodiac->userdetail->save();
+            }
+            DB::commit();
+
+            return response()->json(["status" => true, 'message' => 'Personality are updated']);
         } catch (QueryException $e) {
 
             DB::rollBack();
