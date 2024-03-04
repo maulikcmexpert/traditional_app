@@ -385,8 +385,8 @@ class UsersController extends BaseController
 
             if (isset($zodiac_id) && !empty($zodiac_id)) {
                 $user_zodiac = UserDetail::where('user_id', $user->id)->first();
-                $user_zodiac->userdetail->zodiac_id = $zodiac_id;
-                $user_zodiac->userdetail->save();
+                $user_zodiac->zodiac_id = $zodiac_id;
+                $user_zodiac->save();
             }
             DB::commit();
 
