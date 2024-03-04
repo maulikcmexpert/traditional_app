@@ -354,7 +354,7 @@ class UsersController extends BaseController
         }
     }
 
-    public function userPersonality(UserPersonalityRequest $request)
+    public function userPersonalities(UserPersonalityRequest $request)
     {
         // try {
         DB::beginTransaction();

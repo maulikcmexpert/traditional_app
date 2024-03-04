@@ -35,7 +35,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
 
     Route::post('store_profile', [UsersController::class, 'storeProfile'])->middleware('check_user');
-    Route::post('user_personality', [UsersController::class, 'userPersonality'])->middleware('check_user');
+    Route::post('user_personalities', [UsersController::class, 'userPersonalities'])->middleware('check_user');
 
     Route::get('check', [UsersController::class, 'check'])->name('check');
     Route::post('showsstopperque_add', [UsersController::class, 'ShowsStoperQuesAdd'])->name('showsstopperque_add');
