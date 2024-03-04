@@ -198,7 +198,7 @@ class UsersController extends BaseController
                 $token->delete();
             }
             $user->save();
-            $token = Auth::user()->createToken('myApp')->accessToken;
+            $token = Auth::user()->createToken('appToken')->accessToken;
 
             $user_profile = UserProfile::where('user_id', $user->id)->first();
             $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
