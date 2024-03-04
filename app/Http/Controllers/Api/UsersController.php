@@ -414,17 +414,14 @@ class UsersController extends BaseController
     }
 
 
-    public function user_love_lang_rate(UserPersonalityRequest $request)
+    public function userLoveLangRate(Request $request)
     {
         try {
             DB::beginTransaction();
 
 
             $user  = Auth::guard('api')->user();
-
-            $lifeStyles = $request->life_styles;
-            $interest_and_hobby = $request->interest_and_hobby;
-            $zodiac_sign_id = $request->zodiac_sign_id;
+            dd($request);
 
             if (isset($lifeStyles) && is_array($lifeStyles)) {
                 // if exists then delete prev data //
