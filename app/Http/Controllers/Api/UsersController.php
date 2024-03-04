@@ -24,40 +24,40 @@ class UsersController extends BaseController
 {
     public function user_signup(UserValidate $request)
     {
-        try {
-            DB::beginTransaction();
-            $user = new User();
-            $user->full_name = $request->full_name;
-            $user->country_code = $request->country_code;
-            $user->mobile_number = $request->mobile_number;
-            $user->email = $request->email;
-            $user->user_type = "user";
-            $randomNumber = rand(1000, 9999);
-            $user->otp = $randomNumber;
+        // try {
+        DB::beginTransaction();
+        $user = new User();
+        $user->full_name = $request->full_name;
+        $user->country_code = $request->country_code;
+        $user->mobile_number = $request->mobile_number;
+        $user->email = $request->email;
+        $user->user_type = "user";
+        $randomNumber = rand(1000, 9999);
+        $user->otp = $randomNumber;
 
-            if ($user->save()) {
-                $user_detail = new UserDetail();
-                $user_detail->user_id = $user->id;
-                $user_detail->gender = $request->gender;
-                $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-                $user_detail->city_id = $request->city;
-                $user_detail->state_id = $request->state;
-                $user_detail->organization_id = $request->organization_id;
-                $user_detail->save();
-            }
+        if ($user->save()) {
+            $user_detail = new UserDetail();
+            $user_detail->user_id = $user->id;
+            $user_detail->gender = $request->gender;
+            $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
+            $user_detail->city_id = $request->city;
+            $user_detail->state_id = $request->state;
+            $user_detail->organization_id = $request->organization_id;
+            $user_detail->save();
+        }
 
-            DB::commit();
+        DB::commit();
 
-            $response = [
-                'status' => true,
-                'message' => __('messages.registered'),
-                'mobile_number' => $user->mobile_number,
-                'country_code' => $user->country_code,
-                'otp' => strval($user->otp),
-            ];
+        $response = [
+            'status' => true,
+            'message' => __('messages.registered'),
+            'mobile_number' => $user->mobile_number,
+            'country_code' => $user->country_code,
+            'otp' => strval($user->otp),
+        ];
 
-            return response()->json($response);
-        } 
+        return response()->json($response);
+        // } 
         // catch (\Exception $e) {
         //     DB::rollback();
 
