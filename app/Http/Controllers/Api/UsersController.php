@@ -246,11 +246,11 @@ class UsersController extends BaseController
                     $step = "Profile";
                 }
 
-                if ($user_lifeStyle == false) {
+                if ($user_lifeStyle == false && $user_profile != null) {
                     $step = "Zodiac";
                 }
 
-                if ($userLoveLangrate == false) {
+                if ($userLoveLangrate == false && $user_lifeStyle == true && $user_profile != null) {
                     $step = "Rate";
                 }
 
