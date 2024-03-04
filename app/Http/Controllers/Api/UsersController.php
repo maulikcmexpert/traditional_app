@@ -79,7 +79,6 @@ class UsersController extends BaseController
             $organization = new User();
             $organization->full_name = $request->organization_name;
             $organization->country_code = $request->country_code;
-            $organization->country = $request->country_id;
             $organization->mobile_number = $request->mobile_number;
             $organization->email = $request->email;
             $organization->user_type = 'organization';
