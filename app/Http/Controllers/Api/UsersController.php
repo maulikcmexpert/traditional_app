@@ -324,7 +324,7 @@ class UsersController extends BaseController
                     }
                     $image = $value;
 
-                    $imageName = $user->id . '.' . $image->getClientOriginalExtension();
+                    $imageName = $user->id . '_' . $key . '.' . $image->getClientOriginalExtension();
                     $image->move(public_path('storage/profile'), $imageName);
 
                     UserProfile::create([
