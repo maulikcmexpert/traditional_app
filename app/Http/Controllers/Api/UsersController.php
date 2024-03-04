@@ -358,7 +358,7 @@ class UsersController extends BaseController
     {
         // try {
         DB::beginTransaction();
-        // \DB::enableQueryLog();
+
 
         $user = Auth::guard('api')->user();
         $lifeStyles = $request->life_styles;
