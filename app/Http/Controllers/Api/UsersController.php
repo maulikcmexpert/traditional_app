@@ -72,66 +72,66 @@ class UsersController extends BaseController
 
     public function organization_signup(OrgranizationValid $request)
     {
-        try {
-            DB::beginTransaction();
+        // try {
+        DB::beginTransaction();
 
 
-            $organization = new User();
-            $organization->full_name = $request->organization_name;
-            $organization->country_code = $request->country_code;
-            $organization->mobile_number = $request->mobile_number;
-            $organization->email = $request->email;
-            $organization->user_type = 'organization';
-            $randomNumber = rand(1000, 9999);
-            $organization->otp = $randomNumber;
-            $organization->save();
+        $organization = new User();
+        $organization->full_name = $request->organization_name;
+        $organization->country_code = $request->country_code;
+        $organization->mobile_number = $request->mobile_number;
+        $organization->email = $request->email;
+        $organization->user_type = 'organization';
+        $randomNumber = rand(1000, 9999);
+        $organization->otp = $randomNumber;
+        $organization->save();
 
-            $organizationId = $organization->id;
-            $organization_detail = new OrganizationDetail();
-            $organization_detail->organization_id = $organizationId;
+        $organizationId = $organization->id;
+        $organization_detail = new OrganizationDetail();
+        $organization_detail->organization_id = $organizationId;
 
-            if (!empty($request->organization_profile)) {
-
-
-
-                $image = $request->organization_profile;
-
-                $imageName = $organizationId;
+        if (!empty($request->organization_profile)) {
 
 
-                $image->move(public_path('storage/profile'), $imageName);
-                $organization_detail->profile = $imageName;
-            }
 
-            $organization_detail->size_of_organization_id = $request->size_of_organization;
-            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
-            $organization_detail->city = $request->city_id;
-            $organization_detail->state = $request->state_id;
-            $organization_detail->address = $request->address;
-            // $organization_detail->about_us = $request->about_us;
-            $organization_detail->save();
-            DB::commit();
-            $response = [
-                'status' => true,
-                'message' => __('messages.registered'),
-                'mobile_number' => $organization->mobile_number,
-                'country_code' => $organization->country_code,
-                'otp' => strval($organization->otp),
-            ];
+            $image = $request->organization_profile;
 
-            return response()->json($response);
+            $imageName = $organizationId;
+
+
+            $image->move(public_path('storage/profile'), $imageName);
+            $organization_detail->profile = $imageName;
         }
+
+        $organization_detail->size_of_organization_id = $request->size_of_organization;
+        $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
+        $organization_detail->city = $request->city_id;
+        $organization_detail->state = $request->state_id;
+        $organization_detail->address = $request->address;
+        // $organization_detail->about_us = $request->about_us;
+        $organization_detail->save();
+        DB::commit();
+        $response = [
+            'status' => true,
+            'message' => __('messages.registered'),
+            'mobile_number' => $organization->mobile_number,
+            'country_code' => $organization->country_code,
+            'otp' => strval($organization->otp),
+        ];
+
+        return response()->json($response);
+        // }
         // catch (QueryException $e) {
 
         //     DB::rollBack();
 
         //     return response()->json(['status' => false, 'message' => "db error"]);
         // }
-        catch (\Exception $e) {
+        // catch (\Exception $e) {
 
 
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
-        }
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
