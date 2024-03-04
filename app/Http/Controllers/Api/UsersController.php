@@ -425,7 +425,6 @@ class UsersController extends BaseController
             $params = $request->json()->all();
 
             $lang_keys = array_keys($params);
-            dd($lang_keys);
 
             $checkExist = UserLoveLang::where('user_id', $user->id)->exists();
             if ($checkExist == false) {
