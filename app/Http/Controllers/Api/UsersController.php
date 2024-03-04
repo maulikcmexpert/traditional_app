@@ -287,7 +287,7 @@ class UsersController extends BaseController
             DB::beginTransaction();
 
             $user  = Auth::guard('api')->user();
-
+            dd($user);
             if (!empty($request->profile)) {
 
 
