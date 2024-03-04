@@ -318,7 +318,7 @@ class UsersController extends BaseController
                         $is_default = "1";
                     }
                     $image = $value;
-                    $mimeType = $image->getMimeType();
+                    $mimeType = $image->getClientOriginalExtension();
                     dd($mimeType);
                     $imageName = $user->id;
                     $image->move(public_path('storage/profile'), $imageName);
