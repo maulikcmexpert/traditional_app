@@ -91,7 +91,6 @@ class UsersController extends BaseController
             $organization_detail = new OrganizationDetail();
             $organization_detail->organization_id = $organizationId;
             $organization_detail->profile = $imageData;
-            $organization_detail->profile_name = $fileName;
             $organization_detail->size_of_organization_id = $request->size_of_organization;
             $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
             $organization_detail->city = $request->city_id;
