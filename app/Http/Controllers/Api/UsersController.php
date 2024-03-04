@@ -495,4 +495,40 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
+
+
+    // public function home(Request $request)
+    // {
+    //     try {
+    //         DB::beginTransaction();
+
+
+    //         $allUsers = User::query();
+
+
+
+    //         foreach ($lang_keys as $val) {
+
+    //             $user_love_lang = new UserLoveLang();
+    //             $user_love_lang->love_lang = $val;
+    //             $user_love_lang->user_id = $this->user->id;
+    //             $user_love_lang->rate = $request[$val];
+    //             $user_love_lang->save();
+    //         }
+
+
+    //         DB::commit();
+
+    //         return response()->json(["status" => true, 'message' => 'Love language rates are updated']);
+    //     } catch (QueryException $e) {
+
+    //         DB::rollBack();
+
+    //         return response()->json(['status' => false, 'message' => "db error"]);
+    //     } catch (\Exception $e) {
+
+
+    //         return response()->json(['status' => false, 'message' => "something went wrong"]);
+    //     }
+    // }
 }
