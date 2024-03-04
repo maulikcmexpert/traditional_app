@@ -18,6 +18,7 @@ use App\Models\UserLifestyle;
 use App\Models\UserShwstpprQue;
 use App\Models\User;
 use App\Models\UserDetail;
+
 use App\Models\UserLoveLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -426,9 +427,21 @@ class UsersController extends BaseController
             $lang_keys = array_keys($params);
             dd($lang_keys);
 
+            $checkExist = UserLoveLang::where('user_id', $user->id)->exists();
+            if ($checkExist == false) {
+
+                foreach ($lang_keys as $val) {
+
+                    $user_love_lang = new UserLoveLang();
+                    $user_love_lang->love_lang = $val;
+                    $user_love_lang->rate = $request[$val];
+                    $user_love_lang->save();
+                }
+            }
+
             DB::commit();
 
-            return response()->json(["status" => true, 'message' => 'Personality are updated']);
+            return response()->json(["status" => true, 'message' => 'Love language rates are updated']);
         } catch (QueryException $e) {
 
             DB::rollBack();
