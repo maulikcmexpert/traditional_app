@@ -468,7 +468,7 @@ class UsersController extends BaseController
     {
         try {
             DB::beginTransaction();
-            UserShwstpprQue::where('user_id', $this->user->id)->delete();
+
             foreach ($request->question as $questions) {
                 $que = new UserShwstpprQue();
                 $que->user_id = $this->user->id;
