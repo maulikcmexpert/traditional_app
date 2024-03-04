@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('city')->references('id')->on('cities')->onDelete('cascade');
             $table->unsignedBigInteger('state')->nullable();
             $table->foreign('state')->references('id')->on('states')->onDelete('cascade');
-            $table->text('about_us');
+            $table->text('about_us')->nullable();
             $table->timestamps();
         });
     }
