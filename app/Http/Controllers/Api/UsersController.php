@@ -426,13 +426,14 @@ class UsersController extends BaseController
 
             $lang_keys = array_keys($params);
 
-            $checkExist = UserLoveLang::where('user_id', $user->id)->exists();
+            $checkExist = UserLoveLang::where('user_id', $user->id)->delete();
             if ($checkExist == false) {
 
                 foreach ($lang_keys as $val) {
 
                     $user_love_lang = new UserLoveLang();
                     $user_love_lang->love_lang = $val;
+                    $user_love_lang->user_id = $user->id;
                     $user_love_lang->rate = $request[$val];
                     $user_love_lang->save();
                 }
