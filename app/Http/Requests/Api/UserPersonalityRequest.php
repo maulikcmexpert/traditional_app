@@ -5,6 +5,10 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
+
 class UserPersonalityRequest extends FormRequest
 {
     /**
@@ -30,5 +34,14 @@ class UserPersonalityRequest extends FormRequest
             'zodiac_id' => ['required', 'integer']
 
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+
+        if (!$this->expectsJson()) {
+            throw new HttpResponseException(response()->json(['status' => false, 'message' => $validator->errors()->first()], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
+        }
+        parent::failedValidation($validator);
     }
 }
