@@ -57,15 +57,16 @@ class UsersController extends BaseController
             ];
 
             return response()->json($response);
-        } catch (\Exception $e) {
-            DB::rollback();
+        } 
+        // catch (\Exception $e) {
+        //     DB::rollback();
 
-            $response = [
-                'status' => false,
-                'message' => 'db error',
-            ];
-            return response()->json($response);
-        }
+        //     $response = [
+        //         'status' => false,
+        //         'message' => 'db error',
+        //     ];
+        //     return response()->json($response);
+        // }
     }
 
     public function organization_signup(OrgranizationValid $request)
