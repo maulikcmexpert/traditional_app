@@ -284,7 +284,7 @@ class UsersController extends BaseController
     {
         try {
 
-            DB::beginTransaction();
+
 
             $user  = Auth::guard('api')->user();
 
@@ -310,7 +310,7 @@ class UsersController extends BaseController
                     }
                 }
 
-
+                DB::beginTransaction();
 
                 foreach ($images as $key => $value) {
                     $is_default = "0";
