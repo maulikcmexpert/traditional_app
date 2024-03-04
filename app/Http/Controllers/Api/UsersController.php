@@ -282,6 +282,84 @@ class UsersController extends BaseController
 
     public function storeProfile(Request $request)
     {
+        try {
+
+            DB::beginTransaction();
+
+            $user  = Auth::guard('api')->user();
+
+            if (!empty($request->profile)) {
+
+
+
+                $images = $request->profile;
+
+
+
+                $profileOldImages = UserProfile::where('user_id', $user->id)->get();
+                if (!empty($profileOldImages)) {
+
+
+                    foreach ($profileOldImages as $oldImages) {
+                        if (file_exists(public_path('public/storage/profile/') . $oldImages->profile)) {
+
+                            $imagePath = public_path('public/storage/profile/') . $oldImages->profile;
+                            unlink($imagePath);
+                        }
+                        EventImage::where('id', $oldImages->id)->delete();
+                    }
+                }
+
+
+
+                foreach ($images as $value) {
+                    $image = $value;
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $image->move(public_path('storage/event_images'), $imageName);
+
+                    EventImage::create([
+
+                        'event_id' => $request->event_id,
+
+                        'image' => $imageName
+
+                    ]);
+                }
+
+
+
+
+                $user  = Auth::guard('api')->user();
+                $checkUserInvited = Event::withCount('event_invited_user')->where('id', $input['event_id'])->first();
+
+                DB::commit();
+                if ($checkUserInvited->event_invited_user_count != '0' && $checkUserInvited->is_draft_save == '0') {
+
+                    $notificationParam = [
+
+                        'sender_id' => $user->id,
+
+                        'event_id' => $input['event_id'],
+
+                        'post_id' => ""
+
+                    ];
+
+                    sendNotification('invite', $notificationParam);
+                }
+
+                return response()->json(['status' => 1, 'message' => "Event images stored successfully"]);
+            }
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => 0, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => 0, 'message' => "something went wrong"]);
+        }
     }
 
 

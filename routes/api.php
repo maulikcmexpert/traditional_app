@@ -22,14 +22,14 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('user_signup', [UsersController::class, 'userSignup'])->name('user_signup');
     Route::post('organization_signup', [UsersController::class, 'organizationSignup'])->name('organization_signup');
     Route::post('login', [UsersController::class, 'signIn'])->name('login');
-    Route::get('sizeoforganization_list', [ListController::class, 'SizeOfOrganizationList'])->name('sizeoforganization_list');
-    Route::get('country_list', [ListController::class, 'CountryList'])->name('country_list');
-    Route::post('state_list', [ListController::class, 'StateList'])->name('state_list');
-    Route::post('city_list', [ListController::class, 'CityList'])->name('city_list');
-    Route::get('organization_list', [ListController::class, 'OrganizationLIST'])->name('organization_list');
-    Route::get('zodiacsign_list', [ListController::class, 'ZodiacSignLIST'])->name('zodiacsign_list');
-    Route::get('interest_hobby_list', [ListController::class, 'InterestAndHobbyLIST'])->name('interest_hobby_list');
-    Route::get('life_style_list', [ListController::class, 'LifieStyleLIST'])->name('life_style_list');
+    Route::get('sizeoforganization_list', [ListController::class, 'sizeOfOrganizationList'])->name('sizeoforganization_list');
+
+    Route::post('state_list', [ListController::class, 'stateList'])->name('state_list');
+    Route::post('city_list', [ListController::class, 'cityList'])->name('city_list');
+    Route::get('organization_list', [ListController::class, 'organizationList'])->name('organization_list');
+    Route::get('zodiacsign_list', [ListController::class, 'zodiacSignList'])->name('zodiacsign_list');
+    Route::get('interest_hobby_list', [ListController::class, 'interestAndHobbyList'])->name('interest_hobby_list');
+    Route::get('life_style_list', [ListController::class, 'lifieStyleList'])->name('life_style_list');
     Route::post('otp_verify', [UsersController::class, 'otpVerify'])->name('otp_verify');
     Route::get('check', [UsersController::class, 'check'])->name('check');
     Route::post('showsstopperque_add', [UsersController::class, 'ShowsStoperQuesAdd'])->name('showsstopperque_add');
