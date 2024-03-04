@@ -16,10 +16,8 @@ return new class extends Migration
             $table->string('love_lang')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            // $table->unsignedBigInteger('love_lang_id')->nullable();
 
-            // $table->foreign('love_lang_id')->references('id')->on('love_langs')->onDelete('cascade');
-            $table->integer('rate');
+            $table->float('rate');
             $table->timestamps();
         });
     }

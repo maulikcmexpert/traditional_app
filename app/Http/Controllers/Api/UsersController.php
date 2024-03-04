@@ -211,16 +211,17 @@ class UsersController extends BaseController
             }
             $givenDatetime = $user->updated_at;
 
-            // Parse the given datetime using Carbon
             $expirationDatetime = Carbon::parse($givenDatetime);
 
-            // Add 30 seconds to the expiration datetime
-            // $expirationDatetime->addSeconds(30);
 
-            // $currentDatetime = Carbon::now();
-            // if ($currentDatetime->gt($expirationDatetime)) {
-            //     return response()->json(["status" => false, 'message' => 'OTP has expired']);
-            // }
+            $expirationDatetime->addSeconds(30);
+
+            $currentDatetime = Carbon::now();
+            if ($currentDatetime->gt($expirationDatetime)) {
+                $user->otp = '';
+                $user->save();
+                return response()->json(["status" => false, 'message' => 'OTP has expired']);
+            }
             $user->is_verified = '1';
             $user->save();
             $token = Token::where('user_id', $user->id)->first();
@@ -254,10 +255,6 @@ class UsersController extends BaseController
                     $step = "Rate";
                 }
 
-
-
-
-
                 $response = [
                     'status' => true,
                     'message' => __('messages.otp_verify'),
@@ -284,12 +281,11 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        //  catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
     public function storeProfile(StoreProfileRequest $request)
@@ -362,6 +358,63 @@ class UsersController extends BaseController
     }
 
     public function userPersonalities(UserPersonalityRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+
+
+            $user  = Auth::guard('api')->user();
+
+            $lifeStyles = $request->life_styles;
+            $interest_and_hobby = $request->interest_and_hobby;
+            $zodiac_sign_id = $request->zodiac_sign_id;
+
+            if (isset($lifeStyles) && is_array($lifeStyles)) {
+                // if exists then delete prev data //
+
+                UserLifestyle::where('user_id', $user->id)->delete();
+
+                foreach ($lifeStyles as $val) {
+                    $life_style = new UserLifestyle();
+                    $life_style->user_id = $user->id;
+                    $life_style->lifestyle_id = $val;
+                    $life_style->save();
+                }
+            }
+
+            if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
+                // if exists then delete prev data //
+                UserInterestAndHobby::where('user_id', $user->id)->delete();
+                foreach ($interest_and_hobby as $val) {
+                    $interest_and_hobby = new UserInterestAndHobby();
+                    $interest_and_hobby->user_id = $user->id;
+                    $interest_and_hobby->interest_and_hobby_id = $val;
+                    $interest_and_hobby->save();
+                }
+            }
+
+            if (isset($zodiac_sign_id) && !empty($zodiac_sign_id)) {
+                $user_zodiac = UserDetail::where('user_id', $user->id)->first();
+                $user_zodiac->zodiac_sign_id = $zodiac_sign_id;
+                $user_zodiac->save();
+            }
+            DB::commit();
+
+            return response()->json(["status" => true, 'message' => 'Personality are updated']);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+
+    public function user_love_lang_rate(UserPersonalityRequest $request)
     {
         try {
             DB::beginTransaction();
