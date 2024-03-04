@@ -27,7 +27,6 @@ class UsersController extends BaseController
             $user = new User();
             $user->full_name = $request->full_name;
             $user->country_code = $request->country_code;
-            $user->country = $request->country;
             $user->mobile_number = $request->mobile_number;
             $user->email = $request->email;
             $user->user_type = "user";
@@ -200,19 +199,18 @@ class UsersController extends BaseController
 
             // $user_intrest = UserInterestAndHobby::where('user_id', $user->id)->first();
             // $user_lifestyle = UserLifestyle::where('user_id', $user->id)->first();
-            if($user_profile == ""){
-                $step="Profile";
-            }
-            else if($zodiac[0]->zodiac_sign_id ==""){
-                $step="personality";
+            if ($user_profile == "") {
+                $step = "Profile";
+            } else if ($zodiac[0]->zodiac_sign_id == "") {
+                $step = "personality";
             }
 
-            $response=[
-                'status'=>true,
-                'message'=>__('messages.otp_verify'),
-                'access_token'=>$accessToken->token,
+            $response = [
+                'status' => true,
+                'message' => __('messages.otp_verify'),
+                'access_token' => $accessToken->token,
                 'user_id' => $user->id,
-                'step'=>$step,
+                'step' => $step,
             ];
             DB::commit();
             return response()->json($response);
@@ -243,6 +241,5 @@ class UsersController extends BaseController
             DB::rollBack();
             return response()->json(['message' => 'db error'], 400);
         }
-
     }
 }
