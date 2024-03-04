@@ -371,7 +371,7 @@ class UsersController extends BaseController
 
                 foreach ($lifeStyles as $val) {
                     $life_style = new UserLifestyle();
-                    $life_style->user_id = $request->user_id;
+                    $life_style->user_id = $user->user_id;
                     $life_style->lifestyle_id = $val;
                     $life_style->save();
                 }
@@ -382,7 +382,7 @@ class UsersController extends BaseController
                 UserInterestAndHobby::where('user_id', $user->id)->delete();
                 foreach ($interest_and_hobby as $val) {
                     $interest_and_hobby = new UserInterestAndHobby();
-                    $interest_and_hobby->user_id = $request->user_id;
+                    $interest_and_hobby->user_id = $user->user_id;
                     $interest_and_hobby->interest_and_hobby_id = $val;
                     $interest_and_hobby->save();
                 }
