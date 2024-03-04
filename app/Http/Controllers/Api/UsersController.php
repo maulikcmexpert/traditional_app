@@ -421,37 +421,11 @@ class UsersController extends BaseController
 
 
             $user  = Auth::guard('api')->user();
-            dd($request);
+            $params = $request->json()->all();
 
-            if (isset($lifeStyles) && is_array($lifeStyles)) {
-                // if exists then delete prev data //
+            $lang_keys = array_keys($params);
+            dd($lang_keys);
 
-                UserLifestyle::where('user_id', $user->id)->delete();
-
-                foreach ($lifeStyles as $val) {
-                    $life_style = new UserLifestyle();
-                    $life_style->user_id = $user->id;
-                    $life_style->lifestyle_id = $val;
-                    $life_style->save();
-                }
-            }
-
-            if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
-                // if exists then delete prev data //
-                UserInterestAndHobby::where('user_id', $user->id)->delete();
-                foreach ($interest_and_hobby as $val) {
-                    $interest_and_hobby = new UserInterestAndHobby();
-                    $interest_and_hobby->user_id = $user->id;
-                    $interest_and_hobby->interest_and_hobby_id = $val;
-                    $interest_and_hobby->save();
-                }
-            }
-
-            if (isset($zodiac_sign_id) && !empty($zodiac_sign_id)) {
-                $user_zodiac = UserDetail::where('user_id', $user->id)->first();
-                $user_zodiac->zodiac_sign_id = $zodiac_sign_id;
-                $user_zodiac->save();
-            }
             DB::commit();
 
             return response()->json(["status" => true, 'message' => 'Personality are updated']);
