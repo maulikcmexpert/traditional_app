@@ -229,21 +229,22 @@ class UsersController extends BaseController
             $token = Auth::user()->createToken('API Token')->accessToken;
             $step = "";
 
-            $user_profile = UserProfile::where('user_id', $user->id)->first();
-            $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
-            $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
-            if ($user_profile  == null) {
-                $step = "Profile";
-            } else if ($zodiac == false) {
-                $step = "Zodiac";
-            } else if ($userLoveLangrate == false) {
-                $step = "Rate";
-            } else {
-                $step = "Home";
-            }
-
-
             if ($user->user_type == 'user') {
+                $user_profile = UserProfile::where('user_id', $user->id)->first();
+                $zodiac = UserDetail::where('user_id', $user->id)->select('zodiac_sign_id')->exists();
+                $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
+
+                if ($user_profile  == null) {
+                    $step = "Profile";
+                } else if ($zodiac == false) {
+                    $step = "Zodiac";
+                } else if ($userLoveLangrate == false) {
+                    $step = "Rate";
+                } else {
+                    $step = "Home";
+                }
+
+
 
                 $response = [
                     'status' => true,
