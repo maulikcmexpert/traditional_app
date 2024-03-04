@@ -131,7 +131,7 @@ class UsersController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => false, 'error' => $validator->errors()->first()], 400);
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()], 400);
         }
         $mobile_number = $request->mobile_number;
         $country_id = $request->country_id;
@@ -143,7 +143,7 @@ class UsersController extends BaseController
                 ->first();
 
             if (!$user) {
-                return response()->json(['status' => false, 'error' => 'Invalid Mobile number or Country code']);
+                return response()->json(['status' => false, 'message' => 'Invalid Mobile number or Country code']);
             }
             $randomNumber = rand(1000, 9999);
             $user->otp = $randomNumber;
