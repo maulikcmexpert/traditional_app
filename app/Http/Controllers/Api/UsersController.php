@@ -32,11 +32,10 @@ class UsersController extends BaseController
             $user->user_type = "user";
             $randomNumber = rand(1000, 9999);
             $user->otp = $randomNumber;
-            $user->save();
-            $userId = $user->id;
-            if ($userId != "") {
+
+            if ($user->save()) {
                 $user_detail = new UserDetail();
-                $user_detail->user_id = $userId;
+                $user_detail->user_id = $user->id;
                 $user_detail->gender = $request->gender;
                 $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
                 $user_detail->city_id = $request->city;
@@ -52,7 +51,7 @@ class UsersController extends BaseController
                 'message' => __('messages.registered'),
                 'mobile_number' => $user->mobile_number,
                 'country_code' => $user->country_code,
-                'otp' => $user->otp,
+                'otp' => strval($user->otp),
             ];
 
             return response()->json($response);
