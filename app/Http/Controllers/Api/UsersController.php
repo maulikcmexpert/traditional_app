@@ -515,8 +515,7 @@ class UsersController extends BaseController
             $data = $database->getReference('/user_locations')->getValue();
 
 
-            $user_id = 13;
-            $this->user->id;
+            $user_id = $this->user->id;
             $maleIds = array_keys($data['male']);
 
             if (in_array($user_id, $maleIds)) {
