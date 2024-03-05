@@ -513,7 +513,7 @@ class UsersController extends BaseController
 
             // Retrieve data
             $data = $database->getReference('/user_locations')->getValue();
-
+            dd($data);
 
             $user_id = $this->user->id;
             $maleIds = array_keys($data['male']);
