@@ -503,6 +503,7 @@ class UsersController extends BaseController
 
     public function home(Request $request)
     {
+        echi "hi";exit;
         try {
 
 
