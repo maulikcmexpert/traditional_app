@@ -534,8 +534,19 @@ class UsersController extends BaseController
             }
 
             $users = User::query();
-            $users->with('user_profile')->whereIn('id', $femaleDataArray);
+            $users->with(['user_profile' => function ($query) {
+                $url = asset('public/storage/profile/');
+                $query->select('id', 'CONCAT(' . $url . ',"profile") AS profile")');
+            }])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
+            dd($result);
+            $userData = [];
+
+            foreach ($result as $val) {
+                $userInfo['id'] = $val->id;
+                $userInfo['profile'] = $val->id;
+                $userInfo['id'] = $val->id;
+            }
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $result]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
