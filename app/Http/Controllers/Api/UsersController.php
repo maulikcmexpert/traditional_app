@@ -540,7 +540,7 @@ class UsersController extends BaseController
                 $query->select('id', 'CONCAT(' . $url . ',"profile") AS profile")');
             }])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
-            dd($result);
+
             $userData = [];
 
             foreach ($result as $val) {
