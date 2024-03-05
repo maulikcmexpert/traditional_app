@@ -68,7 +68,6 @@ class UsersController extends BaseController
                 $user_detail->organization_id = $request->organization_id;
                 $user_detail->save();
             }
-
             DB::commit();
 
             $response = [
@@ -503,7 +502,7 @@ class UsersController extends BaseController
 
     public function home(Request $request)
     {
-        echi "hi";exit;
+
         try {
 
 
