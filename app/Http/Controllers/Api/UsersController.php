@@ -539,15 +539,15 @@ class UsersController extends BaseController
                 $query->select('id', "profile");
             }])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
-            dd($result);
+
             $userData = [];
 
             foreach ($result as $val) {
                 $userInfo['id'] = $val->id;
                 $userInfo['profile'] = $val->user_profile;
-                $userInfo['id'] = $val->id;
+                $userData[] = $userInfo;
             }
-            return response()->json(["status" => true, 'message' => 'User data', 'data' => $result]);
+            return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
         }
