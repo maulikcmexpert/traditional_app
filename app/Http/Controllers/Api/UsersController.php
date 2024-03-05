@@ -517,7 +517,8 @@ class UsersController extends BaseController
 
             $user_id = $this->user->id;
             $maleIds = array_keys($data['male']);
-
+            $latitude = "0";
+            $longitude = "0";
             if (in_array($user_id, $maleIds)) {
                 $loginUserData = $data['male'][$user_id];
                 $latitude = $loginUserData['latitude'];
