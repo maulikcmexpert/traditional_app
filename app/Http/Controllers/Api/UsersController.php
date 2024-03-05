@@ -513,9 +513,9 @@ class UsersController extends BaseController
 
             // Retrieve data
             $data = $database->getReference('/user_locations')->getValue();
-            dd($data);
 
-            $user_id = $this->user->id;
+
+            $user_id = $this->user->id = 13;
             $maleIds = array_keys($data['male']);
             $latitude = "0";
             $longitude = "0";
@@ -540,7 +540,7 @@ class UsersController extends BaseController
                 $query->select('id', 'CONCAT(' . $url . ',"profile") AS profile")');
             }])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
-
+            dd($result);
             $userData = [];
 
             foreach ($result as $val) {
