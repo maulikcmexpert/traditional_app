@@ -535,9 +535,8 @@ class UsersController extends BaseController
             }
 
             $users = User::query();
-            $users->with(['user_profile' => function ($query) {
-                $url = asset('public/storage/profile/');
-                $query->select('id', 'CONCAT(' . $url . ',"profile") AS profile")');
+            $users->with(['userdetail', 'user_profile' => function ($query) {;
+                $query->select('id', "profile");
             }])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
             dd($result);
@@ -545,7 +544,7 @@ class UsersController extends BaseController
 
             foreach ($result as $val) {
                 $userInfo['id'] = $val->id;
-                $userInfo['profile'] = $val->id;
+                $userInfo['profile'] = $val->user_profile;
                 $userInfo['id'] = $val->id;
             }
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $result]);
