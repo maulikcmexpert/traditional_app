@@ -29,18 +29,18 @@ class UserValidate extends FormRequest
         return [
             'full_name' => ['required', 'string', 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
-            'mobile_number' => ['required', 'string', 'max:10', 'unique:users,mobile_number'],
+            'mobile_number' => ['required', 'string', 'unique:users,mobile_number'],
             'email' => ['required', 'string', 'max:50', 'unique:users,email'],
             'date_of_birth' => ['required'],
-            'state_id' => ['required'],
-            'city_id' => ['required'],
+            'state_id' => ['required', 'integer'],
+            'city_id' => ['required', 'integer'],
         ];
     }
 
     public function messages()
     {
         return [
-            'mobile_number.required' => 'Mobile number should be string.',
+            'mobile_number.required' => 'Mobile number is required.',
         ];
     }
 
