@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('organization_details', function (Blueprint $table) {
             $table->id();
-            $table->binary('profile')->nullable();
-            $table->string('profile_name')->nullable();
+            $table->string('profile')->nullable();
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->foreign('organization_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('established_year');
@@ -25,7 +24,7 @@ return new class extends Migration
             $table->foreign('city')->references('id')->on('cities')->onDelete('cascade');
             $table->unsignedBigInteger('state')->nullable();
             $table->foreign('state')->references('id')->on('states')->onDelete('cascade');
-            $table->text('about_us');
+            $table->text('about_us')->nullable();
             $table->timestamps();
         });
     }

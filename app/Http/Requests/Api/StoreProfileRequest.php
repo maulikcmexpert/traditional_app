@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Api;
 
-
 use Illuminate\Foundation\Http\FormRequest;
+
+
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class OrgranizationValid extends FormRequest
+class StoreProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,24 +27,7 @@ class OrgranizationValid extends FormRequest
     public function rules(): array
     {
         return [
-            'organization_name' => ['required', 'string', 'max:200'],
-            'country_code' => ['required', 'string', 'max:5'],
-            'mobile_number' => ['required', 'string', 'max:10', 'unique:users,mobile_number'],
-            'email' => ['required', 'string', 'max:50', 'unique:users,email'],
-            'organization_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'established_year' => ['required'],
-            'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
-            'state_id' => ['required'],
-            'city_id' => ['required'],
-            'address' => ['required'],
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'mobile_number.required' => 'Mobile number should be string.',
-            // 'user_type.in'=>'Type should be only user,admin,organization'
+            'profile.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
