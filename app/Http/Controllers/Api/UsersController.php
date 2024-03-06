@@ -943,9 +943,18 @@ class UsersController extends BaseController
                 $user_shwstpper_answrs->user_id = $this->user->id;
                 $user_shwstpper_answrs->question_id = $val['question_id'];
                 $user_shwstpper_answrs->prefered_answer = $val['prefered_answer'];
+                $user_shwstpper_answrs->answer_status = '0';
+                if ($checkAns->prefered_option == $val['prefered_answer']) {
+
+                    $user_shwstpper_answrs->answer_status = '1';
+                }
                 $user_shwstpper_answrs->save();
             } else {
                 $checAlreadyAnswer->prefered_answer = $val['prefered_answer'];
+                $checAlreadyAnswer->answer_status = '0';
+                if ($checkAns->prefered_option == $val['prefered_answer']) {
+                    $checAlreadyAnswer->answer_status = '1';
+                };
                 $checAlreadyAnswer->save();
             }
         }
@@ -1006,7 +1015,35 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
+    public function checkUserApproachStatus(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+            ]);
 
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+            $checkShwStopperQues = UserShwstpprQue::whereHas('user_shwstpper_answr', function ($query) use ($request) {
+                $query->where('user_id', $request->user_id);
+            })->where('user_id', $request->user_id)->get();
+            dd($checkShwStopperQues);
+
+            // $requests = getManageRequest($type, $this->user->id);
+
+            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
 
 
     //  Female role //
