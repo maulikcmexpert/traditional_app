@@ -636,8 +636,7 @@ class UsersController extends BaseController
             $organization_detail->city = $request->city_id;
             $organization_detail->about_us = $request->about_us;
             $organization_detail->size_of_organization_id = $request->size_of_organization_id;
-            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
-            ;
+            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));;
             $organization_detail->save();
             DB::commit();
             return response()->json(['status' => true, 'message' => "Organization update successfully"]);
@@ -655,7 +654,7 @@ class UsersController extends BaseController
     {
         try {
             DB::beginTransaction();
-            if($request->type == "add_img"){
+            if ($request->type == "add_img") {
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
 
@@ -663,21 +662,21 @@ class UsersController extends BaseController
 
                     $image->move(public_path('storage/profile'), $imageName);
                 }
-                $profile_add=new UserProfile();
-                $profile_add->user_id=$this->user->id;
-                $profile_add->profile=$imageName;
+                $profile_add = new UserProfile();
+                $profile_add->user_id = $this->user->id;
+                $profile_add->profile = $imageName;
                 $profile_add->save();
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "Profile add"]);
-            }else if($request->type == "delete_img"){
-                $profile_name=UserProfile::where('id',$request->profile_id)->select('profile')->get()->first();
+            } else if ($request->type == "delete_img") {
+                $profile_name = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile_name->profile);
                 unlink($filePath);
-                $profile_delete=UserProfile::where('id',$request->profile_id)->delete();
+                $profile_delete = UserProfile::where('id', $request->profile_id)->delete();
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "Profile delete"]);
-            }else if($request->type =="edit_img"){
-                $profile=UserProfile::where('id',$request->profile_id)->select('profile')->get()->first();
+            } else if ($request->type == "edit_img") {
+                $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile->profile);
                 unlink($filePath);
 
@@ -688,8 +687,8 @@ class UsersController extends BaseController
 
                     $image->move(public_path('storage/profile'), $imageName);
                 };
-                $profile_img=UserProfile::where('id',$request->profile_id)->first();
-                $profile_img->profile=$imageName;
+                $profile_img = UserProfile::where('id', $request->profile_id)->first();
+                $profile_img->profile = $imageName;
                 $profile_img->save();
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "Profile  update"]);
@@ -707,10 +706,6 @@ class UsersController extends BaseController
     }
 
 
-    // public function home(Request $request)
-    // {
-    //     try {
-    //         DB::beginTransaction();
     public function home(Request $request)
     {
 
@@ -747,10 +742,10 @@ class UsersController extends BaseController
 
             $users = User::query();
             $users->with(['userdetail', 'user_profile' => function ($query) {;
-                $query->select('id', "profile");
+                $query->select('id', "profile")->where('is_default', '1');
             }])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
-
+            dd($result);
             $userData = [];
 
             foreach ($result as $val) {
