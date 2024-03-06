@@ -1027,8 +1027,10 @@ class UsersController extends BaseController
         }
 
         $checkShwStopperQues = UserShwstpprQue::where('user_id', $request->user_id)->pluck('id');
-        dd($checkShwStopperQues);
+
         if (count($checkShwStopperQues) != 0) {
+            $checkUserAns = UserShwstpperAnswr::where('user_id', $this->user->id)->whereIn('question_id', $checkShwStopperQues)->pluck('answer_status');
+            dd($checkUserAns);
         } else {
             $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
             if ($checkIsApproched != null) {
