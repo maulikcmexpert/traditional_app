@@ -1012,15 +1012,28 @@ class UsersController extends BaseController
 
     public function manageRequest(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'type' => ['required', 'string']
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'type' => ['required', 'string']
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            $type = $request->type;
+            $requests = getManageRequest($type, $this->user->id);
+
+            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        $type = $request->type;
-        $requests = getManageRequest($type, $this->user->id);
     }
 }
