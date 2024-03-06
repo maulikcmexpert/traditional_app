@@ -742,7 +742,7 @@ class UsersController extends BaseController
 
             $users = User::query();
             $users->with(['userdetail', 'user_profile' => function ($query) {;
-                $query->select('id', "profile")->where('is_default', '1');
+                $query->where('is_default', '1');
             }])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
             dd($result);
