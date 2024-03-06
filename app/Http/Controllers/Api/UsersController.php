@@ -974,12 +974,20 @@ class UsersController extends BaseController
 
             DB::beginTransaction();
 
-            $approch_request = new ApproachRequest();
-            $approch_request->sender_id = $this->user->id;
-            $approch_request->receiver_id = $receiver_id;
-            $approch_request->status = 'pending';
-            $approch_request->type = 'approch';
-            $approch_request->save();
+            $checkAlreadyApproch = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $receiver_id])->first();
+            if ($checkAlreadyApproch == null) {
+
+                $approch_request = new ApproachRequest();
+                $approch_request->sender_id = $this->user->id;
+                $approch_request->receiver_id = $receiver_id;
+                $approch_request->status = 'pending';
+                $approch_request->type = 'approch';
+                $approch_request->save();
+            } else {
+                $checkAlreadyApproch->status = 'pending';
+                $checkAlreadyApproch->type = 'approch';
+                $checkAlreadyApproch->save();
+            }
             DB::commit();
 
             return response()->json(["status" => true, 'message' => 'Your request sucessfully sent']);
