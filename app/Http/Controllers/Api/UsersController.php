@@ -1010,16 +1010,17 @@ class UsersController extends BaseController
 
     //  Female role //
 
-    // public function manageRequest(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'type' => ['required', 'string']
-    //     ]);
+    public function manageRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'type' => ['required', 'string']
+        ]);
 
-    //     if ($validator->fails()) {
-    //         return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-    //     }
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+        }
 
-    //     $requests = ApproachRequest::where('pending')
-    // }
+        $type = $request->type;
+        $requests = getManageRequest($type, $this->user->id);
+    }
 }
