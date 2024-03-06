@@ -1017,42 +1017,44 @@ class UsersController extends BaseController
     }
     public function checkUserApproachStatus(Request $request)
     {
-        // try {
-        $validator = Validator::make($request->all(), [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-        }
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
 
-        $checkShwStopperQues = UserShwstpprQue::where('user_id', $request->user_id)->pluck('id');
+            $checkShwStopperQues = UserShwstpprQue::where('user_id', $request->user_id)->pluck('id');
 
-        if (count($checkShwStopperQues) != 0) {
-            $checkUserAns = UserShwstpperAnswr::where('user_id', $this->user->id)->whereIn('question_id', $checkShwStopperQues)->pluck('answer_status');
-            dd($checkUserAns);
-        } else {
+            if (count($checkShwStopperQues) != 0) {
+                $checkUserAns = UserShwstpperAnswr::where('user_id', $this->user->id)->whereIn('question_id', $checkShwStopperQues)->pluck('answer_status');
+                if (count($checkUserAns) != 0) {
+
+                    if (in_array('0', $checkUserAns)) {
+                        return response()->json(["status" => false, 'message' => 'She is not open for reletionship']);
+                    }
+                }
+            }
             $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
             if ($checkIsApproched != null) {
                 return response()->json(["status" => false, 'message' => 'You have already approch request to this person']);
             }
+
+
+
+            return response()->json(["status" => true, 'message' => 'you are elegible']);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        // $requests = getManageRequest($type, $this->user->id);
-
-        return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
-        // }
-        // catch (QueryException $e) {
-
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // }
-        // catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
 
