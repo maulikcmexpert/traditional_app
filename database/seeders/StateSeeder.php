@@ -16,8 +16,8 @@ class StateSeeder extends Seeder
         $now = Carbon::now();
 
         $states = [
-            ['state' => 'State 1','country_id'=>'1' ,'created_at' => $now, 'updated_at' => $now],
-            ['state' => 'State 2', 'country_id'=>'1','created_at' => $now, 'updated_at' => $now],
+            ['state' => 'State 1','country_code'=>'1' ,'code'=>'01','created_at' => $now, 'updated_at' => $now],
+            ['state' => 'State 2', 'country_code'=>'1','code'=>'01','created_at' => $now, 'updated_at' => $now],
             // Add more states as needed
         ];
 

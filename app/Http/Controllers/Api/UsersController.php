@@ -10,8 +10,9 @@ use App\Http\Requests\Api\{
     UserPersonalityRequest
 };
 
-
+use Illuminate\Support\Facades\Storage;
 use App\Models\OrganizationDetail;
+use App\Models\SizeOfOrganization;
 use App\Models\UserProfile;
 use App\Models\UserInterestAndHobby;
 use App\Models\UserLifestyle;
@@ -486,6 +487,212 @@ class UsersController extends BaseController
             return response()->json(["status" => false, 'message' => 'Shows stoppers question not create more then 3 questions']);
         } catch (QueryException $e) {
 
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+
+    public function organizationProfile(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $user_id = $this->user->id;
+            $full_name = $this->user->full_name;
+            $mobile_number = $this->user->mobile_number;
+            $email = $this->user->email;
+            $data = [];
+            $data = [
+                'name' => $full_name,
+                'mobile_number' => $mobile_number,
+                'email' => $email,
+            ];
+            if ($user_id) {
+                $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
+                $data['established_year'] = $organization_detail[0]->established_year;
+                $data['address'] = $organization_detail[0]->address;
+                $data['about_us'] = $organization_detail[0]->about_us;
+                $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
+                $data['size_of_church'] = $sizeofchurch[0]->size_range;
+                $user_profile = UserProfile::where('user_id', $user_id)->get();
+                $image = [];
+                foreach ($user_profile as $key => $val) {
+                    $image['profile'] = asset('public/storage/profile/' . $val->profile);
+                    $image['is_default'] = $val->is_default;
+                    $data['profile_image'][] = $image;
+                }
+            }
+            DB::commit();
+            return response()->json(['status' => true, 'data' => $data]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function updateUserprofile(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $validator = Validator::make($request->all(), [
+                'full_name' => 'required|string',
+                'state_id' => 'required|integer',
+                'city_id' => 'required|integer',
+                'organization_id' => 'required|string',
+                'zodiac_sign_id' => 'required|integer',
+                'religion_id' => 'required|integer',
+                'about_me' => 'required|string',
+                'height' => 'required|numeric',
+                'weight' => 'required|numeric',
+                'education' => 'required|string',
+                'life_style.*' => 'required|array',
+                'insert_hobby.*' => 'required|array',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            }
+            $user_id = $this->user->id;
+            $user = User::where('id', $user_id)->first();
+            $user->full_name = $request->full_name;
+            $user->save();
+            $user_detail = UserDetail::where('user_id', $user_id)->first();
+            $user_detail->state_id = $request->state_id;
+            $user_detail->city_id = $request->city_id;
+            $user_detail->height = $request->height;
+            $user_detail->weight = $request->weight;
+            $user_detail->education = $request->education;
+            $user_detail->zodiac_sign_id = $request->zodiac_sign_id;
+            $user_detail->organization_id = $request->organization_id;
+            $user_detail->religion_id = $request->religion_id;
+            $user_detail->about_me = $request->about_me;
+            $user_detail->save();
+            UserLifestyle::where('user_id', $user_id)->delete();
+            foreach ($request->life_style as $key => $lifeval) {
+
+                $updatelifestyle = new UserLifestyle();
+                $updatelifestyle->user_id = $user_id;
+                $updatelifestyle->lifestyle_id = $lifeval['id'];
+                $updatelifestyle->save();
+            }
+            UserInterestAndHobby::where('user_id', $user_id)->delete();
+            foreach ($request->instert_hobby as $key => $instert_hobby) {
+                $updatelifestyle = new UserInterestAndHobby();
+                $updatelifestyle->user_id = $user_id;
+                $updatelifestyle->interest_and_hobby_id = $instert_hobby['id'];
+                $updatelifestyle->save();
+            }
+            DB::commit();
+            return response()->json(['status' => true, 'message' => "Profile update successfully"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+
+    public function updateOrganizationprofile(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $validator = Validator::make($request->all(), [
+                'full_name' => 'required|string',
+                'state_id' => 'required|integer',
+                'city_id' => 'required|integer',
+                'organization_id' => 'required|string',
+                'about_us' => 'required|string',
+                'size_of_organization_id' => 'required|integer',
+                'established_year' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            }
+            $user_id = $this->user->id;
+            $organization = User::where('id', $user_id)->first();
+            $organization->full_name = $request->full_name;
+            $organization->save();
+
+            $organization_detail = OrganizationDetail::where('organization_id', $user_id)->first();
+            $organization_detail->state = $request->state_id;
+            $organization_detail->city = $request->city_id;
+            $organization_detail->about_us = $request->about_us;
+            $organization_detail->size_of_organization_id = $request->size_of_organization_id;
+            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
+            ;
+            $organization_detail->save();
+            DB::commit();
+            return response()->json(['status' => true, 'message' => "Organization update successfully"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function updateProfilePhoto(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            if($request->type == "add_img"){
+                if (!empty($request->profile_image)) {
+                    $image = $request->profile_image;
+
+                    $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+                    $image->move(public_path('storage/profile'), $imageName);
+                }
+                $profile_add=new UserProfile();
+                $profile_add->user_id=$this->user->id;
+                $profile_add->profile=$imageName;
+                $profile_add->save();
+                DB::commit();
+                return response()->json(['status' => true, 'message' => "Profile add"]);
+            }else if($request->type == "delete_img"){
+                $profile_name=UserProfile::where('id',$request->profile_id)->select('profile')->get()->first();
+                $filePath = public_path('storage/profile/' . $profile_name->profile);
+                unlink($filePath);
+                $profile_delete=UserProfile::where('id',$request->profile_id)->delete();
+                DB::commit();
+                return response()->json(['status' => true, 'message' => "Profile delete"]);
+            }else if($request->type =="edit_img"){
+                $profile=UserProfile::where('id',$request->profile_id)->select('profile')->get()->first();
+                $filePath = public_path('storage/profile/' . $profile->profile);
+                unlink($filePath);
+
+                if (!empty($request->profile_image)) {
+                    $image = $request->profile_image;
+
+                    $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+                    $image->move(public_path('storage/profile'), $imageName);
+                };
+                $profile_img=UserProfile::where('id',$request->profile_id)->first();
+                $profile_img->profile=$imageName;
+                $profile_img->save();
+                DB::commit();
+                return response()->json(['status' => true, 'message' => "Profile  update"]);
+            }
+            DB::commit();
+        } catch (QueryException $e) {
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);

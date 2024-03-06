@@ -38,7 +38,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('user_personalities', [UsersController::class, 'userPersonalities'])->middleware('check_user');
     Route::post('user_love_lang_rate', [UsersController::class, 'userLoveLangRate'])->middleware('check_user');
     Route::post('add_shows_stoper_ques', [UsersController::class, 'addShowsStoperQues'])->middleware('check_user');
-
+    Route::post('organization_profile', [UsersController::class, 'organizationProfile'])->middleware('check_user');
+    Route::post('update_user_profile', [UsersController::class, 'updateUserprofile'])->middleware('check_user');
+    Route::post('update_organization_profile', [UsersController::class, 'updateOrganizationprofile'])->middleware('check_user');
+    Route::post('update_profile_photo', [UsersController::class, 'updateProfilePhoto'])->middleware('check_user');
     // Route::middleware(['check_user'])->group( function () {
     //     Route::get('country_list_login', [ListController::class, 'CountryList']);
     // });
