@@ -746,7 +746,7 @@ class UsersController extends BaseController
                 'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
-            dd($result);
+
             $userData = [];
 
             foreach ($result as $val) {
