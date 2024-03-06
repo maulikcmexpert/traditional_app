@@ -10,11 +10,15 @@ use App\Http\Requests\Api\{
     UserPersonalityRequest
 };
 use App\Models\City;
+
 use App\Models\InterestAndHobby;
 use App\Models\Lifestyle;
 use App\Models\Religion;
 use App\Models\State;
 use App\Models\ZodiacSign;
+
+use App\Models\ApproachRequest;
+
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
@@ -30,11 +34,13 @@ use App\Models\User;
 use App\Models\UserDetail;
 
 use App\Models\UserLoveLang;
+use App\Models\UserShwstpperAnswr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use FireStore\ApiMethods\Commit;
 use Laravel\Passport\Token;
 use Illuminate\Database\QueryException;
 
@@ -70,8 +76,8 @@ class UsersController extends BaseController
                 $user_detail->user_id = $user->id;
                 $user_detail->gender = $request->gender;
                 $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-                $user_detail->city_id = $request->city;
-                $user_detail->state_id = $request->state;
+                $user_detail->city_id = $request->city_id;
+                $user_detail->state_id = $request->state_id;
                 $user_detail->organization_id = $request->organization_id;
                 $user_detail->save();
             }
@@ -750,8 +756,7 @@ class UsersController extends BaseController
             $organization_detail->city = $request->city_id;
             $organization_detail->about_us = $request->about_us;
             $organization_detail->size_of_organization_id = $request->size_of_organization_id;
-            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
-            ;
+            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));;
             $organization_detail->save();
             DB::commit();
             return response()->json(['status' => true, 'message' => "Organization update successfully"]);
@@ -823,10 +828,6 @@ class UsersController extends BaseController
     }
 
 
-    // public function home(Request $request)
-    // {
-    //     try {
-    //         DB::beginTransaction();
     public function home(Request $request)
     {
 
@@ -839,7 +840,8 @@ class UsersController extends BaseController
             // Retrieve data
             $data = $database->getReference('/user_locations')->getValue();
 
-            $user_id = $this->user->id = 13;
+
+            $user_id = $this->user->id;
             $maleIds = array_keys($data['male']);
             $latitude = "0";
             $longitude = "0";
@@ -860,28 +862,32 @@ class UsersController extends BaseController
 
             $users = User::query();
             $users->with([
-                'userdetail',
-                'user_profile' => function ($query) {
-                    ;
-                    $query->select('id', "profile");
-                }
+                'userdetail', 'userdetail.city',
+                'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
-            $result = $users->get();
+            $result =  $users->get();
 
             $userData = [];
 
             foreach ($result as $val) {
                 $userInfo['id'] = $val->id;
-                $userInfo['profile'] = $val->user_profile;
+                $profile = UserProfile::select('profile')->where('is_default', '1')->first();
+                $userInfo['name'] = $val->full_name;
+                $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('public/storage/profile/' . $profile->profile) : "";
+                $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
+                $userInfo['city'] = $val->userdetail->city->city;
+                $userInfo['state'] = $val->userdetail->state->state;
+                $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
+                $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
+
                 $userData[] = $userInfo;
             }
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "Something went wrong"]);
         }
-        // catch (\Exception $e) {
-        //     return response()->json(['status' => false, 'message' => "Something went wrong"]);
-        // }
     }
 
     public function getShowStopperQues(Request $request)
@@ -898,6 +904,85 @@ class UsersController extends BaseController
             $getQuestions = UserShwstpprQue::select('id', 'user_id', 'question', 'option_1', 'option_2', 'prefered_option')->where('user_id', $request->user_id)->get();
 
             return response()->json(["status" => true, 'message' => 'showstopper ', 'data' => $getQuestions]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function checkQuesAnswer(Request $request)
+    {
+        $user = Auth::guard('api')->user();
+        $questioner_user_id = $request->user_id;
+        $answers = $request->answers;
+
+        $trueAns = 0;
+        $wrongQue = [];
+        foreach ($answers as $val) {
+
+            $checkAns = UserShwstpprQue::where('id', $val['question_id'])->first();
+            if ($checkAns->prefered_option == $val['prefered_answer']) {
+                $trueAns++;
+            } else {
+                $wrongQue[] = $checkAns->question;
+            }
+            $checAlreadyAnswer = UserShwstpperAnswr::where(['user_id' => $user->id, 'question_id' => $val['question_id']])->first();
+            if ($checAlreadyAnswer == null) {
+
+                $user_shwstpper_answrs = new UserShwstpperAnswr();
+                $user_shwstpper_answrs->user_id = $user->id;
+                $user_shwstpper_answrs->question_id = $val['question_id'];
+                $user_shwstpper_answrs->prefered_answer = $val['prefered_answer'];
+                $user_shwstpper_answrs->save();
+            } else {
+                $checAlreadyAnswer->prefered_answer = $val['prefered_answer'];
+                $checAlreadyAnswer->save();
+            }
+        }
+        $checkTotalQue = UserShwstpprQue::where('user_id', $questioner_user_id)->count();
+
+        if ($checkTotalQue == $trueAns) {
+            return response()->json(["status" => true, 'message' => 'you are eligible for relationship', 'data' => $wrongQue]);
+        } else {
+            return response()->json(["status" => false, 'message' => 'She is not open for reletionship', 'data' => $wrongQue]);
+        }
+    }
+
+
+    public function approchRequest(Request $request)
+    {
+        try {
+
+
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'type' => ['required', 'string'],
+
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+            $user = Auth::guard('api')->user();
+            $receiver_id  = $request->user_id;
+
+            DB::beginTransaction();
+
+            $approch_request = new ApproachRequest();
+            $approch_request->sender_id = $user->id;
+            $approch_request->receiver_id = $receiver_id;
+            $approch_request->status = 'pending';
+            $approch_request->type = 'approch';
+            $approch_request->save();
+            DB::commit();
+
+            return response()->json(["status" => true, 'message' => 'Your request sucessfully sent']);
         } catch (QueryException $e) {
 
             DB::rollBack();

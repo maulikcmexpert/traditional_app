@@ -10,7 +10,7 @@ class State extends Model
     use HasFactory;
     public function user_detail()
     {
-        return $this->hasMany(UserDetail::class);
+        return $this->hasMany(UserDetail::class, 'state_id', 'id');
     }
 
     public function organization_detail()

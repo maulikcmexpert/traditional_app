@@ -15,7 +15,7 @@ class City extends Model
 
     public function user_detail()
     {
-        return $this->hasMany(UserDetail::class);
+        return $this->hasMany(UserDetail::class, 'city_id', 'id');
     }
 
     public function organization_detail()
