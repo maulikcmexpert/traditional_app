@@ -820,7 +820,7 @@ class UsersController extends BaseController
             $user_shwstpper_answrs = new UserShwstpperAnswr();
             $user_shwstpper_answrs->user_id = $user->id;
             $user_shwstpper_answrs->question_id = $val['question_id'];
-            $user_shwstpper_answrs->user_id = $val['prefered_answer'];
+            $user_shwstpper_answrs->prefered_answer = $val['prefered_answer'];
             $user_shwstpper_answrs->save();
         }
         $checkTotalQue = UserShwstpprQue::where('user_id', $questioner_user_id)->count();
