@@ -24,6 +24,7 @@ use App\Models\User;
 use App\Models\UserDetail;
 
 use App\Models\UserLoveLang;
+use App\Models\UserShwstpperAnswr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -801,8 +802,33 @@ class UsersController extends BaseController
 
     public function checkQuesAnswer(Request $request)
     {
-
+        $user = Auth::guard('api')->user();
+        $questioner_user_id = $request->user_id;
         $answers = $request->answers;
-        dd($answers);
+
+        $trueAns = 0;
+        $wrongQue = [];
+        foreach ($answers as $val) {
+
+            $checkAns = UserShwstpprQue::where('id', $val->question_id)->first();
+            if ($checkAns->prefered_option == $val->prefered_answer) {
+                $trueAns++;
+            } else {
+                $wrongQue[] = $checkAns->question;
+            }
+
+            $user_shwstpper_answrs = new UserShwstpperAnswr();
+            $user_shwstpper_answrs->user_id = $user->id;
+            $user_shwstpper_answrs->question_id = $val->question_id;
+            $user_shwstpper_answrs->user_id = $val->prefered_answer;
+            $user_shwstpper_answrs->save();
+        }
+        $checkTotalQue = UserShwstpprQue::where('user_id', $questioner_user_id)->count();
+
+        if ($checkTotalQue == $trueAns) {
+            return response()->json(["status" => true, 'message' => 'you are eligible for relationship', 'data' => $wrongQue]);
+        } else {
+            return response()->json(["status" => false, 'message' => 'She is not open for reletionship', 'data' => $wrongQue]);
+        }
     }
 }
