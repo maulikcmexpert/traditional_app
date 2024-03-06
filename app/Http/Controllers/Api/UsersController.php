@@ -1025,8 +1025,16 @@ class UsersController extends BaseController
         if ($validator->fails()) {
             return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
-        $checkShwStopperQues = UserShwstpprQue::where('user_id', $request->user_id)->get();
+
+        $checkShwStopperQues = UserShwstpprQue::where('user_id', $request->user_id)->pluck('id');
         dd($checkShwStopperQues);
+        if (count($checkShwStopperQues) != 0) {
+        } else {
+            $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
+            if ($checkIsApproched != null) {
+                return response()->json(["status" => false, 'message' => 'You have already approch request to this person']);
+            }
+        }
 
         // $requests = getManageRequest($type, $this->user->id);
 
