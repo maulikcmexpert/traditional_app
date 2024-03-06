@@ -741,16 +741,15 @@ class UsersController extends BaseController
             }
 
             $users = User::query();
-            $users->with(['userdetail', 'user_profile' => function ($query) {;
-                $query->where('is_default', '1')->first();
-            }])->whereIn('id', $femaleDataArray);
+            $users->with(['userdetail'])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
-            dd($result);
+
             $userData = [];
 
             foreach ($result as $val) {
                 $userInfo['id'] = $val->id;
-
+                $profile = UserProfile::where('is_default', '1')->first();
+                dd($profile);
                 $userData[] = $userInfo;
             }
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
