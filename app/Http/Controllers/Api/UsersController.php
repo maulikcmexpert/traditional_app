@@ -809,9 +809,9 @@ class UsersController extends BaseController
         $trueAns = 0;
         $wrongQue = [];
         foreach ($answers as $val) {
-            dd($val['question_id']);
-            $checkAns = UserShwstpprQue::where('id', $val->question_id)->first();
-            if ($checkAns->prefered_option == $val->prefered_answer) {
+
+            $checkAns = UserShwstpprQue::where('id', $val['question_id'])->first();
+            if ($checkAns->prefered_option == $val['prefered_answer']) {
                 $trueAns++;
             } else {
                 $wrongQue[] = $checkAns->question;
@@ -819,8 +819,8 @@ class UsersController extends BaseController
 
             $user_shwstpper_answrs = new UserShwstpperAnswr();
             $user_shwstpper_answrs->user_id = $user->id;
-            $user_shwstpper_answrs->question_id = $val->question_id;
-            $user_shwstpper_answrs->user_id = $val->prefered_answer;
+            $user_shwstpper_answrs->question_id = $val['question_id'];
+            $user_shwstpper_answrs->user_id = $val['prefered_answer'];
             $user_shwstpper_answrs->save();
         }
         $checkTotalQue = UserShwstpprQue::where('user_id', $questioner_user_id)->count();
