@@ -809,7 +809,7 @@ class UsersController extends BaseController
         $trueAns = 0;
         $wrongQue = [];
         foreach ($answers as $val) {
-
+            dd($val);
             $checkAns = UserShwstpprQue::where('id', $val->question_id)->first();
             if ($checkAns->prefered_option == $val->prefered_answer) {
                 $trueAns++;
