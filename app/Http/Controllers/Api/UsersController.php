@@ -118,48 +118,36 @@ class UsersController extends BaseController
             $organization->user_type = 'organization';
             $randomNumber = rand(1000, 9999);
             $organization->otp = $randomNumber;
+          if ( $organization->save()){
+            $organizationId = $organization->id;
+            if (!empty($request->organization_profile)) {
 
-            if($organization->save()){
-                if (!empty($request->organization_profile)) {
+            
+                $image = $request->organization_profile;
 
-                $profile = $request->organization_profile;
-                foreach ($profile as $key => $value) {
-                    $is_default = "0";
-                    if ($key == 0) {
-                        $is_default = "1";
-                    }
-                    $image = $value;
+                $imageName = $organizationId . '.' . $image->getClientOriginalExtension();
 
-                    $imageName = $this->user->id . '_' . $key . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('storage/profile'), $imageName);
-
-                    UserProfile::create([
-
-                        'user_id' => $this->user->id,
-
-                        'profile' => $imageName,
-
-                        'is_default' => $is_default
-                    ]);
-                }
-
-                  
-                }
+                $image->move(public_path('storage/profile'), $imageName);
                 
-                            $organizationId = $organization->id;
-                            $organization_detail = new OrganizationDetail();
-                            $organization_detail->organization_id = $organizationId;
-                
-                           
-                
-                            $organization_detail->size_of_organization_id = $request->size_of_organization;
-                            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
-                            $organization_detail->city = $request->city_id;
-                            $organization_detail->state = $request->state_id;
-                            $organization_detail->address = $request->address;
-                            // $organization_detail->about_us = $request->about_us;
-                            $organization_detail->save();
+                $storeorganizationImage = new userProfile();
+                $storeorganizationImage->user_id = $organizationId;
+                $storeorganizationImage->profile = $imageName;
+                $storeorganizationImage->is_default = '1';
+                $storeorganizationImage->save();
             }
+
+    
+              $organization_detail = new OrganizationDetail();
+              $organization_detail->organization_id = $organizationId;
+              $organization_detail->size_of_organization_id = $request->size_of_organization;
+              $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
+              $organization_detail->city = $request->city_id;
+              $organization_detail->state = $request->state_id;
+              $organization_detail->address = $request->address;
+              // $organization_detail->about_us = $request->about_us;
+              $organization_detail->save();
+          }
+
             DB::commit();
             $response = [
                 'status' => true,
