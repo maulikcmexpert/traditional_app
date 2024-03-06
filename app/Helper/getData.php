@@ -6,7 +6,7 @@ use App\Models\UserProfile;
 function getManageRequest($type, $receiver_id)
 {
 
-    dd($receiver_id);
+
     $request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->get();
     $userData = [];
     dd($request);
