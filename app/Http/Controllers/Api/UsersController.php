@@ -994,7 +994,7 @@ class UsersController extends BaseController
             }
             DB::commit();
 
-            return response()->json(["status" => true, 'message' => 'Your request sucessfully sent']);
+            return response()->json(["status" => true, 'message' => 'Your approach request has been sent successfully!']);
         } catch (QueryException $e) {
 
             DB::rollBack();
