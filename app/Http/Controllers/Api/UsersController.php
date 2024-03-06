@@ -515,7 +515,7 @@ class UsersController extends BaseController
             $data = $database->getReference('/user_locations')->getValue();
 
 
-            $user_id = $this->user->id = 13;
+            $user_id = $this->user->id;
             $maleIds = array_keys($data['male']);
             $latitude = "0";
             $longitude = "0";
