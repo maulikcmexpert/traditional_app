@@ -9,6 +9,7 @@ use App\Http\Requests\Api\{
     OrgranizationValid,
     UserPersonalityRequest
 };
+use App\Models\ApproachRequest;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
@@ -30,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use FireStore\ApiMethods\Commit;
 use Laravel\Passport\Token;
 use Illuminate\Database\QueryException;
 
@@ -835,6 +837,47 @@ class UsersController extends BaseController
             return response()->json(["status" => true, 'message' => 'you are eligible for relationship', 'data' => $wrongQue]);
         } else {
             return response()->json(["status" => false, 'message' => 'She is not open for reletionship', 'data' => $wrongQue]);
+        }
+    }
+
+
+    public function approchRequest(Request $request)
+    {
+        try {
+
+
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'type' => ['required', 'string'],
+
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()], 400);
+            }
+            $user = Auth::guard('api')->user();
+            $receiver_id  = $request->user_id;
+
+            DB::beginTransaction();
+
+            $approch_request = new ApproachRequest();
+            $approch_request->sender_id = $user->id;
+            $approch_request->receiver_id = $receiver_id;
+            $approch_request->status = 'pending';
+            $approch_request->type = 'approch';
+            $approch_request->save();
+            DB::commit();
+
+            return response()->json(["status" => true, 'message' => 'Your request sucessfully sent']);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
 }
