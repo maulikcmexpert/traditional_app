@@ -6,7 +6,7 @@ yarn-error.log
 # Laravel 4 specific
 bootstrap/compiled.php
 app/storage/
-
+app/Http/Api/firebase-credentials.json
 # Laravel 5 & Lumen specific
 public/storage
 public/hot
@@ -21,3 +21,4 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+app/Http/Controllers/Api/firebase-credentials.json

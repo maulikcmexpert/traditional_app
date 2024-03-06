@@ -9,6 +9,9 @@ use App\Http\Requests\Api\{
     OrgranizationValid,
     UserPersonalityRequest
 };
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
+
 
 use Illuminate\Support\Facades\Storage;
 use App\Models\OrganizationDetail;
@@ -66,7 +69,6 @@ class UsersController extends BaseController
                 $user_detail->organization_id = $request->organization_id;
                 $user_detail->save();
             }
-
             DB::commit();
 
             $response = [
@@ -295,11 +297,13 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+
+        // catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function storeProfile(StoreProfileRequest $request)
@@ -424,7 +428,6 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
-
 
     public function userLoveLangRate(Request $request)
     {
@@ -708,34 +711,87 @@ class UsersController extends BaseController
     // {
     //     try {
     //         DB::beginTransaction();
+    public function home(Request $request)
+    {
+
+        try {
 
 
-    //         $allUsers = User::query();
+            // Initialize Firebase
+            $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
+            $factory = (new Factory())->withServiceAccount($serviceAccount);
+            $database = $factory->createDatabase();
+
+            // Retrieve data
+            $data = $database->getReference('/user_locations')->getValue();
 
 
+            $user_id = $this->user->id = 13;
+            $maleIds = array_keys($data['male']);
+            $latitude = "0";
+            $longitude = "0";
+            if (in_array($user_id, $maleIds)) {
+                $loginUserData = $data['male'][$user_id];
+                $latitude = $loginUserData['latitude'];
+                $longitude = $loginUserData['longitude'];
+            }
+            $femaleDataArray = [];
+            foreach ($data['female'] as $keyId => $val) {
 
-    //         foreach ($lang_keys as $val) {
+                $distance = distanceCalculation($latitude, $longitude, $val['latitude'], $val['longitude']);
 
-    //             $user_love_lang = new UserLoveLang();
-    //             $user_love_lang->love_lang = $val;
-    //             $user_love_lang->user_id = $this->user->id;
-    //             $user_love_lang->rate = $request[$val];
-    //             $user_love_lang->save();
-    //         }
+                if ($distance <= 5) {
+                    $femaleDataArray[] = $keyId;
+                }
+            }
+
+            $users = User::query();
+            $users->with(['userdetail', 'user_profile' => function ($query) {;
+                $query->select('id', "profile");
+            }])->whereIn('id', $femaleDataArray);
+            $result =  $users->get();
+
+            $userData = [];
+
+            foreach ($result as $val) {
+                $userInfo['id'] = $val->id;
+                $userInfo['profile'] = $val->user_profile;
+                $userData[] = $userInfo;
+            }
+            return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
+        } catch (QueryException $e) {
+            return response()->json(['status' => false, 'message' => "Database error"]);
+        }
+        // catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "Something went wrong"]);
+        // }
+    }
+
+    public function getShowStopperQues(Request $request)
+    {
+        try {
 
 
-    //         DB::commit();
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+            ]);
 
-    //         return response()->json(["status" => true, 'message' => 'Love language rates are updated']);
-    //     } catch (QueryException $e) {
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()], 400);
+            }
 
-    //         DB::rollBack();
+            $getQuestions = UserShwstpprQue::select('id', 'user_id', 'question', 'option_1', 'option_2', 'prefered_option')->where('user_id', $request->user_id)->get();
 
-    //         return response()->json(['status' => false, 'message' => "db error"]);
-    //     } catch (\Exception $e) {
+            return response()->json(["status" => true, 'message' => 'showstopper ', 'data' => $getQuestions]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
 
 
-    //         return response()->json(['status' => false, 'message' => "something went wrong"]);
-    //     }
-    // }
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
 }

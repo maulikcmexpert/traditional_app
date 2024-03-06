@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+
 class UserValidate extends FormRequest
 {
     /**
@@ -26,20 +27,20 @@ class UserValidate extends FormRequest
     {
 
         return [
-            'full_name'=>['required','string','max:200'],
-            'country_code'=>['required','string','max:5'],
-            'mobile_number'=>['required','string','max:10','unique:users,mobile_number'],
-            'email'=>['required','string','max:50','unique:users,email'],
-            'date_of_birth'=>['required'],
-            'state_id'=>['required'],
-            'city_id'=>['required'],
+            'full_name' => ['required', 'string', 'max:200'],
+            'country_code' => ['required', 'string', 'max:5'],
+            'mobile_number' => ['required', 'string', 'unique:users,mobile_number'],
+            'email' => ['required', 'string', 'max:50', 'unique:users,email'],
+            'date_of_birth' => ['required'],
+            'state_id' => ['required', 'integer'],
+            'city_id' => ['required', 'integer'],
         ];
     }
 
     public function messages()
     {
         return [
-            'mobile_number.required' => 'Mobile number should be string.',
+            'mobile_number.required' => 'Mobile number is required.',
         ];
     }
 
@@ -47,7 +48,7 @@ class UserValidate extends FormRequest
     {
 
         if (!$this->expectsJson()) {
-            throw new HttpResponseException(response()->json(['status'=>false,'message' =>$validator->errors()->first()], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
+            throw new HttpResponseException(response()->json(['status' => false, 'message' => $validator->errors()->first()], JsonResponse::HTTP_OK));
         }
         parent::failedValidation($validator);
     }

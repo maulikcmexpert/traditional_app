@@ -35,7 +35,7 @@ class StoreProfileRequest extends FormRequest
     {
 
         if (!$this->expectsJson()) {
-            throw new HttpResponseException(response()->json(['status' => false, 'message' => $validator->errors()->first()], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
+            throw new HttpResponseException(response()->json(['status' => false, 'message' => $validator->errors()->first()], JsonResponse::HTTP_OK));
         }
         parent::failedValidation($validator);
     }
