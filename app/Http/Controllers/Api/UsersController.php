@@ -118,35 +118,35 @@ class UsersController extends BaseController
             $organization->user_type = 'organization';
             $randomNumber = rand(1000, 9999);
             $organization->otp = $randomNumber;
-          if ( $organization->save()){
-            $organizationId = $organization->id;
-            if (!empty($request->organization_profile)) {
+            if ($organization->save()) {
+                $organizationId = $organization->id;
+                if (!empty($request->organization_profile)) {
 
-            
-                $image = $request->organization_profile;
 
-                $imageName = $organizationId . '.' . $image->getClientOriginalExtension();
+                    $image = $request->organization_profile;
 
-                $image->move(public_path('storage/profile'), $imageName);
-                
-                $storeorganizationImage = new userProfile();
-                $storeorganizationImage->user_id = $organizationId;
-                $storeorganizationImage->profile = $imageName;
-                $storeorganizationImage->is_default = '1';
-                $storeorganizationImage->save();
+                    $imageName = $organizationId . '.' . $image->getClientOriginalExtension();
+
+                    $image->move(public_path('storage/profile'), $imageName);
+
+                    $storeorganizationImage = new userProfile();
+                    $storeorganizationImage->user_id = $organizationId;
+                    $storeorganizationImage->profile = $imageName;
+                    $storeorganizationImage->is_default = '1';
+                    $storeorganizationImage->save();
+                }
+
+
+                $organization_detail = new OrganizationDetail();
+                $organization_detail->organization_id = $organizationId;
+                $organization_detail->size_of_organization_id = $request->size_of_organization;
+                $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
+                $organization_detail->city = $request->city_id;
+                $organization_detail->state = $request->state_id;
+                $organization_detail->address = $request->address;
+                // $organization_detail->about_us = $request->about_us;
+                $organization_detail->save();
             }
-
-    
-              $organization_detail = new OrganizationDetail();
-              $organization_detail->organization_id = $organizationId;
-              $organization_detail->size_of_organization_id = $request->size_of_organization;
-              $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
-              $organization_detail->city = $request->city_id;
-              $organization_detail->state = $request->state_id;
-              $organization_detail->address = $request->address;
-              // $organization_detail->about_us = $request->about_us;
-              $organization_detail->save();
-          }
 
             DB::commit();
             $response = [
@@ -1011,16 +1011,16 @@ class UsersController extends BaseController
 
     //  Female role //
 
-    public function manageRequest(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'type' => ['required', 'string']
-        ]);
+    // public function manageRequest(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'type' => ['required', 'string']
+    //     ]);
 
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-        }
+    //     if ($validator->fails()) {
+    //         return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+    //     }
 
-        $requests = ApproachRequest::where('pending')
-    }
+    //     $requests = ApproachRequest::where('pending')
+    // }
 }
