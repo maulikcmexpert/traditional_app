@@ -745,7 +745,7 @@ class UsersController extends BaseController
                 $query->where('is_default', '1')->first();
             }])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
-
+            dd($result);
             $userData = [];
 
             foreach ($result as $val) {
