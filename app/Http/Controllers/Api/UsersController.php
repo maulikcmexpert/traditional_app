@@ -1017,7 +1017,7 @@ class UsersController extends BaseController
     }
     public function checkUserApproachStatus(Request $request)
     {
-        try {
+        // try {
             $validator = Validator::make($request->all(), [
                 'user_id' => ['required', 'integer', 'exists:users,id'],
             ]);
@@ -1040,11 +1040,11 @@ class UsersController extends BaseController
 
         //     return response()->json(['status' => false, 'message' => "db error"]);
         // }
-        catch (\Exception $e) {
+        // catch (\Exception $e) {
 
 
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
-        }
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
