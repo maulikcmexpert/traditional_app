@@ -1018,22 +1018,22 @@ class UsersController extends BaseController
     public function checkUserApproachStatus(Request $request)
     {
         // try {
-            $validator = Validator::make($request->all(), [
-                'user_id' => ['required', 'integer', 'exists:users,id'],
-            ]);
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-            $checkShwStopperQues = UserShwstpprQue::whereHas('user_shwstpper_answr', function ($query) {
-                $query->where('user_id', $this->user->id);
-            })->where('user_id', $request->user_id)->get();
-            dd($checkShwStopperQues);
-
-            // $requests = getManageRequest($type, $this->user->id);
-
-            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
+        $checkShwStopperQues = UserShwstpprQue::whereHas('user_shwstpper_answr', function ($query) {
+            $query->where('user_id', $this->user->id);
+        })->where('user_id', $request->user_id)->get();
+        dd($checkShwStopperQues);
+
+        // $requests = getManageRequest($type, $this->user->id);
+
+        return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
+        // }
         // catch (QueryException $e) {
 
         //     DB::rollBack();
