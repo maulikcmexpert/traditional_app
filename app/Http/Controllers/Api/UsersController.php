@@ -1008,6 +1008,7 @@ class UsersController extends BaseController
     }
 
 
+
     //  Female role //
 
     public function manageRequest(Request $request)
