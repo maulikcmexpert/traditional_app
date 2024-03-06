@@ -768,10 +768,9 @@ class UsersController extends BaseController
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "Something went wrong"]);
         }
-        // catch (\Exception $e) {
-        //     return response()->json(['status' => false, 'message' => "Something went wrong"]);
-        // }
     }
 
     public function getShowStopperQues(Request $request)
@@ -818,7 +817,7 @@ class UsersController extends BaseController
             } else {
                 $wrongQue[] = $checkAns->question;
             }
-            $checAlreadyAnswer = UserShwstpperAnswr::where(['user_id' => $user->id, 'question_id' => $val['question_id']])->firsat();
+            $checAlreadyAnswer = UserShwstpperAnswr::where(['user_id' => $user->id, 'question_id' => $val['question_id']])->first();
             if ($checAlreadyAnswer == null) {
 
                 $user_shwstpper_answrs = new UserShwstpperAnswr();
@@ -853,7 +852,7 @@ class UsersController extends BaseController
             ]);
 
             if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()], 400);
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
             $user = Auth::guard('api')->user();
             $receiver_id  = $request->user_id;
