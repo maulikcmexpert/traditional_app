@@ -959,7 +959,7 @@ class UsersController extends BaseController
     }
 
 
-    public function approchRequest(Request $request)
+    public function approachRequest(Request $request)
     {
         try {
 
