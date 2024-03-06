@@ -547,17 +547,16 @@ class UsersController extends BaseController
                 $data['size_of_church'] = $sizeofchurch[0]->size_range;
                 $data['size_of_church_id'] = $sizeofchurch[0]->id;
                 $user_profile = UserProfile::where('user_id', $user_id)->get();
-                $image = [];
+
+                $data['profile_image'] = [];
                 if (!empty($user_profile[0])) {
                     foreach ($user_profile as $key => $val) {
-                        $data['profile_image'] = "";
+
                         $image['profile_id'] = $val->id;
                         $image['profile'] = asset('storage/profile/' . $val->profile);
                         $image['is_default'] = $val->is_default;
                         $data['profile_image'][] = $image;
                     }
-                } else {
-                    $data['profile_image'] = "";
                 }
             }
             DB::commit();
