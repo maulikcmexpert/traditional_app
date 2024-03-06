@@ -801,5 +801,8 @@ class UsersController extends BaseController
 
     public function checkQuesAnswer(Request $request)
     {
+
+        $answers = $request->answers;
+        dd($answers);
     }
 }
