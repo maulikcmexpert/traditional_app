@@ -118,31 +118,48 @@ class UsersController extends BaseController
             $organization->user_type = 'organization';
             $randomNumber = rand(1000, 9999);
             $organization->otp = $randomNumber;
-            $organization->save();
 
-            $organizationId = $organization->id;
-            $organization_detail = new OrganizationDetail();
-            $organization_detail->organization_id = $organizationId;
+            if($organization->save()){
+                if (!empty($request->organization_profile)) {
 
-            if (!empty($request->organization_profile)) {
+                $profile = $request->organization_profile;
+                foreach ($profile as $key => $value) {
+                    $is_default = "0";
+                    if ($key == 0) {
+                        $is_default = "1";
+                    }
+                    $image = $value;
 
+                    $imageName = $this->user->id . '_' . $key . '.' . $image->getClientOriginalExtension();
+                    $image->move(public_path('storage/profile'), $imageName);
 
+                    UserProfile::create([
 
-                $image = $request->organization_profile;
+                        'user_id' => $this->user->id,
 
-                $imageName = $organizationId . '.' . $image->getClientOriginalExtension();
+                        'profile' => $imageName,
 
-                $image->move(public_path('storage/profile'), $imageName);
-                $organization_detail->profile = $imageName;
+                        'is_default' => $is_default
+                    ]);
+                }
+
+                  
+                }
+                
+                            $organizationId = $organization->id;
+                            $organization_detail = new OrganizationDetail();
+                            $organization_detail->organization_id = $organizationId;
+                
+                           
+                
+                            $organization_detail->size_of_organization_id = $request->size_of_organization;
+                            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
+                            $organization_detail->city = $request->city_id;
+                            $organization_detail->state = $request->state_id;
+                            $organization_detail->address = $request->address;
+                            // $organization_detail->about_us = $request->about_us;
+                            $organization_detail->save();
             }
-
-            $organization_detail->size_of_organization_id = $request->size_of_organization;
-            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
-            $organization_detail->city = $request->city_id;
-            $organization_detail->state = $request->state_id;
-            $organization_detail->address = $request->address;
-            // $organization_detail->about_us = $request->about_us;
-            $organization_detail->save();
             DB::commit();
             $response = [
                 'status' => true,
@@ -1001,5 +1018,21 @@ class UsersController extends BaseController
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+    }
+
+
+    //  Female role //
+
+    public function manageRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'type' => ['required', 'string']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+        }
+
+        $requests = ApproachRequest::where('pending')
     }
 }
