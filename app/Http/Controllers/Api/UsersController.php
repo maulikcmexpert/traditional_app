@@ -64,8 +64,8 @@ class UsersController extends BaseController
                 $user_detail->user_id = $user->id;
                 $user_detail->gender = $request->gender;
                 $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-                $user_detail->city_id = $request->city;
-                $user_detail->state_id = $request->state;
+                $user_detail->city_id = $request->city_id;
+                $user_detail->state_id = $request->state_id;
                 $user_detail->organization_id = $request->organization_id;
                 $user_detail->save();
             }
@@ -797,5 +797,9 @@ class UsersController extends BaseController
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+    }
+
+    public function checkQuesAnswer(Request $request)
+    {
     }
 }
