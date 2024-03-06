@@ -1025,20 +1025,22 @@ class UsersController extends BaseController
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
-            $checkShwStopperQues = UserShwstpprQue::whereHas('user_shwstpper_answr', function ($query) use ($request) {
-                $query->where('user_id', $request->user_id);
+            $checkShwStopperQues = UserShwstpprQue::whereHas('user_shwstpper_answr', function ($query) {
+                $query->where('user_id', $this->user->id);
             })->where('user_id', $request->user_id)->get();
             dd($checkShwStopperQues);
 
             // $requests = getManageRequest($type, $this->user->id);
 
             return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
-        } catch (QueryException $e) {
+        }
+        // catch (QueryException $e) {
 
-            DB::rollBack();
+        //     DB::rollBack();
 
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // }
+        catch (\Exception $e) {
 
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
