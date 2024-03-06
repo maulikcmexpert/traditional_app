@@ -741,15 +741,25 @@ class UsersController extends BaseController
             }
 
             $users = User::query();
-            $users->with(['userdetail'])->whereIn('id', $femaleDataArray);
+            $users->with([
+                'userdetail', 'userdetail.city',
+                'userdetail.state'
+            ])->whereIn('id', $femaleDataArray);
             $result =  $users->get();
 
             $userData = [];
 
             foreach ($result as $val) {
                 $userInfo['id'] = $val->id;
-                $profile = UserProfile::where('is_default', '1')->first();
-                dd($profile);
+                $profile = UserProfile::select('profile')->where('is_default', '1')->first();
+                $userInfo['name'] = $val->full_name;
+                $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('public/storage/profile/' . $profile->profile) : "";
+                $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
+                $userInfo['city'] = $val->userdetail->city->city;
+                $userInfo['state'] = $val->userdetail->state->state;
+                $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
+                $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
+
                 $userData[] = $userInfo;
             }
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);

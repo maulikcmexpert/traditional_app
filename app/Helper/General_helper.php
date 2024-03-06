@@ -13,3 +13,18 @@ function distanceCalculation($latitude1, $longitude1, $latitude2, $longitude2)
     $d = $r * $c;
     return ($d / 1000);
 }
+
+function calculateAge($birthdate, $endDate = null)
+{
+    // Create a DateTime object from the birthdate
+    $birthDateObj = new DateTime($birthdate);
+
+    // If an end date is not provided, use the current date
+    $endDateObj = ($endDate != null) ? new DateTime($endDate) : new DateTime();
+
+    // Calculate the difference between the birthdate and end date
+    $ageInterval = $birthDateObj->diff($endDateObj);
+
+    // Return the years part of the interval
+    return $ageInterval->y;
+}
