@@ -10,6 +10,7 @@ use App\Models\SizeOfOrganization;
 use App\Models\State;
 use App\Models\City;
 use App\Models\User;
+
 use App\Models\ZodiacSign;
 use App\Models\InterestAndHobby;
 use App\Models\Lifestyle;

@@ -58,6 +58,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserDetail::class, 'user_id', 'id');
     }
+    public function organizationdetail()
+    {
+        return $this->hasOne(OrganizationDetail::class, 'organization_id', 'id');
+    }
 
     public function user_profile()
     {
