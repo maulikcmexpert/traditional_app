@@ -1189,7 +1189,10 @@ class UsersController extends BaseController
 
             $checkRequest = ApproachRequest::where(['id' => $request->request_id])->first();
             dd($checkRequest);
-            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
+            if ($checkRequest != null) {
+            } else {
+                return response()->json(["status" => false, 'message' => 'Request not found']);
+            }
         } catch (QueryException $e) {
 
             DB::rollBack();
