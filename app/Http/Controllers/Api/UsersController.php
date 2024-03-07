@@ -32,7 +32,6 @@ use App\Models\UserLifestyle;
 use App\Models\UserShwstpprQue;
 use App\Models\User;
 use App\Models\UserDetail;
-use App\Models\Device;
 
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
@@ -258,15 +257,14 @@ class UsersController extends BaseController
             }
             $user->is_verified = '1';
             $user->save();
-            $this->userDevice($user->id, $request);
-
-
-
             $token = Token::where('user_id', $user->id)->first();
 
             if ($token) {
                 $token->delete();
             }
+
+            Auth::login($user);
+
             $token = Auth::user()->createToken('API Token')->accessToken;
             $step = "Home";
 
@@ -1109,23 +1107,6 @@ class UsersController extends BaseController
                 Token::where('user_id', $this->user->id)->delete();
             }
             return response()->json(['status' => true, 'message' => "Logout successfully"]);
-        }
-    }
-
-    public function userDevice($id, $requestData)
-    {
-
-        if (Device::where('user_id', $id)->exists()) {
-            Device::where('user_id', $id)->delete();
-        }
-        if (isset($requestData->device_id) && isset($requestData->token) && isset($requestData->model)) {
-
-            $device = new Device;
-            $device->user_id = $id;
-            $device->device_id = $requestData->device_id;
-            $device->token = $requestData->token;
-            $device->model = $requestData->model;
-            $device->save();
         }
     }
 }
