@@ -1151,6 +1151,7 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
+
     public function manageRequestByMale(Request $request)
     {
         try {
@@ -1167,16 +1168,39 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        // catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
 
+    public function cancelRequest(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'request_id' => ['required', 'integer', 'exists:users,id'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            $checkRequest = ApproachRequest::where(['id' => $request->request_id])->first();
+            dd($checkRequest);
+            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
 
 
 
