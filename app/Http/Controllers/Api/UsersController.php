@@ -1154,7 +1154,8 @@ class UsersController extends BaseController
     public function manageRequestByMale(Request $request)
     {
         try {
-
+            echo $this->user->id;;
+            exit;
             $search_name = "";
             if ($request->search_name != "") {
                 $search_name = $request->search_name;
