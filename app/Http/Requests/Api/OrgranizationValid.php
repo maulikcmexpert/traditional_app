@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
-
+use App\Rules\CustomEmailValidation;
 class OrgranizationValid extends FormRequest
 {
     /**
@@ -29,7 +29,7 @@ class OrgranizationValid extends FormRequest
             'organization_name' => ['required', 'string', 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
             'mobile_number' => ['required', 'string','max:13', 'unique:users,mobile_number'],
-            'email' => ['required','email', 'string', 'max:50', 'unique:users,email'],
+            'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             'organization_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'established_year' => ['required'],
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],

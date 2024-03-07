@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
-
+use App\Rules\CustomEmailValidation;
 class UserValidate extends FormRequest
 {
     /**
@@ -30,7 +30,7 @@ class UserValidate extends FormRequest
             'full_name' => ['required', 'string', 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
             'mobile_number' => ['required', 'string', 'max:13', 'unique:users,mobile_number'],
-            'email' => ['required','string', 'max:50', 'unique:users,email','email'],
+            'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             'date_of_birth' => ['required'],
             'state_id' => ['required', 'integer'],
             'city_id' => ['required', 'integer'],
