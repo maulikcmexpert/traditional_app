@@ -257,9 +257,9 @@ class UsersController extends BaseController
                 return response()->json(["status" => false, 'message' => 'OTP has expired']);
             }
             $user->is_verified = '1';
-            if ($user->save()) {
-                $this->userDevice($user->id, $request);
-            }
+            $user->save();
+            $this->userDevice($user->id, $request);
+
 
 
             $token = Token::where('user_id', $user->id)->first();
@@ -267,7 +267,7 @@ class UsersController extends BaseController
             if ($token) {
                 $token->delete();
             }
-            $token = Auth::user()->createToken('appToken')->accessToken;
+            $token = Auth::user()->createToken('API Token')->accessToken;
             $step = "Home";
 
             if ($user->user_type == 'user') {
