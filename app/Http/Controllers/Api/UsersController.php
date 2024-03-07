@@ -888,8 +888,7 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
             if ($request->type == "add_img") {
-                echo $this->user->id;
-                exit;
+
                 if (!empty($request->profile_image)) {
 
                     $checkImageExist = UserProfile::where('user_id', $this->user->id)->orderBy('id', 'desc')->first();
