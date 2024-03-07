@@ -36,9 +36,14 @@ function getManageRequestByMale($search_name, $id)
 {
 
     if ($search_name != "") {
-        $request =  ApproachRequest::with(['receiver_user' => function ($query) use ($search_name) {
+        $request = ApproachRequest::with(['receiver_user' => function ($query) use ($search_name) {
             $query->where('full_name', 'like', "%$search_name%");
-        }])->where(['sender_id' => $id, 'status' => 'pending'])->get();
+        }])
+            ->whereHas('receiver_user', function ($query) use ($search_name) {
+                $query->where('full_name', 'like', "%$search_name%");
+            })
+            ->where(['sender_id' => $id, 'status' => 'pending'])
+            ->get();
     } else {
 
         $request =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->get();
