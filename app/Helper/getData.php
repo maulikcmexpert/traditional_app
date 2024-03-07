@@ -7,6 +7,7 @@ use App\Models\{
 };
 
 
+
 function getReligions()
 {
     return Religion::select('id', 'religion')->get();
@@ -33,22 +34,14 @@ function getManageRequest($type, $receiver_id)
 
 
 
-function getManageRequestByMale($search_name, $id)
+function getManageRequestByMale($page, $id)
 {
 
-    if ($search_name != "") {
-        $request = ApproachRequest::with(['receiver_user' => function ($query) use ($search_name) {
-            $query->where('full_name', 'like', "%$search_name%");
-        }])
-            ->whereHas('receiver_user', function ($query) use ($search_name) {
-                $query->where('full_name', 'like', "%$search_name%");
-            })
-            ->where(['sender_id' => $id, 'status' => 'pending'])
-            ->get();
-    } else {
+    $totalApprochRequest =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->count();
 
-        $request =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->get();
-    }
+    $total_page = ceil($totalApprochRequest / 10);
+    $request =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->paginate(10, ['*'], 'page', $page);
+
     $userData = [];
     if (count($request) != 0) {
 
@@ -60,5 +53,5 @@ function getManageRequestByMale($search_name, $id)
             $userData[] = $userInfo;
         }
     }
-    return $userData;
+    return array('userData' => $userData, 'total_page' => $total_page);
 }

@@ -1166,12 +1166,13 @@ class UsersController extends BaseController
     {
         try {
 
-            $search_name = "";
-            if ($request->search_name != "") {
-                $search_name = $request->search_name;
+            $page = 1;
+            if (isset($request->page) && $request->page != "") {
+                $page = $request->page;
             }
-            $requests = getManageRequestByMale($search_name, $this->user->id);
 
+            $requests = getManageRequestByMale($page, $this->user->id);
+            dd($requests);
             return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
         } catch (QueryException $e) {
 
