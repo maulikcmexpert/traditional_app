@@ -260,7 +260,6 @@ class UsersController extends BaseController
             }
             $user->is_verified = '1';
             $user->save();
-
             $this->userDevice($user->id, $request);
             $token = Token::where('user_id', $user->id)->first();
 
@@ -318,11 +317,11 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "db error"]);
         }
 
-        // catch (\Exception $e) {
+        catch (\Exception $e) {
 
 
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
     }
 
     public function storeProfile(StoreProfileRequest $request)
@@ -537,7 +536,7 @@ class UsersController extends BaseController
 
             if ($user_id) {
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
-                $data['established_year'] = ($organization_detail[0]->established_year != "") ? $organization_detail[0]->established_year : "";
+                $data['established_year'] = (date('d-m-Y',strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y',strtotime($organization_detail[0]->established_year)) : "";
                 $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
                 $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
                 $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
