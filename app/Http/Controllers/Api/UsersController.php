@@ -1263,21 +1263,22 @@ class UsersController extends BaseController
     }
 
 
-    public function memberOfOrganization(Request $request){
+    public function memberOfOrganization(Request $request)
+    {
         try {
             DB::beginTransaction();
-            $organization_id=$this->user->id;
-            $get_member=UserDetail::where('organization_id',$organization_id)->select('user_id')->get();
-            $data=[];
+            $organization_id = $this->user->id;
+            $get_member = UserDetail::where('organization_id', $organization_id)->select('user_id')->get();
+            $data = [];
             // $data['user_id']=[];
             // $data['image']
-            foreach($get_member as $val){
-                $get_user_name=User::where('id',$val->user_id)->select('full_name')->first();
-                $profile['user_id']=($val->user_id!="")?$val->user_id:"";
-                $profile['full_name']=($get_user_name->full_name!="")?$get_user_name->full_name:"";
-                $get_profile=UserProfile::where('user_id',$val->user_id)->where('is_default','1')->select('profile')->first();
-                $profile['image']=asset('storage/profile/' . ($get_profile->profile!="")?$get_profile->profile:"");
-                $data[]=$profile;
+            foreach ($get_member as $val) {
+                $get_user_name = User::where('id', $val->user_id)->select('full_name')->first();
+                $profile['user_id'] = ($val->user_id != "") ? $val->user_id : "";
+                $profile['full_name'] = ($get_user_name->full_name != "") ? $get_user_name->full_name : "";
+                $get_profile = UserProfile::where('user_id', $val->user_id)->where('is_default', '1')->select('profile')->first();
+                $profile['image'] = asset('storage/profile/' . ($get_profile->profile != "") ? $get_profile->profile : "");
+                $data[] = $profile;
             }
 
             DB::commit();
