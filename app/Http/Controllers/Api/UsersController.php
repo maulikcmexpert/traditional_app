@@ -889,6 +889,9 @@ class UsersController extends BaseController
             DB::beginTransaction();
             if ($request->type == "add_img") {
                 if (!empty($request->profile_image)) {
+
+                    $checkImageExist = UserProfile::where('user_id', $this->user->id)->last();
+                    dd($checkImageExist);
                     $image = $request->profile_image;
 
                     $imageName = time() . '.' . $image->getClientOriginalExtension();
@@ -900,7 +903,7 @@ class UsersController extends BaseController
                 $profile_add->profile = $imageName;
                 $profile_add->save();
                 $user_profile = UserProfile::where('id', $profile_add->id)->select('is_default')->first();
-                // dd($user_profile->is_default);
+
                 $profile_img = asset('storage/profile/' . $profile_add->profile);
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "Profile add", 'profile_id' => $profile_add->id, 'profile' => $profile_img, 'is_default' => $user_profile->is_default]);
