@@ -887,18 +887,19 @@ class UsersController extends BaseController
     {
         try {
             DB::beginTransaction();
+            $checkImageExist = UserProfile::where('user_id', $this->user->id)->count();
             if ($request->type == "add_img") {
 
                 if (!empty($request->profile_image)) {
 
-                    $checkImageExist = UserProfile::where('user_id', $this->user->id)->orderBy('id', 'desc')->first();
-                    echo pathinfo($checkImageExist->profile, PATHINFO_FILENAME);
-                    exit;
-                    // dd(processImageName($checkImageExist->profile));
+
 
                     $image = $request->profile_image;
-
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
+                    $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
+                    if ($checkImageExist != 0) {
+                        $giveNum = $checkImageExist + 1;
+                        $imageName = $this->user->id . '_' . $giveNum . '.' . $image->getClientOriginalExtension();
+                    }
 
                     $image->move(public_path('storage/profile'), $imageName);
                 }
@@ -925,7 +926,11 @@ class UsersController extends BaseController
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
 
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
+                    $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
+                    if ($checkImageExist != 0) {
+                        $giveNum = $checkImageExist + 1;
+                        $imageName = $this->user->id . '_' . $giveNum . '.' . $image->getClientOriginalExtension();
+                    }
 
                     $image->move(public_path('storage/profile'), $imageName);
                 };
