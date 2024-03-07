@@ -315,9 +315,7 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
-        }
-
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
 
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
@@ -536,7 +534,7 @@ class UsersController extends BaseController
 
             if ($user_id) {
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
-                $data['established_year'] = (date('d-m-Y',strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y',strtotime($organization_detail[0]->established_year)) : "";
+                $data['established_year'] = (date('d-m-Y', strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y', strtotime($organization_detail[0]->established_year)) : "";
                 $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
                 $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
                 $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
@@ -573,7 +571,7 @@ class UsersController extends BaseController
                 }
             }
             DB::commit();
-            return response()->json(['status' => true,'message' => "Suceess", 'data' => $data]);
+            return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
         } catch (QueryException $e) {
             DB::rollBack();
 
@@ -606,7 +604,7 @@ class UsersController extends BaseController
                 $data['height_type'] = ($user['userdetail']->height_type != "") ? $user['userdetail']->height_type : "";
                 $data['about_me'] = ($user['userdetail']->about_me != "") ? $user['userdetail']->about_me : "";
                 $data['state_id'] = ($user['userdetail']->state_id != "") ? $user['userdetail']->state_id : "";
-                $data['date_of_birth'] = (date('d-m-Y',strtotime($user['userdetail']->date_of_birth)) != "") ? date('d-m-Y',strtotime($user['userdetail']->date_of_birth)) : "";
+                $data['date_of_birth'] = (date('d-m-Y', strtotime($user['userdetail']->date_of_birth)) != "") ? date('d-m-Y', strtotime($user['userdetail']->date_of_birth)) : "";
                 $data['height'] = ($user['userdetail']->height != "") ? $user['userdetail']->height : "";
                 $data['weight'] = ($user['userdetail']->weight != "") ? $user['userdetail']->weight : "";
                 $data['education'] = ($user['userdetail']->education != "") ? $user['userdetail']->education : "";
@@ -679,7 +677,7 @@ class UsersController extends BaseController
 
                 $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.city', 'userdetail.organization')->where('id', $user_id)->first();
 
-                  $full_name = ($user->full_name != "") ? $user->full_name : "";
+                $full_name = ($user->full_name != "") ? $user->full_name : "";
                 $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
                 $email = ($user->email != "") ? $user->email : "";
                 $data = [];
@@ -866,8 +864,7 @@ class UsersController extends BaseController
             $organization_detail->city = $request->city_id;
             $organization_detail->about_us = $request->about_us;
             $organization_detail->size_of_organization_id = $request->size_of_organization_id;
-            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
-            ;
+            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));;
             $organization_detail->save();
             DB::commit();
             return response()->json(['status' => true, 'message' => "Organization update successfully"]);
@@ -898,7 +895,7 @@ class UsersController extends BaseController
                 $profile_add->profile = $imageName;
                 $profile_add->save();
                 DB::commit();
-                return response()->json(['status' => true, 'message' => "Profile add",'profile_id'=>$profile_add->id]);
+                return response()->json(['status' => true, 'message' => "Profile add", 'profile_id' => $profile_add->id]);
             } else if ($request->type == "delete_img") {
                 $profile_name = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile_name->profile);
@@ -916,13 +913,12 @@ class UsersController extends BaseController
                     $imageName = time() . '.' . $image->getClientOriginalExtension();
 
                     $image->move(public_path('storage/profile'), $imageName);
-                }
-                ;
+                };
                 $profile_img = UserProfile::where('id', $request->profile_id)->first();
                 $profile_img->profile = $imageName;
                 $profile_img->save();
                 DB::commit();
-                return response()->json(['status' => true, 'message' => "Profile  update",'profile_id'=>$profile_img->id]);
+                return response()->json(['status' => true, 'message' => "Profile  update", 'profile_id' => $profile_img->id]);
             }
             DB::commit();
         } catch (QueryException $e) {
@@ -980,7 +976,7 @@ class UsersController extends BaseController
 
             foreach ($result as $val) {
                 $userInfo['id'] = $val->id;
-                $profile = UserProfile::select('profile')->where('is_default', '1')->first();
+                $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                 $userInfo['name'] = $val->full_name;
                 $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('public/storage/profile/' . $profile->profile) : "";
                 $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
@@ -1158,8 +1154,18 @@ class UsersController extends BaseController
     public function manageRequestByMale(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'search_name' => ['string'],
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
 
-            $requests = getManageRequest($type, $this->user->id);
+            $search_name = "";
+            if ($request->search_name != "") {
+                $search_name = $request->search_name;
+            }
+            $requests = getManageRequestByMale($search_name, $this->user->id);
 
             return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
         } catch (QueryException $e) {
@@ -1219,4 +1225,3 @@ class UsersController extends BaseController
         }
     }
 }
-

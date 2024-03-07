@@ -53,7 +53,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('approch_request', [UsersController::class, 'approchRequest'])->middleware('check_user');
     Route::post('show_user_profile', [UsersController::class, 'showUserProfile'])->middleware('check_user');
     Route::post('approach_request', [UsersController::class, 'approachRequest'])->middleware('check_user');
-    Route::post('manage_request', [UsersController::class, 'manageRequest'])->middleware('check_user');
+    Route::post('manage_request_by_male', [UsersController::class, 'manageRequestByMale'])->middleware('check_user');
+    // Route::post('manage_request', [UsersController::class, 'manageRequest'])->middleware('check_user');
 
     // Route::middleware(['check_user'])->group( function () {
     //     Route::get('country_list_login', [ListController::class, 'CountryList']);

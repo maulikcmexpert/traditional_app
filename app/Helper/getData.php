@@ -32,16 +32,22 @@ function getManageRequest($type, $receiver_id)
 
 
 
-function getManageRequestByMale($receiver_id)
+function getManageRequestByMale($search_name, $id)
 {
 
+    if ($search_name != "") {
+        $request =  ApproachRequest::with(['receiver_user' => function ($query) use ($search_name) {
+            $query->where('full_name', 'like', "%$search_name%");
+        }])->where(['sender_id' => $id, 'status' => 'pending'])->get();
+    } else {
 
-    $request =  ApproachRequest::with(['receiver_user'])->where(['receiver_id' => $receiver_id, 'status' => 'pending'])->get();
+        $request =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->get();
+    }
     $userData = [];
 
     foreach ($request as $val) {
         $userInfo['id'] = $val->sender_id;
-        $userInfo['name'] = $val->sender_user->full_name;
+        $userInfo['name'] = $val->receiver_user->full_name;
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
         $userData[] = $userInfo;
