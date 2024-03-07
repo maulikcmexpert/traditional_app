@@ -34,13 +34,36 @@ function getManageRequest($type, $receiver_id)
 
 
 
-function getManageRequestByMale($page, $id)
+function getManageRequestByMale($search_name, $page, $id)
 {
+    $total_page = 0;
+    if ($search_name != "") {
 
-    $totalApprochRequest =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->count();
+        $totalApprochRequest = ApproachRequest::with(['receiver_user' => function ($query) use ($search_name) {
+            $query->where('full_name', 'like', "%$search_name%");
+        }])
+            ->whereHas('receiver_user', function ($query) use ($search_name) {
+                $query->where('full_name', 'like', "%$search_name%");
+            })
+            ->where(['sender_id' => $id, 'status' => 'pending'])
+            ->count();
+        $total_page = ceil($totalApprochRequest / 10);
+        $request = ApproachRequest::with(['receiver_user' => function ($query) use ($search_name) {
+            $query->where('full_name', 'like', "%$search_name%");
+        }])
+            ->whereHas('receiver_user', function ($query) use ($search_name) {
+                $query->where('full_name', 'like', "%$search_name%");
+            })
+            ->where(['sender_id' => $id, 'status' => 'pending'])
+            ->get();
+    } else {
 
-    $total_page = ceil($totalApprochRequest / 10);
-    $request =  ApproachRequest::with(['receiver_user', 'receiver_user.userdetail.city'])->where(['sender_id' => $id, 'status' => 'pending'])->paginate(10, ['*'], 'page', $page);
+        $totalApprochRequest =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->count();
+
+        $total_page = ceil($totalApprochRequest / 10);
+        $request =  ApproachRequest::with(['receiver_user', 'receiver_user.userdetail.city'])->where(['sender_id' => $id, 'status' => 'pending'])->paginate(10, ['*'], 'page', $page);
+    }
+
 
     $userData = [];
     if (count($request) != 0) {

@@ -973,22 +973,37 @@ class UsersController extends BaseController
                 }
             }
 
+
             $users = User::query();
             $users->with([
                 'userdetail',
                 'userdetail.city',
                 'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
+
+            if (isset($request->min) && isset($request->max)) {
+                $minAge = $request->min;
+                $maxAge = $request->max;
+
+                $users->whereHas('userdetail', function ($query) use ($minAge, $maxAge) {
+                    $query->whereBetween('date_of_birth', [
+                        now()->subYears($maxAge)->format('Y-m-d'),
+                        now()->subYears($minAge)->format('Y-m-d'),
+                    ]);
+                });
+            }
             $result = $users->get();
+
 
             $userData = [];
 
             foreach ($result as $val) {
+
                 $userInfo['id'] = $val->id;
                 $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                 $userInfo['name'] = $val->full_name;
                 $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
-                $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
+                $userInfo['age'] = $age;
                 $userInfo['city'] = $val->userdetail->city->city;
                 $userInfo['state'] = $val->userdetail->state->state;
                 $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
@@ -1179,8 +1194,12 @@ class UsersController extends BaseController
             if (isset($request->page) && $request->page != "") {
                 $page = $request->page;
             }
+            $search_name = "";
+            if (isset($request->search_name) && $request->search_name != "") {
+                $search_name = $request->search_name;
+            }
 
-            $requests = getManageRequestByMale($page, $this->user->id);
+            $requests = getManageRequestByMale($search_name, $page, $this->user->id);
             $userData = $requests['userData'];
             $total_page = $requests['total_page'];
 
