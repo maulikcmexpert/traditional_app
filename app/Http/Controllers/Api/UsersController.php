@@ -1144,7 +1144,16 @@ class UsersController extends BaseController
             }
             $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
             if ($checkIsApproched != null) {
-                return response()->json(["status" => false, 'message' => 'You have already approch request to this person']);
+                if ($checkIsApproched->status == 'pending') {
+
+                    return response()->json(["status" => false, 'message' => 'You have already approch request to this person']);
+                }
+                if ($checkIsApproched->status == 'rejected') {
+                    return response()->json(["status" => false, 'message' => 'You have rejected']);
+                }
+                if ($checkIsApproched->status == 'accepted') {
+                    return response()->json(["status" => false, 'message' => 'commited']);
+                }
             }
 
 
