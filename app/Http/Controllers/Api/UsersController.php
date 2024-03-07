@@ -1193,7 +1193,7 @@ class UsersController extends BaseController
     {
         try {
             $validator = Validator::make($request->all(), [
-                'request_id' => ['required', 'integer', 'exists:users,id'],
+                'request_id' => ['required', 'integer', 'exists:approach_requests,id'],
             ]);
 
             if ($validator->fails()) {
