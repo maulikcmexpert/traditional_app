@@ -50,6 +50,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     Route::post('get_show_stopper_ques', [UsersController::class, 'getShowStopperQues'])->middleware('check_user');
     Route::post('check_ques_answer', [UsersController::class, 'checkQuesAnswer'])->middleware('check_user');
+    Route::post('approch_request', [UsersController::class, 'approchRequest'])->middleware('check_user');
+    Route::post('show_user_profile', [UsersController::class, 'showUserProfile'])->middleware('check_user');
     Route::post('approach_request', [UsersController::class, 'approachRequest'])->middleware('check_user');
     Route::post('manage_request', [UsersController::class, 'manageRequest'])->middleware('check_user');
 

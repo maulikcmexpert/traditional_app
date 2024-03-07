@@ -12,6 +12,7 @@ use App\Http\Requests\Api\{
 use App\Models\City;
 
 use App\Models\InterestAndHobby;
+use App\Models\ProfileSeenUser;
 use App\Models\Lifestyle;
 use App\Models\Religion;
 use App\Models\State;
@@ -33,7 +34,7 @@ use App\Models\UserShwstpprQue;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Device;
-use App\Models\ProfileSeenUser;
+
 
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
@@ -259,7 +260,6 @@ class UsersController extends BaseController
             }
             $user->is_verified = '1';
             $user->save();
-
             $this->userDevice($user->id, $request);
             $token = Token::where('user_id', $user->id)->first();
 
@@ -317,11 +317,11 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "db error"]);
         }
 
-        // catch (\Exception $e) {
+        catch (\Exception $e) {
 
 
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
     }
 
     public function storeProfile(StoreProfileRequest $request)
@@ -519,34 +519,46 @@ class UsersController extends BaseController
     }
 
 
-    public function organizationProfile()
+    public function organizationProfile(Request $request)
     {
         try {
             DB::beginTransaction();
             $user_id = $this->user->id;
-            $full_name = $this->user->full_name;
-            $mobile_number = $this->user->mobile_number;
-            $email = $this->user->email;
+            $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
+            $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
+            $email = ($this->user->email != "") ? $this->user->email : "";
             $data = [];
             $data = [
                 'name' => $full_name,
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
+
             if ($user_id) {
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
-                $data['established_year'] = $organization_detail[0]->established_year;
-                $data['address'] = $organization_detail[0]->address;
-                $data['about_us'] = $organization_detail[0]->about_us;
-                $data['state'] = $organization_detail[0]->state;
+                $data['established_year'] = (date('d-m-Y',strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y',strtotime($organization_detail[0]->established_year)) : "";
+                $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
+                $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
+                $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
                 $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
-                $data['state_name'] = $stateVal[0]->state;
-                $data['city'] = $organization_detail[0]->city;
+                $data['state_name'] = "";
+                if (count($stateVal)) {
+                    $data['state_name'] = $stateVal[0]->state;
+                }
+                $data['city'] = ($organization_detail[0]->city != "") ? $organization_detail[0]->city : "";
                 $cityVal = City::where('id', $organization_detail[0]->city)->select('city')->get();
-                $data['city_name'] = $cityVal[0]->city;
+                $data['city_name'] = "";
+                if (count($cityVal)) {
+                    $data['city_name'] = $cityVal[0]->city;
+                }
                 $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
-                $data['size_of_church'] = $sizeofchurch[0]->size_range;
-                $data['size_of_church_id'] = $sizeofchurch[0]->id;
+                $data['size_of_church'] = "";
+                $data['size_of_church_id'] = "";
+                if (count($sizeofchurch)) {
+                    $data['size_of_church'] = $sizeofchurch[0]->size_range;
+                    $data['size_of_church_id'] = $sizeofchurch[0]->id;
+                }
+
                 $user_profile = UserProfile::where('user_id', $user_id)->get();
 
                 $data['profile_image'] = [];
@@ -561,7 +573,7 @@ class UsersController extends BaseController
                 }
             }
             DB::commit();
-            return response()->json(['status' => true, 'data' => $data]);
+            return response()->json(['status' => true,'message' => "Suceess", 'data' => $data]);
         } catch (QueryException $e) {
             DB::rollBack();
 
@@ -576,79 +588,74 @@ class UsersController extends BaseController
 
     public function userProfile(Request $request)
     {
-
         try {
-
             DB::beginTransaction();
             $user_id = $this->user->id;
-            $full_name = $this->user->full_name;
-            $mobile_number = $this->user->mobile_number;
-            $email = $this->user->email;
+            $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
+            $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
+            $email = ($this->user->email != "") ? $this->user->email : "";
             $data = [];
             $data = [
                 'name' => $full_name,
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
+            $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.city', 'userdetail.organization')->where('id', $user_id)->first();
             if ($user_id) {
-                $user_Detail = UserDetail::where('user_id', $user_id)->get();
-                $data['about_me'] = $user_Detail[0]->about_me;
-                $data['state_id'] = $user_Detail[0]->state_id;
-                $data['date_of_birth'] = $user_Detail[0]->date_of_birth;
-                $data['height'] = $user_Detail[0]->height;
-                $data['weight'] = $user_Detail[0]->weight;
-                $data['education'] = $user_Detail[0]->education;
-
-                $data['religion_id'] = $user_Detail[0]->religion_id;
-                $religion_idVal = Religion::where('id', $user_Detail[0]->religion_id)->select('religion')->get();
-                $data['religion_name'] = $religion_idVal[0]->religion;
-                $data['zodiac_sign_id'] = $user_Detail[0]->zodiac_sign_id;
-                $zodiac_signVal = ZodiacSign::where('id', $user_Detail[0]->zodiac_sign_id)->select('zodiac_sign')->get();
-                // dd($zodiac_signVal);
-                $data['zodiac_signs_name'] = $zodiac_signVal[0]->zodiac_sign;
-                $stateVal = State::where('id', $user_Detail[0]->state_id)->select('state')->get();
-                $data['state_name'] = $stateVal[0]->state;
-                $data['city_id'] = $user_Detail[0]->city_id;
-                $cityVal = City::where('id', $user_Detail[0]->city_id)->select('city')->get();
-                $data['city_name'] = $cityVal[0]->city;
-                $data['organization_id'] = $user_Detail[0]->organization_id;
-                $organizationVal = User::where('id', $user_Detail[0]->organization_id)->select('full_name')->get();
-                $data['organization_name'] = $organizationVal[0]->full_name;
+                $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
+                $data['height_type'] = ($user['userdetail']->height_type != "") ? $user['userdetail']->height_type : "";
+                $data['about_me'] = ($user['userdetail']->about_me != "") ? $user['userdetail']->about_me : "";
+                $data['state_id'] = ($user['userdetail']->state_id != "") ? $user['userdetail']->state_id : "";
+                $data['date_of_birth'] = (date('d-m-Y',strtotime($user['userdetail']->date_of_birth)) != "") ? date('d-m-Y',strtotime($user['userdetail']->date_of_birth)) : "";
+                $data['height'] = ($user['userdetail']->height != "") ? $user['userdetail']->height : "";
+                $data['weight'] = ($user['userdetail']->weight != "") ? $user['userdetail']->weight : "";
+                $data['education'] = ($user['userdetail']->education != "") ? $user['userdetail']->education : "";
+                $data['religion_id'] = ($user['userdetail']->religion_id != "") ? $user['userdetail']->religion_id : "";
+                $data['religion_name'] = ($user['userdetail']['religon'] != "") ? $user['userdetail']['religon']->religion : "";
+                $data['zodiac_sign_id'] = ($user['userdetail']->zodiac_sign_id != "") ? $user['userdetail']->zodiac_sign_id : "";
+                $data['zodiac_signs_name'] = ($user['userdetail']['zodiac_sign']->zodiac_sign != "") ? $user['userdetail']['zodiac_sign']->zodiac_sign : "";
+                $data['state_name'] = ($user['userdetail']['state']->state != "") ? $user['userdetail']['state']->state : "";
+                $data['city_id'] = ($user['userdetail']->city_id != "") ? $user['userdetail']->city_id : "";
+                $data['city_name'] = ($user['userdetail']['city']->city != "") ? $user['userdetail']['city']->city : "";
+                $data['organization_id'] = ($user['userdetail']->organization_id != "") ? $user['userdetail']->organization_id : "";
+                $data['organization_name'] = ($user['userdetail']['organization']->full_name != "") ? $user['userdetail']['organization']->full_name : "";
                 $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
-                $lifestyle = [];
-                foreach ($user_lifestyle as $key => $val) {
-                    $lifestyle['id'] = $val->id;
-                    $lifestyleVal = Lifestyle::where('id', $val->lifestyle_id)->select('life_style')->get();
+                $data['life_style'] = [];
+                if (count($user_lifestyle)) {
+                    foreach ($user_lifestyle as $key => $val) {
 
-                    $lifestyle['id'] = $lifestyleVal[0]->life_style;
-                    $data['life_style'][] = $lifestyle;
+                        $lifestyle['id'] = $val->id;
+                        $lifestyleVal = Lifestyle::where('id', $val->lifestyle_id)->select('life_style')->get();
+
+                        $lifestyle['name'] = $lifestyleVal[0]->life_style;
+                        $data['life_style'][] = $lifestyle;
+                    }
                 }
-
                 $user_intrest_hobby = UserInterestAndHobby::where('user_id', $user_id)->get();
-                $intrest_hobby = [];
-                foreach ($user_intrest_hobby as $key => $val) {
-                    $intrest_hobby['id'] = $val->id;
-                    $lifestyleVal = InterestAndHobby::where('id', $val->interest_and_hobby_id)->select('interest_and_hobby')->get();
+                $data['intrest_and_hobby'] = [];
+                if (count($user_intrest_hobby)) {
 
-                    $intrest_hobby['id'] = $lifestyleVal[0]->interest_and_hobby;
-                    $data['intrest_and_hobby'][] = $intrest_hobby;
+                    foreach ($user_intrest_hobby as $key => $val) {
+                        $intrest_hobby['id'] = $val->id;
+                        $lifestyleVal = InterestAndHobby::where('id', $val->interest_and_hobby_id)->select('interest_and_hobby')->get();
+
+                        $intrest_hobby['name'] = $lifestyleVal[0]->interest_and_hobby;
+                        $data['intrest_and_hobby'][] = $intrest_hobby;
+                    }
                 }
                 $user_profile = UserProfile::where('user_id', $user_id)->get();
-                $image = [];
-                if (!empty($user_profile[0])) {
+                $data['profile_image'] = [];
+                if (count($user_profile)) {
                     foreach ($user_profile as $key => $val) {
-                        $data['profile_image'] = "";
                         $image['profile_id'] = $val->id;
                         $image['profile'] = asset('storage/profile/' . $val->profile);
                         $image['is_default'] = $val->is_default;
                         $data['profile_image'][] = $image;
                     }
-                } else {
-                    $data['profile_image'] = "";
                 }
             }
             DB::commit();
-            return response()->json(['status' => true, 'data' => $data]);
+            return response()->json(['status' => true, 'message' => "Success", 'data' => $data]);
         } catch (QueryException $e) {
             DB::rollBack();
 
@@ -671,7 +678,8 @@ class UsersController extends BaseController
                 $addshowprofile->save();
 
                 $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.city', 'userdetail.organization')->where('id', $user_id)->first();
-                $full_name = ($user->full_name != "") ? $user->full_name : "";
+
+                  $full_name = ($user->full_name != "") ? $user->full_name : "";
                 $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
                 $email = ($user->email != "") ? $user->email : "";
                 $data = [];
@@ -705,7 +713,7 @@ class UsersController extends BaseController
                             $lifestyle['id'] = $val->id;
                             $lifestyleVal = Lifestyle::where('id', $val->lifestyle_id)->select('life_style')->get();
 
-                            $lifestyle['id'] = $lifestyleVal[0]->life_style;
+                            $lifestyle['name'] = $lifestyleVal[0]->life_style;
                             $data['life_style'][] = $lifestyle;
                         }
                     }
@@ -717,7 +725,7 @@ class UsersController extends BaseController
                             $intrest_hobby['id'] = $val->id;
                             $lifestyleVal = InterestAndHobby::where('id', $val->interest_and_hobby_id)->select('interest_and_hobby')->get();
 
-                            $intrest_hobby['id'] = $lifestyleVal[0]->interest_and_hobby;
+                            $intrest_hobby['name'] = $lifestyleVal[0]->interest_and_hobby;
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
@@ -792,6 +800,8 @@ class UsersController extends BaseController
             $user_detail->organization_id = $request->organization_id;
             $user_detail->religion_id = $request->religion_id;
             $user_detail->about_me = $request->about_me;
+            $user_detail->height_type = $request->height_type;
+            // dd($user_detail)
             $user_detail->save();
             // UserLifestyle::where('user_id', $user_id)->delete();
             $lifeStyles = $request->life_styles;
@@ -856,7 +866,8 @@ class UsersController extends BaseController
             $organization_detail->city = $request->city_id;
             $organization_detail->about_us = $request->about_us;
             $organization_detail->size_of_organization_id = $request->size_of_organization_id;
-            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));;
+            $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
+            ;
             $organization_detail->save();
             DB::commit();
             return response()->json(['status' => true, 'message' => "Organization update successfully"]);
@@ -887,7 +898,7 @@ class UsersController extends BaseController
                 $profile_add->profile = $imageName;
                 $profile_add->save();
                 DB::commit();
-                return response()->json(['status' => true, 'message' => "Profile add"]);
+                return response()->json(['status' => true, 'message' => "Profile add",'profile_id'=>$profile_add->id]);
             } else if ($request->type == "delete_img") {
                 $profile_name = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile_name->profile);
@@ -898,21 +909,20 @@ class UsersController extends BaseController
             } else if ($request->type == "edit_img") {
                 $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile->profile);
-
                 unlink($filePath);
-
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
 
                     $imageName = time() . '.' . $image->getClientOriginalExtension();
 
                     $image->move(public_path('storage/profile'), $imageName);
-                };
+                }
+                ;
                 $profile_img = UserProfile::where('id', $request->profile_id)->first();
                 $profile_img->profile = $imageName;
                 $profile_img->save();
                 DB::commit();
-                return response()->json(['status' => true, 'message' => "Profile  update"]);
+                return response()->json(['status' => true, 'message' => "Profile  update",'profile_id'=>$profile_img->id]);
             }
             DB::commit();
         } catch (QueryException $e) {
@@ -920,8 +930,6 @@ class UsersController extends BaseController
 
             return response()->json(['status' => false, 'message' => "db error"]);
         } catch (\Exception $e) {
-
-
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
@@ -939,11 +947,8 @@ class UsersController extends BaseController
             $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
             $factory = (new Factory())->withServiceAccount($serviceAccount);
             $database = $factory->createDatabase();
-
             // Retrieve data
             $data = $database->getReference('/user_locations')->getValue();
-
-
             $user_id = $this->user->id;
             $maleIds = array_keys($data['male']);
             $latitude = "0";
@@ -965,10 +970,11 @@ class UsersController extends BaseController
 
             $users = User::query();
             $users->with([
-                'userdetail', 'userdetail.city',
+                'userdetail',
+                'userdetail.city',
                 'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
-            $result =  $users->get();
+            $result = $users->get();
 
             $userData = [];
 
@@ -1023,7 +1029,7 @@ class UsersController extends BaseController
 
     public function checkQuesAnswer(Request $request)
     {
-
+        $user = Auth::guard('api')->user();
         $questioner_user_id = $request->user_id;
         $answers = $request->answers;
 
@@ -1037,11 +1043,11 @@ class UsersController extends BaseController
             } else {
                 $wrongQue[] = $checkAns->question;
             }
-            $checAlreadyAnswer = UserShwstpperAnswr::where(['user_id' => $this->user->id, 'question_id' => $val['question_id']])->first();
+            $checAlreadyAnswer = UserShwstpperAnswr::where(['user_id' => $user->id, 'question_id' => $val['question_id']])->first();
             if ($checAlreadyAnswer == null) {
 
                 $user_shwstpper_answrs = new UserShwstpperAnswr();
-                $user_shwstpper_answrs->user_id = $this->user->id;
+                $user_shwstpper_answrs->user_id = $user->id;
                 $user_shwstpper_answrs->question_id = $val['question_id'];
                 $user_shwstpper_answrs->prefered_answer = $val['prefered_answer'];
                 $user_shwstpper_answrs->answer_status = '0';
@@ -1079,29 +1085,20 @@ class UsersController extends BaseController
                 'type' => ['required', 'string'],
 
             ]);
-
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
-
-            $receiver_id  = $request->user_id;
+            $user = Auth::guard('api')->user();
+            $receiver_id = $request->user_id;
 
             DB::beginTransaction();
 
-            $checkAlreadyApproch = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $receiver_id])->first();
-            if ($checkAlreadyApproch == null) {
-
-                $approch_request = new ApproachRequest();
-                $approch_request->sender_id = $this->user->id;
-                $approch_request->receiver_id = $receiver_id;
-                $approch_request->status = 'pending';
-                $approch_request->type = 'approch';
-                $approch_request->save();
-            } else {
-                $checkAlreadyApproch->status = 'pending';
-                $checkAlreadyApproch->type = 'approch';
-                $checkAlreadyApproch->save();
-            }
+            $approch_request = new ApproachRequest();
+            $approch_request->sender_id = $user->id;
+            $approch_request->receiver_id = $receiver_id;
+            $approch_request->status = 'pending';
+            $approch_request->type = 'approch';
+            $approch_request->save();
             DB::commit();
 
             return response()->json(["status" => true, 'message' => 'Your approach request has been sent successfully!']);
@@ -1177,34 +1174,7 @@ class UsersController extends BaseController
         }
     }
 
-    //  Female role //
 
-    public function manageRequest(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'type' => ['required', 'string']
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            $type = $request->type;
-            $requests = getManageRequest($type, $this->user->id);
-
-            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
-        } catch (QueryException $e) {
-
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
-        }
-    }
 
 
 
@@ -1229,6 +1199,7 @@ class UsersController extends BaseController
     public function userDevice($id, $requestData)
     {
 
+
         if (Device::where('user_id', $id)->exists()) {
             Device::where('user_id', $id)->delete();
         }
@@ -1248,3 +1219,4 @@ class UsersController extends BaseController
         }
     }
 }
+

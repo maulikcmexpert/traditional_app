@@ -11,6 +11,6 @@ class Religion extends Model
 
     public function user_detail()
     {
-        return $this->hasMany(UserDetail::class, 'id', 'religon_id');
+        return $this->hasMany(UserDetail::class, 'id', 'religion_id');
     }
 }
