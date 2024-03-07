@@ -1172,7 +1172,8 @@ class UsersController extends BaseController
             }
 
             $requests = getManageRequestByMale($page, $this->user->id);
-            dd($requests);
+            dd($requests['userData']);
+
             return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
         } catch (QueryException $e) {
 
