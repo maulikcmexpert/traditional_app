@@ -894,7 +894,7 @@ class UsersController extends BaseController
                     $checkImageExist = UserProfile::where('user_id', $this->user->id)->orderBy('id', 'desc')->first();
                     echo pathinfo($checkImageExist->profile, PATHINFO_FILENAME);
                     exit;
-                    dd(processImageName($checkImageExist->profile));
+                    // dd(processImageName($checkImageExist->profile));
 
                     $image = $request->profile_image;
 
