@@ -1003,7 +1003,7 @@ class UsersController extends BaseController
                 $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                 $userInfo['name'] = $val->full_name;
                 $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
-                $userInfo['age'] = $age;
+                $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
                 $userInfo['city'] = $val->userdetail->city->city;
                 $userInfo['state'] = $val->userdetail->state->state;
                 $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
