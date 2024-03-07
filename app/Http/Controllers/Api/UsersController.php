@@ -937,9 +937,10 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+        // catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function getReligion()
