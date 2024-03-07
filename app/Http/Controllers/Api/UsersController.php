@@ -533,11 +533,16 @@ class UsersController extends BaseController
             ];
 
             if ($user_id) {
+
+                $count=UserDetail::where('organization_id',$user_id)->get();
+                // dd($count);
+
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
                 $data['established_year'] = (date('d-m-Y', strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y', strtotime($organization_detail[0]->established_year)) : "";
                 $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
                 $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
                 $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
+                $data['country_code'] = ($this->user->country_code!= "") ? $this->user->country_code : "";
                 $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
                 $data['state_name'] = "";
                 if (count($stateVal)) {
@@ -894,8 +899,11 @@ class UsersController extends BaseController
                 $profile_add->user_id = $this->user->id;
                 $profile_add->profile = $imageName;
                 $profile_add->save();
+                $user_profile=UserProfile::where('id',$profile_add->id)->select('is_default')->first();
+                // dd($user_profile->is_default);
+                $profile_img=asset('storage/profile/' . $profile_add->profile);
                 DB::commit();
-                return response()->json(['status' => true, 'message' => "Profile add", 'profile_id' => $profile_add->id]);
+                return response()->json(['status' => true, 'message' => "Profile add", 'profile_id' => $profile_add->id,'profile'=>$profile_img,'is_default'=>$user_profile->is_default]);
             } else if ($request->type == "delete_img") {
                 $profile_name = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile_name->profile);
@@ -917,8 +925,9 @@ class UsersController extends BaseController
                 $profile_img = UserProfile::where('id', $request->profile_id)->first();
                 $profile_img->profile = $imageName;
                 $profile_img->save();
+                $profile_photo=asset('storage/profile/' . $profile_img->profile);
                 DB::commit();
-                return response()->json(['status' => true, 'message' => "Profile  update", 'profile_id' => $profile_img->id]);
+                return response()->json(['status' => true, 'message' => "Profile  update", 'profile_id' => $profile_img->id,'profile'=>$profile_photo,'is_default'=>$profile_img->is_default]);
             }
             DB::commit();
         } catch (QueryException $e) {
