@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 function distanceCalculation($latitude1, $longitude1, $latitude2, $longitude2)
 {
 

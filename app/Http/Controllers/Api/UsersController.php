@@ -23,7 +23,7 @@ use App\Models\ApproachRequest;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
-
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OrganizationDetail;
 use App\Models\SizeOfOrganization;
@@ -887,11 +887,16 @@ class UsersController extends BaseController
     {
         try {
             DB::beginTransaction();
+            $checkImageExist = UserProfile::where('user_id', $this->user->id)->count();
             if ($request->type == "add_img") {
+
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
-
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
+                    $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
+                    if ($checkImageExist != 0) {
+                        $giveNum = $checkImageExist + 1;
+                        $imageName = $this->user->id . '_' . $giveNum . '.' . $image->getClientOriginalExtension();
+                    }
 
                     $image->move(public_path('storage/profile'), $imageName);
                 }
@@ -900,7 +905,7 @@ class UsersController extends BaseController
                 $profile_add->profile = $imageName;
                 $profile_add->save();
                 $user_profile = UserProfile::where('id', $profile_add->id)->select('is_default')->first();
-                // dd($user_profile->is_default);
+
                 $profile_img = asset('storage/profile/' . $profile_add->profile);
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "Profile add", 'profile_id' => $profile_add->id, 'profile' => $profile_img, 'is_default' => $user_profile->is_default]);
@@ -918,7 +923,11 @@ class UsersController extends BaseController
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
 
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
+                    $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
+                    if ($checkImageExist != 0) {
+                        $giveNum = $checkImageExist + 1;
+                        $imageName = $this->user->id . '_' . $giveNum . '.' . $image->getClientOriginalExtension();
+                    }
 
                     $image->move(public_path('storage/profile'), $imageName);
                 };
@@ -973,17 +982,32 @@ class UsersController extends BaseController
                 }
             }
 
+
             $users = User::query();
             $users->with([
                 'userdetail',
                 'userdetail.city',
                 'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
+
+            if (isset($request->min) && isset($request->max)) {
+                $minAge = $request->min;
+                $maxAge = $request->max;
+
+                $users->whereHas('userdetail', function ($query) use ($minAge, $maxAge) {
+                    $query->whereBetween('date_of_birth', [
+                        now()->subYears($maxAge)->format('Y-m-d'),
+                        now()->subYears($minAge)->format('Y-m-d'),
+                    ]);
+                });
+            }
             $result = $users->get();
+
 
             $userData = [];
 
             foreach ($result as $val) {
+
                 $userInfo['id'] = $val->id;
                 $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                 $userInfo['name'] = $val->full_name;
@@ -999,9 +1023,10 @@ class UsersController extends BaseController
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => "Something went wrong"]);
         }
+        // catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "Something went wrong"]);
+        // }
     }
 
 
@@ -1144,7 +1169,16 @@ class UsersController extends BaseController
             }
             $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
             if ($checkIsApproched != null) {
-                return response()->json(["status" => false, 'message' => 'You have already approch request to this person']);
+                if ($checkIsApproched->status == 'pending') {
+
+                    return response()->json(["status" => false, 'message' => 'You have already approch request to this person']);
+                }
+                if ($checkIsApproched->status == 'rejected') {
+                    return response()->json(["status" => false, 'message' => 'You have rejected']);
+                }
+                if ($checkIsApproched->status == 'accepted') {
+                    return response()->json(["status" => false, 'message' => 'commited']);
+                }
             }
 
 
@@ -1166,13 +1200,20 @@ class UsersController extends BaseController
     {
         try {
 
+            $page = 1;
+            if (isset($request->page) && $request->page != "") {
+                $page = $request->page;
+            }
             $search_name = "";
-            if ($request->search_name != "") {
+            if (isset($request->search_name) && $request->search_name != "") {
                 $search_name = $request->search_name;
             }
-            $requests = getManageRequestByMale($search_name, $this->user->id);
 
-            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
+            $requests = getManageRequestByMale($search_name, $page, $this->user->id);
+            $userData = $requests['userData'];
+            $total_page = $requests['total_page'];
+
+            return response()->json(["status" => true, 'message' => 'All Requests', 'total_page' => $total_page, 'data' => $userData]);
         } catch (QueryException $e) {
 
             DB::rollBack();
@@ -1190,7 +1231,7 @@ class UsersController extends BaseController
     {
         try {
             $validator = Validator::make($request->all(), [
-                'request_id' => ['required', 'integer', 'exists:users,id'],
+                'request_id' => ['required', 'integer', 'exists:approach_requests,id'],
             ]);
 
             if ($validator->fails()) {
@@ -1262,21 +1303,22 @@ class UsersController extends BaseController
     }
 
 
-    public function memberOfOrganization(Request $request){
+    public function memberOfOrganization(Request $request)
+    {
         try {
             DB::beginTransaction();
-            $organization_id=$this->user->id;
-            $get_member=UserDetail::where('organization_id',$organization_id)->select('user_id')->get();
-            $data=[];
+            $organization_id = $this->user->id;
+            $get_member = UserDetail::where('organization_id', $organization_id)->select('user_id')->get();
+            $data = [];
             // $data['user_id']=[];
             // $data['image']
-            foreach($get_member as $val){
-                $get_user_name=User::where('id',$val->user_id)->select('full_name')->first();
-                $profile['user_id']=($val->user_id!="")?$val->user_id:"";
-                $profile['full_name']=($get_user_name->full_name!="")?$get_user_name->full_name:"";
-                $get_profile=UserProfile::where('user_id',$val->user_id)->where('is_default','1')->select('profile')->first();
-                $profile['image']=asset('storage/profile/' . ($get_profile->profile!="")?$get_profile->profile:"");
-                $data[]=$profile;
+            foreach ($get_member as $val) {
+                $get_user_name = User::where('id', $val->user_id)->select('full_name')->first();
+                $profile['user_id'] = ($val->user_id != "") ? $val->user_id : "";
+                $profile['full_name'] = ($get_user_name->full_name != "") ? $get_user_name->full_name : "";
+                $get_profile = UserProfile::where('user_id', $val->user_id)->where('is_default', '1')->select('profile')->first();
+                $profile['image'] = asset('storage/profile/' . ($get_profile->profile != "") ? $get_profile->profile : "");
+                $data[] = $profile;
             }
 
             DB::commit();
