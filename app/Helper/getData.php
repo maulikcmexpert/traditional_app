@@ -1,7 +1,17 @@
 <?php
 
 use App\Models\ApproachRequest;
-use App\Models\UserProfile;
+use App\Models\{
+    Religion,
+    UserProfile
+};
+
+
+function getReligions()
+{
+    return Religion::select('id', 'religion')->get();
+}
+
 
 function getManageRequest($type, $receiver_id)
 {
@@ -14,7 +24,8 @@ function getManageRequest($type, $receiver_id)
         $userInfo['id'] = $val->sender_id;
         $userInfo['name'] = $val->sender_user->full_name;
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
-        dd($getProfile);
-        $userInfo['profile'] = $val->receiver_user->full_name;
+        $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
+        $userData[] = $userInfo;
     }
+    return $userData;
 }

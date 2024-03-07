@@ -17,7 +17,8 @@ use App\Models\{
     UserShwstpprQue,
     UserShwstpperAnswr,
     UserSubscription,
-    Notification
+    Notification,
+    Device
 };
 
 class User extends Authenticatable
@@ -61,6 +62,11 @@ class User extends Authenticatable
     public function organizationdetail()
     {
         return $this->hasOne(OrganizationDetail::class, 'organization_id', 'id');
+    }
+
+    public function device()
+    {
+        return $this->hasOne(Device::class, 'user_id', 'id');
     }
 
     public function user_profile()
