@@ -535,7 +535,7 @@ class UsersController extends BaseController
             if ($user_id) {
 
                 $count=UserDetail::where('organization_id',$user_id)->get();
-                // dd($count);
+                $data['member_count']=(count($count)!="")?count($count):"";
 
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
                 $data['established_year'] = (date('d-m-Y', strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y', strtotime($organization_detail[0]->established_year)) : "";
@@ -987,7 +987,7 @@ class UsersController extends BaseController
                 $userInfo['id'] = $val->id;
                 $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                 $userInfo['name'] = $val->full_name;
-                $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('public/storage/profile/' . $profile->profile) : "";
+                $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
                 $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
                 $userInfo['city'] = $val->userdetail->city->city;
                 $userInfo['state'] = $val->userdetail->state->state;
