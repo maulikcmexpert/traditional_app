@@ -30,31 +30,3 @@ function calculateAge($birthdate, $endDate = null)
     // Return the years part of the interval
     return $ageInterval->y;
 }
-
-
-
-function processImageName($imageName)
-{
-    // Check if the image name contains _0, _1, or _2
-    if (preg_match('/_(0|1|2),/', $imageName)) {
-        // Extract the number after the underscore
-        preg_match('/_(\d+)/', $imageName, $matches);
-        $number = isset($matches[1]) ? $matches[1] : 0;
-    } else {
-        // If not, find the last underscore and add _0
-        $lastUnderscore = strrpos($imageName, '_');
-        $number = is_numeric(substr($imageName, $lastUnderscore + 1)) ? (int)substr($imageName, $lastUnderscore + 1) + 1 : 0;
-
-        // Add _0 to the image name
-        $imageName = Str::finish($imageName, '_') . $number;
-    }
-
-    // Do something with the extracted number or updated image name
-    // For example, you can return the result
-    return $imageName;
-}
-
-// Example usage
-$imageName = "66.jpg";
-$newImageName = processImageName($imageName);
-echo $newImageName;

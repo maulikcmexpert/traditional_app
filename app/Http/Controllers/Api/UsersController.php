@@ -891,9 +891,6 @@ class UsersController extends BaseController
             if ($request->type == "add_img") {
 
                 if (!empty($request->profile_image)) {
-
-
-
                     $image = $request->profile_image;
                     $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
                     if ($checkImageExist != 0) {
