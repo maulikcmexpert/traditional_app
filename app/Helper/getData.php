@@ -21,7 +21,8 @@ function getManageRequest($type, $receiver_id)
     $userData = [];
 
     foreach ($request as $val) {
-        $userInfo['id'] = $val->sender_id;
+        $userInfo['id'] = $val->id;
+        $userInfo['user_id'] = $val->sender_id;
         $userInfo['name'] = $val->sender_user->full_name;
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
