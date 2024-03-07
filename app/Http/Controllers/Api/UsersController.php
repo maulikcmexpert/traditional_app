@@ -1158,18 +1158,10 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
-    public function manageRequest(Request $request)
+    public function manageRequestByMale(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'type' => ['required', 'string']
-            ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            $type = $request->type;
             $requests = getManageRequest($type, $this->user->id);
 
             return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);

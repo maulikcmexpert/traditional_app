@@ -29,3 +29,22 @@ function getManageRequest($type, $receiver_id)
     }
     return $userData;
 }
+
+
+
+function getManageRequestByMale($receiver_id)
+{
+
+
+    $request =  ApproachRequest::with(['receiver_user'])->where(['receiver_id' => $receiver_id, 'status' => 'pending'])->get();
+    $userData = [];
+
+    foreach ($request as $val) {
+        $userInfo['id'] = $val->sender_id;
+        $userInfo['name'] = $val->sender_user->full_name;
+        $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
+        $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
+        $userData[] = $userInfo;
+    }
+    return $userData;
+}
