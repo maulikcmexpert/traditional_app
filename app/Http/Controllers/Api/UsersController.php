@@ -1036,6 +1036,7 @@ class UsersController extends BaseController
 
             if (count($checkShwStopperQues) != 0) {
                 $checkUserAns = UserShwstpperAnswr::where('user_id', $this->user->id)->whereIn('question_id', $checkShwStopperQues)->pluck('answer_status');
+                dd($checkUserAns);
                 if (count($checkUserAns) != 0) {
 
                     if (in_array('0', $checkUserAns)) {
@@ -1090,6 +1091,25 @@ class UsersController extends BaseController
 
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+
+
+    public function logout()
+
+    {
+
+        if (Auth::guard('api')->check()) {
+
+
+            $check = Device::where('user_id', $this->user->id)->first();
+
+            if ($check != null) {
+                $check->delete();
+                Token::where('user_id', $this->user->id)->delete();
+            }
+            return response()->json(['status' => true, 'message' => "Logout successfully"]);
         }
     }
 }
