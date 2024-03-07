@@ -1039,7 +1039,7 @@ class UsersController extends BaseController
 
                 if (count($checkUserAns) != 0) {
 
-                    if (in_array('0', $checkUserAns)) {
+                    if (in_array('0', $checkUserAns->toArray())) {
                         return response()->json(["status" => false, 'message' => 'She is not open for reletionship']);
                     }
                 }
