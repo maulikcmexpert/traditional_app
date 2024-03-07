@@ -46,7 +46,8 @@ function getManageRequestByMale($page, $id)
     if (count($request) != 0) {
 
         foreach ($request as $val) {
-            $userInfo['id'] = $val->receiver_id;
+            $userInfo['id'] = $val->id;
+            $userInfo['user_id'] = $val->receiver_id;
             $userInfo['name'] = $val->receiver_user->full_name;
             $userInfo['city'] = ($val->receiver_user->userdetail->city != null) ? $val->receiver_user->userdetail->city->city : "";
             $getProfile = UserProfile::where(['user_id' => $val->receiver_id, 'is_default' => '1'])->first();
