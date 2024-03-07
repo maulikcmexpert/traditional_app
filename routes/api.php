@@ -52,6 +52,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('check_ques_answer', [UsersController::class, 'checkQuesAnswer'])->middleware('check_user');
     Route::post('approch_request', [UsersController::class, 'approchRequest'])->middleware('check_user');
     Route::post('show_user_profile', [UsersController::class, 'showUserProfile'])->middleware('check_user');
+    Route::post('member_of_organization', [UsersController::class, 'memberOfOrganization'])->middleware('check_user');
     Route::post('approach_request', [UsersController::class, 'approachRequest'])->middleware('check_user');
     Route::post('manage_request_by_male', [UsersController::class, 'manageRequestByMale'])->middleware('check_user');
     Route::post('cancel_request', [UsersController::class, 'cancelRequest'])->middleware('check_user');
