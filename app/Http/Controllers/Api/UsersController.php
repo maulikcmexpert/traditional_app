@@ -1172,9 +1172,10 @@ class UsersController extends BaseController
             }
 
             $requests = getManageRequestByMale($page, $this->user->id);
-            dd($requests['userData']);
+            $userData = $requests['userData'];
+            $total_page = $requests['total_page'];
 
-            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
+            return response()->json(["status" => true, 'message' => 'All Requests', 'total_page' => $total_page, 'data' => $userData]);
         } catch (QueryException $e) {
 
             DB::rollBack();
