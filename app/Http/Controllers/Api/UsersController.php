@@ -990,6 +990,14 @@ class UsersController extends BaseController
                 'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
 
+            if (isset($request->organization_id)) {
+                $organizationId = $request->organization_id;
+
+                $users->whereHas('userdetail', function ($query) use ($organizationId) {
+                    $query->where('organization_id', $organizationId);
+                });
+            }
+
             if (isset($request->min) && isset($request->max)) {
                 $minAge = $request->min;
                 $maxAge = $request->max;
