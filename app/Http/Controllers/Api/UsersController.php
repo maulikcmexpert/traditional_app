@@ -23,7 +23,7 @@ use App\Models\ApproachRequest;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
-
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OrganizationDetail;
 use App\Models\SizeOfOrganization;
@@ -892,7 +892,9 @@ class UsersController extends BaseController
                 if (!empty($request->profile_image)) {
 
                     $checkImageExist = UserProfile::where('user_id', $this->user->id)->orderBy('id', 'desc')->first();
-                    dd(processImageName($$checkImageExist->profile));
+                    echo pathinfo($checkImageExist->profile, PATHINFO_FILENAME);
+                    exit;
+                    dd(processImageName($checkImageExist->profile));
 
                     $image = $request->profile_image;
 
