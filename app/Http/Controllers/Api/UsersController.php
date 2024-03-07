@@ -1154,12 +1154,6 @@ class UsersController extends BaseController
     public function manageRequestByMale(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'search_name' => ['string'],
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
 
             $search_name = "";
             if ($request->search_name != "") {
