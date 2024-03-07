@@ -831,7 +831,11 @@ class UsersController extends BaseController
         }
     }
 
-
+    public function getReligion()
+    {
+        $data = getReligions();
+        return response()->json(["status" => true, 'message' => 'Religion data', 'data' => $data]);
+    }
     public function home(Request $request)
     {
 
@@ -893,6 +897,8 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "Something went wrong"]);
         }
     }
+
+
 
     public function getShowStopperQues(Request $request)
     {

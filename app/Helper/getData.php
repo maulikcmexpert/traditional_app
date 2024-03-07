@@ -1,7 +1,17 @@
 <?php
 
 use App\Models\ApproachRequest;
-use App\Models\UserProfile;
+use App\Models\{
+    Religion,
+    UserProfile
+};
+
+
+function getReligions()
+{
+    return Religion::select('id', 'religion')->all();
+}
+
 
 function getManageRequest($type, $receiver_id)
 {
