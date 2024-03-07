@@ -55,7 +55,7 @@ function getManageRequestByMale($search_name, $page, $id)
                 $query->where('full_name', 'like', "%$search_name%");
             })
             ->where(['sender_id' => $id, 'status' => 'pending'])
-            ->get();
+            ->paginate(10, ['*'], 'page', $page);
     } else {
 
         $totalApprochRequest =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->count();
