@@ -997,6 +997,13 @@ class UsersController extends BaseController
                     $query->where('organization_id', $organizationId);
                 });
             }
+            if (isset($request->religion_id)) {
+                $religionId = $request->religion_id;
+
+                $users->whereHas('userdetail', function ($query) use ($religionId) {
+                    $query->where('religion_id', $religionId);
+                });
+            }
 
             if (isset($request->min) && isset($request->max)) {
                 $minAge = $request->min;
