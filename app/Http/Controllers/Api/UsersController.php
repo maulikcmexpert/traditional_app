@@ -34,7 +34,7 @@ use App\Models\UserShwstpprQue;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Device;
-use App\Models\ProfileSeenUser;
+
 
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
@@ -589,7 +589,6 @@ class UsersController extends BaseController
 
     public function userProfile(Request $request)
     {
-
         try {
             DB::beginTransaction();
             $user_id = $this->user->id;
@@ -603,7 +602,6 @@ class UsersController extends BaseController
                 'email' => $email,
             ];
             $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.city', 'userdetail.organization')->where('id', $user_id)->first();
-
             if ($user_id) {
                 $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
                 $data['height_type'] = ($user['userdetail']->height_type != "") ? $user['userdetail']->height_type : "";
@@ -626,10 +624,11 @@ class UsersController extends BaseController
                 $data['life_style'] = [];
                 if (count($user_lifestyle)) {
                     foreach ($user_lifestyle as $key => $val) {
+
                         $lifestyle['id'] = $val->id;
                         $lifestyleVal = Lifestyle::where('id', $val->lifestyle_id)->select('life_style')->get();
 
-                        $lifestyle['id'] = $lifestyleVal[0]->life_style;
+                        $lifestyle['name'] = $lifestyleVal[0]->life_style;
                         $data['life_style'][] = $lifestyle;
                     }
                 }
@@ -641,7 +640,7 @@ class UsersController extends BaseController
                         $intrest_hobby['id'] = $val->id;
                         $lifestyleVal = InterestAndHobby::where('id', $val->interest_and_hobby_id)->select('interest_and_hobby')->get();
 
-                        $intrest_hobby['id'] = $lifestyleVal[0]->interest_and_hobby;
+                        $intrest_hobby['name'] = $lifestyleVal[0]->interest_and_hobby;
                         $data['intrest_and_hobby'][] = $intrest_hobby;
                     }
                 }
@@ -680,7 +679,8 @@ class UsersController extends BaseController
                 $addshowprofile->save();
 
                 $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.city', 'userdetail.organization')->where('id', $user_id)->first();
-                $full_name = ($user->full_name != "") ? $user->full_name : "";
+
+                  $full_name = ($user->full_name != "") ? $user->full_name : "";
                 $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
                 $email = ($user->email != "") ? $user->email : "";
                 $data = [];
@@ -714,7 +714,7 @@ class UsersController extends BaseController
                             $lifestyle['id'] = $val->id;
                             $lifestyleVal = Lifestyle::where('id', $val->lifestyle_id)->select('life_style')->get();
 
-                            $lifestyle['id'] = $lifestyleVal[0]->life_style;
+                            $lifestyle['name'] = $lifestyleVal[0]->life_style;
                             $data['life_style'][] = $lifestyle;
                         }
                     }
@@ -726,7 +726,7 @@ class UsersController extends BaseController
                             $intrest_hobby['id'] = $val->id;
                             $lifestyleVal = InterestAndHobby::where('id', $val->interest_and_hobby_id)->select('interest_and_hobby')->get();
 
-                            $intrest_hobby['id'] = $lifestyleVal[0]->interest_and_hobby;
+                            $intrest_hobby['name'] = $lifestyleVal[0]->interest_and_hobby;
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
@@ -1183,121 +1183,7 @@ class UsersController extends BaseController
         }
     }
 
-    public function showUserProfile(Request $request)
-    {
-        try {
-            DB::beginTransaction();
-            $user_id = $request->user_id;
-            if ($user_id) {
-                $addshowprofile = new ProfileSeenUser();
-                $addshowprofile->profile_id = $user_id;
-                $addshowprofile->profile_viewer_id = $this->user->id;
-                $addshowprofile->save();
-                $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.city', 'userdetail.organization')->where('id', $user_id)->first();
-                $full_name = ($user->full_name != "") ? $user->full_name : "";
-                $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
-                $email = ($user->email != "") ? $user->email : "";
-                $data = [];
-                $data = [
-                    'name' => $full_name,
-                    'mobile_number' => $mobile_number,
-                    'email' => $email,
-                ];
-                if ($user_id) {
-                    $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
-                    $data['height_type'] = ($user['userdetail']->height_type != "") ? $user['userdetail']->height_type : "";
-                    $data['about_me'] = ($user['userdetail']->about_me != "") ? $user['userdetail']->about_me : "";
-                    $data['state_id'] = ($user['userdetail']->state_id != "") ? $user['userdetail']->state_id : "";
-                    $data['date_of_birth'] = (date('d-m-Y',strtotime($user['userdetail']->date_of_birth)) != "") ? date('d-m-Y',strtotime($user['userdetail']->date_of_birth)) : "";
-                    $data['height'] = ($user['userdetail']->height != "") ? $user['userdetail']->height : "";
-                    $data['weight'] = ($user['userdetail']->weight != "") ? $user['userdetail']->weight : "";
-                    $data['education'] = ($user['userdetail']->education != "") ? $user['userdetail']->education : "";
-                    $data['religion_id'] = ($user['userdetail']->religion_id != "") ? $user['userdetail']->religion_id : "";
-                    $data['religion_name'] = ($user['userdetail']['religon'] != "") ? $user['userdetail']['religon']->religion : "";
-                    $data['zodiac_sign_id'] = ($user['userdetail']->zodiac_sign_id != "") ? $user['userdetail']->zodiac_sign_id : "";
-                    $data['zodiac_signs_name'] = ($user['userdetail']['zodiac_sign']->zodiac_sign != "") ? $user['userdetail']['zodiac_sign']->zodiac_sign : "";
-                    $data['state_name'] = ($user['userdetail']['state']->state != "") ? $user['userdetail']['state']->state : "";
-                    $data['city_id'] = ($user['userdetail']->city_id != "") ? $user['userdetail']->city_id : "";
-                    $data['city_name'] = ($user['userdetail']['city']->city != "") ? $user['userdetail']['city']->city : "";
-                    $data['organization_id'] = ($user['userdetail']->organization_id != "") ? $user['userdetail']->organization_id : "";
-                    $data['organization_name'] = ($user['userdetail']['organization']->full_name != "") ? $user['userdetail']['organization']->full_name : "";
-                    $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
-                    $data['life_style'] = [];
-                    if (count($user_lifestyle)) {
-                        foreach ($user_lifestyle as $key => $val) {
-                            $lifestyle['id'] = $val->id;
-                            $lifestyleVal = Lifestyle::where('id', $val->lifestyle_id)->select('life_style')->get();
 
-                            $lifestyle['id'] = $lifestyleVal[0]->life_style;
-                            $data['life_style'][] = $lifestyle;
-                        }
-                    }
-                    $user_intrest_hobby = UserInterestAndHobby::where('user_id', $user_id)->get();
-                    $data['intrest_and_hobby'] = [];
-                    if (count($user_intrest_hobby)) {
-
-                        foreach ($user_intrest_hobby as $key => $val) {
-                            $intrest_hobby['id'] = $val->id;
-                            $lifestyleVal = InterestAndHobby::where('id', $val->interest_and_hobby_id)->select('interest_and_hobby')->get();
-
-                            $intrest_hobby['id'] = $lifestyleVal[0]->interest_and_hobby;
-                            $data['intrest_and_hobby'][] = $intrest_hobby;
-                        }
-                    }
-                    $user_profile = UserProfile::where('user_id', $user_id)->get();
-
-                    $data['profile_image'] = [];
-                    if (count($user_profile)) {
-                        foreach ($user_profile as $key => $val) {
-                            $image['profile_id'] = $val->id;
-                            $image['profile'] = asset('storage/profile/' . $val->profile);
-                            $image['is_default'] = $val->is_default;
-                            $data['profile_image'][] = $image;
-                        }
-                    }
-                    $approch_check = ApproachRequest::where('sender_id', $this->user->id)->where('type', "approch")->where('status', 'accepted')->get();
-                    $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->get();
-
-                    if (count($approch_check) && $approch_check[0]->status == 'accepted') {
-                        $data['is_approach '] = "not approachable";
-                    } else if (count($check_pending) && $check_pending[0]->status == "accepted") {
-                        $data['is_approach '] = "message";
-                    } else if (count($check_pending) && $check_pending[0]->status == 'pending') {
-
-                        $data['is_approach '] = "withdrawn";
-                    } else {
-                        $data['is_approach'] = "approachable ";
-                    }
-                }
-            }
-            DB::commit();
-            return response()->json(['status' => true, 'message' => "Success", 'data' => $data]);
-        } catch (QueryException $e) {
-        }
-
-            $validator = Validator::make($request->all(), [
-                'type' => ['required', 'string']
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            $type = $request->type;
-            $requests = getManageRequest($type, $this->user->id);
-
-            return response()->json(["status" => true, 'message' => 'All Requests', 'data' => $requests]);
-        } catch (QueryException $e) {
-
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
-        }
-    }
 
 
 
@@ -1322,6 +1208,7 @@ class UsersController extends BaseController
     public function userDevice($id, $requestData)
     {
 
+
         if (Device::where('user_id', $id)->exists()) {
             Device::where('user_id', $id)->delete();
         }
@@ -1340,4 +1227,5 @@ class UsersController extends BaseController
             $device->save();
         }
     }
+}
 
