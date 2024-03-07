@@ -1036,7 +1036,7 @@ class UsersController extends BaseController
 
             if (count($checkShwStopperQues) != 0) {
                 $checkUserAns = UserShwstpperAnswr::where('user_id', $this->user->id)->whereIn('question_id', $checkShwStopperQues)->pluck('answer_status');
-                dd($checkUserAns);
+
                 if (count($checkUserAns) != 0) {
 
                     if (in_array('0', $checkUserAns)) {
