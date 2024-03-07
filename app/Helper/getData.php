@@ -41,14 +41,14 @@ function getManageRequestByMale($page, $id)
 
     $total_page = ceil($totalApprochRequest / 10);
     $request =  ApproachRequest::with(['receiver_user', 'receiver_user.userdetail.city'])->where(['sender_id' => $id, 'status' => 'pending'])->paginate(10, ['*'], 'page', $page);
-    dd($request);
+
     $userData = [];
     if (count($request) != 0) {
 
         foreach ($request as $val) {
             $userInfo['id'] = $val->receiver_id;
             $userInfo['name'] = $val->receiver_user->full_name;
-            $userInfo['city'] = $val->receiver_user->full_name;
+            $userInfo['city'] = ($val->receiver_user->userdetail->city != null) ? $val->receiver_user->userdetail->city->city : "";
             $getProfile = UserProfile::where(['user_id' => $val->receiver_id, 'is_default' => '1'])->first();
             $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
             $userData[] = $userInfo;
