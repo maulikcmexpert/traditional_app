@@ -267,9 +267,7 @@ class UsersController extends BaseController
             if ($token) {
                 $token->delete();
             }
-
-
-            $token = Auth::user()->createToken('API Token')->accessToken;
+            $token = Auth::user()->createToken('appToken')->accessToken;
             $step = "Home";
 
             if ($user->user_type == 'user') {
