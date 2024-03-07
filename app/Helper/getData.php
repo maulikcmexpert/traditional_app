@@ -44,13 +44,15 @@ function getManageRequestByMale($search_name, $id)
         $request =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->get();
     }
     $userData = [];
+    if (count($request) != 0) {
 
-    foreach ($request as $val) {
-        $userInfo['id'] = $val->receiver_id;
-        $userInfo['name'] = $val->receiver_user->full_name;
-        $getProfile = UserProfile::where(['user_id' => $val->receiver_id, 'is_default' => '1'])->first();
-        $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
-        $userData[] = $userInfo;
+        foreach ($request as $val) {
+            $userInfo['id'] = $val->receiver_id;
+            $userInfo['name'] = $val->receiver_user->full_name;
+            $getProfile = UserProfile::where(['user_id' => $val->receiver_id, 'is_default' => '1'])->first();
+            $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
+            $userData[] = $userInfo;
+        }
     }
     return $userData;
 }
