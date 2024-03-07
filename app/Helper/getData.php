@@ -46,9 +46,9 @@ function getManageRequestByMale($search_name, $id)
     $userData = [];
 
     foreach ($request as $val) {
-        $userInfo['id'] = $val->sender_id;
+        $userInfo['id'] = $val->receiver_id;
         $userInfo['name'] = $val->receiver_user->full_name;
-        $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
+        $getProfile = UserProfile::where(['user_id' => $val->receiver_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
         $userData[] = $userInfo;
     }
