@@ -1026,7 +1026,7 @@ class UsersController extends BaseController
             }
             $result = $users->get();
 
-            dd($result);
+
             $userData = [];
 
             foreach ($result as $val) {
