@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use App\Rules\CustomEmailValidation;
+use App\Rules\MobileNumberValidation;
 class UserValidate extends FormRequest
 {
     /**
@@ -29,7 +30,7 @@ class UserValidate extends FormRequest
         return [
             'full_name' => ['required', 'string', 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
-            'mobile_number' => ['required', 'string', 'max:13', 'unique:users,mobile_number'],
+            'mobile_number' => ['required', new MobileNumberValidation,'string', 'min:10','max:13', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             'date_of_birth' => ['required'],
             'state_id' => ['required', 'integer'],
