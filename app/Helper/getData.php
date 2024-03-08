@@ -28,7 +28,7 @@ function getManageRequest($type, $page, $receiver_id)
         $userInfo['name'] = $val->sender_user->full_name;
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
-        $userInfo['request_time'] = setpostTime($request->created_at);
+        $userInfo['request_time'] = setpostTime($val->created_at);
         $userData[] = $userInfo;
     }
 
