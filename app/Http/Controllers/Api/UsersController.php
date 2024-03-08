@@ -759,12 +759,12 @@ class UsersController extends BaseController
                     $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->get();
 
                     if (count($approch_check) && $approch_check[0]->status == 'accepted') {
-                        $data['is_approach '] = "not approachable";
+                        $data['is_approach'] = "not approachable";
                     } else if (count($check_pending) && $check_pending[0]->status == "accepted") {
-                        $data['is_approach '] = "message";
+                        $data['is_approach'] = "message";
                     } else if (count($check_pending) && $check_pending[0]->status == 'pending') {
 
-                        $data['is_approach '] = "withdrawn";
+                        $data['is_approach'] = "withdrawn";
                     } else {
                         $data['is_approach'] = "approachable";
                     }
