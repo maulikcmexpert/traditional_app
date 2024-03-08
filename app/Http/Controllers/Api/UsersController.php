@@ -1336,10 +1336,20 @@ class UsersController extends BaseController
     public function acceptRejectByFemale(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'user_id' => ['required', 'integer', 'exists:users,id'],
-                'type' => ['required', 'string', 'in:accepted,rejected']
-            ]);
+            if ($request->type == 'rejected') {
+                $validator = Validator::make($request->all(), [
+                    'user_id' => ['required', 'integer', 'exists:users,id'],
+                    'type' => ['required', 'string', 'in:accepted,rejected'],
+                    'message' => ['required', 'string']
+                ]);
+            } else {
+
+                $validator = Validator::make($request->all(), [
+                    'user_id' => ['required', 'integer', 'exists:users,id'],
+                    'type' => ['required', 'string', 'in:accepted,rejected'],
+
+                ]);
+            }
 
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
