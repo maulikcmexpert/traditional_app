@@ -60,19 +60,7 @@ class UsersController extends BaseController
         $this->user = Auth::guard('api')->user();
     }
 
-    public function country_list(Request $request)
-    {
 
-        $country = $request->country;
-        foreach ($country as $val) {
-            $country = new Country();
-            $country->country_code = $val['dial_code'];
-            $country->iso = $val['code'];
-            $country->country = $val['name'];
-            $country->save();
-        }
-        return "done";
-    }
     public function userSignup(UserValidate $request)
     {
         try {
