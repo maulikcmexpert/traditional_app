@@ -1325,7 +1325,6 @@ class UsersController extends BaseController
 
 
             $data = [];
-
             foreach ($get_member as $val) {
 
                 $profile['user_id'] = $val->user_id;
