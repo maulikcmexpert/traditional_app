@@ -1294,6 +1294,35 @@ class UsersController extends BaseController
     }
 
 
+    public function searchUser(Request $request)
+    {
+        try {
+
+            $page = 1;
+            if (isset($request->page) && $request->page != "") {
+                $page = $request->page;
+            }
+            $search_name = "";
+            if (isset($request->search_name) && $request->search_name != "") {
+                $search_name = $request->search_name;
+            }
+
+            $requests = getSearchUser($search_name, $page);
+            $userData = $requests['userData'];
+            $total_page = $requests['total_page'];
+
+            return response()->json(["status" => true, 'message' => 'Users', 'total_page' => $total_page, 'data' => $userData]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
 
 
     public function cancelRequest(Request $request)
