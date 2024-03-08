@@ -1262,7 +1262,11 @@ class UsersController extends BaseController
             if (isset($request->page) && $request->page != "") {
                 $page = $request->page;
             }
-            $type = $request->type;
+
+            $type = "pending";
+            if (isset($request->type) && $request->type != "") {
+                $type = $request->type;
+            }
 
             $requests = getManageRequest($type, $page, $this->user->id);
             $userData = $requests['userData'];
