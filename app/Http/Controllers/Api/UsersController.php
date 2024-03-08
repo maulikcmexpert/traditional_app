@@ -990,7 +990,7 @@ class UsersController extends BaseController
                 }
             }
 
-
+            dd($femaleDataArray);
             $users = User::query();
             $users->with([
                 'userdetail',
