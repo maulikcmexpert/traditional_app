@@ -689,7 +689,7 @@ class UsersController extends BaseController
                 $addshowprofile->save();
 
                 $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization')->where('id', $user_id)->first();
-                dd($user);
+
                 $full_name = ($user->full_name != "") ? $user->full_name : "";
                 $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
                 $email = ($user->email != "") ? $user->email : "";
