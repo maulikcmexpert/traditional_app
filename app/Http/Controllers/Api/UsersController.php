@@ -990,7 +990,7 @@ class UsersController extends BaseController
                 }
             }
 
-            dd($femaleDataArray);
+
             $users = User::query();
             $users->with([
                 'userdetail',
@@ -1026,7 +1026,7 @@ class UsersController extends BaseController
             }
             $result = $users->get();
 
-
+            dd($result);
             $userData = [];
 
             foreach ($result as $val) {
