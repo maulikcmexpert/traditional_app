@@ -70,7 +70,7 @@ class UsersController extends BaseController
 
             $getCountry = Country::where('iso', $request->country_code)->first();
 
-            $user->country_id = $request->getCountry->id;
+            $user->country_id = $getCountry->id;
             $user->country_code = $request->country_dial;
             $user->mobile_number = $request->mobile_number;
             $user->email = $request->email;
