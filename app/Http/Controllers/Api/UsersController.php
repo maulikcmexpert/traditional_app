@@ -58,7 +58,6 @@ class UsersController extends BaseController
 
         $this->perPage = 5;
         $this->user = Auth::guard('api')->user();
-        dd($this->user->userdetail->gender);
     }
 
 
@@ -796,8 +795,15 @@ class UsersController extends BaseController
                                 }
                             }
                         } else {
-                            // if($this->user->userdetail->gender);
-                            $status = $this->checkRelationStatus($user_id);
+                            if ($this->user->userdetail->gender == 'male') {
+
+                                $status = $this->checkRelationStatus($user_id);
+                                if($status == 'pending'){
+                                    $data['is_approach'] = "cancel";
+                                }elseif($status == 'accepted'){
+                                    $data['is_approach'] = "message";
+                                }
+                            }
                         }
                     }
                 }
@@ -825,21 +831,20 @@ class UsersController extends BaseController
             if (count($checkUserAns) != 0) {
 
                 if (in_array('0', $checkUserAns->toArray())) {
-                    return response()->json(["status" => false, 'message' => 'She is not open for reletionship']);
+                    return "question_wrong";
                 }
             }
         }
-        $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
+        $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->first();
         if ($checkIsApproched != null) {
             if ($checkIsApproched->status == 'pending') {
 
-                return response()->json(["status" => false, 'message' => 'You have already approach request to this person']);
+                return $checkIsApproched->status;
             }
             if ($checkIsApproched->status == 'rejected') {
-                return response()->json(["status" => false, 'message' => 'You have rejected']);
-            }
+                return $checkIsApproched->status;
             if ($checkIsApproched->status == 'accepted') {
-                return response()->json(["status" => false, 'message' => 'commited']);
+                return $checkIsApproched->status;
             }
         }
 
