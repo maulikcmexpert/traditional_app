@@ -120,7 +120,10 @@ class UsersController extends BaseController
 
             $organization = new User();
             $organization->full_name = $request->organization_name;
-            $organization->country_code = $request->country_code;
+            $getCountry = Country::where('iso', $request->country_code)->first();
+
+            $organization->country_id = $getCountry->id;
+            $organization->country_code = $request->country_dial;
             $organization->mobile_number = $request->mobile_number;
             $organization->email = $request->email;
             $organization->user_type = 'organization';
@@ -149,7 +152,7 @@ class UsersController extends BaseController
                 $organization_detail->organization_id = $organizationId;
                 $organization_detail->size_of_organization_id = $request->size_of_organization;
                 $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));
-                $organization_detail->city = $request->city_id;
+                $organization_detail->city = $request->city;
                 $organization_detail->state = $request->state_id;
                 $organization_detail->address = $request->address;
                 // $organization_detail->about_us = $request->about_us;
