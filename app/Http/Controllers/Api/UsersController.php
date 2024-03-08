@@ -1263,11 +1263,19 @@ class UsersController extends BaseController
                 $page = $request->page;
             }
             $type = $request->type;
+
             $requests = getManageRequest($type, $page, $this->user->id);
             $userData = $requests['userData'];
             $total_page = $requests['total_page'];
-
-            return response()->json(["status" => true, 'message' => $type . ' Requests', 'total_page' => $total_page, 'data' => $userData]);
+            $msg = "";
+            if ($type == 'pending') {
+                $msg = "Pending";
+            } elseif ($type == 'rejected') {
+                $msg = "Rejected";
+            } elseif ($type == 'accepted') {
+                $msg = "Accepted";
+            }
+            return response()->json(["status" => true, 'message' => $msg . ' Requests', 'total_page' => $total_page, 'data' => $userData]);
         } catch (QueryException $e) {
 
             DB::rollBack();
