@@ -94,23 +94,26 @@ function getManageRequestByMale($search_name, $page, $id)
 
 function getSearchUser($search_name, $page)
 {
+
     $total_page = 0;
-    $totalData = User::with(['userdetail'])->where('full_name', 'like', "%$search_name%")->count();
-    $total_page = ceil($totalData / 10);
-
-    $userData = User::with(['userdetail'])->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
-
 
     $userData = [];
-    if (count($userData) != 0) {
+    if ($search_name != "") {
 
-        foreach ($userData as $val) {
-            $userInfo['id'] = $val->id;
-            $userInfo['name'] = $val->full_name;
-            $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
-            $getProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
-            $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
-            $userData[] = $userInfo;
+        $totalData = User::with(['userdetail'])->where('full_name', 'like', "%$search_name%")->count();
+        $total_page = ceil($totalData / 10);
+
+        $users = User::with(['userdetail'])->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
+        if (count($users) != 0) {
+
+            foreach ($userData as $val) {
+                $userInfo['id'] = $val->id;
+                $userInfo['name'] = $val->full_name;
+                $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
+                $getProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
+                $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
+                $userData[] = $userInfo;
+            }
         }
     }
     return array('userData' => $userData, 'total_page' => $total_page);
