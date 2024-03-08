@@ -1333,7 +1333,8 @@ class UsersController extends BaseController
                 $profile['full_name'] = ($val->user->full_name != "") ? $val->user->full_name  : "";
                 $profile['image']  = "";
                 if (count($val->user->user_profile) != 0) {
-
+                    echo "1";
+                    exit;
                     $profile['image'] = asset('storage/profile/' . $val->user->user_profile->profile);
                 }
                 $data[] = $profile;
