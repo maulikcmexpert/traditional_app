@@ -1199,7 +1199,7 @@ class UsersController extends BaseController
             if ($checkIsApproched != null) {
                 if ($checkIsApproched->status == 'pending') {
 
-                    return response()->json(["status" => false, 'message' => 'You have already approch request to this person']);
+                    return response()->json(["status" => false, 'message' => 'You have already approach request to this person']);
                 }
                 if ($checkIsApproched->status == 'rejected') {
                     return response()->json(["status" => false, 'message' => 'You have rejected']);
