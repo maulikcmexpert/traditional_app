@@ -948,7 +948,7 @@ class UsersController extends BaseController
         }
     }
 
-    public function getReligion()
+    public function religionList()
     {
         $data = getReligions();
         return response()->json(["status" => true, 'message' => 'Religion data', 'data' => $data]);
