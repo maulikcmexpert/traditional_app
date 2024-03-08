@@ -14,11 +14,12 @@ function getReligions()
 }
 
 
-function getManageRequest($type, $receiver_id)
+function getManageRequest($type, $page, $receiver_id)
 {
 
-
-    $request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->get();
+    $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->count();
+    $total_page  = ceil($total_request / 10);
+    $request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->paginate(10, ['*'], 'page', $page);
     $userData = [];
 
     foreach ($request as $val) {
@@ -29,7 +30,8 @@ function getManageRequest($type, $receiver_id)
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
         $userData[] = $userInfo;
     }
-    return $userData;
+
+    return array('userData' => $userData, 'total_page' => $total_page);
 }
 
 

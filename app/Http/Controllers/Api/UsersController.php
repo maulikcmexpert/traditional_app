@@ -1247,12 +1247,37 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        // catch (\Exception $e) {
+    }
+
+    public function manageRequest(Request $request)
+    {
+        try {
+
+            $page = 1;
+            if (isset($request->page) && $request->page != "") {
+                $page = $request->page;
+            }
+            $type = $request->type;
+            $requests = getManageRequest($type, $page, $this->user->id);
+            $userData = $requests['userData'];
+            $total_page = $requests['total_page'];
+
+            return response()->json(["status" => true, 'message' => $type . ' Requests', 'total_page' => $total_page, 'data' => $userData]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
 
 
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
     }
 
 
