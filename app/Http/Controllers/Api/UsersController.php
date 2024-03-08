@@ -66,9 +66,9 @@ class UsersController extends BaseController
         $country = $request->country;
         foreach ($country as $val) {
             $country = new Country();
-            $country->country_code = $val->dial_code;
-            $country->iso = $val->code;
-            $country->country = $val->name;
+            $country->country_code = $val['dial_code'];
+            $country->iso = $val['code'];
+            $country->country = $val['name'];
             $country->save();
         }
         return "done";
