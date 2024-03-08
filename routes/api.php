@@ -43,7 +43,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('update_user_profile', [UsersController::class, 'updateUserprofile'])->middleware('check_user');
     Route::post('update_organization_profile', [UsersController::class, 'updateOrganizationprofile'])->middleware('check_user');
     Route::post('update_profile_photo', [UsersController::class, 'updateProfilePhoto'])->middleware('check_user');
-    Route::get('religion_list', [UsersController::class, 'religionList'])->middleware('check_user');
+    Route::get('religion_list', [UsersController::class, 'religionList']);
     Route::post('home', [UsersController::class, 'home'])->middleware('check_user');
     Route::post('check_user_approach_status', [UsersController::class, 'checkUserApproachStatus'])->middleware('check_user');
 
