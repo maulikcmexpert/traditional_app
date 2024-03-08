@@ -1323,7 +1323,7 @@ class UsersController extends BaseController
                 $query->where('is_default', '1');
             }])->where('organization_id', $organization_id)->select('user_id')->get();
 
-            dd($get_member);
+
             $data = [];
             // $data['user_id']=[];
             // $data['image']
