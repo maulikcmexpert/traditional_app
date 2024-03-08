@@ -58,6 +58,7 @@ class UsersController extends BaseController
 
         $this->perPage = 5;
         $this->user = Auth::guard('api')->user();
+        dd($this->user->userdetail->gender);
     }
 
 
@@ -705,7 +706,8 @@ class UsersController extends BaseController
                     'mobile_number' => $mobile_number,
                     'email' => $email,
                 ];
-                if ($user_id) {
+                if ($user != null) {
+
                     $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
                     $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
                     $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
@@ -755,18 +757,48 @@ class UsersController extends BaseController
                             $data['profile_image'][] = $image;
                         }
                     }
-                    $approch_check = ApproachRequest::where('sender_id', $this->user->id)->where('type', "approch")->where('status', 'accepted')->first();
-                    $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
 
-                    if ($approch_check != null && $approch_check->status == 'accepted') {
-                        $data['is_approach'] = "not approachable";
-                    } else if ($check_pending != null && $check_pending->status == "accepted") {
-                        $data['is_approach'] = "message";
-                    } else if ($check_pending != null && $check_pending->status == 'pending') {
+                    if ($user->userdetail->gender == 'male') {
+                        $approch_check = ApproachRequest::where(' ', $this->user->id)->where('type', "approch")->where('status', 'accepted')->first();
+                        $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
 
-                        $data['is_approach'] = "withdrawn";
-                    } else {
-                        $data['is_approach'] = "approachable";
+                        if ($approch_check != null && $approch_check->status == 'accepted') {
+                            $data['is_approach'] = "not approachable";
+                        } else if ($check_pending != null && $check_pending->status == "accepted") {
+                            $data['is_approach'] = "message";
+                        } else if ($check_pending != null && $check_pending->status == 'pending') {
+
+                            $data['is_approach'] = "withdrawn";
+                        } else {
+                            $data['is_approach'] = "approachable";
+                        }
+                    } else if ($user->userdetail->gender == 'female') {
+
+                        $approch_check = ApproachRequest::where('sender_id', $this->user->id)->withTrashed()->ordeBy('id', 'DESC')->first();
+                        // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
+                        if ($approch_check != null) {
+
+                            if ($approch_check->status == 'accepted') {
+                                $data['is_approach'] = "message";
+                            } else if ($approch_check->status == 'pending') {
+                                $data['is_approach'] = "cancel";
+                            } else if ($approch_check->status == 'cancel') {
+
+
+                                $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
+                                $seenProfileUser = $this->getLoginUserLatlog($user_id);
+
+                                $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
+
+                                $data['is_approach'] = "friend";
+                                if ($distance <= 5) {
+                                    $data['is_approach'] = "approach";
+                                }
+                            }
+                        } else {
+                            // if($this->user->userdetail->gender);
+                            $status = $this->checkRelationStatus($user_id);
+                        }
                     }
                 }
             }
@@ -780,6 +812,70 @@ class UsersController extends BaseController
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+    }
+
+    public function checkRelationStatus($user_id)
+    {
+        $checkShwStopperQues = UserShwstpprQue::where('user_id', $user_id)->pluck('id');
+
+        if (count($checkShwStopperQues) != 0) {
+            $checkUserAns = UserShwstpperAnswr::where('user_id', $this->user->id)->whereIn('question_id', $checkShwStopperQues)->pluck('answer_status');
+
+
+            if (count($checkUserAns) != 0) {
+
+                if (in_array('0', $checkUserAns->toArray())) {
+                    return response()->json(["status" => false, 'message' => 'She is not open for reletionship']);
+                }
+            }
+        }
+        $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
+        if ($checkIsApproched != null) {
+            if ($checkIsApproched->status == 'pending') {
+
+                return response()->json(["status" => false, 'message' => 'You have already approach request to this person']);
+            }
+            if ($checkIsApproched->status == 'rejected') {
+                return response()->json(["status" => false, 'message' => 'You have rejected']);
+            }
+            if ($checkIsApproched->status == 'accepted') {
+                return response()->json(["status" => false, 'message' => 'commited']);
+            }
+        }
+
+
+
+        return response()->json(["status" => true, 'message' => 'you are elegible']);
+    }
+
+    public function getLoginUserLatlog($user_id)
+    {
+        $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
+        $factory = (new Factory())->withServiceAccount($serviceAccount);
+        $database = $factory->createDatabase();
+        // Retrieve data
+        $data = $database->getReference('/user_locations')->getValue();
+
+        $loginUserGender = UserDetail::select('gender')->where('user_id', $user_id)->first();
+        $latitude = "0";
+        $longitude = "0";
+        if ($loginUserGender->gender == 'male') {
+
+            $maleIds = array_keys($data['male']);
+            if (in_array($user_id, $maleIds)) {
+                $loginUserData = $data['male'][$user_id];
+                $latitude = $loginUserData['latitude'];
+                $longitude = $loginUserData['longitude'];
+            }
+        } elseif ($loginUserGender->gender == 'female') {
+            $femaleIds = array_keys($data['female']);
+            if (in_array($user_id, $femaleIds)) {
+                $loginUserData = $data['female'][$user_id];
+                $latitude = $loginUserData['latitude'];
+                $longitude = $loginUserData['longitude'];
+            }
+        }
+        return array("latitude" => $latitude, 'longitude' => $longitude);
     }
 
     public function updateUserprofile(Request $request)
