@@ -990,14 +990,14 @@ class UsersController extends BaseController
                 'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
 
-            if (isset($request->organization_id)) {
+            if (isset($request->organization_id) && $request->organization_id != 0) {
                 $organizationId = $request->organization_id;
 
                 $users->whereHas('userdetail', function ($query) use ($organizationId) {
                     $query->where('organization_id', $organizationId);
                 });
             }
-            if (isset($request->religion_id)) {
+            if (isset($request->religion_id) && $request->religion_id != 0) {
                 $religionId = $request->religion_id;
 
                 $users->whereHas('userdetail', function ($query) use ($religionId) {
