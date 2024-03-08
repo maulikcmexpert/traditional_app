@@ -755,14 +755,14 @@ class UsersController extends BaseController
                             $data['profile_image'][] = $image;
                         }
                     }
-                    $approch_check = ApproachRequest::where('sender_id', $this->user->id)->where('type', "approch")->where('status', 'accepted')->get();
-                    $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->get();
+                    $approch_check = ApproachRequest::where('sender_id', $this->user->id)->where('type', "approch")->where('status', 'accepted')->orderBy('id', 'DESC')->first();
+                    $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->orderBy('id', 'DESC')->first();
 
-                    if (count($approch_check) && $approch_check[0]->status == 'accepted') {
+                    if (count($approch_check) && $approch_check->status == 'accepted') {
                         $data['is_approach'] = "not approachable";
-                    } else if (count($check_pending) && $check_pending[0]->status == "accepted") {
+                    } else if (count($check_pending) && $check_pending->status == "accepted") {
                         $data['is_approach'] = "message";
-                    } else if (count($check_pending) && $check_pending[0]->status == 'pending') {
+                    } else if (count($check_pending) && $check_pending->status == 'pending') {
 
                         $data['is_approach'] = "withdrawn";
                     } else {
