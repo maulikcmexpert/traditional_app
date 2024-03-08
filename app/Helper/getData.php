@@ -100,7 +100,7 @@ function getSearchUser($search_name, $page, $user_id)
     $userData = [];
     if ($search_name != "") {
 
-        $totalData = User::with(['userdetail'])->where('full_name', 'like', "%$search_name%")->count();
+        $totalData = User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->count();
         $total_page = ceil($totalData / 10);
 
         $users = User::with(['userdetail'])->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
