@@ -483,7 +483,8 @@ class UsersController extends BaseController
 
             DB::commit();
 
-            return response()->json(["status" => true, 'message' => 'Love language rates are updated']);
+
+            return response()->json(["status" => true, 'message' => 'Love language rates are updated', 'profile' => getProfile($this->user->id)]);
         } catch (QueryException $e) {
 
             DB::rollBack();

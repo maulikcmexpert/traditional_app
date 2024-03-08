@@ -80,3 +80,14 @@ function getManageRequestByMale($search_name, $page, $id)
     }
     return array('userData' => $userData, 'total_page' => $total_page);
 }
+
+function getProfile($user_id)
+{
+
+    $singleProfile = "";
+    $profile = UserProfile::where(['user_id' => $user_id, 'is_default' => '1'])->first();
+    if ($profile != null) {
+        $singleProfile = asset('public/storage/profile' . $profile->profile);
+    }
+    return $singleProfile;
+}
