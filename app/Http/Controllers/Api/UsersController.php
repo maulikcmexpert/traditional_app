@@ -798,9 +798,9 @@ class UsersController extends BaseController
                             if ($this->user->userdetail->gender == 'male') {
 
                                 $status = $this->checkRelationStatus($user_id);
-                                if($status == 'pending'){
+                                if ($status == 'pending') {
                                     $data['is_approach'] = "cancel";
-                                }elseif($status == 'accepted'){
+                                } elseif ($status == 'accepted') {
                                     $data['is_approach'] = "message";
                                 }
                             }
@@ -843,14 +843,15 @@ class UsersController extends BaseController
             }
             if ($checkIsApproched->status == 'rejected') {
                 return $checkIsApproched->status;
-            if ($checkIsApproched->status == 'accepted') {
-                return $checkIsApproched->status;
+                if ($checkIsApproched->status == 'accepted') {
+                    return $checkIsApproched->status;
+                }
             }
+
+
+
+            return response()->json(["status" => true, 'message' => 'you are elegible']);
         }
-
-
-
-        return response()->json(["status" => true, 'message' => 'you are elegible']);
     }
 
     public function getLoginUserLatlog($user_id)
