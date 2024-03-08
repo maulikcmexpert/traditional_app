@@ -10,7 +10,7 @@ use App\Models\{
 
 function getReligions()
 {
-    return Religion::select('id', 'religion')->get();
+    return Religion::select('id', 'religion as name')->get();
 }
 
 
