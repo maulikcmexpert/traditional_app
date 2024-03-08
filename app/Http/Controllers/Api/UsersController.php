@@ -19,7 +19,7 @@ use App\Models\State;
 use App\Models\ZodiacSign;
 
 use App\Models\ApproachRequest;
-
+use App\Models\Country;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
@@ -60,7 +60,19 @@ class UsersController extends BaseController
         $this->user = Auth::guard('api')->user();
     }
 
+    public function country_list(Request $request)
+    {
 
+        $country = $request->country;
+        foreach ($country as $val) {
+            $country = new Country();
+            $country->country_code = $val->dial_code;
+            $country->iso = $val->code;
+            $country->country = $val->name;
+            $country->save();
+        }
+        return "done";
+    }
     public function userSignup(UserValidate $request)
     {
         try {
@@ -1242,14 +1254,14 @@ class UsersController extends BaseController
     {
         try {
             $validator = Validator::make($request->all(), [
-                'request_id' => ['required', 'integer', 'exists:approach_requests,id'],
+                'user_id' => ['required', 'integer', 'exists:users,id'],
             ]);
 
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
 
-            $cancelRequest = ApproachRequest::where(['id' => $request->request_id])->first();
+            $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->receiver_id])->first();
 
             if ($cancelRequest != null) {
                 $cancelRequest->status = 'cancel';
@@ -1314,6 +1326,7 @@ class UsersController extends BaseController
     }
 
 
+
     public function memberOfOrganization(Request $request)
     {
         try {
@@ -1346,9 +1359,8 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        // catch (\Exception $e) {
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 }
