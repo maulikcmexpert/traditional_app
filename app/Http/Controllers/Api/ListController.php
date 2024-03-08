@@ -27,6 +27,13 @@ class ListController extends BaseController
         return $this->sendResponse(__('messages.state_list'), $state);
     }
 
+    public function religionList()
+    {
+        $data = getReligions();
+
+        return response()->json(["status" => true, 'message' => 'Religion data', 'data' => $data]);
+    }
+
     public function cityList(Request $request)
     {
         $city = City::where('state_id', $request->state_id)

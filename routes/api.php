@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('zodiacsign_list', [ListController::class, 'zodiacSignList'])->name('zodiacsign_list');
     Route::get('interest_hobby_list', [ListController::class, 'interestAndHobbyList'])->name('interest_hobby_list');
     Route::get('life_style_list', [ListController::class, 'lifieStyleList'])->name('life_style_list');
+    Route::get('religion_list', [ListController::class, 'religionList']);
     Route::post('otp_verify', [UsersController::class, 'otpVerify'])->name('otp_verify');
 
 
@@ -43,7 +44,6 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('update_user_profile', [UsersController::class, 'updateUserprofile'])->middleware('check_user');
     Route::post('update_organization_profile', [UsersController::class, 'updateOrganizationprofile'])->middleware('check_user');
     Route::post('update_profile_photo', [UsersController::class, 'updateProfilePhoto'])->middleware('check_user');
-    Route::get('religion_list', [UsersController::class, 'religionList']);
     Route::post('home', [UsersController::class, 'home'])->middleware('check_user');
     Route::post('check_user_approach_status', [UsersController::class, 'checkUserApproachStatus'])->middleware('check_user');
 
