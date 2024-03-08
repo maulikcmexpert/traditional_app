@@ -67,7 +67,11 @@ class UsersController extends BaseController
             DB::beginTransaction();
             $user = new User();
             $user->full_name = $request->full_name;
-            $user->country_code = $request->country_code;
+
+            $getCountry = Country::where('iso', $request->country_code)->first();
+            dd($getCountry);
+            $user->country_id = $request->getCountry->id;
+            $user->country_code = $request->country_dial;
             $user->mobile_number = $request->mobile_number;
             $user->email = $request->email;
             $user->user_type = "user";
