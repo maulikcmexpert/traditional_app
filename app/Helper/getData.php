@@ -61,7 +61,7 @@ function getManageRequestByMale($search_name, $page, $id)
         $totalApprochRequest =  ApproachRequest::with(['receiver_user'])->where(['sender_id' => $id, 'status' => 'pending'])->count();
 
         $total_page = ceil($totalApprochRequest / 10);
-        $request =  ApproachRequest::with(['receiver_user', 'receiver_user.userdetail.city'])->where(['sender_id' => $id, 'status' => 'pending'])->paginate(10, ['*'], 'page', $page);
+        $request =  ApproachRequest::with(['receiver_user', 'receiver_user.userdetail'])->where(['sender_id' => $id, 'status' => 'pending'])->paginate(10, ['*'], 'page', $page);
     }
 
 
@@ -72,7 +72,7 @@ function getManageRequestByMale($search_name, $page, $id)
             $userInfo['id'] = $val->id;
             $userInfo['user_id'] = $val->receiver_id;
             $userInfo['name'] = $val->receiver_user->full_name;
-            $userInfo['city'] = ($val->receiver_user->userdetail->city != null) ? $val->receiver_user->userdetail->city->city : "";
+            $userInfo['city'] = ($val->receiver_user->userdetail->city != null) ? $val->receiver_user->userdetail->city : "";
             $getProfile = UserProfile::where(['user_id' => $val->receiver_id, 'is_default' => '1'])->first();
             $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
             $userData[] = $userInfo;
