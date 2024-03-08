@@ -688,7 +688,7 @@ class UsersController extends BaseController
                 $addshowprofile->profile_viewer_id = $this->user->id;
                 $addshowprofile->save();
 
-                $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'user.country', 'userdetail.organization')->where('id', $user_id)->first();
+                $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.user.country', 'userdetail.organization')->where('id', $user_id)->first();
 
                 $full_name = ($user->full_name != "") ? $user->full_name : "";
                 $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
@@ -712,7 +712,7 @@ class UsersController extends BaseController
                     $data['zodiac_sign'] = ($user->userdetail->zodiac_sign->zodiac_sign != "") ? $user->userdetail->zodiac_sign->zodiac_sign : "";
                     $data['state'] = ($user->userdetail->state->state != "") ? $user->userdetail->state->state : "";
                     $data['city'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
-                    $data['country'] = ($user->country->country != null) ? $user->country->country : "";
+                    $data['country'] = ($user->user->country->country != null) ? $user->user->country->country : "";
                     $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
                     $data['organization_name'] = ($user->userdetail->organization->full_name != "") ? $user->userdetail->organization->full_name : "";
                     $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
