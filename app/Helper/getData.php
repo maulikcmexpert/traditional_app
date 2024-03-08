@@ -92,7 +92,7 @@ function getManageRequestByMale($search_name, $page, $id)
 }
 
 
-function getSearchUser($search_name, $page)
+function getSearchUser($search_name, $page, $user_id)
 {
 
     $total_page = 0;
@@ -107,12 +107,15 @@ function getSearchUser($search_name, $page)
         if (count($users) != 0) {
 
             foreach ($users as $val) {
-                $userInfo['id'] = $val->id;
-                $userInfo['name'] = $val->full_name;
-                $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
-                $getProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
-                $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
-                $userData[] = $userInfo;
+                if ($user_id != $val->id) {
+
+                    $userInfo['id'] = $val->id;
+                    $userInfo['name'] = $val->full_name;
+                    $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
+                    $getProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
+                    $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
+                    $userData[] = $userInfo;
+                }
             }
         }
     }

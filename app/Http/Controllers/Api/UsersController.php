@@ -1307,7 +1307,7 @@ class UsersController extends BaseController
                 $search_name = $request->search_name;
             }
 
-            $requests = getSearchUser($search_name, $page);
+            $requests = getSearchUser($search_name, $page, $this->user->id);
             $userData = $requests['userData'];
             $total_page = $requests['total_page'];
 
