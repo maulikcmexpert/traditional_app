@@ -33,7 +33,8 @@ function getManageRequest($type, $page, $receiver_id)
         $userInfo['name'] = $val->sender_user->full_name;
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
-        $userInfo['request_time'] =  ($type == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->created_at);
+        $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->created_at);
+        $userInfo['message'] =  ($val->status == 'rejected') ? $val->message : "";
         $userData[] = $userInfo;
     }
 
