@@ -106,7 +106,7 @@ function getSearchUser($search_name, $page)
         $users = User::with(['userdetail'])->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
         if (count($users) != 0) {
 
-            foreach ($userData as $val) {
+            foreach ($users as $val) {
                 $userInfo['id'] = $val->id;
                 $userInfo['name'] = $val->full_name;
                 $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
