@@ -1332,6 +1332,7 @@ class UsersController extends BaseController
                 $profile['user_id'] = $val->user_id;
                 $profile['full_name'] = ($val->user->full_name != "") ? $val->user->full_name  : "";
                 $profile['image']  = "";
+                dd($val->user->user_profile);
                 if (count($val->user->user_profile) != 0) {
                     echo "1";
                     exit;
