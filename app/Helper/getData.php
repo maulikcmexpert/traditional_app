@@ -3,6 +3,7 @@
 use App\Models\ApproachRequest;
 use App\Models\{
     Religion,
+    User,
     UserProfile
 };
 
