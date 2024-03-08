@@ -760,7 +760,7 @@ class UsersController extends BaseController
 
                         $data['is_approach '] = "withdrawn";
                     } else {
-                        $data['is_approach'] = "approachable ";
+                        $data['is_approach'] = "approachable";
                     }
                 }
             }
