@@ -990,6 +990,7 @@ class UsersController extends BaseController
             $users = User::query();
             $users->with([
                 'userdetail',
+                'country',
                 'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
 
@@ -1033,6 +1034,7 @@ class UsersController extends BaseController
                 $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
                 $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
                 $userInfo['state'] = $val->userdetail->state->state;
+                $userInfo['country'] = $val->country->country;
                 $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
                 $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
 
