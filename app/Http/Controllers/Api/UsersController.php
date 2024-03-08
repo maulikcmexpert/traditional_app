@@ -1254,7 +1254,7 @@ class UsersController extends BaseController
         }
     }
 
-    public function manageRequest(Request $request)
+    public function manageRequestByFemale(Request $request)
     {
         try {
 
