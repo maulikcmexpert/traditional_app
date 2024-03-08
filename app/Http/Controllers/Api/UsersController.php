@@ -1031,7 +1031,7 @@ class UsersController extends BaseController
                 $userInfo['name'] = $val->full_name;
                 $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
                 $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
-                $userInfo['city'] = ($val->userdetail->city != null)?city$val->userdetail->city:"";
+                $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
                 $userInfo['state'] = $val->userdetail->state->state;
                 $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
                 $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
@@ -1041,8 +1041,7 @@ class UsersController extends BaseController
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['status' => false, 'message' => "Something went wrong"]);
         }
     }
