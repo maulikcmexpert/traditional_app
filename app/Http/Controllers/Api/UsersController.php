@@ -611,7 +611,7 @@ class UsersController extends BaseController
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
-            $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.city', 'userdetail.organization')->where('id', $user_id)->first();
+            $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.organization')->where('id', $user_id)->first();
             if ($user_id) {
                 $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
                 $data['height_type'] = ($user['userdetail']->height_type != "") ? $user['userdetail']->height_type : "";
@@ -990,7 +990,6 @@ class UsersController extends BaseController
             $users = User::query();
             $users->with([
                 'userdetail',
-                'userdetail.city',
                 'userdetail.state'
             ])->whereIn('id', $femaleDataArray);
 
@@ -1032,7 +1031,7 @@ class UsersController extends BaseController
                 $userInfo['name'] = $val->full_name;
                 $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
                 $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
-                $userInfo['city'] = $val->userdetail->city->city;
+                $userInfo['city'] = ($val->userdetail->city != null)?city$val->userdetail->city:"";
                 $userInfo['state'] = $val->userdetail->state->state;
                 $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
                 $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
@@ -1043,9 +1042,9 @@ class UsersController extends BaseController
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
         }
-        // catch (\Exception $e) {
-        //     return response()->json(['status' => false, 'message' => "Something went wrong"]);
-        // }
+        catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "Something went wrong"]);
+        }
     }
 
 
