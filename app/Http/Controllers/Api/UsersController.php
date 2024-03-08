@@ -712,7 +712,7 @@ class UsersController extends BaseController
                     $data['zodiac_sign'] = ($user->userdetail->zodiac_sign->zodiac_sign != "") ? $user->userdetail->zodiac_sign->zodiac_sign : "";
                     $data['state'] = ($user->userdetail->state->state != "") ? $user->userdetail->state->state : "";
                     $data['city'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
-                    $data['country'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
+                    $data['country'] = ($user->country->country != null) ? $user->country->country : "";
                     $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
                     $data['organization_name'] = ($user->userdetail->organization->full_name != "") ? $user->userdetail->organization->full_name : "";
                     $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
