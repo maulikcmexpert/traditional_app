@@ -246,7 +246,7 @@ class UsersController extends BaseController
 
         try {
             DB::beginTransaction();
-            $user = User::where('mobile_number', $mobile_number)
+            $user = User::with('user_profile')->where('mobile_number', $mobile_number)
                 ->where('otp', $otp)
                 ->first();
 
@@ -281,7 +281,7 @@ class UsersController extends BaseController
             $step = "Home";
 
             if ($user->user_type == 'user') {
-                $user_profile = UserProfile::where('user_id', $user->id)->first();
+                $user_profile = UserProfile::where(['user_id' => $user->id, 'is_default' => '1'])->first();
                 $user_lifeStyle = UserLifestyle::where('user_id', $user->id)->exists();
                 $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
 
@@ -301,16 +301,21 @@ class UsersController extends BaseController
                     'status' => true,
                     'message' => __('messages.otp_verify'),
                     'access_token' => $token,
+                    'name' => $user->full_name,
+                    'profile' => ($user_profile != null) ? asset('public/storage/profile/' . $user_profile->profile) : "",
                     'gender' => $user->userdetail->gender,
                     'user_type' => $user->user_type,
                     'user_id' => $user->id,
                     'step' => $step,
                 ];
             } elseif ($user->user_type == 'organization') {
+                $user_profile = UserProfile::where(['user_id' => $user->id, 'is_default' => '1'])->first();
                 $response = [
                     'status' => true,
                     'message' => __('messages.otp_verify'),
                     'access_token' => $token,
+                    'name' => $user->full_name,
+                    'profile' => ($user_profile != null) ? asset('public/storage/profile/' . $user_profile->profile) : "",
                     'user_type' => $user->user_type,
                     'user_id' => $user->id,
                     'step' => $step,
