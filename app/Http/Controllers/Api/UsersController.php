@@ -1279,6 +1279,7 @@ class UsersController extends BaseController
             } elseif ($type == 'accepted') {
                 $msg = "Accepted";
             }
+            // add notification //
             return response()->json(["status" => true, 'message' => $msg . ' Requests', 'total_page' => $total_page, 'data' => $userData]);
         } catch (QueryException $e) {
 
@@ -1291,6 +1292,8 @@ class UsersController extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
+
+
 
 
     public function cancelRequest(Request $request)
@@ -1330,7 +1333,48 @@ class UsersController extends BaseController
         }
     }
 
+    public function acceptRejectByFemale(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'type' => ['required', 'string', 'in:accepted,rejected']
+            ]);
 
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            $cancelRequest = ApproachRequest::where(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id])->first();
+
+            if ($cancelRequest != null) {
+                $cancelRequest->status = $request->type;
+                $cancelRequest->save();
+                // Soft delete
+                // soft delete //
+                if ($request->type == 'rejected') {
+
+                    $cancelRequest->delete();
+                }
+                // soft delete //
+
+                // add notification //
+
+                return response()->json(["status" => true, 'message' => 'Request Rejected successfully']);
+            } else {
+                return response()->json(["status" => false, 'message' => 'Request not found']);
+            }
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
 
     public function logout()
 
