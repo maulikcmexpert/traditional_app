@@ -1320,7 +1320,7 @@ class UsersController extends BaseController
             DB::beginTransaction();
             $organization_id = $this->user->id;
             $get_member = UserDetail::with(['user', 'user.user_profile' => function ($query) {
-                $query->where('is_default', '1');
+                $query->where('is_default', '1')->first();
             }])->where('organization_id', $organization_id)->select('user_id')->get();
 
             dd($get_member);
