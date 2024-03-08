@@ -1262,7 +1262,7 @@ class UsersController extends BaseController
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
 
-            $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->receiver_id])->first();
+            $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
 
             if ($cancelRequest != null) {
                 $cancelRequest->status = 'cancel';
