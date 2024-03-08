@@ -69,7 +69,7 @@ class UsersController extends BaseController
             $user->full_name = $request->full_name;
 
             $getCountry = Country::where('iso', $request->country_code)->first();
-            dd($getCountry);
+
             $user->country_id = $request->getCountry->id;
             $user->country_code = $request->country_dial;
             $user->mobile_number = $request->mobile_number;
@@ -83,7 +83,7 @@ class UsersController extends BaseController
                 $user_detail->user_id = $user->id;
                 $user_detail->gender = $request->gender;
                 $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-                $user_detail->city_id = $request->city_id;
+                $user_detail->city = $request->city;
                 $user_detail->state_id = $request->state_id;
                 $user_detail->organization_id = $request->organization_id;
                 $user_detail->save();
