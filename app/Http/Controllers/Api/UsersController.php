@@ -1334,9 +1334,7 @@ class UsersController extends BaseController
                 $profile['image']  = "";
 
                 if ($val->user->user_profile->isNotEmpty()) {
-                    echo "1";
-                    exit;
-                    $profile['image'] = asset('storage/profile/' . $val->user->user_profile->profile);
+                    $profile['image'] = asset('storage/profile/' . $val->user->user_profile->first()->profile);
                 }
                 $data[] = $profile;
             }
