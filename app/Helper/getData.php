@@ -103,19 +103,18 @@ function getSearchUser($search_name, $page, $user_id)
         $totalData = User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->count();
         $total_page = ceil($totalData / 10);
 
-        $users = User::with(['userdetail'])->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
+        $users = User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
         if (count($users) != 0) {
 
             foreach ($users as $val) {
-                if ($user_id != $val->id) {
 
-                    $userInfo['id'] = $val->id;
-                    $userInfo['name'] = $val->full_name;
-                    $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
-                    $getProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
-                    $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
-                    $userData[] = $userInfo;
-                }
+
+                $userInfo['id'] = $val->id;
+                $userInfo['name'] = $val->full_name;
+                $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
+                $getProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
+                $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
+                $userData[] = $userInfo;
             }
         }
     }
