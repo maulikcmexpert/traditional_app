@@ -58,7 +58,7 @@ class UsersController extends BaseController
 
         $this->perPage = 5;
         $this->user = Auth::guard('api')->user();
-        dd($this->user);
+        dd($this->user->userdetail);
     }
 
 
