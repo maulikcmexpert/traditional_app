@@ -31,7 +31,7 @@ class OrganizationDetail extends Model
     {
         return $this->belongsTo(SizeOfOrganization::class, 'size_of_organization_id');
     }
-    public function city()
+    public function city_data()
     {
         return $this->belongsTo(City::class, 'city');
     }
