@@ -1568,8 +1568,8 @@ class UsersController extends BaseController
             if (isset($request->page) && $request->page != "") {
                 $page = $request->page;
             }
-            $organization_id = $this->user->id;
-            dd($organization_id);
+            // $organization_id = $this->user->id;
+            // dd($organization_id);
             $organization_id = $request->user_id;
 
             $get_member = UserDetail::with(['user', 'user.user_profile' => function ($query) {
