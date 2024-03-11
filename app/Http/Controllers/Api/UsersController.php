@@ -1375,7 +1375,7 @@ class UsersController extends BaseController
             $userData = $requests['userData'];
             $total_page = $requests['total_page'];
 
-            dd($total_page);
+            // dd($total_page);
             $msg = "";
             if ($type == 'pending') {
                 $msg = "Pending";
