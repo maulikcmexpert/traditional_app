@@ -1641,8 +1641,8 @@ class UsersController extends BaseController
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
                 $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
                 $data['state_name'] = ($user->organizationdetail->state_data->state != "") ? $user->organizationdetail->state_data->state : "";
-                $data['city'] = ($user->organizationdetail->city_data->city != "") ? $user->organizationdetail->city_data->city : "";
                 dd($data);
+                $data['city'] = ($user->organizationdetail->city_data->city != "") ? $user->organizationdetail->city_data->city : "";
                 $data['size_of_church_id'] = ($user->organizationdetail->size_of_organization_id != "") ? $user->organizationdetail->size_of_organization_id : "";
                 $data['size_of_church'] = ($user->organizationdetail->size_of_organization->size_range != "") ? $user->organizationdetail->size_of_organization->size_range : "";
                 $user_profile = UserProfile::where('user_id', $user_id)->get();
