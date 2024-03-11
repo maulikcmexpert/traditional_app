@@ -1638,7 +1638,7 @@ class UsersController extends BaseController
                 $data['state'] = ($user->organizationdetail->state != "") ? $user->organizationdetail->state : "";
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
                 $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
-                $data['state_name'] = ($user->organizationdetail->state->state != "") ? $user->organizationdetail->state->state : "";
+                $data['state_name'] = ($user->organizationdetail->state != "") ? $user->organizationdetail->state : "";
                 dd($data);
                 $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
                 $data['state_name'] = "";
