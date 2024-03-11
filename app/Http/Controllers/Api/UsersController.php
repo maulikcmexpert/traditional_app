@@ -685,6 +685,8 @@ class UsersController extends BaseController
             DB::beginTransaction();
             $user_id = $request->user_id;
             if ($user_id) {
+                echo 1;
+                die;
                 $addshowprofile = new ProfileSeenUser();
                 $addshowprofile->profile_id = $user_id;
                 $addshowprofile->profile_viewer_id = $this->user->id;
