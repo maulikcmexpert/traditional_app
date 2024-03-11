@@ -1573,7 +1573,6 @@ class UsersController extends BaseController
                 $query->where('is_default', '1');
             }])->where('organization_id', $organization_id)->select('user_id')->get()->paginate(10, ['*'], 'page', $page);;
 
-
             $data = [];
             foreach ($get_member as $val) {
 
