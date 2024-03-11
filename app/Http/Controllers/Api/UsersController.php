@@ -1612,11 +1612,11 @@ class UsersController extends BaseController
 
 
             $user = User::with('userdetail', 'organizationdetail', 'organizationdetail.state', 'organizationdetail.city', 'organizationdetail.size_of_organization', 'country', 'user_profile')->where('id', $request->user_id)->first();
-            dd($user);
-            $user_id = $this->user->id;
-            $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
-            $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
-            $email = ($this->user->email != "") ? $this->user->email : "";
+
+            $user_id =  $user->id;
+            $full_name = ($user->full_name != "") ?  $user->full_name : "";
+            $mobile_number = ($user->mobile_number != "") ?  $user->mobile_number : "";
+            $email = ($user->email != "") ?  $user->email : "";
             // dd($this->user);
             $data = [];
             $data = [
@@ -1624,7 +1624,7 @@ class UsersController extends BaseController
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
-
+            dd($data);
             if ($user_id) {
 
                 $country = Country::where('id', $this->user->country_id)->first();
