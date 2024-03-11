@@ -35,7 +35,7 @@ class OrganizationDetail extends Model
     {
         return $this->belongsTo(City::class, 'city');
     }
-    public function state()
+    public function state_data()
     {
         return $this->belongsTo(State::class, 'state');
     }
