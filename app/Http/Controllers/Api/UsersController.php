@@ -758,6 +758,7 @@ class UsersController extends BaseController
                     if ($user->userdetail->gender == 'male') {
                         $approch_check = ApproachRequest::where('sender_id', $this->user->id)->where('type', "approch")->where('status', 'accepted')->first();
                         $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
+                        dd(1);
                         if ($approch_check != null && $approch_check->status == 'accepted') {
                             $data['is_approach'] = "not approachable";
                         } else if ($check_pending != null && $check_pending->status == "accepted") {
