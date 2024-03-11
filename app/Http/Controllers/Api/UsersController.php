@@ -566,11 +566,6 @@ class UsersController extends BaseController
                     $data['state_name'] = $stateVal[0]->state;
                 }
                 $data['city'] = ($organization_detail[0]->city != "") ? $organization_detail[0]->city : "";
-                // $cityVal = City::where('id', $organization_detail[0]->city)->select('city')->get();
-                // $data['city_name'] = "";
-                // if (count($cityVal)) {
-                //     $data['city_name'] = $cityVal[0]->city;
-                // }
                 $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
                 $data['size_of_church'] = "";
                 $data['size_of_church_id'] = "";
@@ -578,9 +573,7 @@ class UsersController extends BaseController
                     $data['size_of_church'] = $sizeofchurch[0]->size_range;
                     $data['size_of_church_id'] = $sizeofchurch[0]->id;
                 }
-
                 $user_profile = UserProfile::where('user_id', $user_id)->get();
-
                 $data['profile_image'] = [];
                 if (!empty($user_profile[0])) {
                     foreach ($user_profile as $key => $val) {
