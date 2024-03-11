@@ -1610,7 +1610,8 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
 
-            // $user =User::with('user','user.userdetail')
+            $user = User::with('user', 'user.userdetail', 'user.organizationdetail', 'user.country');
+            dd($user);
             $user_id = $this->user->id;
             $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
             $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
