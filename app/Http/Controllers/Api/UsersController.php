@@ -1638,13 +1638,14 @@ class UsersController extends BaseController
                 $data['state'] = ($user->organizationdetail->state != "") ? $user->organizationdetail->state : "";
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
                 $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
+                $data['state_name'] = ($user->organizationdetail->state->state != "") ? $user->organizationdetail->state->state : "";
                 dd($data);
                 $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
                 $data['state_name'] = "";
                 if (count($stateVal)) {
                     $data['state_name'] = $stateVal[0]->state;
                 }
-                $data['city'] = ($organization_detail[0]->city != "") ? $organization_detail[0]->city : "";
+                $data['city'] = ($user->organizationdetail->city != "") ? $user->organizationdetail->city : "";
                 $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
                 $data['size_of_church'] = "";
                 $data['size_of_church_id'] = "";
