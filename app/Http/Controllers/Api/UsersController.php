@@ -754,6 +754,7 @@ class UsersController extends BaseController
                     }
 
                     if ($user->userdetail->gender == 'male') {
+                        dd($data);
                         $approch_check = ApproachRequest::where(' ', $this->user->id)->where('type', "approch")->where('status', 'accepted')->first();
                         $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
 
@@ -767,7 +768,6 @@ class UsersController extends BaseController
                         } else {
                             $data['is_approach'] = "approachable";
                         }
-                        dd($data);
                     } else if ($user->userdetail->gender == 'female') {
 
                         $approch_check = ApproachRequest::where('sender_id', $this->user->id)->withTrashed()->ordeBy('id', 'DESC')->first();
