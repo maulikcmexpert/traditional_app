@@ -1612,8 +1612,8 @@ class UsersController extends BaseController
 
 
             $user = User::with(['userdetail', 'organizationdetail' => function ($query) {
-                return $query->with('state');
-            }, 'organizationdetail.city', 'organizationdetail.size_of_organization', 'country', 'user_profile'])->where('id', $request->user_id)->first();
+                return $query->with('state', 'city', 'size_of_organization');
+            }, 'country', 'user_profile'])->where('id', $request->user_id)->first();
 
             $user_id =  $user->id;
             $full_name = ($user->full_name != "") ?  $user->full_name : "";
