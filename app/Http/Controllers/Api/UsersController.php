@@ -716,7 +716,6 @@ class UsersController extends BaseController
                     $data['state'] = ($user->userdetail->state->state != "") ? $user->userdetail->state->state : "";
                     $data['city'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
                     $data['country'] = ($user->country->country != null) ? $user->country->country : "";
-                    dd($data);
                     $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : "";
                     $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
                     $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
@@ -742,6 +741,7 @@ class UsersController extends BaseController
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
+                    dd($data);
                     $user_profile = UserProfile::where('user_id', $user_id)->get();
 
                     $data['profile_image'] = [];
