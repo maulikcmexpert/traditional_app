@@ -36,7 +36,7 @@ function getManageRequest($type, $page, $receiver_id)
         $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->paginate(10, ['*'], 'page', $page);
     }
     $userData = [];
-
+    dd(count($request));
     foreach ($request as $val) {
         $userInfo['id'] = $val->id;
         $userInfo['user_id'] = $val->sender_id;
