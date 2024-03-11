@@ -701,9 +701,10 @@ class UsersController extends BaseController
                     // 'mobile_number' => $mobile_number,
                     // 'email' => $email,
                 ];
-                dd($user);
+
                 if ($user != null) {
 
+                    $data['gender'] = ($user->gender != "") ? $user->gender : "";
                     $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
                     $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
                     $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
