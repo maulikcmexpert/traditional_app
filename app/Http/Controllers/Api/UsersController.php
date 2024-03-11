@@ -692,7 +692,6 @@ class UsersController extends BaseController
 
                 $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization')->where('id', $user_id)->first();
 
-                dd($user);
                 $full_name = ($user->full_name != "") ? $user->full_name : "";
                 $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
                 $email = ($user->email != "") ? $user->email : "";
@@ -704,6 +703,7 @@ class UsersController extends BaseController
                 ];
                 if ($user != null) {
 
+                    dd($data);
                     $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
                     $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
                     $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
