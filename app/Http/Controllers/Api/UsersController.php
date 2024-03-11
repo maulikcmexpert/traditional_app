@@ -969,7 +969,7 @@ class UsersController extends BaseController
                 'full_name' => 'required|string',
                 'state_id' => 'required|integer',
                 // 'city_id' => 'required|integer',
-                'organization_id' => 'required|integer',
+                // 'organization_id' => 'required|integer',
                 'about_us' => 'required|string',
                 'size_of_organization_id' => 'required|integer',
                 'established_year' => 'required',
