@@ -1571,7 +1571,10 @@ class UsersController extends BaseController
             // $organization_id = $this->user->id;
             // dd($organization_id);
             $organization_id = $request->user_id;
-
+            $total_request =  UserDetail::with(['user', 'user.user_profile' => function ($query) {
+                $query->where('is_default', '1');
+            }])->where('organization_id', $organization_id)->count();
+            $total_page  = ceil($total_request / 10);
             $get_member = UserDetail::with(['user', 'user.user_profile' => function ($query) {
                 $query->where('is_default', '1');
             }])->where('organization_id', $organization_id)->select('user_id')->paginate(10, ['*'], 'page', $page);
@@ -1590,13 +1593,83 @@ class UsersController extends BaseController
             }
 
             DB::commit();
-            return response()->json(["status" => true, 'message' => 'Success', 'data' => $data]);
+            return response()->json(["status" => true, 'message' => 'Success',  'total_page' => $total_page, 'data' => $data]);
         } catch (QueryException $e) {
 
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
         } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+
+    public function organizationProfileId(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            // $user =User::with('user','user.userdetail')
+            $user_id = $this->user->id;
+            $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
+            $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
+            $email = ($this->user->email != "") ? $this->user->email : "";
+            // dd($this->user);
+            $data = [];
+            $data = [
+                'name' => $full_name,
+                'mobile_number' => $mobile_number,
+                'email' => $email,
+            ];
+
+            if ($user_id) {
+
+                $country = Country::where('id', $this->user->country_id)->first();
+                // dd($country);
+                $count = UserDetail::where('organization_id', $user_id)->get();
+                $data['member_count'] = (count($count) != "") ? count($count) : "";
+                $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
+                $data['established_year'] = (date('d-m-Y', strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y', strtotime($organization_detail[0]->established_year)) : "";
+                $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
+                $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
+                $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
+                $data['country_code'] = ($country->iso != "") ? $country->iso : "";
+                $data['country_dial_code'] = ($this->user->country_code != "") ? $this->user->country_code : "";
+                $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
+                $data['state_name'] = "";
+                if (count($stateVal)) {
+                    $data['state_name'] = $stateVal[0]->state;
+                }
+                $data['city'] = ($organization_detail[0]->city != "") ? $organization_detail[0]->city : "";
+                $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
+                $data['size_of_church'] = "";
+                $data['size_of_church_id'] = "";
+                if (count($sizeofchurch)) {
+                    $data['size_of_church'] = $sizeofchurch[0]->size_range;
+                    $data['size_of_church_id'] = $sizeofchurch[0]->id;
+                }
+                $user_profile = UserProfile::where('user_id', $user_id)->get();
+                $data['profile_image'] = [];
+                if (!empty($user_profile[0])) {
+                    foreach ($user_profile as $key => $val) {
+
+                        $image['profile_id'] = $val->id;
+                        $image['profile'] = asset('storage/profile/' . $val->profile);
+                        $image['is_default'] = $val->is_default;
+                        $data['profile_image'][] = $image;
+                    }
+                }
+            }
+            DB::commit();
+            return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
