@@ -987,7 +987,7 @@ class UsersController extends BaseController
             $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));;
             $organization_detail->save();
             DB::commit();
-            return response()->json(['status' => true, 'message' => "Organization update successfully"]);
+            return response()->json(['status' => true, 'message' => "Profile update successfully"]);
         } catch (QueryException $e) {
             DB::rollBack();
             return response()->json(['status' => false, 'message' => "db error"]);
