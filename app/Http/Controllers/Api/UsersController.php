@@ -701,7 +701,7 @@ class UsersController extends BaseController
                     // 'mobile_number' => $mobile_number,
                     // 'email' => $email,
                 ];
-                dd($data);
+                dd($user);
                 if ($user != null) {
 
                     $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
