@@ -1569,6 +1569,9 @@ class UsersController extends BaseController
                 $page = $request->page;
             }
             $organization_id = $this->user->id;
+            dd($organization_id);
+            $organization_id = $request->user_id;
+
             $get_member = UserDetail::with(['user', 'user.user_profile' => function ($query) {
                 $query->where('is_default', '1');
             }])->where('organization_id', $organization_id)->select('user_id')->paginate(10, ['*'], 'page', $page);
