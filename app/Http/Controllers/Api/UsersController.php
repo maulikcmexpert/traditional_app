@@ -539,7 +539,7 @@ class UsersController extends BaseController
             $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
             $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
             $email = ($this->user->email != "") ? $this->user->email : "";
-            dd($email);
+            dd($this->user);
             $data = [];
             $data = [
                 'name' => $full_name,
