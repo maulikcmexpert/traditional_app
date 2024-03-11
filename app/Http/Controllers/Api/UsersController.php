@@ -539,6 +539,7 @@ class UsersController extends BaseController
             $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
             $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
             $email = ($this->user->email != "") ? $this->user->email : "";
+            dd($email);
             $data = [];
             $data = [
                 'name' => $full_name,
@@ -550,7 +551,6 @@ class UsersController extends BaseController
 
                 $count = UserDetail::where('organization_id', $user_id)->get();
                 $data['member_count'] = (count($count) != "") ? count($count) : "";
-
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
                 $data['established_year'] = (date('d-m-Y', strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y', strtotime($organization_detail[0]->established_year)) : "";
                 $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
