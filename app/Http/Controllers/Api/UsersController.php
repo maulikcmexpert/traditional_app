@@ -1624,20 +1624,21 @@ class UsersController extends BaseController
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
-            dd($data);
+
             if ($user_id) {
 
                 $country = Country::where('id', $this->user->country_id)->first();
                 // dd($country);
-                $count = UserDetail::where('organization_id', $user_id)->get();
-                $data['member_count'] = (count($count) != "") ? count($count) : "";
-                $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
-                $data['established_year'] = (date('d-m-Y', strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y', strtotime($organization_detail[0]->established_year)) : "";
-                $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
-                $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
-                $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
-                $data['country_code'] = ($country->iso != "") ? $country->iso : "";
-                $data['country_dial_code'] = ($this->user->country_code != "") ? $this->user->country_code : "";
+                // $count = UserDetail::where('organization_id', $user_id)->get();
+                $data['member_count'] = ($user->userdetail != "") ? $user->userdetail : "";
+                // $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
+                $data['established_year'] = (date('d-m-Y', strtotime($user->organizationdetail->established_year)) != "") ? date('d-m-Y', strtotime($user->organizationdetail->established_year)) : "";
+                $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
+                $data['about_us'] = ($user->organizationdetail->about_us != "") ? $user->organizationdetail->about_us : " ";
+                $data['state'] = ($user->organizationdetail->state != "") ? $user->organizationdetail->state : "";
+                $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
+                $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
+                dd($data);
                 $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
                 $data['state_name'] = "";
                 if (count($stateVal)) {
