@@ -1629,11 +1629,7 @@ class UsersController extends BaseController
 
             if ($user_id) {
 
-                // $country = Country::where('id', $this->user->country_id)->first();
-                // dd($country);
-                // $count = UserDetail::where('organization_id', $user_id)->get();
                 $data['member_count'] = ($user->userdetail != "") ? $user->userdetail : "";
-                // $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
                 $data['established_year'] = (date('d-m-Y', strtotime($user->organizationdetail->established_year)) != "") ? date('d-m-Y', strtotime($user->organizationdetail->established_year)) : "";
                 $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
                 $data['about_us'] = ($user->organizationdetail->about_us != "") ? $user->organizationdetail->about_us : " ";
@@ -1644,7 +1640,6 @@ class UsersController extends BaseController
                 $data['city'] = ($user->organizationdetail->city_data != null) ? $user->organizationdetail->city_data->city : "";
                 $data['size_of_church_id'] = ($user->organizationdetail->size_of_organization_id != "") ? $user->organizationdetail->size_of_organization_id : "";
                 $data['size_of_church'] = ($user->organizationdetail->size_of_organization->size_range != "") ? $user->organizationdetail->size_of_organization->size_range : "";
-                // $data['profile_image'] = ($user->organizationdetail->size_of_organization->size_range != "") ? $user->organizationdetail->size_of_organization->size_range : "";
 
                 $data['profile_image'] = [];
                 if (count($user->user_profile)) {
@@ -1656,7 +1651,6 @@ class UsersController extends BaseController
                         $data['profile_image'][] = $image;
                     }
                 }
-                dd($data);
             }
             DB::commit();
             return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
