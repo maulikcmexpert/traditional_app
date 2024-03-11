@@ -985,7 +985,8 @@ class UsersController extends BaseController
 
             $organization_detail = OrganizationDetail::where('organization_id', $user_id)->first();
             $organization_detail->state = $request->state_id;
-            $organization_detail->city = $request->city_id;
+            // $organization_detail->city = $request->city_id;
+            $organization_detail->city = $request->city;
             $organization_detail->about_us = $request->about_us;
             $organization_detail->size_of_organization_id = $request->size_of_organization_id;
             $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));;
