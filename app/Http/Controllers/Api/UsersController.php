@@ -1629,7 +1629,7 @@ class UsersController extends BaseController
 
             if ($user_id) {
 
-                $data['member_count'] = ($user->userdetail != "") ? $user->userdetail : "";
+                $data['member_count'] = ($user->userdetail != "") ? $user->userdetail : "0";
                 $data['established_year'] = (date('d-m-Y', strtotime($user->organizationdetail->established_year)) != "") ? date('d-m-Y', strtotime($user->organizationdetail->established_year)) : "";
                 $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
                 $data['about_us'] = ($user->organizationdetail->about_us != "") ? $user->organizationdetail->about_us : " ";
