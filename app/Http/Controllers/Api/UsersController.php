@@ -698,8 +698,8 @@ class UsersController extends BaseController
                 $data = [];
                 $data = [
                     'name' => $full_name,
-                    'mobile_number' => $mobile_number,
-                    'email' => $email,
+                    // 'mobile_number' => $mobile_number,
+                    // 'email' => $email,
                 ];
                 dd($data);
                 if ($user != null) {
