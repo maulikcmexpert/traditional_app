@@ -558,19 +558,19 @@ class UsersController extends BaseController
                 $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
                 $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
                 $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
-                $data['country'] = $country->iso;
-                $data['country_code'] = ($this->user->country_code != "") ? $this->user->country_code : "";
+                $data['country_code'] = ($country->iso != "") ? $country->iso : "";
+                $data['country_dial_code'] = ($this->user->country_code != "") ? $this->user->country_code : "";
                 $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
                 $data['state_name'] = "";
                 if (count($stateVal)) {
                     $data['state_name'] = $stateVal[0]->state;
                 }
                 $data['city'] = ($organization_detail[0]->city != "") ? $organization_detail[0]->city : "";
-                $cityVal = City::where('id', $organization_detail[0]->city)->select('city')->get();
-                $data['city_name'] = "";
-                if (count($cityVal)) {
-                    $data['city_name'] = $cityVal[0]->city;
-                }
+                // $cityVal = City::where('id', $organization_detail[0]->city)->select('city')->get();
+                // $data['city_name'] = "";
+                // if (count($cityVal)) {
+                //     $data['city_name'] = $cityVal[0]->city;
+                // }
                 $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
                 $data['size_of_church'] = "";
                 $data['size_of_church_id'] = "";
