@@ -1611,7 +1611,7 @@ class UsersController extends BaseController
             DB::beginTransaction();
 
 
-            $user = User::with(['user'])->where('id', $request->user_id)->first();
+            $user = User::with('userdetail')->where('id', $request->user_id)->first();
             dd($user);
             $user_id = $this->user->id;
             $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
