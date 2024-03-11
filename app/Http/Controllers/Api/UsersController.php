@@ -741,7 +741,6 @@ class UsersController extends BaseController
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
-                    dd($data);
                     $user_profile = UserProfile::where('user_id', $user_id)->get();
 
                     $data['profile_image'] = [];
@@ -754,6 +753,7 @@ class UsersController extends BaseController
                         }
                     }
 
+                    dd($data);
                     if ($user->userdetail->gender == 'male') {
                         $approch_check = ApproachRequest::where(' ', $this->user->id)->where('type', "approch")->where('status', 'accepted')->first();
                         $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
