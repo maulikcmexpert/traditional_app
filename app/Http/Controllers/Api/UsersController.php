@@ -1644,11 +1644,11 @@ class UsersController extends BaseController
                 $data['city'] = ($user->organizationdetail->city_data != null) ? $user->organizationdetail->city_data->city : "";
                 $data['size_of_church_id'] = ($user->organizationdetail->size_of_organization_id != "") ? $user->organizationdetail->size_of_organization_id : "";
                 $data['size_of_church'] = ($user->organizationdetail->size_of_organization->size_range != "") ? $user->organizationdetail->size_of_organization->size_range : "";
-                dd($data);
-                $user_profile = UserProfile::where('user_id', $user_id)->get();
+                // $data['profile_image'] = ($user->organizationdetail->size_of_organization->size_range != "") ? $user->organizationdetail->size_of_organization->size_range : "";
+
                 $data['profile_image'] = [];
-                if (!empty($user_profile[0])) {
-                    foreach ($user_profile as $key => $val) {
+                if (count($user->user_profile)) {
+                    foreach ($user->user_profile as $key => $val) {
 
                         $image['profile_id'] = $val->id;
                         $image['profile'] = asset('storage/profile/' . $val->profile);
@@ -1656,6 +1656,7 @@ class UsersController extends BaseController
                         $data['profile_image'][] = $image;
                     }
                 }
+                dd($data);
             }
             DB::commit();
             return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
