@@ -1611,7 +1611,9 @@ class UsersController extends BaseController
             DB::beginTransaction();
 
 
-            $user = User::with('userdetail', 'organizationdetail', 'organizationdetail.state', 'organizationdetail.city', 'organizationdetail.size_of_organization', 'country', 'user_profile')->where('id', $request->user_id)->first();
+            $user = User::with(['userdetail', 'organizationdetail' => function ($query) {
+                return $query->with('state');
+            }, 'organizationdetail.city', 'organizationdetail.size_of_organization', 'country', 'user_profile'])->where('id', $request->user_id)->first();
 
             $user_id =  $user->id;
             $full_name = ($user->full_name != "") ?  $user->full_name : "";
@@ -1639,7 +1641,7 @@ class UsersController extends BaseController
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
                 $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
                 // $data['state_name'] = ($user->organizationdetail->state['state'] != "") ? $user->organizationdetail->state['state'] : "";
-                dd($user->organizationdetail['state']);
+                dd($user->organizationdetail);
                 $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
                 $data['state_name'] = "";
                 if (count($stateVal)) {
