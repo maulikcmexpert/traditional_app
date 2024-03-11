@@ -1612,7 +1612,7 @@ class UsersController extends BaseController
 
 
             $user = User::with(['userdetail', 'organizationdetail' => function ($query) {
-                return $query->with('state_data', 'city', 'size_of_organization');
+                return $query->with('state_data', 'city_data', 'size_of_organization');
             }, 'country', 'user_profile'])->where('id', $request->user_id)->first();
 
             $user_id =  $user->id;
@@ -1640,21 +1640,11 @@ class UsersController extends BaseController
                 $data['state'] = ($user->organizationdetail->state != "") ? $user->organizationdetail->state : "";
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
                 $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
-                // $data['state_name'] = ($user->organizationdetail->state['state'] != "") ? $user->organizationdetail->state['state'] : "";
-                dd($user->organizationdetail->state_data->state);
-                $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
-                $data['state_name'] = "";
-                if (count($stateVal)) {
-                    $data['state_name'] = $stateVal[0]->state;
-                }
-                $data['city'] = ($user->organizationdetail->city != "") ? $user->organizationdetail->city : "";
-                $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
-                $data['size_of_church'] = "";
-                $data['size_of_church_id'] = "";
-                if (count($sizeofchurch)) {
-                    $data['size_of_church'] = $sizeofchurch[0]->size_range;
-                    $data['size_of_church_id'] = $sizeofchurch[0]->id;
-                }
+                $data['state_name'] = ($user->organizationdetail->state_data->state != "") ? $user->organizationdetail->state_data->state : "";
+                $data['city'] = ($user->organizationdetail->city_data->city != "") ? $user->organizationdetail->city_data->city : "";
+                $data['size_of_church_id'] = ($user->organizationdetail->size_of_organization_id != "") ? $user->organizationdetail->size_of_organization_id : "";
+                $data['size_of_church'] = ($user->organizationdetail->size_of_organization->size_range != "") ? $user->organizationdetail->size_of_organization->size_range : "";
+                dd($data);
                 $user_profile = UserProfile::where('user_id', $user_id)->get();
                 $data['profile_image'] = [];
                 if (!empty($user_profile[0])) {
