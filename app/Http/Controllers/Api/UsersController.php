@@ -550,7 +550,7 @@ class UsersController extends BaseController
             if ($user_id) {
 
                 $country = Country::where('id', $this->user->country_id)->first();
-                dd($country);
+                // dd($country);
                 $count = UserDetail::where('organization_id', $user_id)->get();
                 $data['member_count'] = (count($count) != "") ? count($count) : "";
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
@@ -558,6 +558,7 @@ class UsersController extends BaseController
                 $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
                 $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
                 $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
+                $data['country'] = $country->iso;
                 $data['country_code'] = ($this->user->country_code != "") ? $this->user->country_code : "";
                 $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
                 $data['state_name'] = "";
