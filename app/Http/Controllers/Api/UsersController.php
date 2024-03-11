@@ -704,7 +704,7 @@ class UsersController extends BaseController
 
                 if ($user != null) {
 
-                    $data['gender'] = ($user->gender != "") ? $user->gender : "";
+                    $data['gender'] = ($user->userdetail->gender != "") ? $user->userdetail->gender : "";
                     $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
                     $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
                     $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
