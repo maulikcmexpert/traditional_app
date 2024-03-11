@@ -685,8 +685,6 @@ class UsersController extends BaseController
             DB::beginTransaction();
             $user_id = $request->user_id;
             if ($user_id) {
-                echo 1;
-                die;
                 $addshowprofile = new ProfileSeenUser();
                 $addshowprofile->profile_id = $user_id;
                 $addshowprofile->profile_viewer_id = $this->user->id;
@@ -694,6 +692,7 @@ class UsersController extends BaseController
 
                 $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization')->where('id', $user_id)->first();
 
+                dd($user);
                 $full_name = ($user->full_name != "") ? $user->full_name : "";
                 $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
                 $email = ($user->email != "") ? $user->email : "";
