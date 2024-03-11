@@ -1373,6 +1373,8 @@ class UsersController extends BaseController
             $requests = getManageRequest($type, $page, $this->user->id);
             $userData = $requests['userData'];
             $total_page = $requests['total_page'];
+
+            dd($total_page);
             $msg = "";
             if ($type == 'pending') {
                 $msg = "Pending";
