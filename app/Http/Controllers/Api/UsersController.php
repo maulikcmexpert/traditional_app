@@ -968,11 +968,11 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
             $validator = Validator::make($request->all(), [
-                'full_name' => 'required|alpha_num',
+                'full_name' => 'required|regex:/^[0-9a-zA-Z\s]+$/',
                 'state_id' => 'required|integer',
-                'city' => 'required|alpha_num',
+                'city' => 'required|regex:/^[a-zA-Z\s]+$/',
                 // 'organization_id' => 'required|integer',
-                'about_us' => 'required|alpha_num',
+                'about_us' => 'required|regex:/^[a-zA-Z\s]+$/',
                 'size_of_organization_id' => 'required|integer',
                 'established_year' => 'required',
             ]);
