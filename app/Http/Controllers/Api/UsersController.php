@@ -1444,9 +1444,9 @@ class UsersController extends BaseController
         if ($validator->fails()) {
             return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
-        dd($this->user->id);
-        $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
 
+        $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
+        dd($cancelRequest);
         if ($cancelRequest != null) {
             $cancelRequest->status = 'cancel';
             $cancelRequest->save();
