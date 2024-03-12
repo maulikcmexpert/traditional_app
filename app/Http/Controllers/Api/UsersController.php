@@ -934,7 +934,7 @@ class UsersController extends BaseController
                 $life_style->save();
             }
         }
-        dd("lifestyle done");
+
         if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
             // if exists then delete prev data //
             UserInterestAndHobby::where('user_id', $this->user->id)->delete();
