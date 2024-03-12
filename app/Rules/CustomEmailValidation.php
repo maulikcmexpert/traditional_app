@@ -15,6 +15,6 @@ class CustomEmailValidation implements Rule
 
     public function message()
     {
-        return 'The :attribute must start with a character and can have numbers after that.';
+        return 'Please enter Email must be start with character';
     }
 }

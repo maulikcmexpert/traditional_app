@@ -665,6 +665,11 @@ class UsersController extends BaseController
                         $data['profile_image'][] = $image;
                     }
                 }
+                $data['show_stopper_ques'] = [];
+                if ($user->userdetail->gender == 'female') {
+                    $getQuestions = UserShwstpprQue::select('id', 'user_id', 'question', 'option_1', 'option_2', 'prefered_option')->where('user_id', $request->user_id)->get();
+                    $data['show_stopper_ques']  = $getQuestions;
+                }
             }
             DB::commit();
             return response()->json(['status' => true, 'message' => "Success", 'data' => $data]);
@@ -890,7 +895,6 @@ class UsersController extends BaseController
             'full_name' => 'required|string',
             'state_id' => 'required|integer',
             'city' => 'required|string',
-            'organization_id' => 'required|integer',
             'zodiac_sign_id' => 'required|integer',
             'about_me' => 'required|string',
             'height' => 'required|numeric',
