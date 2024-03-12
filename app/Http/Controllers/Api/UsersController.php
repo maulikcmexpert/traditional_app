@@ -1535,7 +1535,7 @@ class UsersController extends BaseController
 
                 // add notification //
 
-                return response()->json(["status" => true, 'message' => 'Request Rejected successfully']);
+                return response()->json(["status" => true, 'message' => 'Request ' . $request->type . ' successfully']);
             } else {
                 return response()->json(["status" => false, 'message' => 'Request not found']);
             }
