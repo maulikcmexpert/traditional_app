@@ -750,24 +750,31 @@ class UsersController extends BaseController
                             $data['profile_image'][] = $image;
                         }
                     }
-                    $data['is_approach'] = "";
+                    $data['is_approach'] = "no_button";
                     if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
                         $approch_check = ApproachRequest::where('sender_id', $this->user->id)->withTrashed()->orderBy('id', 'DESC')->first();
                         // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
+
+                        $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
+                        $seenProfileUser = $this->getLoginUserLatlog($user_id);
+
+                        $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
+
+
                         if ($approch_check != null) {
 
                             if ($approch_check->status == 'accepted') {
                                 $data['is_approach'] = "message";
                             } else if ($approch_check->status == 'pending') {
+
                                 $data['is_approach'] = "cancel";
+
+                                if ($distance <= 5) {
+                                    $data['is_approach'] = "withdrawn";
+                                }
                             } else if ($approch_check->status == 'cancel') {
 
-
-                                $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
-                                $seenProfileUser = $this->getLoginUserLatlog($user_id);
-
-                                $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
 
                                 $data['is_approach'] = "friend";
                                 if ($distance <= 5) {
@@ -1063,6 +1070,7 @@ class UsersController extends BaseController
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "Profile delete"]);
             } else if ($request->type == "edit_img") {
+
                 $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile->profile);
                 unlink($filePath);
@@ -1089,9 +1097,10 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+        //  catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
