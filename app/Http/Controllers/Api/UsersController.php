@@ -1145,6 +1145,14 @@ class UsersController extends BaseController
 
             foreach ($result as $val) {
 
+                $approch_check_is_rejected = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $val->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                if ($approch_check_is_rejected->status == 'rejected') {
+                    continue;
+                }
+                $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $val->id, 'to_be_blocked_user_id' => $this->user->id])->count();
+                if ($approch_check_is_block != 0) {
+                    continue;
+                }
                 $userInfo['id'] = $val->id;
                 $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                 $userInfo['name'] = $val->full_name;
