@@ -615,7 +615,8 @@ class UsersController extends BaseController
             ];
             $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.organization')->where('id', $user_id)->first();
             if ($user_id) {
-                $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
+                $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
+                $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
                 $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
                 $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
                 $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
@@ -1458,12 +1459,14 @@ class UsersController extends BaseController
             } else {
                 return response()->json(["status" => false, 'message' => 'Request not found']);
             }
-        } catch (QueryException $e) {
+        }
+        // catch (QueryException $e) {
 
-            DB::rollBack();
+        //     DB::rollBack();
 
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // }
+        catch (\Exception $e) {
 
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
