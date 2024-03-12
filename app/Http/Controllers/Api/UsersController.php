@@ -373,7 +373,7 @@ class UsersController extends BaseController
                     }
                     $image = $value;
 
-                    $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+                    $imageName = $this->user->id . '_' . time() . $key . '.' . $image->getClientOriginalExtension();
                     $image->move(public_path('storage/profile'), $imageName);
 
                     UserProfile::create([
