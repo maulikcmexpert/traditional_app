@@ -1169,9 +1169,10 @@ class UsersController extends BaseController
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => "Something went wrong"]);
         }
+        // catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "Something went wrong"]);
+        // }
     }
 
 
