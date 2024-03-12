@@ -891,7 +891,7 @@ class UsersController extends BaseController
             $validator = Validator::make($request->all(), [
                 'full_name' => 'required|string',
                 'state_id' => 'required|integer',
-                'city_id' => 'required|integer',
+                'city' => 'required|string',
                 'organization_id' => 'required|integer',
                 'zodiac_sign_id' => 'required|integer',
                 'religion_id' => 'required|integer',
