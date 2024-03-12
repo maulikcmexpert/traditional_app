@@ -1615,7 +1615,7 @@ class UsersController extends BaseController
             }, 'country', 'user_profile'])->withCount(['userdetail' => function ($query) use ($organizationId) {
                 $query->where('organization_id', $organizationId);
             }])->where('id', $organizationId)->first();
-
+            dd($user);
             $user_id =  $user->id;
             $full_name = ($user->full_name != "") ?  $user->full_name : "";
             $mobile_number = ($user->mobile_number != "") ?  $user->mobile_number : "";
