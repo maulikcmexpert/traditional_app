@@ -31,7 +31,7 @@ class UserValidate extends FormRequest
         return [
             'full_name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:200'],
             'country_dial' => ['required', 'string', 'max:5'],
-            'mobile_number' => ['required', new MobileNumberValidation, 'string', 'min:10', 'max:13', 'unique:users,mobile_number'],
+            'mobile_number' => ['required', new MobileNumberValidation, 'string', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             'date_of_birth' => ['required'],
             'state_id' => ['required', 'integer'],
