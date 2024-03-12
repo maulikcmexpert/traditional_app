@@ -1020,9 +1020,9 @@ class UsersController extends BaseController
         $user_id = $this->user->id;
         DB::beginTransaction();
         if (isset($request->question) && !empty($request->question)) {
-            dd($request->question);
-            foreach ($request->question as $val) {
 
+            foreach ($request->question as $val) {
+                dd($val->id);
                 if (!empty($val->id)) {
                     $updateQue = UserShwstpprQue::where('id', $val->id)->first();
                     $updateQue->question = $val->question;
