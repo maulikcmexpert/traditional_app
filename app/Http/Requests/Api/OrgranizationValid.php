@@ -29,16 +29,16 @@ class OrgranizationValid extends FormRequest
     public function rules(): array
     {
         return [
-            'organization_name' => ['required', 'alpha_num', 'max:200'],
+            'organization_name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
-            'mobile_number' => ['required', new MobileNumberValidation, 'string', 'min:10', 'max:13', 'unique:users,mobile_number'],
+            'mobile_number' => ['required', new MobileNumberValidation, 'string', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             'organization_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'established_year' => ['required'],
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],
-            'city' => ['required', 'alpha_num'],
-            'address' => ['required', 'alpha_num'],
+            'city' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+            'address' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
 
         ];
     }
@@ -46,6 +46,7 @@ class OrgranizationValid extends FormRequest
     public function messages()
     {
         return [
+            'full_name.regex' => 'Please enter Full Name must be start with character',
             'mobile_number.required' => 'Mobile number should be string.',
             // 'user_type.in'=>'Type should be only user,admin,organization'
         ];
