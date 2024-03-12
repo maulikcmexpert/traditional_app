@@ -156,7 +156,7 @@ class UsersController extends BaseController
                 $organization_detail->city = $request->city;
                 $organization_detail->state = $request->state_id;
                 $organization_detail->address = $request->address;
-                // $organization_detail->about_us = $request->about_us;
+
                 $organization_detail->save();
             }
 
