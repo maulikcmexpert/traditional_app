@@ -1,25 +1,16 @@
 <?php
+// App/Rules/CustomEmailValidation.php
 
 namespace App\Rules;
 
-use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Rule;
 
-class CustomEmailValidation implements ValidationRule
+class CustomEmailValidation implements Rule
 {
-    /**
-     * Run the validation rule.
-     *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
-     */
-    public function validate(string $attribute, mixed $value, Closure $fail): void
-    {
-        //
-    }
     public function passes($attribute, $value)
     {
         // Check if the email starts with a character
-        return !preg_match('/^\d/', $value);
+        return preg_match('/^[A-Za-z]/', $value) === 1;
     }
 
     public function message()
