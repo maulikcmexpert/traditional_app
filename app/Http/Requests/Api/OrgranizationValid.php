@@ -49,6 +49,8 @@ class OrgranizationValid extends FormRequest
             'organization_name.regex' => 'Please enter Organization Name must be start with character',
             'mobile_number.required' => 'Mobile number should be string.',
             // 'user_type.in'=>'Type should be only user,admin,organization'
+            'city.required' => 'Plesse enter City',
+            'city.regex' => ['Please enter City must be start with character'],
         ];
     }
 
