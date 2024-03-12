@@ -642,15 +642,14 @@ class UsersController extends BaseController
                         $data['life_style'][] = $lifestyle;
                     }
                 }
-                $user_intrest_hobby = UserInterestAndHobby::where('user_id', $user_id)->get();
+                $user_intrest_hobby = UserInterestAndHobby::with('interest_and_hobbies')->where('user_id', $user_id)->get();
                 $data['intrest_and_hobby'] = [];
                 if (count($user_intrest_hobby)) {
 
                     foreach ($user_intrest_hobby as $key => $val) {
-                        $intrest_hobby['id'] = $val->id;
-                        $lifestyleVal = InterestAndHobby::where('id', $val->interest_and_hobby_id)->select('interest_and_hobby')->get();
+                        $intrest_hobby['id'] = $val->interest_and_hobby_id;
 
-                        $intrest_hobby['name'] = $lifestyleVal[0]->interest_and_hobby;
+                        $intrest_hobby['name'] = $val->interest_and_hobbies->interest_and_hobby;
                         $data['intrest_and_hobby'][] = $intrest_hobby;
                     }
                 }
