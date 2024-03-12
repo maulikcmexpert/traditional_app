@@ -633,7 +633,7 @@ class UsersController extends BaseController
                 $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
                 $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
                 $data['organization_name'] = ($user->userdetail->organization_id != NULL) ? $user->userdetail['organization']->full_name : "";
-                $user_lifestyle = UserLifestyle::with('lifestyles')->where('user_id', $user_id)->get();
+                $user_lifestyle = UserLifestyle::with('lifestyle')->where('user_id', $user_id)->get();
 
                 $data['life_style'] = [];
                 if (count($user_lifestyle)) {
