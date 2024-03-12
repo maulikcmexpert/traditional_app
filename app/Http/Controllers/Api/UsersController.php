@@ -1312,7 +1312,10 @@ class UsersController extends BaseController
                     }
                 }
             }
-            $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
+
+
+
+            $checkIsApproched =  ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->id])->withTrashed()->orderBy('id', 'DESC')->first();
             if ($checkIsApproched != null) {
                 if ($checkIsApproched->status == 'pending') {
 
