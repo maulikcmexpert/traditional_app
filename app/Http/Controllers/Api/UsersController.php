@@ -755,8 +755,7 @@ class UsersController extends BaseController
                     if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
                         $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
-                        // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
-                        dd($approch_check);
+
                         $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                         $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
@@ -774,7 +773,7 @@ class UsersController extends BaseController
                                 if ($approch_check->type == 'approch') {
                                     $data['is_approach'] = "withdrawn";
                                 }
-                            } else if ($approch_check->status == 'cancel') {
+                            } else if ($approch_check->status == 'cancelled') {
 
 
                                 $data['is_approach'] = "friend";
