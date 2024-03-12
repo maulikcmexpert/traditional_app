@@ -1071,6 +1071,7 @@ class UsersController extends BaseController
                     $addNewQue = new UserShwstpprQue();
                     $addNewQue->question = $val['question'];
                     $addNewQue->option_1 = $val['option_1'];
+                    $addNewQue->user_id = $this->user->id;
                     $addNewQue->option_2 = $val['option_2'];
                     $addNewQue->prefered_option = $val['prefered_option'];
                     $addNewQue->save();
