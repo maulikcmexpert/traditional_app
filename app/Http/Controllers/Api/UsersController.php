@@ -752,7 +752,40 @@ class UsersController extends BaseController
                         }
                     }
                     $data['is_approach'] = "";
+                    if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
+                        $approch_check = ApproachRequest::where('sender_id', $this->user->id)->withTrashed()->ordeBy('id', 'DESC')->first();
+                        // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
+                        if ($approch_check != null) {
+
+                            if ($approch_check->status == 'accepted') {
+                                $data['is_approach'] = "message";
+                            } else if ($approch_check->status == 'pending') {
+                                $data['is_approach'] = "cancel";
+                            } else if ($approch_check->status == 'cancel') {
+
+
+                                $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
+                                $seenProfileUser = $this->getLoginUserLatlog($user_id);
+
+                                $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
+
+                                $data['is_approach'] = "friend";
+                                if ($distance <= 5) {
+                                    $data['is_approach'] = "approach";
+                                }
+                            }
+                        } else {
+
+
+                            $status = $this->checkRelationStatus($user_id);
+                            if ($status == 'pending') {
+                                $data['is_approach'] = "cancel";
+                            } elseif ($status == 'accepted') {
+                                $data['is_approach'] = "message";
+                            }
+                        }
+                    }
 
                     // if ($user->userdetail->gender == 'male') {
                     //     $approch_check = ApproachRequest::where('sender_id', $this->user->id)->where('type', "approch")->where('status', 'accepted')->first();
