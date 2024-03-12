@@ -616,22 +616,21 @@ class UsersController extends BaseController
             $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.organization')->where('id', $user_id)->first();
             if ($user_id) {
                 $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
-                $data['height_type'] = ($user['userdetail']->height_type != "") ? $user['userdetail']->height_type : "";
-                $data['about_me'] = ($user['userdetail']->about_me != "") ? $user['userdetail']->about_me : "";
-                $data['state_id'] = ($user['userdetail']->state_id != "") ? $user['userdetail']->state_id : "";
-                $data['date_of_birth'] = (date('d-m-Y', strtotime($user['userdetail']->date_of_birth)) != "") ? date('d-m-Y', strtotime($user['userdetail']->date_of_birth)) : "";
-                $data['height'] = ($user['userdetail']->height != "") ? $user['userdetail']->height : "";
-                $data['weight'] = ($user['userdetail']->weight != "") ? $user['userdetail']->weight : "";
-                $data['education'] = ($user['userdetail']->education != "") ? $user['userdetail']->education : "";
-                $data['religion_id'] = ($user['userdetail']->religion_id != "") ? $user['userdetail']->religion_id : "";
-                $data['religion_name'] = ($user['userdetail']['religon'] != "") ? $user['userdetail']['religon']->religion : "";
-                $data['zodiac_sign_id'] = ($user['userdetail']->zodiac_sign_id != "") ? $user['userdetail']->zodiac_sign_id : "";
-                $data['zodiac_signs_name'] = ($user['userdetail']['zodiac_sign']->zodiac_sign != "") ? $user['userdetail']['zodiac_sign']->zodiac_sign : "";
-                $data['state_name'] = ($user['userdetail']['state']->state != "") ? $user['userdetail']['state']->state : "";
-                $data['city_id'] = ($user['userdetail']->city_id != "") ? $user['userdetail']->city_id : "";
-                $data['city_name'] = ($user['userdetail']['city']->city != "") ? $user['userdetail']['city']->city : "";
-                $data['organization_id'] = ($user['userdetail']->organization_id != "") ? $user['userdetail']->organization_id : "";
-                $data['organization_name'] = ($user['userdetail']['organization']->full_name != "") ? $user['userdetail']['organization']->full_name : "";
+                $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
+                $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
+                $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
+                $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
+                $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
+                $data['weight'] = ($user->userdetail->weight != "") ? $user->userdetail->weight : "";
+                $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
+                $data['religion_id'] = ($user->userdetail->religion_id != "") ? $user->userdetail->religion_id : "";
+                $data['religion_name'] = ($user->userdetail['religon'] != "") ? $user->userdetail['religon']->religion : "";
+                $data['zodiac_sign_id'] = ($user->userdetail->zodiac_sign_id != "") ? $user->userdetail->zodiac_sign_id : "";
+                $data['zodiac_signs_name'] = ($user->userdetail['zodiac_sign']->zodiac_sign != "") ? $user->userdetail['zodiac_sign']->zodiac_sign : "";
+                $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
+                $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
+                $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
+                $data['organization_name'] = ($user->userdetail['organization']->full_name != "") ? $user->userdetail['organization']->full_name : "";
                 $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
                 $data['life_style'] = [];
                 if (count($user_lifestyle)) {
