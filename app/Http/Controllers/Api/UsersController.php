@@ -672,11 +672,10 @@ class UsersController extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
-        }
-        // catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
     }
 
     public function showUserProfile(Request $request)
