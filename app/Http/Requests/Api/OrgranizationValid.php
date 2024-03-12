@@ -46,7 +46,7 @@ class OrgranizationValid extends FormRequest
     public function messages()
     {
         return [
-            'full_name.regex' => 'Please enter Full Name must be start with character',
+            'organization_name.regex' => 'Please enter Organization Name must be start with character',
             'mobile_number.required' => 'Mobile number should be string.',
             // 'user_type.in'=>'Type should be only user,admin,organization'
         ];
