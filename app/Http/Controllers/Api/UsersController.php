@@ -889,79 +889,77 @@ class UsersController extends BaseController
 
     public function updateUserprofile(Request $request)
     {
-        // try {
+        try {
 
-        $validator = Validator::make($request->all(), [
-            'full_name' => 'required|string',
-            'state_id' => 'required|integer',
-            'city' => 'required|string',
-            'zodiac_sign_id' => 'required|integer',
-            'about_me' => 'required|string',
-            'height' => 'required|numeric',
-            'weight' => 'required|numeric',
-            'education' => 'required|string',
-            'life_styles' => ['required', 'array'],
-            'interest_and_hobby' => ['required', 'array'],
+            $validator = Validator::make($request->all(), [
+                'full_name' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'state_id' => 'required|integer',
+                'city' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'zodiac_sign_id' => 'required|integer',
+                'about_me' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'height' => 'required|numeric',
+                'weight' => 'required|numeric',
+                'education' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'life_styles' => ['required', 'array'],
+                'interest_and_hobby' => ['required', 'array'],
 
-        ]);
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
-        }
-        $user_id = $this->user->id;
-        $user = User::where('id', $user_id)->first();
-        $user->full_name = $request->full_name;
-        $user->save();
-        $user_detail = UserDetail::where('user_id', $user_id)->first();
-        $user_detail->state_id = $request->state_id;
-        $user_detail->city = $request->city;
-        $user_detail->height = $request->height;
-        $user_detail->weight = $request->weight;
-        $user_detail->education = $request->education;
-        $user_detail->zodiac_sign_id = $request->zodiac_sign_id;
-        $user_detail->organization_id = $request->organization_id;
-        $user_detail->religion_id = $request->religion_id;
-        $user_detail->about_me = $request->about_me;
-        $user_detail->height_type = $request->height_type;
-        // dd($user_detail)
-        $user_detail->save();
-        // UserLifestyle::where('user_id', $user_id)->delete();
-        $lifeStyles = $request->life_styles;
-        $interest_and_hobby = $request->interest_and_hobby;
-        if (isset($lifeStyles) && is_array($lifeStyles)) {
-            // if exists then delete prev data //
-            UserLifestyle::where('user_id', $this->user->id)->delete();
-
-            foreach ($lifeStyles as $val) {
-                $life_style = new UserLifestyle();
-                $life_style->user_id = $this->user->id;
-                $life_style->lifestyle_id = $val;
-                $life_style->save();
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
             }
-        }
+            $user_id = $this->user->id;
+            $user = User::where('id', $user_id)->first();
+            $user->full_name = $request->full_name;
+            $user->save();
+            $user_detail = UserDetail::where('user_id', $user_id)->first();
+            $user_detail->state_id = $request->state_id;
+            $user_detail->city = $request->city;
+            $user_detail->height = $request->height;
+            $user_detail->weight = $request->weight;
+            $user_detail->education = $request->education;
+            $user_detail->zodiac_sign_id = $request->zodiac_sign_id;
+            $user_detail->organization_id = $request->organization_id;
+            $user_detail->religion_id = $request->religion_id;
+            $user_detail->about_me = $request->about_me;
+            $user_detail->height_type = $request->height_type;
+            // dd($user_detail)
+            $user_detail->save();
+            // UserLifestyle::where('user_id', $user_id)->delete();
+            $lifeStyles = $request->life_styles;
+            $interest_and_hobby = $request->interest_and_hobby;
+            if (isset($lifeStyles) && is_array($lifeStyles)) {
+                // if exists then delete prev data //
+                UserLifestyle::where('user_id', $this->user->id)->delete();
 
-        if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
-            // if exists then delete prev data //
-            UserInterestAndHobby::where('user_id', $this->user->id)->delete();
-            foreach ($interest_and_hobby as $val) {
-                $interest_and_hobby = new UserInterestAndHobby();
-                $interest_and_hobby->user_id = $this->user->id;
-                $interest_and_hobby->interest_and_hobby_id = $val;
-                $interest_and_hobby->save();
+                foreach ($lifeStyles as $val) {
+                    $life_style = new UserLifestyle();
+                    $life_style->user_id = $this->user->id;
+                    $life_style->lifestyle_id = $val;
+                    $life_style->save();
+                }
             }
+
+            if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
+                // if exists then delete prev data //
+                UserInterestAndHobby::where('user_id', $this->user->id)->delete();
+                foreach ($interest_and_hobby as $val) {
+                    $interest_and_hobby = new UserInterestAndHobby();
+                    $interest_and_hobby->user_id = $this->user->id;
+                    $interest_and_hobby->interest_and_hobby_id = $val;
+                    $interest_and_hobby->save();
+                }
+            }
+
+            return response()->json(['status' => true, 'message' => "Profile update successfully"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        return response()->json(['status' => true, 'message' => "Profile update successfully"]);
-        // }
-        //  catch (QueryException $e) {
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // }
-        // catch (\Exception $e) {
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
 
@@ -972,7 +970,7 @@ class UsersController extends BaseController
             $validator = Validator::make($request->all(), [
                 'full_name' => 'required|regex:/^[a-zA-Z0-9]+$/',
                 'state_id' => 'required|integer',
-                // 'city_id' => 'required|integer',
+                'city' => 'required|regex:/^[a-zA-Z0-9]+$/',
                 // 'organization_id' => 'required|integer',
                 'about_us' => 'required|regex:/^[a-zA-Z0-9]+$/',
                 'size_of_organization_id' => 'required|integer',
