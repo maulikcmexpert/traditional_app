@@ -753,7 +753,7 @@ class UsersController extends BaseController
                     $data['is_approach'] = "no_button";
                     if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
-                        $approch_check = ApproachRequest::where('sender_id', $this->user->id)->withTrashed()->orderBy('id', 'DESC')->first();
+                        $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
                         // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
 
                         $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
@@ -770,7 +770,7 @@ class UsersController extends BaseController
 
                                 $data['is_approach'] = "cancel";
 
-                                if ($distance <= 5) {
+                                if ($approch_check->type == 'approch') {
                                     $data['is_approach'] = "withdrawn";
                                 }
                             } else if ($approch_check->status == 'cancel') {
@@ -785,61 +785,42 @@ class UsersController extends BaseController
 
 
                             $status = $this->checkRelationStatus($user_id);
-                            if ($status == 'pending') {
-                                $data['is_approach'] = "cancel";
-                            } elseif ($status == 'accepted') {
+                            if ($status == 'true') {
+                                $data['is_approach'] = "friend";
+                                if ($distance <= 5) {
+                                    $data['is_approach'] = "approach";
+                                }
+                            }
+                        }
+                    } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
+
+                        $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+                        // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
+
+                        $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
+                        $seenProfileUser = $this->getLoginUserLatlog($user_id);
+
+                        $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
+                        $data['is_approach'] = "friend";
+
+                        if ($approch_check != null) {
+
+                            if ($approch_check->status == 'accepted') {
                                 $data['is_approach'] = "message";
+                            } else if ($approch_check->status == 'pending') {
+
+                                $data['is_approach'] = "cancel";
+
+                                if ($approch_check->type == 'approch') {
+
+                                    $data['is_approach'] = "accept_reject";
+                                }
+                            } else if ($approch_check->status == 'rejected') {
+
+                                $data['is_approach'] = "no_button";
                             }
                         }
                     }
-
-                    // if ($user->userdetail->gender == 'male') {
-                    //     $approch_check = ApproachRequest::where('sender_id', $this->user->id)->where('type', "approch")->where('status', 'accepted')->first();
-                    //     $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
-                    //     if ($approch_check != null && $approch_check->status == 'accepted') {
-                    //         $data['is_approach'] = "not approachable";
-                    //     } else if ($check_pending != null && $check_pending->status == "accepted") {
-                    //         $data['is_approach'] = "message";
-                    //     } else if ($check_pending != null && $check_pending->status == 'pending') {
-                    //         $data['is_approach'] = "withdrawn";
-                    //     } else {
-                    //         $data['is_approach'] = "approachable";
-                    //     }
-                    // } else if ($user->userdetail->gender == 'female') {
-
-                    //     $approch_check = ApproachRequest::where('sender_id', $this->user->id)->withTrashed()->ordeBy('id', 'DESC')->first();
-                    //     // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
-                    //     if ($approch_check != null) {
-
-                    //         if ($approch_check->status == 'accepted') {
-                    //             $data['is_approach'] = "message";
-                    //         } else if ($approch_check->status == 'pending') {
-                    //             $data['is_approach'] = "cancel";
-                    //         } else if ($approch_check->status == 'cancel') {
-
-
-                    //             $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
-                    //             $seenProfileUser = $this->getLoginUserLatlog($user_id);
-
-                    //             $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
-
-                    //             $data['is_approach'] = "friend";
-                    //             if ($distance <= 5) {
-                    //                 $data['is_approach'] = "approach";
-                    //             }
-                    //         }
-                    //     } else {
-                    //         if ($this->user->userdetail->gender == 'male') {
-
-                    //             $status = $this->checkRelationStatus($user_id);
-                    //             if ($status == 'pending') {
-                    //                 $data['is_approach'] = "cancel";
-                    //             } elseif ($status == 'accepted') {
-                    //                 $data['is_approach'] = "message";
-                    //             }
-                    //         }
-                    //     }
-                    // }
                 }
             }
             DB::commit();
@@ -869,23 +850,7 @@ class UsersController extends BaseController
                 }
             }
         }
-        $checkIsApproched = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->first();
-        if ($checkIsApproched != null) {
-            if ($checkIsApproched->status == 'pending') {
-
-                return $checkIsApproched->status;
-            }
-            if ($checkIsApproched->status == 'rejected') {
-                return $checkIsApproched->status;
-                if ($checkIsApproched->status == 'accepted') {
-                    return $checkIsApproched->status;
-                }
-            }
-
-
-
-            return response()->json(["status" => true, 'message' => 'you are elegible']);
-        }
+        return "true";
     }
 
     public function getLoginUserLatlog($user_id)
