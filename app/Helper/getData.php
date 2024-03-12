@@ -20,17 +20,17 @@ function getManageRequest($type, $page, $receiver_id)
 
     $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->count();
     $total_page  = ceil($total_request / 10);
-    $request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
+    $request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     if ($type == 'rejected') {
-        $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('created_at', 'desc')->onlyTrashed()->count();
+        $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->onlyTrashed()->count();
         $total_page  = ceil($total_request / 10);
-        $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
+        $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     }
 
     if ($type == "cancelled") {
         $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->count();
         $total_page  = ceil($total_request / 10);
-        $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
+        $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     }
     $userData = [];
 
@@ -40,7 +40,7 @@ function getManageRequest($type, $page, $receiver_id)
         $userInfo['name'] = $val->sender_user->full_name;
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
-        $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->created_at);
+        $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
         $userInfo['message'] =  ($val->status == 'rejected') ? $val->message : "";
         $userData[] = $userInfo;
     }

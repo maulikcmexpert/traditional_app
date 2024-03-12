@@ -1716,7 +1716,7 @@ class UsersController extends BaseController
             $total_page  = ceil($totalBlockUser / 10);
             $blockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
                 $query->where('is_default', '1')->first();
-            }])->where('blocker_user_id', $this->user->id)->paginate(10, ['*'], 'page', $page);
+            }])->where('blocker_user_id', $this->user->id)->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
 
 
             $blockUserList = [];
