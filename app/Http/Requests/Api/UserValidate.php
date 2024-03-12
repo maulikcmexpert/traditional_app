@@ -35,7 +35,7 @@ class UserValidate extends FormRequest
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             'date_of_birth' => ['required'],
             'state_id' => ['required', 'integer'],
-            'city' => ['required', 'alpha_num'],
+            'city' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
         ];
     }
 
