@@ -667,7 +667,7 @@ class UsersController extends BaseController
                 }
                 $data['show_stopper_ques'] = [];
                 if ($user->userdetail->gender == 'female') {
-                    $getQuestions = UserShwstpprQue::select('id', 'user_id', 'question', 'option_1', 'option_2', 'prefered_option')->where('user_id', $request->user_id)->get();
+                    $getQuestions = UserShwstpprQue::select('id', 'user_id', 'question', 'option_1', 'option_2', 'prefered_option')->where('user_id', $user->id)->get();
                     $data['show_stopper_ques']  = $getQuestions;
                 }
             }
