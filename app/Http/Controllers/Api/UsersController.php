@@ -1318,12 +1318,14 @@ class UsersController extends BaseController
             $checkIsApproched =  ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->withTrashed()->orderBy('id', 'DESC')->first();
 
             if ($checkIsApproched != null) {
-                dd($checkIsApproched->status);
+
                 if ($checkIsApproched->status == 'pending') {
 
                     return response()->json(["status" => false, 'message' => 'You have already approach request to this person']);
                 }
                 if ($checkIsApproched->status == 'rejected') {
+                    echo "coming";
+                    dd($checkIsApproched->status);
                     return response()->json(["status" => false, 'message' => 'You have rejected']);
                 }
                 if ($checkIsApproched->status == 'accepted') {
