@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('user_shwstppr_ques', function (Blueprint $table) {
             $table->enum('status', ['active', 'inactive'])->default('active')->after('prefered_option');
+            $table->softDeletes();
         });
     }
 
