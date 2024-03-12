@@ -24,6 +24,6 @@ class CustomEmailValidation implements ValidationRule
 
     public function message()
     {
-        return 'The :attribute must start with a letter.';
+        return 'attribute must start with a letter.';
     }
 }

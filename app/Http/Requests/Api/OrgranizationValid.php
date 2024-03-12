@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Rules\CustomEmailValidation;
 use App\Rules\MobileNumberValidation;
 
+
 class OrgranizationValid extends FormRequest
 {
     /**
