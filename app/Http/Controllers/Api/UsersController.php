@@ -892,7 +892,6 @@ class UsersController extends BaseController
             'city' => 'required|string',
             'organization_id' => 'required|integer',
             'zodiac_sign_id' => 'required|integer',
-            'religion_id' => 'required|integer',
             'about_me' => 'required|string',
             'height' => 'required|numeric',
             'weight' => 'required|numeric',
