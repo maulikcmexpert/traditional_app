@@ -62,6 +62,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('accept_reject_by_female', [UsersController::class, 'acceptRejectByFemale'])->middleware('check_user');
     Route::post('search_user', [UsersController::class, 'searchUser'])->middleware('check_user');
     Route::post('block_user_list', [UsersController::class, 'blockUserList'])->middleware('check_user');
+    Route::post('update_show_stopper_ques', [UsersController::class, 'updateShowStopperQues'])->middleware('check_user');
 
     // Route::middleware(['check_user'])->group( function () {
     //     Route::get('country_list_login', [ListController::class, 'CountryList']);
