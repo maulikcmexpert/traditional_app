@@ -19,7 +19,7 @@ class MobileNumberValidation implements ValidationRule
     public function passes($attribute, $value)
     {
         // Check if the value is a string and exactly 13 characters long
-        return is_string($value) && strlen($value) >= 10 && strlen($value) <= 13;
+        return is_string($value) && strlen($value) >= 7 && strlen($value) <= 13;
     }
 
     /**
