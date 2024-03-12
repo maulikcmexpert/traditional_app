@@ -373,7 +373,7 @@ class UsersController extends BaseController
                     }
                     $image = $value;
 
-                    $imageName = $this->user->id . '_' . $key . '.' . $image->getClientOriginalExtension();
+                    $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                     $image->move(public_path('storage/profile'), $imageName);
 
                     UserProfile::create([
@@ -1047,8 +1047,8 @@ class UsersController extends BaseController
                     $image = $request->profile_image;
                     $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
                     if ($checkImageExist != 0) {
-                        $giveNum = $checkImageExist + 1;
-                        $imageName = $this->user->id . '_' . $giveNum . '.' . $image->getClientOriginalExtension();
+
+                        $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                     }
 
                     $image->move(public_path('storage/profile'), $imageName);
@@ -1086,7 +1086,7 @@ class UsersController extends BaseController
                     $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
                     if ($checkImageExist != 0) {
                         $giveNum = $checkImageExist + 1;
-                        $imageName = $this->user->id . '_' . $giveNum . '.' . $image->getClientOriginalExtension();
+                        $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                     }
 
                     $image->move(public_path('storage/profile'), $imageName);
