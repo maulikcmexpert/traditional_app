@@ -26,8 +26,9 @@ use Kreait\Firebase\ServiceAccount;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OrganizationDetail;
-use App\Models\SizeOfOrganization;
 use App\Models\UserProfile;
+use App\Models\SizeOfOrganization;
+use App\Models\ProfileBlock;
 use App\Models\UserInterestAndHobby;
 use App\Models\UserLifestyle;
 use App\Models\UserShwstpprQue;
@@ -794,7 +795,7 @@ class UsersController extends BaseController
                         }
                     } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
 
-                        $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+                        $approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
                         // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
 
                         $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
@@ -1668,6 +1669,45 @@ class UsersController extends BaseController
             }
             DB::commit();
             return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function blockUserList(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $page = 1;
+            if (isset($request->page) && $request->page != "") {
+                $page = $request->page;
+            }
+
+            $totalBlockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
+                $query->where('is_default', '1')->first();
+            }])->where('blocker_user_id', $this->user->id)->count();
+            $total_page  = ceil($totalBlockUser / 10);
+            $blockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
+                $query->where('is_default', '1')->first();
+            }])->where('blocker_user_id', $this->user->id)->paginate(10, ['*'], 'page', $page);
+
+
+            $blockUserList = [];
+            if (count($blockUser) != 0) {
+
+                $data['name'] = $blockUser->blocked_user->full_name;
+                $data['profile_image'] = ($blockUser->blocked_user->user_profile != null) ? asset('storage/profile/' . $blockUser->blocked_user->user_profile->profile) : "";
+                $blockUserList[] = $data;
+            }
+            DB::commit();
+            return response()->json(['status' => true, 'message' => "block user lists", 'data' => $blockUserList]);
         } catch (QueryException $e) {
             DB::rollBack();
 
