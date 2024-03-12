@@ -24,7 +24,7 @@ function getManageRequest($type, $page, $receiver_id)
     if ($type == 'rejected') {
         $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('created_at', 'desc')->onlyTrashed()->count();
         $total_page  = ceil($total_request / 10);
-        $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->paginate(10, ['*'], 'page', $page);
+        $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
     }
 
     if ($type == "cancelled") {
