@@ -900,7 +900,6 @@ class UsersController extends BaseController
             'weight' => 'required|numeric',
             'education' => 'required|string',
             'life_styles' => ['required', 'array'],
-            'life_styles.*' => ['integer'],
             'interest_and_hobby' => ['required', 'array'],
             'interest_and_hobby.*' => ['integer'],
         ]);
