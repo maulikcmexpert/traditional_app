@@ -891,19 +891,42 @@ class UsersController extends BaseController
     {
         try {
 
-            $validator = Validator::make($request->all(), [
-                'full_name' => 'required|alpha_num',
-                'state_id' => 'required|integer',
-                'city' => 'required|alpha_num',
-                'zodiac_sign_id' => 'required|integer',
-                'about_me' => 'required|alpha_num',
-                'height' => 'required|numeric',
-                'weight' => 'required|numeric',
-                'education' => 'required|alpha_num',
-                'life_styles' => ['required', 'array'],
-                'interest_and_hobby' => ['required', 'array'],
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'full_name' => 'required|regex:/^[a-zA-Z\s]+$/',
+                    'state_id' => 'required|integer',
+                    'city' => 'required|regex:/^[a-zA-Z\s]+$/',
+                    'zodiac_sign_id' => 'required|integer',
+                    'about_me' => 'required',
+                    'height' => 'required|numeric',
+                    'weight' => 'required|numeric',
+                    'education' => 'required',
+                    'life_styles' => ['required', 'array'],
+                    'interest_and_hobby' => ['required', 'array'],
 
-            ]);
+                ],
+                [
+                    'full_name.required' => 'Please Enter your Full Name.',
+                    'full_name.regex' => 'The Full Name can only contain letters and spaces.',
+                    'state_id.required' => 'Please select your State.',
+                    'state_id.integer' => 'State ID must be an integer.',
+                    'city.required' => 'Please Enter Your city.',
+                    'city.regex' => 'The City can only contain letters and spaces.',
+                    'zodiac_sign_id.required' => 'Please select  Zodiac Sign.',
+                    'zodiac_sign_id.integer' => 'Zodiac Sign ID must be an integer.',
+                    'about_me.required' => 'Please enter some information about yourself.',
+                    'height.required' => 'Please enter your Height.',
+                    'height.numeric' => 'Height must be a number.',
+                    'weight.required' => 'Please Enter your Weight.',
+                    'weight.numeric' => 'Weight must be a number.',
+                    'education.required' => 'Please enter your Education information.',
+                    'life_styles.required' => 'Please select at least one Lifestyle.',
+                    'life_styles.array' => 'Lifestyles must be provided as an array.',
+                    'interest_and_hobby.required' => 'Please select at least one Interest or Hobby.',
+                    'interest_and_hobby.array' => 'Interests and Hobbies must be enter as an array.',
+                ]
+            );
 
             if ($validator->fails()) {
                 return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
@@ -1037,7 +1060,7 @@ class UsersController extends BaseController
 
             foreach ($request->question as $val) {
 
-                if (!empty($val['id'])) {
+                if ($val['id'] != 0) {
                     $updateQue = UserShwstpprQue::where('id', $val['id'])->first();
                     $updateQue->question = $val['question'];
                     $updateQue->option_1 = $val['option_1'];
