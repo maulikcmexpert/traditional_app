@@ -901,7 +901,7 @@ class UsersController extends BaseController
             'education' => 'required|string',
             'life_styles' => ['required', 'array'],
             'interest_and_hobby' => ['required', 'array'],
-            'interest_and_hobby.*' => ['integer'],
+
         ]);
 
         if ($validator->fails()) {
