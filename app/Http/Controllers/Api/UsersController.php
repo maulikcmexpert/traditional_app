@@ -887,7 +887,7 @@ class UsersController extends BaseController
     public function updateUserprofile(Request $request)
     {
         // try {
-        DB::beginTransaction();
+
         $validator = Validator::make($request->all(), [
             'full_name' => 'required|string',
             'state_id' => 'required|integer',
@@ -947,7 +947,7 @@ class UsersController extends BaseController
                 $interest_and_hobby->save();
             }
         }
-        DB::commit();
+
         return response()->json(['status' => true, 'message' => "Profile update successfully"]);
         // }
         //  catch (QueryException $e) {
