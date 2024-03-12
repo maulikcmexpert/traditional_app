@@ -633,15 +633,12 @@ class UsersController extends BaseController
                 $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
                 $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
                 $data['organization_name'] = ($user->userdetail->organization_id != NULL) ? $user->userdetail['organization']->full_name : "";
-                $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
+                $user_lifestyle = UserLifestyle::with('lifestyles')->where('user_id', $user_id)->get();
                 $data['life_style'] = [];
                 if (count($user_lifestyle)) {
                     foreach ($user_lifestyle as $key => $val) {
-
-                        $lifestyle['id'] = $val->id;
-                        $lifestyleVal = Lifestyle::where('id', $val->lifestyle_id)->select('life_style')->get();
-
-                        $lifestyle['name'] = $lifestyleVal[0]->life_style;
+                        $lifestyle['id'] = $val->lifestyle_id;
+                        $lifestyle['name'] = $val->lifestyles->life_style;
                         $data['life_style'][] = $lifestyle;
                     }
                 }
