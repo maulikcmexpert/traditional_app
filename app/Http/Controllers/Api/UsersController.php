@@ -1065,7 +1065,10 @@ class UsersController extends BaseController
             } else if ($request->type == "delete_img") {
                 $profile_name = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile_name->profile);
-                unlink($filePath);
+                if (file_exists($filePath)) {
+
+                    unlink($filePath);
+                }
                 $profile_delete = UserProfile::where('id', $request->profile_id)->delete();
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "Profile delete"]);
@@ -1073,7 +1076,10 @@ class UsersController extends BaseController
 
                 $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
                 $filePath = public_path('storage/profile/' . $profile->profile);
-                unlink($filePath);
+                if (file_exists($filePath)) {
+
+                    unlink($filePath);
+                }
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
 
