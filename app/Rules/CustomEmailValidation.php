@@ -19,11 +19,11 @@ class CustomEmailValidation implements ValidationRule
     public function passes($attribute, $value)
     {
         // Check if the email starts with a character
-        return preg_match('/^[a-zA-Z]/', $value);
+        return !preg_match('/^\d/', $value);
     }
 
     public function message()
     {
-        return 'attribute must start with a letter.';
+        return 'The :attribute must start with a character and can have numbers after that.';
     }
 }
