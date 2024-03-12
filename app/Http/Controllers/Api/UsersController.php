@@ -1022,20 +1022,20 @@ class UsersController extends BaseController
         if (isset($request->question) && !empty($request->question)) {
 
             foreach ($request->question as $val) {
-                dd($val['id']);
-                if (!empty($val->id)) {
-                    $updateQue = UserShwstpprQue::where('id', $val->id)->first();
-                    $updateQue->question = $val->question;
-                    $updateQue->option_1 = $val->option_1;
-                    $updateQue->option_2 = $val->option_2;
-                    $updateQue->prefered_option = $val->prefered_option;
+
+                if (!empty($val['id'])) {
+                    $updateQue = UserShwstpprQue::where('id', $val['id'])->first();
+                    $updateQue->question = $val['question'];
+                    $updateQue->option_1 = $val['option_1'];
+                    $updateQue->option_2 = $val['option_2'];
+                    $updateQue->prefered_option = $val['prefered_option'];
                     $updateQue->save();
                 } else {
                     $addNewQue = new UserShwstpprQue();
-                    $addNewQue->question = $val->question;
-                    $addNewQue->option_1 = $val->option_1;
-                    $addNewQue->option_2 = $val->option_2;
-                    $addNewQue->prefered_option = $val->prefered_option;
+                    $addNewQue->question = $val['question'];
+                    $addNewQue->option_1 = $val['option_1'];
+                    $addNewQue->option_2 = $val['option_2'];
+                    $addNewQue->prefered_option = $val['prefered_option'];
                     $addNewQue->save();
                 }
             }
