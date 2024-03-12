@@ -1450,11 +1450,6 @@ class UsersController extends BaseController
         if ($cancelRequest != null) {
             $cancelRequest->status = 'cancel';
             $cancelRequest->save();
-            // Soft delete
-
-            // soft delete //
-            $cancelRequest->delete();
-            // soft delete //
 
             return response()->json(["status" => true, 'message' => 'Request canceled successfully']);
         } else {
