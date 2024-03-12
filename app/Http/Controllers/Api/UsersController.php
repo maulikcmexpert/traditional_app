@@ -892,14 +892,14 @@ class UsersController extends BaseController
         try {
 
             $validator = Validator::make($request->all(), [
-                'full_name' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'full_name' => 'required|alpha_num',
                 'state_id' => 'required|integer',
-                'city' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'city' => 'required|alpha_num',
                 'zodiac_sign_id' => 'required|integer',
-                'about_me' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'about_me' => 'required|alpha_num',
                 'height' => 'required|numeric',
                 'weight' => 'required|numeric',
-                'education' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'education' => 'required|alpha_num',
                 'life_styles' => ['required', 'array'],
                 'interest_and_hobby' => ['required', 'array'],
 
@@ -968,11 +968,11 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
             $validator = Validator::make($request->all(), [
-                'full_name' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'full_name' => 'required|alpha_num',
                 'state_id' => 'required|integer',
-                'city' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'city' => 'required|alpha_num',
                 // 'organization_id' => 'required|integer',
-                'about_us' => 'required|regex:/^[a-zA-Z0-9]+$/',
+                'about_us' => 'required|alpha_num',
                 'size_of_organization_id' => 'required|integer',
                 'established_year' => 'required',
             ]);
@@ -1274,7 +1274,7 @@ class UsersController extends BaseController
         $wrongQue = [];
         foreach ($answers as $val) {
 
-            $checkAns = UserShwstpprQue::where('id', $val['question_id'])->first();
+            $checkAns = UserShwstpprQue::where('id', $val['question_id'])->withTrashed()->first();
             if ($checkAns->prefered_option == $val['prefered_answer']) {
                 $trueAns++;
             } else {
@@ -1302,7 +1302,7 @@ class UsersController extends BaseController
                 $checAlreadyAnswer->save();
             }
         }
-        $checkTotalQue = UserShwstpprQue::where('user_id', $questioner_user_id)->count();
+        $checkTotalQue = UserShwstpprQue::where('user_id', $questioner_user_id)->withTrashed()->count();
 
         if ($checkTotalQue == $trueAns) {
             return response()->json(["status" => true, 'message' => 'you are eligible for relationship', 'data' => $wrongQue]);

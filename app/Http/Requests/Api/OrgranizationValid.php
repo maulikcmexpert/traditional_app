@@ -29,7 +29,7 @@ class OrgranizationValid extends FormRequest
     public function rules(): array
     {
         return [
-            'organization_name' => ['required', 'regex:/^[a-zA-Z0-9]+$/', 'max:200'],
+            'organization_name' => ['required', 'alpha_num', 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
             'mobile_number' => ['required', new MobileNumberValidation, 'string', 'min:10', 'max:13', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
@@ -37,8 +37,8 @@ class OrgranizationValid extends FormRequest
             'established_year' => ['required'],
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],
-            'city' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
-            'address' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
+            'city' => ['required', 'alpha_num'],
+            'address' => ['required', 'alpha_num'],
 
         ];
     }
