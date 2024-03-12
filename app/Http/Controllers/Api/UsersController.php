@@ -971,8 +971,7 @@ class UsersController extends BaseController
                 'full_name' => ['required', 'regex:/^[0-9a-zA-Z\s]+$/'],
                 'state_id' => 'required|integer',
                 'city' => 'required|regex:/^[a-zA-Z\s]+$/',
-                // 'organization_id' => 'required|integer',
-                'about_us' => 'required|regex:/^[a-zA-Z\s]+$/',
+                'about_us' => 'required',
                 'size_of_organization_id' => 'required|integer',
                 'established_year' => 'required',
             ]);
