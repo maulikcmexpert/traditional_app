@@ -753,7 +753,7 @@ class UsersController extends BaseController
                     $data['is_approach'] = "";
                     if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
-                        $approch_check = ApproachRequest::where('sender_id', $this->user->id)->withTrashed()->ordeBy('id', 'DESC')->first();
+                        $approch_check = ApproachRequest::where('sender_id', $this->user->id)->withTrashed()->orderBy('id', 'DESC')->first();
                         // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
                         if ($approch_check != null) {
 
