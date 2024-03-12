@@ -1324,8 +1324,7 @@ class UsersController extends BaseController
                     return response()->json(["status" => false, 'message' => 'You have already approach request to this person']);
                 }
                 if ($checkIsApproched->status == 'rejected') {
-                    echo "coming";
-                    dd($checkIsApproched->status);
+
                     return response()->json(["status" => false, 'message' => 'You have rejected']);
                 }
                 if ($checkIsApproched->status == 'accepted') {
