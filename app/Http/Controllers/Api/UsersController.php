@@ -930,6 +930,8 @@ class UsersController extends BaseController
         if (isset($lifeStyles) && is_array($lifeStyles)) {
             // if exists then delete prev data //
             UserLifestyle::where('user_id', $this->user->id)->delete();
+            dd("hi");
+            exit;
             foreach ($lifeStyles as $val) {
                 $life_style = new UserLifestyle();
                 $life_style->user_id = $this->user->id;
