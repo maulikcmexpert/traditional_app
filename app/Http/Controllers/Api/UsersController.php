@@ -1612,10 +1612,9 @@ class UsersController extends BaseController
             $organizationId = $request->user_id;
             $user = User::with(['organizationdetail' => function ($query) {
                 return $query->with('state_data', 'city_data', 'size_of_organization');
-            }, 'country', 'user_profile'])->withCount(['userdetail' => function ($query) use ($organizationId) {
-                $query->where('organization_id', $organizationId);
-            }])->where('id', $organizationId)->first();
-            dd($user);
+            }, 'country', 'user_profile'])->where('id', $organizationId)->first();
+
+            $totalMember = UserDetail::where('organization_id', $organizationId)->count();
             $user_id =  $user->id;
             $full_name = ($user->full_name != "") ?  $user->full_name : "";
             $mobile_number = ($user->mobile_number != "") ?  $user->mobile_number : "";
@@ -1630,7 +1629,7 @@ class UsersController extends BaseController
 
             if ($user_id) {
 
-                $data['member_count'] = $user->userdetail_count;
+                $data['member_count'] = $totalMember;
                 $data['established_year'] = (date('d-m-Y', strtotime($user->organizationdetail->established_year)) != "") ? date('d-m-Y', strtotime($user->organizationdetail->established_year)) : "";
                 $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
                 $data['about_us'] = ($user->organizationdetail->about_us != "") ? $user->organizationdetail->about_us : " ";
