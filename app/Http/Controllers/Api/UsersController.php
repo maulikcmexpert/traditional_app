@@ -968,7 +968,7 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
             $validator = Validator::make($request->all(), [
-                'full_name' => 'required|regex:/^[0-9a-zA-Z\s]+$/',
+                'full_name' => ['required', 'regex:/^[0-9a-zA-Z\s]+$/'],
                 'state_id' => 'required|integer',
                 'city' => 'required|regex:/^[a-zA-Z\s]+$/',
                 // 'organization_id' => 'required|integer',
