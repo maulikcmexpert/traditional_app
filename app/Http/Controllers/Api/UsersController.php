@@ -756,7 +756,7 @@ class UsersController extends BaseController
 
                         $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
                         // $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
-
+                        dd($approch_check);
                         $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                         $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
