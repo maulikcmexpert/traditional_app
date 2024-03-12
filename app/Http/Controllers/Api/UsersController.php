@@ -950,11 +950,13 @@ class UsersController extends BaseController
             }
             DB::commit();
             return response()->json(['status' => true, 'message' => "Profile update successfully"]);
-        } catch (QueryException $e) {
-            DB::rollBack();
+        }
+        //  catch (QueryException $e) {
+        //     DB::rollBack();
 
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // }
+        catch (\Exception $e) {
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
