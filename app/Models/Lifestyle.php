@@ -13,6 +13,7 @@ class Lifestyle extends Model
     use HasFactory;
     public function userlifestyles()
     {
+
         return $this->hasMany(UserLifestyle::class, 'lifestyle_id', 'id');
     }
 }
