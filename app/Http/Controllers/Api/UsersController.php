@@ -914,7 +914,7 @@ class UsersController extends BaseController
             $user->save();
             $user_detail = UserDetail::where('user_id', $user_id)->first();
             $user_detail->state_id = $request->state_id;
-            $user_detail->city_id = $request->city_id;
+            $user_detail->city = $request->city;
             $user_detail->height = $request->height;
             $user_detail->weight = $request->weight;
             $user_detail->education = $request->education;
