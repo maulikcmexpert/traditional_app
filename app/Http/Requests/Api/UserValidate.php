@@ -42,6 +42,7 @@ class UserValidate extends FormRequest
     public function messages()
     {
         return [
+            'full_name.regex' => 'Please enter Full Name must be start with character',
             'mobile_number.required' => 'Mobile number is required.',
         ];
     }
