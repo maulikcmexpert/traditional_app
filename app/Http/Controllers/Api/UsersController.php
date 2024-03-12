@@ -1006,58 +1006,58 @@ class UsersController extends BaseController
 
     public function updateShowStopperQues(Request $request)
     {
-        try {
+        // try {
 
-            $validator = Validator::make($request->all(), [
-                'question' => 'required|array',
-                'delete_question' => 'required|array'
+        $validator = Validator::make($request->all(), [
+            'question' => 'required|array',
+            'delete_question' => 'array'
 
-            ]);
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
-            }
-            $user_id = $this->user->id;
-            DB::beginTransaction();
-            if (isset($request->question) && !empty($request->question)) {
-
-                foreach ($request->question as $val) {
-                    if ($val->id != "") {
-                        $updateQue = UserShwstpprQue::where('id', $val->id)->first();
-                        $updateQue->question = $val->question;
-                        $updateQue->option_1 = $val->option_1;
-                        $updateQue->option_2 = $val->option_2;
-                        $updateQue->prefered_option = $val->prefered_option;
-                        $updateQue->save();
-                    } else {
-                        $addNewQue = new UserShwstpprQue();
-                        $addNewQue->question = $val->question;
-                        $addNewQue->option_1 = $val->option_1;
-                        $addNewQue->option_2 = $val->option_2;
-                        $addNewQue->prefered_option = $val->prefered_option;
-                        $addNewQue->save();
-                    }
-                }
-            }
-
-            if (isset($request->delete_question) && !empty($request->delete_question)) {
-                foreach ($request->delete_question as $val) {
-                    $removeQues = UserShwstpprQue::where('id', $val)->first();
-                    $removeQues->status = 'inactive';
-                    $removeQues->save();
-                    $removeQues->delete();
-                }
-            }
-            DB::commit();
-            return response()->json(['status' => true, 'message' => "Showstopper questions updated successfully"]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        if ($validator->fails()) {
+            return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
         }
+        $user_id = $this->user->id;
+        DB::beginTransaction();
+        if (isset($request->question) && !empty($request->question)) {
+
+            foreach ($request->question as $val) {
+                if ($val->id != "") {
+                    $updateQue = UserShwstpprQue::where('id', $val->id)->first();
+                    $updateQue->question = $val->question;
+                    $updateQue->option_1 = $val->option_1;
+                    $updateQue->option_2 = $val->option_2;
+                    $updateQue->prefered_option = $val->prefered_option;
+                    $updateQue->save();
+                } else {
+                    $addNewQue = new UserShwstpprQue();
+                    $addNewQue->question = $val->question;
+                    $addNewQue->option_1 = $val->option_1;
+                    $addNewQue->option_2 = $val->option_2;
+                    $addNewQue->prefered_option = $val->prefered_option;
+                    $addNewQue->save();
+                }
+            }
+        }
+
+        if (isset($request->delete_question) && !empty($request->delete_question)) {
+            foreach ($request->delete_question as $val) {
+                $removeQues = UserShwstpprQue::where('id', $val)->first();
+                $removeQues->status = 'inactive';
+                $removeQues->save();
+                $removeQues->delete();
+            }
+        }
+        DB::commit();
+        return response()->json(['status' => true, 'message' => "Showstopper questions updated successfully"]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function updateProfilePhoto(Request $request)
