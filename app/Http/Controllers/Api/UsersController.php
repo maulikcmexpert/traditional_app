@@ -693,13 +693,10 @@ class UsersController extends BaseController
                 $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization')->where('id', $user_id)->first();
 
                 $full_name = ($user->full_name != "") ? $user->full_name : "";
-                // $mobile_number = ($user->mobile_number != "") ? $user->mobile_number : "";
-                // $email = ($user->email != "") ? $user->email : "";
+
                 $data = [];
                 $data = [
                     'name' => $full_name,
-                    // 'mobile_number' => $mobile_number,
-                    // 'email' => $email,
                 ];
 
                 if ($user != null) {
@@ -755,6 +752,8 @@ class UsersController extends BaseController
                         }
                     }
                     $data['is_approach'] = "";
+
+
                     // if ($user->userdetail->gender == 'male') {
                     //     $approch_check = ApproachRequest::where('sender_id', $this->user->id)->where('type', "approch")->where('status', 'accepted')->first();
                     //     $check_pending = ApproachRequest::where('sender_id', $this->user->id)->where('receiver_id', $user_id)->where('type', "approch")->select('sender_id', 'receiver_id', 'status')->first();
@@ -1610,10 +1609,12 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
 
-
-            $user = User::with(['userdetail', 'organizationdetail' => function ($query) {
+            $organizationId = $request->user_id;
+            $user = User::with(['organizationdetail' => function ($query) {
                 return $query->with('state_data', 'city_data', 'size_of_organization');
-            }, 'country', 'user_profile'])->where('id', $request->user_id)->first();
+            }, 'country', 'user_profile'])->withCount(['userdetail' => function ($query) use ($organizationId) {
+                $query->where('organization_id', $organizationId);
+            }])->where('id', $organizationId)->first();
 
             $user_id =  $user->id;
             $full_name = ($user->full_name != "") ?  $user->full_name : "";
@@ -1629,7 +1630,7 @@ class UsersController extends BaseController
 
             if ($user_id) {
 
-                $data['member_count'] = ($user->userdetail != "") ? $user->userdetail : "0";
+                $data['member_count'] = $user->userdetail_count;
                 $data['established_year'] = (date('d-m-Y', strtotime($user->organizationdetail->established_year)) != "") ? date('d-m-Y', strtotime($user->organizationdetail->established_year)) : "";
                 $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
                 $data['about_us'] = ($user->organizationdetail->about_us != "") ? $user->organizationdetail->about_us : " ";
