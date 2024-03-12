@@ -641,7 +641,7 @@ class UsersController extends BaseController
                         $lifestyle['id'] = $val->lifestyle_id;
                         // $lifeStylename = Lifestyle::where('id', $val->lifestyle_id)->first();
                         // $lifestyle['name'] = $lifeStylename->life_style;
-                        $lifestyle['name'] = $user_lifestyle->lifestyles->life_style;
+                        $lifestyle['name'] = $user_lifestyle->lifestyles[0]->life_style;
                         $data['life_style'][] = $lifestyle;
                     }
                 }
