@@ -1653,12 +1653,14 @@ class UsersController extends BaseController
             } else {
                 return response()->json(["status" => false, 'message' => 'Request not found']);
             }
-        } catch (QueryException $e) {
+        }
+        //  catch (QueryException $e) {
 
-            DB::rollBack();
+        //     DB::rollBack();
 
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // }
+        catch (\Exception $e) {
 
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
