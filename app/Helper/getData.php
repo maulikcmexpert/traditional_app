@@ -146,7 +146,7 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
             'id' => $val->id,
             'name' => $val->full_name,
             'city' => $val->userdetail->city ?? "",
-            'profile' => optional($val->userProfile()->where('is_default', '1')->first())->profile ?? ""
+            'profile' => optional($val->user_profile->where('is_default', '1')->first())->profile ?? ""
         ];
         $userData[] = $userInfo;
     }
