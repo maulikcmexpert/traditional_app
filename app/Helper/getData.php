@@ -121,7 +121,7 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
 
     if (!empty($organization_name)) {
         $query->whereIn('organization_id', function ($q) use ($organization_name) {
-            $q->select('id')->from('organizations')->where('name', 'like', "%$organization_name%");
+            $q->select('id')->from('users')->where('full_name', 'like', "%$organization_name%");
         });
     }
 
