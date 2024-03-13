@@ -905,7 +905,7 @@ class UsersController extends BaseController
                     'education' => 'required | max:100',
                     'life_styles' => ['required', 'array'],
                     'interest_and_hobby' => ['required', 'array'],
-
+                    'religion_id' => ['required']
                 ],
                 [
                     'full_name.required' => 'Please Enter your Full Name.',
@@ -915,7 +915,7 @@ class UsersController extends BaseController
                     'city.required' => 'Please Enter Your city.',
                     'city.regex' => 'City can only contain letters and spaces.',
                     'zodiac_sign_id.required' => 'Please select Zodiac Sign.',
-
+                    'religion_id.required' => 'Please select Religion',
                     'about_me.required' => 'Please enter some information about yourself.',
                     'height.required' => 'Please enter your Height.',
                     'height.numeric' => 'Height must be a number.',
