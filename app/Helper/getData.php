@@ -116,11 +116,15 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
     $query->where('full_name', 'like', "%$search_name%");
 
     if (!empty($city)) {
+        echo "city";
+        exit;
         $query->whereHas('userdetail', function ($q) use ($city) {
             $q->Where('city', 'like', "%$city%");
         });
     }
     if (!empty($organization_name)) {
+        echo "organizzation";
+        exit;
         $query->whereHas('userdetail', function ($q) use ($organization_name) {
             $q->where('organization_id', function ($subq) use ($organization_name) {
                 $subq->select('id')->from('users')->where('full_name', 'like', "%$organization_name%")->limit(1);
@@ -155,7 +159,7 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
         ];
         $userData[] = $userInfo;
     }
-    dd($userData);
+
     $total_page = $result->lastPage();
 
     return compact('userData', 'total_page');
