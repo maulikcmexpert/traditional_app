@@ -16,7 +16,7 @@ class AlphaNumericCity implements Rule
     public function passes($attribute, $value)
     {
         // Check if the value contains at least one letter and one digit
-        return preg_match('/[a-zA-Z]/', $value) && preg_match('/\d/', $value);
+        return (preg_match('/[a-zA-Z]/', $value) && preg_match('/\d/', $value)) || preg_match('/[a-zA-Z]/', $value);
     }
 
     public function message()
