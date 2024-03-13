@@ -121,8 +121,7 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
             $q->Where('city', 'like', "%$city%");
         });
     }
-    echo $organization_name;
-    exit;
+
     if ($organization_name != "") {
         echo "organization";
         exit;

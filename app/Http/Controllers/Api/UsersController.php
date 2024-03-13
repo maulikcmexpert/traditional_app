@@ -1551,6 +1551,7 @@ class UsersController extends BaseController
             $city = $request->city;
         }
         $organization_name = "";
+        dd($request->organization_name);
         if (isset($request->organization_name) && $request->organization_name != "") {
             $organization_name = $request->organization_name;
         }
