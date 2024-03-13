@@ -109,8 +109,8 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
 
     // Construct query for user search
     $query = User::query();
-    $query->with(['user_profile' => function ($query) {
-        $query->where('is_default', '1')->first();
+    $query->with(['user_profile' => function ($qprofile) {
+        $qprofile->where('is_default', '1')->first();
     }]);
 
     // Apply filters based on search criteria
