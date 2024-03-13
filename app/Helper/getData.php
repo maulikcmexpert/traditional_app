@@ -123,7 +123,7 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
     if (!empty($organization_name)) {
         $query->whereHas('userdetail', function ($q) use ($organization_name) {
             $q->where('organization_id', function ($subq) use ($organization_name) {
-                $subq->select('id')->from('users')->where('full_name', 'like', "%$organization_name%")->limit(1);
+                $subq->select('id')->from('users')->where('full_name', 'like', "%$organization_name%");
             });
         });
     }
