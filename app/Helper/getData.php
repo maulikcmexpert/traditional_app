@@ -106,7 +106,13 @@ function getSearchUser($search_name, $page, $user_id)
     $userData = [];
     if ($search_name != "") {
 
-        $totalData = User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->count();
+        User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->count();
+        $totalData = User::with(['userdetail'])->whereNotIn('id', function ($query) use ($userId) {
+            $query->select('to_be_blocked_user_id')
+                ->from('profile_blocks')
+                ->where('to_be_blocked_user_id', $userId)
+                ->whereNull('deleted_at'); // Assuming deleted_at is NULL for active blocks
+        })->get();
         $total_page = ceil($totalData / 10);
 
         $users = User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);

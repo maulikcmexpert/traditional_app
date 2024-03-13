@@ -38,7 +38,7 @@ class OrgranizationValid extends FormRequest
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],
             'city' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
-            'address' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+            'address' => ['required'],
 
         ];
     }
