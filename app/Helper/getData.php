@@ -120,8 +120,10 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
     }
 
     if (!empty($organization_name)) {
-        $query->whereIn('organization_id', function ($q) use ($organization_name) {
-            $q->select('id')->from('users')->where('full_name', 'like', "%$organization_name%");
+        $query->orWhereHas('userdetail', function ($q) use ($organization_name) {
+            $q->whereIn('organization_id', function ($subq) use ($organization_name) {
+                $subq->select('id')->from('users')->where('full_name', 'like', "%$organization_name%");
+            });
         });
     }
 
