@@ -1177,21 +1177,29 @@ class UsersController extends BaseController
     {
 
         try {
+
+            $useLat = (isset($request->latitude) && $request->latitude != "") ? $request->latitude : "";
+            $useLog = (isset($request->longitude) && $request->longitude != "") ? $request->longitude : "";
             // Initialize Firebase
             $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
             $factory = (new Factory())->withServiceAccount($serviceAccount);
             $database = $factory->createDatabase();
             // Retrieve data
             $data = $database->getReference('/user_locations')->getValue();
-            $user_id = $this->user->id;
-            $maleIds = array_keys($data['male']);
-            $latitude = "0";
-            $longitude = "0";
-            if (in_array($user_id, $maleIds)) {
-                $loginUserData = $data['male'][$user_id];
-                $latitude = $loginUserData['latitude'];
-                $longitude = $loginUserData['longitude'];
+            if ($useLat == "" && $useLog == "") {
+                $latitude = "0";
+                $longitude = "0";
+                $user_id = $this->user->id;
+                $maleIds = array_keys($data['male']);
+
+                if (in_array($user_id, $maleIds)) {
+                    $loginUserData = $data['male'][$user_id];
+                    $latitude = $loginUserData['latitude'];
+                    $longitude = $loginUserData['longitude'];
+                }
             }
+
+
             $femaleDataArray = [];
             foreach ($data['female'] as $keyId => $val) {
 
@@ -1536,8 +1544,13 @@ class UsersController extends BaseController
             if (isset($request->search_name) && $request->search_name != "") {
                 $search_name = $request->search_name;
             }
+            $city = "";
+            if (isset($request->city) && $request->city != "") {
+                $city = $request->city;
+            }
 
-            $requests = getSearchUser($search_name, $page, $this->user->id);
+
+            $requests = getSearchUser($search_name, $city, $page, $this->user->id);
             $userData = $requests['userData'];
             $total_page = $requests['total_page'];
 

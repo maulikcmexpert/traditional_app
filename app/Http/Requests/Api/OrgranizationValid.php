@@ -9,6 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use App\Rules\CustomEmailValidation;
 use App\Rules\MobileNumberValidation;
+use App\Rules\AlphaNumeric;
 
 
 class OrgranizationValid extends FormRequest
@@ -29,7 +30,7 @@ class OrgranizationValid extends FormRequest
     public function rules(): array
     {
         return [
-            'organization_name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:200'],
+            'organization_name' => ['required', new AlphaNumeric, 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
             'mobile_number' => ['required', new MobileNumberValidation, 'string', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
@@ -46,7 +47,8 @@ class OrgranizationValid extends FormRequest
     public function messages()
     {
         return [
-            'organization_name.regex' => 'Please enter Organization Name must be start with character',
+            'organization_name.required' => 'Please enter Organization Name',
+            'organization_name.regex' => 'Organization Name should not be only digits',
             'mobile_number.required' => 'Mobile number should be string.',
             // 'user_type.in'=>'Type should be only user,admin,organization'
             'city.required' => 'Plesse enter City',
