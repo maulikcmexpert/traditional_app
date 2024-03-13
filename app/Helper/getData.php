@@ -107,15 +107,21 @@ function getSearchUser($search_name, $page, $user_id)
     if ($search_name != "") {
 
         User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->count();
-        $totalData = User::with(['userdetail'])->whereNotIn('id', function ($query) use ($userId) {
+        $totalData = User::with(['userdetail'])->whereNotIn('id', function ($query) use ($user_id) {
             $query->select('to_be_blocked_user_id')
                 ->from('profile_blocks')
-                ->where('to_be_blocked_user_id', $userId)
+                ->where('to_be_blocked_user_id', $user_id)
                 ->whereNull('deleted_at'); // Assuming deleted_at is NULL for active blocks
-        })->get();
+        })->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->count();
         $total_page = ceil($totalData / 10);
 
-        $users = User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
+
+        $users = User::with(['userdetail'])->whereNotIn('id', function ($query) use ($user_id) {
+            $query->select('to_be_blocked_user_id')
+                ->from('profile_blocks')
+                ->where('to_be_blocked_user_id', $user_id)
+                ->whereNull('deleted_at'); // Assuming deleted_at is NULL for active blocks
+        })->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
         if (count($users) != 0) {
 
             foreach ($users as $val) {
