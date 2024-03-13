@@ -1550,13 +1550,15 @@ class UsersController extends BaseController
         if (isset($request->city) && $request->city != "") {
             $city = $request->city;
         }
+
         $organization_name = "";
 
         if (isset($request->organization_name) && $request->organization_name != "") {
             $organization_name = $request->organization_name;
         }
 
-
+        echo $organization_name;
+        exit;
         $requests = getSearchUser($search_name, $city, $page, $organization_name, $this->user->id);
         $userData = $requests['userData'];
         $total_page = $requests['total_page'];
