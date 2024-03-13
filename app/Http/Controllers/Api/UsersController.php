@@ -212,7 +212,7 @@ class UsersController extends BaseController
             $user->save();
             $response = [
                 'status' => true,
-                'message' => "Otp Send Successfully",
+                'message' => "OTP send successfully",
                 'mobile_number' => $user->mobile_number,
                 'country_code' => $user->country_code,
                 'otp' => strval($user->otp),
