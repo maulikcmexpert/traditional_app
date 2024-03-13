@@ -901,7 +901,7 @@ class UsersController extends BaseController
                     'about_me' => 'required',
                     'height' => 'required|numeric',
                     'weight' => 'required|numeric',
-                    'education' => 'required',
+                    'education' => 'required | max:100',
                     'life_styles' => ['required', 'array'],
                     'interest_and_hobby' => ['required', 'array'],
 
