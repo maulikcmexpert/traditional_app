@@ -116,24 +116,24 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
     $query->where('full_name', 'like', "%$search_name%");
 
     if (!empty($city)) {
-        $query->orWhereHas('userdetail', function ($q) use ($city) {
-            $q->orWhere('city', 'like', "%$city%");
+        $query->whereHas('userdetail', function ($q) use ($city) {
+            $q->Where('city', 'like', "%$city%");
         });
     }
-
     if (!empty($organization_name)) {
-        $query->orWhereHas('userdetail', function ($q) use ($organization_name) {
-            $q->whereIn('organization_id', function ($subq) use ($organization_name) {
-                $subq->select('id')->from('users')->where('full_name', 'like', "%$organization_name%");
+        $query->whereHas('userdetail', function ($q) use ($organization_name) {
+            $q->where('organization_id', function ($subq) use ($organization_name) {
+                $subq->select('id')->from('user_details')->where('organization_name', 'like', "%$organization_name%");
             });
         });
     }
+
 
     // Exclude blocked users
     $query->whereNotIn('id', function ($q) use ($user_id) {
         $q->select('to_be_blocked_user_id')
             ->from('profile_blocks')
-            ->where('to_be_blocked_user_id', $user_id)
+            ->where('blocker_user_id', $user_id)
             ->whereNull('deleted_at');
     });
 
