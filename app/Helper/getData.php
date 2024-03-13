@@ -98,7 +98,7 @@ function getManageRequestByMale($search_name, $page, $id)
 }
 
 
-function getSearchUser($search_name, $city, $organizationName, $page, $user_id)
+function getSearchUser($search_name, $city, $page, $organizationName, $user_id)
 {
     $userData = [];
     $total_page = 0;
@@ -121,13 +121,12 @@ function getSearchUser($search_name, $city, $organizationName, $page, $user_id)
             $q->Where('city', 'like', "%$city%");
         });
     }
-    echo $organizationName;
-    exit;
+
     if ($organizationName != "") {
 
-        $query->whereHas('userdetail', function ($q) use ($organization_name) {
-            $q->where('organization_id', function ($subq) use ($organization_name) {
-                $subq->select('id')->from('users')->where('full_name', 'like', "%$organization_name%")->limit(1);
+        $query->whereHas('userdetail', function ($q) use ($organizationName) {
+            $q->where('organization_id', function ($subq) use ($organizationName) {
+                $subq->select('id')->from('users')->where('full_name', 'like', "%$organizationName%")->limit(1);
             });
         });
     }
