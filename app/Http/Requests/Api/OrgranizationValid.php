@@ -48,11 +48,14 @@ class OrgranizationValid extends FormRequest
     {
         return [
             'organization_name.required' => 'Please enter Organization Name',
-            'organization_name.regex' => 'Organization Name should not be only digits',
-            'mobile_number.required' => 'Mobile number should be string.',
-            // 'user_type.in'=>'Type should be only user,admin,organization'
-            'city.required' => 'Plesse enter City',
-            'city.regex' => ['Please enter City must be start with character'],
+            'mobile_number.required' => 'Please enter Mobile Number',
+            'email.required' => 'Please enter Email',
+            'organization_profile.required' => 'Please upload Logo/Image',
+            'email.email' => 'Please enter valid Email',
+            'established_year.required' => 'Please select Established Year',
+            'city.required' => 'Please enter City Name',
+            'city.regex' => 'Please enter valid City Name',
+            'address' => 'Please enter Address'
         ];
     }
 

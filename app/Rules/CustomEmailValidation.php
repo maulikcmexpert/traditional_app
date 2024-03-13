@@ -15,6 +15,6 @@ class CustomEmailValidation implements Rule
 
     public function message()
     {
-        return 'Please enter Email must be start with character';
+        return 'Please enter valid Email';
     }
 }
