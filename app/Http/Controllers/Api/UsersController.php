@@ -1596,75 +1596,75 @@ class UsersController extends BaseController
 
     public function acceptRejectByFemale(Request $request)
     {
-        try {
-            if ($request->type == 'rejected') {
-                $validator = Validator::make($request->all(), [
-                    'user_id' => ['required', 'integer', 'exists:users,id'],
-                    'type' => ['required', 'string', 'in:accepted,rejected'],
-                    'message' => ['required', 'string']
-                ]);
-            } else {
+        // try {
+        if ($request->type == 'rejected') {
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'type' => ['required', 'string', 'in:accepted,rejected'],
+                'message' => ['required', 'string']
+            ]);
+        } else {
 
-                $validator = Validator::make($request->all(), [
-                    'user_id' => ['required', 'integer', 'exists:users,id'],
-                    'type' => ['required', 'string', 'in:accepted,rejected'],
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'type' => ['required', 'string', 'in:accepted,rejected'],
 
-                ]);
-            }
-
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            $cancelRequest = ApproachRequest::where(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id])->first();
-
-            if ($cancelRequest != null) {
-                if ($request->type == 'rejected') {
-                    $cancelRequest->message = $request->message;
-                }
-                $cancelRequest->status = $request->type;
-                $cancelRequest->save();
-
-
-                // Soft delete
-                // soft delete //
-                if ($request->type == 'rejected') {
-
-                    $cancelRequest->delete();
-                }
-
-                // soft delete //
-
-                if ($request->type == 'accepted') {
-                    $cancelLeftRequest = ApproachRequest::where(['receiver_id' => $this->user->id])->where('sender_id', '!=', $request->user_id)->get();
-                    if (count($cancelLeftRequest) != 0) {
-                        foreach ($cancelLeftRequest as $val)
-                            $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
-                        $cancelThisReq->status = $request->cancelled;
-                        $cancelThisReq->save();
-                        $cancelThisReq->delete();
-                    }
-                }
-
-
-                // add notification //
-
-                return response()->json(["status" => true, 'message' => 'Request ' . $request->type . ' successfully']);
-            } else {
-                return response()->json(["status" => false, 'message' => 'Request not found']);
-            }
+            ]);
         }
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+        }
+
+        $cancelRequest = ApproachRequest::where(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id])->first();
+
+        if ($cancelRequest != null) {
+            if ($request->type == 'rejected') {
+                $cancelRequest->message = $request->message;
+            }
+            $cancelRequest->status = $request->type;
+            $cancelRequest->save();
+
+
+            // Soft delete
+            // soft delete //
+            if ($request->type == 'rejected') {
+
+                $cancelRequest->delete();
+            }
+
+            // soft delete //
+
+            if ($request->type == 'accepted') {
+                $cancelLeftRequest = ApproachRequest::where(['receiver_id' => $this->user->id])->where('sender_id', '!=', $request->user_id)->get();
+                if (count($cancelLeftRequest) != 0) {
+                    foreach ($cancelLeftRequest as $val)
+                        $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
+                    $cancelThisReq->status = $request->cancelled;
+                    $cancelThisReq->save();
+                    $cancelThisReq->delete();
+                }
+            }
+
+
+            // add notification //
+
+            return response()->json(["status" => true, 'message' => 'Request ' . $request->type . ' successfully']);
+        } else {
+            return response()->json(["status" => false, 'message' => 'Request not found']);
+        }
+        // }
         //  catch (QueryException $e) {
 
         //     DB::rollBack();
 
         //     return response()->json(['status' => false, 'message' => "db error"]);
         // }
-        catch (\Exception $e) {
+        // catch (\Exception $e) {
 
 
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
-        }
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function logout()
