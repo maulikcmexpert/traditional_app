@@ -124,11 +124,9 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id)
     }
 
     if ($organizationName != "") {
-
-        $query->whereHas('userdetail', function ($q) use ($organizationName) {
-            $q->where('organization_id', function ($subq) use ($organizationName) {
-                $subq->select('id')->from('users')->where('full_name', 'like', "%$organizationName%")->limit(1);
-            });
+        $organizationIds = User::where('full_name', 'like', "%$organizationName%")->pluck('id');
+        $query->whereHas('userdetail', function ($q) use ($organizationIds) {
+            $q->whereIn('organization_id', $organizationIds);
         });
     }
 
