@@ -1242,6 +1242,10 @@ class UsersController extends BaseController
 
             foreach ($result as $val) {
 
+                $already_approched = ApproachRequest::where(['receiver_id' => $val->id, 'status' => 'accepted'])->orderBy('id', 'DESC')->first();
+                if ($already_approched != null) {
+                    continue;
+                }
                 $approch_check_is_rejected = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $val->id])->withTrashed()->orderBy('id', 'DESC')->first();
                 if ($approch_check_is_rejected != null) {
 
@@ -1253,6 +1257,7 @@ class UsersController extends BaseController
                 if ($approch_check_is_block != 0) {
                     continue;
                 }
+
                 $userInfo['id'] = $val->id;
                 $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                 $userInfo['name'] = $val->full_name;
