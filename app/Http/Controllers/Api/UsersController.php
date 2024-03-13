@@ -505,8 +505,8 @@ class UsersController extends BaseController
         try {
             DB::beginTransaction();
 
-            $checkCount = UserShwstpprQue::where('user_id', $this->user->id)->count();
-            if ($checkCount <= 3) {
+            $checkCount = UserShwstpprQue::where('user_id', $this->user->id)->delete();
+            if ($checkCount) {
                 foreach ($request->question as $questions) {
                     $que = new UserShwstpprQue();
                     $que->user_id = $this->user->id;
