@@ -3,7 +3,7 @@
 return [
     'registered' => 'Registered successfully.',
     'loggedIn' => 'Logged in successfully',
-    'otp_verify' => 'Otp verify successfully',
+    'otp_verify' => 'OTP verify successfully',
     'country' => 'All countries',
     'state_list' => 'All state',
     'city_list' => 'All city',
