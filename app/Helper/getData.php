@@ -117,7 +117,7 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
 
     if (!empty($city)) {
         $query->orWhereHas('userdetail', function ($q) use ($city) {
-            $q->where('city', 'like', "%$city%");
+            $q->orWhere('city', 'like', "%$city%");
         });
     }
 
