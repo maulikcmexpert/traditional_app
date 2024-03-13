@@ -98,7 +98,7 @@ function getManageRequestByMale($search_name, $page, $id)
 }
 
 
-function getSearchUser($search_name, $city, $page, $organizationName, $user_id)
+function getSearchUser($search_name, $city, $page, $organizationName, $user_id, $minAge, $maxAge)
 {
     $userData = [];
     $total_page = 0;
@@ -130,6 +130,14 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id)
         });
     }
 
+    if (isset($minAge) && isset($maxAge)) {
+        $query->whereHas('userdetail', function ($q) use ($minAge, $maxAge) {
+            $q->whereBetween('date_of_birth', [
+                now()->subYears($maxAge)->format('Y-m-d'),
+                now()->subYears($minAge)->format('Y-m-d'),
+            ]);
+        });
+    }
 
     // Exclude blocked users
     $query->whereNotIn('id', function ($q) use ($user_id) {
