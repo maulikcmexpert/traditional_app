@@ -1619,6 +1619,8 @@ class UsersController extends BaseController
                 }
                 $cancelRequest->status = $request->type;
                 $cancelRequest->save();
+
+
                 // Soft delete
                 // soft delete //
                 if ($request->type == 'rejected') {
@@ -1627,6 +1629,18 @@ class UsersController extends BaseController
                 }
 
                 // soft delete //
+
+                if ($request->type == 'accepted') {
+                    $cancelLeftRequest = ApproachRequest::where(['receiver_id' => $this->user->id])->where('sender_id', '!=', $request->user_id)->get();
+                    if (count($cancelLeftRequest) != 0) {
+                        foreach ($cancelLeftRequest as $val)
+                            $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
+                        $cancelThisReq->status = $request->cancelled;
+                        $cancelThisReq->save();
+                        $cancelThisReq->delete();
+                    }
+                }
+
 
                 // add notification //
 
