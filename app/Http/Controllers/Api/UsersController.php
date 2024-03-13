@@ -995,23 +995,19 @@ class UsersController extends BaseController
                 $request->all(),
                 [
                     'full_name' => ['required', new AlphaNumeric],
-                    'state_id' => 'required|integer',
+                    'state_id' => 'required',
                     'city' => 'required|regex:/^[a-zA-Z\s]+$/',
                     'about_us' => 'required',
-                    'size_of_organization_id' => 'required|integer',
+                    'size_of_organization_id' => 'required',
                     'established_year' => 'required',
                 ],
                 [
-                    'full_name.required' => 'Please enter Organization Name.',
-                    'full_name.regex' => 'The Organization Name can only contain letters and spaces.',
-                    'state_id.required' => 'Please select a State.',
-                    'state_id.integer' => 'State ID must be an integer.',
-                    'city.required' => 'Please Enter City.',
-                    'city.regex' => 'The city name can only contain letters and spaces.',
-                    'about_us.required' => 'Please Enter information about your Organization.',
-                    'size_of_organization_id.required' => 'Please select the size of your Organization.',
-                    'size_of_organization_id.integer' => 'Organization size ID must be an integer.',
-                    'established_year.required' => 'Please Enter the establishment year of your Organization.',
+                    'full_name.required' => 'Please enter Organization Name',
+                    'state_id.required' => 'Please select a State',
+                    'city.required' => 'Please Enter City Name',
+                    'about_us.required' => 'Please Enter About Us',
+                    'size_of_organization_id.required' => 'Please select the Size Of Organization.',
+                    'established_year.required' => 'Please select Established Year',
                 ]
             );
 

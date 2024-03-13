@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Rules\CustomEmailValidation;
 use App\Rules\MobileNumberValidation;
 use App\Rules\AlphaNumeric;
+use App\Rules\AlphaNumericCity;
 
 
 class OrgranizationValid extends FormRequest
@@ -38,7 +39,7 @@ class OrgranizationValid extends FormRequest
             'established_year' => ['required'],
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],
-            'city' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+            'city' => ['required', new AlphaNumericCity],
             'address' => ['required'],
 
         ];
