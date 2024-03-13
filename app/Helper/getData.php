@@ -97,47 +97,63 @@ function getManageRequestByMale($search_name, $page, $id)
     return array('userData' => $userData, 'total_page' => $total_page);
 }
 
-
-function getSearchUser($search_name, $page, $user_id)
+function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
 {
-
+    $userData = [];
     $total_page = 0;
 
-    $userData = [];
-    if ($search_name != "") {
-
-        User::with(['userdetail'])->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->count();
-        $totalData = User::with(['userdetail'])->whereNotIn('id', function ($query) use ($user_id) {
-            $query->select('to_be_blocked_user_id')
-                ->from('profile_blocks')
-                ->where('to_be_blocked_user_id', $user_id)
-                ->whereNull('deleted_at'); // Assuming deleted_at is NULL for active blocks
-        })->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->count();
-        $total_page = ceil($totalData / 10);
-
-
-        $users = User::with(['userdetail'])->whereNotIn('id', function ($query) use ($user_id) {
-            $query->select('to_be_blocked_user_id')
-                ->from('profile_blocks')
-                ->where('to_be_blocked_user_id', $user_id)
-                ->whereNull('deleted_at'); // Assuming deleted_at is NULL for active blocks
-        })->where('id', '!=', $user_id)->where('full_name', 'like', "%$search_name%")->paginate(10, ['*'], 'page', $page);
-        if (count($users) != 0) {
-
-            foreach ($users as $val) {
-
-
-                $userInfo['id'] = $val->id;
-                $userInfo['name'] = $val->full_name;
-                $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
-                $getProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
-                $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
-                $userData[] = $userInfo;
-            }
-        }
+    // Input validation
+    if (empty($search_name)) {
+        return array('userData' => $userData, 'total_page' => $total_page);
     }
-    return array('userData' => $userData, 'total_page' => $total_page);
+
+    // Construct query for user search
+    $query = User::query();
+
+    // Apply filters based on search criteria
+    $query->where('full_name', 'like', "%$search_name%");
+
+    if (!empty($city)) {
+        $query->orWhereHas('userdetail', function ($q) use ($city) {
+            $q->where('city', 'like', "%$city%");
+        });
+    }
+
+    if (!empty($organization_name)) {
+        $query->whereIn('organization_id', function ($q) use ($organization_name) {
+            $q->select('id')->from('organizations')->where('name', 'like', "%$organization_name%");
+        });
+    }
+
+    // Exclude blocked users
+    $query->whereNotIn('id', function ($q) use ($user_id) {
+        $q->select('to_be_blocked_user_id')
+            ->from('profile_blocks')
+            ->where('to_be_blocked_user_id', $user_id)
+            ->whereNull('deleted_at');
+    });
+
+    $query->where('id', '!=', $user_id);
+
+    // Paginate the results
+    $result = $query->paginate(10, ['*'], 'page', $page);
+
+    // Format results
+    foreach ($result as $val) {
+        $userInfo = [
+            'id' => $val->id,
+            'name' => $val->full_name,
+            'city' => $val->userdetail->city ?? "",
+            'profile' => optional($val->userProfile()->where('is_default', '1')->first())->profile ?? ""
+        ];
+        $userData[] = $userInfo;
+    }
+
+    $total_page = $result->lastPage();
+
+    return compact('userData', 'total_page');
 }
+
 
 
 function getProfile($user_id)
