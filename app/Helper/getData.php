@@ -145,6 +145,7 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
 
     // Format results
     foreach ($result as $val) {
+        dd($val->user_profile);
         $userInfo = [
             'id' => $val->id,
             'name' => $val->full_name,
