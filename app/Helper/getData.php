@@ -113,20 +113,20 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id)
 
 
     // Apply filters based on search criteria
-    $query->where('full_name', 'like', "%$search_name%");
+    $query->whereHas('full_name', 'like', "%$search_name%");
     $query->where('user_type', 'user');
 
     if (!empty($city)) {
 
         $query->whereHas('userdetail', function ($q) use ($city) {
-            $q->Where('city', 'like', "%$city%");
+            $q->whereHas('city', 'like', "%$city%");
         });
     }
 
     if ($organizationName != "") {
 
         $query->whereHas('userdetail', function ($q) use ($organizationName) {
-            $q->where('organization_id', function ($subq) use ($organizationName) {
+            $q->whereHas('organization_id', function ($subq) use ($organizationName) {
                 $subq->select('id')->from('users')->where('full_name', 'like', "%$organizationName%")->limit(1);
             });
         });
