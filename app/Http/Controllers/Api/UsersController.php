@@ -921,6 +921,7 @@ class UsersController extends BaseController
                     'weight.required' => 'Please Enter your Weight.',
                     'weight.numeric' => 'Weight must be a number.',
                     'education.required' => 'Please enter your Education information.',
+                    'education.max' => 'Please enter your Education must be not grater than 100 character.',
                     'life_styles.required' => 'Please select at least one Lifestyle.',
                     'life_styles.array' => 'Lifestyles must be provided as an array.',
                     'interest_and_hobby.required' => 'Please select at least one Interest or Hobby.',
