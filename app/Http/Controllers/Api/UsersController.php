@@ -1693,6 +1693,7 @@ class UsersController extends BaseController
         if (Device::where('user_id', $id)->exists()) {
             Device::where('user_id', $id)->delete();
         }
+        Device::where('device_id', $requestData->device_id)->delete();
 
         if (
             isset($requestData->device_id) &&
