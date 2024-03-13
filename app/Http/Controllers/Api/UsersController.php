@@ -36,7 +36,7 @@ use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Device;
 
-
+use App\Rules\AlphaNumeric;
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
 use Illuminate\Http\Request;
@@ -994,7 +994,7 @@ class UsersController extends BaseController
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'full_name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+                    'full_name' => ['required', new AlphaNumeric],
                     'state_id' => 'required|integer',
                     'city' => 'required|regex:/^[a-zA-Z\s]+$/',
                     'about_us' => 'required',
@@ -1186,6 +1186,7 @@ class UsersController extends BaseController
             $database = $factory->createDatabase();
             // Retrieve data
             $data = $database->getReference('/user_locations')->getValue();
+            dd(userLat);
             if ($useLat == "" && $useLog == "") {
                 $latitude = "0";
                 $longitude = "0";
