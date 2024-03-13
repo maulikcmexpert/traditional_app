@@ -943,8 +943,8 @@ class UsersController extends BaseController
             $user_detail->weight = $request->weight;
             $user_detail->education = $request->education;
             $user_detail->zodiac_sign_id = $request->zodiac_sign_id;
-            $user_detail->organization_id = ($request->organization_id == "" || $request->organization_id == 0) ? "" : $request->organization_id;
-            $user_detail->religion_id = ($request->religion_id == "" ||  $request->religion_id == 0) ? "" : $request->religion_id;
+            $user_detail->organization_id = ($request->organization_id == "" || $request->organization_id == 0) ? NULL : $request->organization_id;
+            $user_detail->religion_id = ($request->religion_id == "" ||  $request->religion_id == 0) ? NULL : $request->religion_id;
             $user_detail->about_me = $request->about_me;
             $user_detail->height_type = $request->height_type;
             // dd($user_detail)
