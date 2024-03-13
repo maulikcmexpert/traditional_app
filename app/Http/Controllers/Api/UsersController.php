@@ -37,6 +37,7 @@ use App\Models\UserDetail;
 use App\Models\Device;
 
 use App\Rules\AlphaNumeric;
+use App\Rules\AlphaNumericCity;
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
 use Illuminate\Http\Request;
@@ -996,7 +997,7 @@ class UsersController extends BaseController
                 [
                     'full_name' => ['required', new AlphaNumeric],
                     'state_id' => 'required',
-                    'city' => 'required|regex:/^[a-zA-Z\s]+$/',
+                    'city' => ['required', new AlphaNumericCity],
                     'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => 'required',
