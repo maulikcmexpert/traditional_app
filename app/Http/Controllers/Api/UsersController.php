@@ -896,9 +896,9 @@ class UsersController extends BaseController
                 $request->all(),
                 [
                     'full_name' => 'required|regex:/^[a-zA-Z\s]+$/',
-                    'state_id' => 'required|integer',
+                    'state_id' => 'required',
                     'city' => 'required|regex:/^[a-zA-Z\s]+$/',
-                    'zodiac_sign_id' => 'required|integer',
+                    'zodiac_sign_id' => 'required',
                     'about_me' => 'required',
                     'height' => 'required|numeric',
                     'weight' => 'required|numeric',
@@ -911,11 +911,11 @@ class UsersController extends BaseController
                     'full_name.required' => 'Please Enter your Full Name.',
                     'full_name.regex' => 'The Full Name can only contain letters and spaces.',
                     'state_id.required' => 'Please select your State.',
-                    'state_id.integer' => 'State ID must be an integer.',
+
                     'city.required' => 'Please Enter Your city.',
-                    'city.regex' => 'The City can only contain letters and spaces.',
-                    'zodiac_sign_id.required' => 'Please select  Zodiac Sign.',
-                    'zodiac_sign_id.integer' => 'Zodiac Sign ID must be an integer.',
+                    'city.regex' => 'City can only contain letters and spaces.',
+                    'zodiac_sign_id.required' => 'Please select Zodiac Sign.',
+
                     'about_me.required' => 'Please enter some information about yourself.',
                     'height.required' => 'Please enter your Height.',
                     'height.numeric' => 'Height must be a number.',
@@ -1001,6 +1001,7 @@ class UsersController extends BaseController
                     'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => 'required',
+                    ''
                 ],
                 [
                     'full_name.required' => 'Please enter Organization Name',
