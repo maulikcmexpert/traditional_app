@@ -155,7 +155,7 @@ function getSearchUser($search_name, $city, $organization_name, $page, $user_id)
         ];
         $userData[] = $userInfo;
     }
-
+    dd($userData);
     $total_page = $result->lastPage();
 
     return compact('userData', 'total_page');
