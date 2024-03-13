@@ -1186,7 +1186,7 @@ class UsersController extends BaseController
             $database = $factory->createDatabase();
             // Retrieve data
             $data = $database->getReference('/user_locations')->getValue();
-            dd($userLat);
+
             if ($userLat == "" && $userLog == "") {
                 $latitude = "0";
                 $longitude = "0";
@@ -1198,6 +1198,9 @@ class UsersController extends BaseController
                     $latitude = $loginUserData['latitude'];
                     $longitude = $loginUserData['longitude'];
                 }
+            } else {
+                $latitude = $userLat;
+                $longitude = $userLog;
             }
 
 
