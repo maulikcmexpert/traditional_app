@@ -9,6 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use App\Rules\CustomEmailValidation;
 use App\Rules\MobileNumberValidation;
+use App\Rules\AlphaNumericCity;
 
 class UserValidate extends FormRequest
 {
@@ -35,15 +36,17 @@ class UserValidate extends FormRequest
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             'date_of_birth' => ['required'],
             'state_id' => ['required', 'integer'],
-            'city' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+            'city' => ['required', new AlphaNumericCity],
         ];
     }
 
     public function messages()
     {
         return [
-            'full_name.regex' => 'Please enter Full Name must be start with character',
-            'mobile_number.required' => 'Mobile number is required.',
+            'full_name.required' => 'Please enter Full Name',
+            'full_name.regex' => 'Full Name should not be only digits',
+            'email.required' => 'Please enter Email',
+            'city.required' => 'Please enter City Name',
         ];
     }
 
