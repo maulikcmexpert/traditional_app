@@ -1640,7 +1640,7 @@ class UsersController extends BaseController
                 if (count($cancelLeftRequest) != 0) {
                     foreach ($cancelLeftRequest as $val)
                         $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
-                    $cancelThisReq->status = $request->cancelled;
+                    $cancelThisReq->status = 'cancelled';
                     $cancelThisReq->save();
                     $cancelThisReq->delete();
                 }
