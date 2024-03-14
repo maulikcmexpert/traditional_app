@@ -776,7 +776,7 @@ class UsersController_v2 extends BaseController
 
                                 $data['is_approach'] = "cancel";
 
-                                if ($approch_check->type == 'approch') {
+                                if ($approch_check->type == 'approach') {
                                     $data['is_approach'] = "withdrawn";
                                 }
                             } else if ($approch_check->status == 'cancelled') {
@@ -817,7 +817,7 @@ class UsersController_v2 extends BaseController
 
                                 $data['is_approach'] = "cancel";
 
-                                if ($approch_check->type == 'approch') {
+                                if ($approch_check->type == 'approach') {
 
                                     $data['is_approach'] = "accept_reject";
                                 }
@@ -1372,50 +1372,50 @@ class UsersController_v2 extends BaseController
 
     public function approachRequest(Request $request)
     {
-        // try {
+        try {
 
 
-        $validator = Validator::make($request->all(), [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'type' => ['required', 'string'],
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'type' => ['required', 'string'],
 
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+            $user = Auth::guard('api')->user();
+            $receiver_id = $request->user_id;
+
+            DB::beginTransaction();
+
+            $approch_request = new ApproachRequest();
+            $approch_request->sender_id = $user->id;
+            $approch_request->receiver_id = $receiver_id;
+            $approch_request->status = 'pending';
+            $approch_request->type = 'approach';
+            $approch_request->save();
+            DB::commit();
+
+            $notificationData = [
+                'sender_id' => $user->id,
+                'receiver_id' => $receiver_id,
+                'status' => 'pending',
+                'type' => 'approach',
+                'notify_for' => 'approach_request'
+            ];
+
+            notification($notificationData);
+            return response()->json(["status" => true, 'message' => 'Your approach request has been sent successfully!']);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        $user = Auth::guard('api')->user();
-        $receiver_id = $request->user_id;
-
-        DB::beginTransaction();
-
-        $approch_request = new ApproachRequest();
-        $approch_request->sender_id = $user->id;
-        $approch_request->receiver_id = $receiver_id;
-        $approch_request->status = 'pending';
-        $approch_request->type = 'approch';
-        $approch_request->save();
-        DB::commit();
-
-        $notificationData = [
-            'sender_id' => $user->id,
-            'receiver_id' => $receiver_id,
-            'status' => 'pending',
-            'type' => 'approch',
-            'notify_for' => 'approach_request'
-        ];
-
-        notification($notificationData);
-        return response()->json(["status" => true, 'message' => 'Your approach request has been sent successfully!']);
-        // } catch (QueryException $e) {
-
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
     public function checkUserApproachStatus(Request $request)
     {
@@ -1607,7 +1607,7 @@ class UsersController_v2 extends BaseController
         }
 
         $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
-
+        $type =  $cancelRequest->type;
         if ($cancelRequest != null) {
             $cancelRequest->status = 'cancelled';
             $cancelRequest->save();
@@ -1616,7 +1616,15 @@ class UsersController_v2 extends BaseController
             // soft delete //
             $cancelRequest->delete();
             // soft delete //
+            $notificationData = [
+                'sender_id' => $this->user->id,
+                'receiver_id' => $request->user_id,
+                'status' => 'cancelled',
+                'type' => $type,
+                'notify_for' => 'cancel_request'
+            ];
 
+            notification($notificationData);
             return response()->json(["status" => true, 'message' => 'Request canceled successfully']);
         } else {
             return response()->json(["status" => false, 'message' => 'Request not found']);

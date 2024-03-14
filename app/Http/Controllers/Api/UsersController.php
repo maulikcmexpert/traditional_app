@@ -772,7 +772,7 @@ class UsersController extends BaseController
 
                                 $data['is_approach'] = "cancel";
 
-                                if ($approch_check->type == 'approch') {
+                                if ($approch_check->type == 'approach') {
                                     $data['is_approach'] = "withdrawn";
                                 }
                             } else if ($approch_check->status == 'cancelled') {
@@ -813,7 +813,7 @@ class UsersController extends BaseController
 
                                 $data['is_approach'] = "cancel";
 
-                                if ($approch_check->type == 'approch') {
+                                if ($approch_check->type == 'approach') {
 
                                     $data['is_approach'] = "accept_reject";
                                 }
@@ -1388,7 +1388,7 @@ class UsersController extends BaseController
             $approch_request->sender_id = $user->id;
             $approch_request->receiver_id = $receiver_id;
             $approch_request->status = 'pending';
-            $approch_request->type = 'approch';
+            $approch_request->type = 'approach';
             $approch_request->save();
             DB::commit();
 
