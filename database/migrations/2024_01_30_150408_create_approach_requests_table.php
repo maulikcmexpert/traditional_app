@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('receiver_id')->nullable();
             $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('status', ['pending', 'accepted', 'rejected', 'not_approved', 'leave']);
-            $table->enum('type', ['approch', 'request']);
+            $table->enum('type', ['approach', 'request']);
             $table->string('message')->nullable();
             $table->timestamps();
         });
