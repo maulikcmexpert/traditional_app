@@ -3,7 +3,9 @@
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Models\{
-    Notification
+    Notification,
+    User,
+    Device
 };
 
 function distanceCalculation($latitude1, $longitude1, $latitude2, $longitude2)
@@ -51,15 +53,61 @@ function setpostTime($dateTime)
     return $timeAgo;
 }
 
-// function notification($notificationData)
-// {
+function notification($notificationData)
+{
 
-//     $notification = new Notification();
-//     $notification->user_id  = $notificationData['receiver_id'];
-//     $notification->sender_id = $notificationData['sender_id'];
-//     $notification->notification_type = $notificationData['type'];
-//     $notification->status = $notificationData['pending'];
-//     if ($notification->save()) {
-    
-//     }
-// }
+    if ($notificationData['notify_for'] == 'approach_request') {
+        $senderUser = User::where('id', $notificationData['sender_id'])->first();
+        $notification = new Notification();
+        $notification->user_id  = $notificationData['receiver_id'];
+        $notification->sender_id = $notificationData['sender_id'];
+        $notification->notification_type = $notificationData['type'];
+        $notification->message = 'Hey! you got connection approach from ' . $senderUser->full_name;
+        $notification->status = $notificationData['pending'];
+        if ($notification->save()) {
+            $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
+            send_notification_FCM_and($deviceToken, $notificationData);
+        }
+    }
+}
+
+
+
+
+function send_notification_FCM_and($deviceToken, $notifyData)
+{
+    $SERVER_API_KEY = 'key=AAAAP6m84T0:APA91bHeuAm2ME_EmPEsOjMe2FatmHn2QU98ADg4Y5UxNMmXGg4MDD4OJQQhvsixNfhV1g2BWbgOCQGEf9_c3ngB8qH_N3MEMsgD7uuAQAq0_IO2GGPqCxjJPuwAME9MVX9ZvWgYbcPh';
+    $URL = 'https://fcm.googleapis.com/fcm/send';
+
+
+    $dataPayload = [
+        "to" => $deviceToken,
+        "data" => $notifyData,
+    ];
+
+    $post_data = json_encode($dataPayload);
+
+    $crl = curl_init();
+
+    $headr = array();
+    $headr[] = 'Content-type: application/json';
+    $headr[] = 'Authorization: ' . $SERVER_API_KEY;
+    curl_setopt($crl, CURLOPT_SSL_VERIFYPEER, false);
+
+    curl_setopt($crl, CURLOPT_URL, $URL);
+    curl_setopt($crl, CURLOPT_HTTPHEADER, $headr);
+
+    curl_setopt($crl, CURLOPT_POST, true);
+    curl_setopt($crl, CURLOPT_POSTFIELDS, $post_data);
+    curl_setopt($crl, CURLOPT_RETURNTRANSFER, true);
+
+    $rest = curl_exec($crl);
+
+    if ($rest === false) {
+        $result_noti = 0;
+    } else {
+        $result_noti = 1;
+    }
+
+    return $result_noti;
+}

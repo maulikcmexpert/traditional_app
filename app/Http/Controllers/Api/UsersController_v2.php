@@ -1395,6 +1395,15 @@ class UsersController_v2 extends BaseController
             $approch_request->save();
             DB::commit();
 
+            $notificationData = [
+                'sender_id' => $user->id,
+                'receiver_id' => $receiver_id,
+                'status' => 'pending',
+                'type' => 'approch',
+                'notify_for' => 'approach_request'
+            ];
+
+            notification($notificationData);
             return response()->json(["status" => true, 'message' => 'Your approach request has been sent successfully!']);
         } catch (QueryException $e) {
 
