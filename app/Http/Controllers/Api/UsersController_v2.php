@@ -1705,7 +1705,7 @@ class UsersController_v2 extends BaseController
                     $cancelThisReq->delete();
                 }
 
-                $cancelLeftRequestOfMale = ApproachRequest::where(['sender_id' =>  $request->user_id])->get();
+                $cancelLeftRequestOfMale = ApproachRequest::where(['sender_id' =>  $request->user_id])->where('receiver_id', '!=', $this->user->id)->get();
 
                 if (count($cancelLeftRequestOfMale) != 0) {
                     foreach ($cancelLeftRequestOfMale as $val)
