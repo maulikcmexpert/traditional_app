@@ -72,12 +72,33 @@ function notification($notificationData)
 
     if ($notificationData['notify_for'] == 'cancel_request') {
 
-        Notification::where(['user_id' => $notificationData['receiver_id'], 'sender_id' => $notificationData['sender_id'], 'status' => $notificationData['type']])->delete();
+        Notification::where(['user_id' => $notificationData['receiver_id'], 'sender_id' => $notificationData['sender_id'], 'notification_type' => 'approach', 'status' => 'pending'])->delete();
         $notification = new Notification();
         $notification->user_id  = $notificationData['receiver_id'];
         $notification->sender_id = $notificationData['sender_id'];
         $notification->notification_type = $notificationData['type'];
         $notification->message = 'After initiating an approach request, $NAME has cancelled the request.';
+        $notification->status = $notificationData['status'];
+        if ($notification->save()) {
+            $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
+            send_notification_FCM_and($deviceToken, $notificationData);
+        }
+    }
+    if ($notificationData['notify_for'] == 'accept_or_reject') {
+
+        Notification::where(['user_id' => $notificationData['sender_id'], 'sender_id' => $notificationData['receiver_id'], 'notification_type' => 'approach', 'status' => 'pending'])->delete();
+        $notification = new Notification();
+        $notification->user_id  = $notificationData['receiver_id'];
+        $notification->sender_id = $notificationData['sender_id'];
+        $notification->notification_type = $notificationData['type'];
+        if ($notificationData['status'] == 'rejected') {
+
+            $notification->message = 'Reason for reject :-' . $notificationData['message'];
+        }
+        if ($notificationData['status'] == 'accepted') {
+            $username = User::select('full_name')->where('id', $notification['sender_id'])->first();
+            $notification->message = 'Hey $NAME ! ' . $username->full_name . ' has accepted your request. now you can message to her';
+        }
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();

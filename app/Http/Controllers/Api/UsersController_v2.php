@@ -1679,7 +1679,16 @@ class UsersController_v2 extends BaseController
             // Soft delete
             // soft delete //
             if ($request->type == 'rejected') {
+                $notificationData = [
+                    'sender_id' => $request->user_id,
+                    'receiver_id' => $this->user->id,
+                    'status' => 'rejected',
+                    'type' =>  $cancelRequest->type,
+                    'message' =>  $request->message,
+                    'notify_for' => 'accept_or_reject'
+                ];
 
+                notification($notificationData);
                 $cancelRequest->delete();
             }
 
@@ -1687,8 +1696,19 @@ class UsersController_v2 extends BaseController
 
             if ($request->type == 'accepted') {
                 $cancelLeftRequest = ApproachRequest::where(['receiver_id' => $this->user->id])->where('sender_id', '!=', $request->user_id)->get();
+
                 if (count($cancelLeftRequest) != 0) {
                     foreach ($cancelLeftRequest as $val)
+                        $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
+                    $cancelThisReq->status = 'cancelled';
+                    $cancelThisReq->save();
+                    $cancelThisReq->delete();
+                }
+
+                $cancelLeftRequestOfMale = ApproachRequest::where(['sender_id' =>  $request->user_id])->get();
+
+                if (count($cancelLeftRequestOfMale) != 0) {
+                    foreach ($cancelLeftRequestOfMale as $val)
                         $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
                     $cancelThisReq->status = 'cancelled';
                     $cancelThisReq->save();
