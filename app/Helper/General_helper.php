@@ -77,7 +77,7 @@ function notification($notificationData)
         $notification->user_id  = $notificationData['receiver_id'];
         $notification->sender_id = $notificationData['sender_id'];
         $notification->notification_type = $notificationData['type'];
-        $notification->message = 'After initiating an approach request, $NAME has canceled the request.';
+        $notification->message = 'After initiating an approach request, $NAME has cancelled the request.';
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
