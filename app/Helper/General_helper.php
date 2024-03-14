@@ -57,12 +57,12 @@ function notification($notificationData)
 {
 
     if ($notificationData['notify_for'] == 'approach_request') {
-        $senderUser = User::where('id', $notificationData['sender_id'])->first();
+
         $notification = new Notification();
         $notification->user_id  = $notificationData['receiver_id'];
         $notification->sender_id = $notificationData['sender_id'];
         $notification->notification_type = $notificationData['type'];
-        $notification->message = 'Hey! you got connection approach from ' . $senderUser->full_name;
+        $notification->message = 'Hey! you got connection approach from';
         $notification->status = $notificationData['pending'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();

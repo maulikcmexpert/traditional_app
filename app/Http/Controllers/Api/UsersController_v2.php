@@ -35,6 +35,7 @@ use App\Models\UserShwstpprQue;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Device;
+use App\Models\Notification;
 
 use App\Rules\AlphaNumeric;
 use App\Rules\AlphaNumericCity;
@@ -1007,7 +1008,7 @@ class UsersController_v2 extends BaseController
                     'full_name.required' => 'Please enter Organization Name',
                     'state_id.required' => 'Please select a State',
                     'city.required' => 'Please Enter City Name',
-                    'about_us.required' => 'Please Enter About Us',
+                    'about_us.required' => 'Please Enter About us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please select Established Year',
                     'address.required' => 'Please enter Address'
@@ -1878,13 +1879,51 @@ class UsersController_v2 extends BaseController
 
             $blockUserList = [];
             if (count($blockUser) != 0) {
+                foreach ($blockUser as $val) {
 
-                $data['name'] = $blockUser->blocked_user->full_name;
-                $data['profile_image'] = ($blockUser->blocked_user->user_profile != null) ? asset('storage/profile/' . $blockUser->blocked_user->user_profile->profile) : "";
-                $blockUserList[] = $data;
+                    $data['name'] = $val->blocked_user->full_name;
+                    $data['profile_image'] = ($val->blocked_user->user_profile != null) ? asset('storage/profile/' . $val->blocked_user->user_profile->profile) : "";
+                    $blockUserList[] = $data;
+                }
             }
             DB::commit();
             return response()->json(['status' => true, 'message' => "block user lists", 'data' => $blockUserList]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function notificationList(Request $request)
+    {
+        try {
+
+            $page = 1;
+            if (isset($request->page) && $request->page != "") {
+                $page = $request->page;
+            }
+
+            $notificationtotal = Notification::with(['sender_user'])->where('user_id', $this->user->id)->count();
+            $total_page  = ceil($notificationtotal / 10);
+            $notification = Notification::where('user_id', $this->user->id)->paginate(10, ['*'], 'page', $page);
+            $notificationList = [];
+            if (count($notification) != 0) {
+                foreach ($notification as $val) {
+                    $data['name'] = $val->sender_user->full_name;
+                    $data['profile_image'] = getProfile($val->sender_id);
+                    $data['message'] = $val->message;
+                    $data['notification_type'] = $val->notification_type;
+                    $data['status'] = $val->status;
+                    $notificationList[] = $data;
+                }
+            }
+
+            return response()->json(['status' => true, 'message' => "Notification lists", 'total_page' => $total_page, 'data' => $notificationList]);
         } catch (QueryException $e) {
             DB::rollBack();
 
