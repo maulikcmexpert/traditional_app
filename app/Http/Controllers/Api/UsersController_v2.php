@@ -1914,6 +1914,7 @@ class UsersController_v2 extends BaseController
             $notificationList = [];
             if (count($notification) != 0) {
                 foreach ($notification as $val) {
+                    $data['user_id'] = $val->sender_id;
                     $data['name'] = $val->sender_user->full_name;
                     $data['profile_image'] = getProfile($val->sender_id);
                     $data['message'] = $val->message;
