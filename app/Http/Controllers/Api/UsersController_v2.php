@@ -789,12 +789,14 @@ class UsersController_v2 extends BaseController
                             }
                         } else {
 
-
-                            $status = $this->checkRelationStatus($user_id);
-                            if ($status == 'true') {
-                                $data['is_approach'] = "friend";
-                                if ($distance <= 5) {
-                                    $data['is_approach'] = "approach";
+                            $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+                            if ($approch_check == null) {
+                                $status = $this->checkRelationStatus($user_id);
+                                if ($status == 'true') {
+                                    $data['is_approach'] = "friend";
+                                    if ($distance <= 5) {
+                                        $data['is_approach'] = "approach";
+                                    }
                                 }
                             }
                         }
@@ -855,8 +857,9 @@ class UsersController_v2 extends BaseController
                     return "question_wrong";
                 }
             }
+            return "true";
         }
-        return "true";
+        return "false";
     }
 
     public function getLoginUserLatlog($user_id)
