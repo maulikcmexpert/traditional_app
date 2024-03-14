@@ -1680,8 +1680,8 @@ class UsersController_v2 extends BaseController
             // soft delete //
             if ($request->type == 'rejected') {
                 $notificationData = [
-                    'sender_id' => $request->user_id,
-                    'receiver_id' => $this->user->id,
+                    'sender_id' => $this->user->id,
+                    'receiver_id' => $request->user_id,
                     'status' => 'rejected',
                     'type' =>  $cancelRequest->type,
                     'message' =>  $request->message,

@@ -93,7 +93,7 @@ function notification($notificationData)
         $notification->notification_type = $notificationData['type'];
         if ($notificationData['status'] == 'rejected') {
 
-            $notification->message = 'Reason for reject :-' . $notificationData['message'];
+            $notification->message = '$NAME rejected your approach .Reason for reject :-' . $notificationData['message'];
         }
         if ($notificationData['status'] == 'accepted') {
             $username = User::select('full_name')->where('id', $notification['sender_id'])->first();
