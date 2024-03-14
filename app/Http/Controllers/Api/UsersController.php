@@ -1025,7 +1025,7 @@ class UsersController extends BaseController
             $organization_detail->about_us = $request->about_us;
             $organization_detail->size_of_organization_id = $request->size_of_organization_id;
             $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));;
-            $organization_detail->address = $request->address;
+            //   $organization_detail->address = $request->address;
             $organization_detail->save();
             DB::commit();
             return response()->json(['status' => true, 'message' => "Organization profile update successfully"]);
