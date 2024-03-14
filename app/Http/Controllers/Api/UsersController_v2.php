@@ -788,7 +788,6 @@ class UsersController_v2 extends BaseController
                                 }
                             }
                         } else {
-
                             $approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
                             if ($approch_check == null) {
                                 $status = $this->checkRelationStatus($user_id);

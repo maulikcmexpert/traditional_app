@@ -44,7 +44,7 @@ class UserValidate extends FormRequest
     {
         return [
             'full_name.required' => 'Please enter Full Name',
-            'full_name.regex' => 'Full Name should not be only digits',
+            'full_name.regex' => 'Full Name cannot contain digits',
             'email.required' => 'Please enter Email',
             'city.required' => 'Please enter City Name',
         ];

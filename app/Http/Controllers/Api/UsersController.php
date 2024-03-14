@@ -906,11 +906,10 @@ class UsersController extends BaseController
                 ],
                 [
                     'full_name.required' => 'Please Enter your Full Name.',
-                    'full_name.regex' => 'The Full Name can only contain letters and spaces.',
+                    'full_name.regex' => 'Full Name cannot contain digits',
                     'state_id.required' => 'Please select your State.',
 
                     'city.required' => 'Please Enter Your city.',
-                    'city.regex' => 'City can only contain letters and spaces.',
                     'zodiac_sign_id.required' => 'Please select Zodiac Sign.',
                     'religion_id.required' => 'Please select Religion',
                     'about_me.required' => 'Please enter some information about yourself.',
