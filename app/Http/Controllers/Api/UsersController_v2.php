@@ -1628,7 +1628,7 @@ class UsersController_v2 extends BaseController
             ];
 
             notification($notificationData);
-            return response()->json(["status" => true, 'message' => 'Request canceled successfully']);
+            return response()->json(["status" => true, 'message' => 'Request cancelled successfully']);
         } else {
             return response()->json(["status" => false, 'message' => 'Request not found']);
         }
