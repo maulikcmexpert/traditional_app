@@ -72,7 +72,7 @@ function notification($notificationData)
 
     if ($notificationData['notify_for'] == 'cancel_request') {
 
-        Notification::where(['user_id' => $notificationData['receiver_id'], 'sender_id' => $notificationData['sender_id'], 'notification_type' => $notificationData['type'], 'status' => $notificationData['status']])->delete();
+        Notification::where(['user_id' => $notificationData['receiver_id'], 'sender_id' => $notificationData['sender_id'], 'status' => $notificationData['type']])->delete();
         $notification = new Notification();
         $notification->user_id  = $notificationData['receiver_id'];
         $notification->sender_id = $notificationData['sender_id'];
