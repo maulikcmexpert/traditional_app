@@ -18,7 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('sender_id')->nullable();
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('notification_type')->nullable();
-            $table->enum('read',['0','1'])->comment('0 = not read,1 = read');
+            $table->string('status')->nullable();
+            $table->enum('read', ['0', '1'])->comment('0 = not read,1 = read');
             $table->string('message')->nullable();
             $table->timestamps();
         });
