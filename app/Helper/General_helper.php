@@ -63,7 +63,7 @@ function notification($notificationData)
         $notification->sender_id = $notificationData['sender_id'];
         $notification->notification_type = $notificationData['type'];
         $notification->message = 'Hey! you got connection approach from';
-        $notification->status = $notificationData['pending'];
+        $notification->status = $notificationData['status'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             send_notification_FCM_and($deviceToken, $notificationData);
