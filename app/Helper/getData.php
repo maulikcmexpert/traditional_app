@@ -130,6 +130,7 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id, 
         });
     }
 
+
     if (isset($minAge) && isset($maxAge)) {
         $query->whereHas('userdetail', function ($q) use ($minAge, $maxAge) {
             $q->whereBetween('date_of_birth', [
