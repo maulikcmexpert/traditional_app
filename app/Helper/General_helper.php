@@ -96,8 +96,8 @@ function notification($notificationData)
             $notification->message = "\$NAME rejected your approach 🚫💔 - '" . $notificationData['message'] . "'";
         }
         if ($notificationData['status'] == 'accepted') {
-            $username = User::select('full_name')->where('id', $notification['sender_id'])->first();
-            $notification->message = 'Hey $NAME ! ' . $username->full_name . ' has accepted your request. now you can message to her';
+
+            $notification->message = 'Hey $MYNAME ! $NAME has accepted your request. now you can message to her';
         }
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
