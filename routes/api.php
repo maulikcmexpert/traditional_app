@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\UsersController_v2;
 use App\Http\Controllers\Api\ListController;
 use App\Http\Controllers\Api\AuthenticationController;
 
@@ -64,6 +65,60 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('block_user_list', [UsersController::class, 'blockUserList'])->middleware('check_user');
     Route::post('update_show_stopper_ques', [UsersController::class, 'updateShowStopperQues'])->middleware('check_user');
     Route::post('logout', [UsersController::class, 'logout'])->middleware('check_user');
+
+    // Route::middleware(['check_user'])->group( function () {
+    //     Route::get('country_list_login', [ListController::class, 'CountryList']);
+    // });
+});
+
+
+Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
+
+    Route::post('country_list', [UsersController_v2::class, 'country_list'])->name('country_list');
+    Route::post('user_signup', [UsersController_v2::class, 'userSignup'])->name('user_signup');
+    Route::post('organization_signup', [UsersController_v2::class, 'organizationSignup'])->name('organization_signup');
+    Route::post('login', [UsersController_v2::class, 'signIn'])->name('login');
+    Route::get('sizeoforganization_list', [ListController::class, 'sizeOfOrganizationList'])->name('sizeoforganization_list');
+
+    Route::post('state_list', [ListController::class, 'stateList'])->name('state_list');
+    Route::post('city_list', [ListController::class, 'cityList'])->name('city_list');
+    Route::get('organization_list', [ListController::class, 'organizationList'])->name('organization_list');
+    Route::get('zodiacsign_list', [ListController::class, 'zodiacSignList'])->name('zodiacsign_list');
+    Route::get('interest_hobby_list', [ListController::class, 'interestAndHobbyList'])->name('interest_hobby_list');
+    Route::get('life_style_list', [ListController::class, 'lifieStyleList'])->name('life_style_list');
+    Route::get('religion_list', [ListController::class, 'religionList']);
+    Route::post('otp_verify', [UsersController_v2::class, 'otpVerify'])->name('otp_verify');
+
+
+
+    Route::post('store_profile', [UsersController_v2::class, 'storeProfile'])->middleware('check_user');
+    Route::post('user_personalities', [UsersController_v2::class, 'userPersonalities'])->middleware('check_user');
+    Route::post('user_love_lang_rate', [UsersController_v2::class, 'userLoveLangRate'])->middleware('check_user');
+    Route::post('add_shows_stoper_ques', [UsersController_v2::class, 'addShowsStoperQues'])->middleware('check_user');
+    Route::post('organization_profile', [UsersController_v2::class, 'organizationProfile'])->middleware('check_user');
+    Route::post('show_organization_profile', [UsersController_v2::class, 'organizationProfileId']);
+    Route::post('user_profile', [UsersController_v2::class, 'userProfile'])->middleware('check_user');
+    Route::post('update_user_profile', [UsersController_v2::class, 'updateUserprofile'])->middleware('check_user');
+    Route::post('update_organization_profile', [UsersController_v2::class, 'updateOrganizationprofile'])->middleware('check_user');
+    Route::post('update_profile_photo', [UsersController_v2::class, 'updateProfilePhoto'])->middleware('check_user');
+    Route::post('home', [UsersController_v2::class, 'home'])->middleware('check_user');
+    Route::post('check_user_approach_status', [UsersController_v2::class, 'checkUserApproachStatus'])->middleware('check_user');
+
+
+    Route::post('get_show_stopper_ques', [UsersController_v2::class, 'getShowStopperQues'])->middleware('check_user');
+    Route::post('check_ques_answer', [UsersController_v2::class, 'checkQuesAnswer'])->middleware('check_user');
+    Route::post('approch_request', [UsersController_v2::class, 'approchRequest'])->middleware('check_user');
+    Route::post('show_user_profile', [UsersController_v2::class, 'showUserProfile'])->middleware('check_user');
+    Route::post('member_of_organization', [UsersController_v2::class, 'memberOfOrganization']);
+    Route::post('approach_request', [UsersController_v2::class, 'approachRequest'])->middleware('check_user');
+    Route::post('manage_request_by_male', [UsersController_v2::class, 'manageRequestByMale'])->middleware('check_user');
+    Route::post('cancel_request', [UsersController_v2::class, 'cancelRequest'])->middleware('check_user');
+    Route::post('manage_request_by_female', [UsersController_v2::class, 'manageRequestByFemale'])->middleware('check_user');
+    Route::post('accept_reject_by_female', [UsersController_v2::class, 'acceptRejectByFemale'])->middleware('check_user');
+    Route::post('search_user', [UsersController_v2::class, 'searchUser'])->middleware('check_user');
+    Route::post('block_user_list', [UsersController_v2::class, 'blockUserList'])->middleware('check_user');
+    Route::post('update_show_stopper_ques', [UsersController_v2::class, 'updateShowStopperQues'])->middleware('check_user');
+    Route::post('logout', [UsersController_v2::class, 'logout'])->middleware('check_user');
 
     // Route::middleware(['check_user'])->group( function () {
     //     Route::get('country_list_login', [ListController::class, 'CountryList']);
