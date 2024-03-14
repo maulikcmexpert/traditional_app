@@ -1363,7 +1363,7 @@ class UsersController_v2 extends BaseController
                 $checAlreadyAnswer->save();
             }
         }
-        $checkTotalQue = UserShwstpprQue::where('user_id', $questioner_user_id)->withTrashed()->count();
+        $checkTotalQue = UserShwstpprQue::where('user_id', $questioner_user_id)->count();
 
         if ($checkTotalQue == $trueAns) {
             return response()->json(["status" => true, 'message' => 'you are eligible for relationship', 'data' => $wrongQue]);
