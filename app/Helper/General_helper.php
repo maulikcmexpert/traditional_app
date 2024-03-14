@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Models\{
+    Notification
+};
 
 function distanceCalculation($latitude1, $longitude1, $latitude2, $longitude2)
 {
@@ -47,3 +50,16 @@ function setpostTime($dateTime)
     // Display the time ago
     return $timeAgo;
 }
+
+// function notification($notificationData)
+// {
+
+//     $notification = new Notification();
+//     $notification->user_id  = $notificationData['receiver_id'];
+//     $notification->sender_id = $notificationData['sender_id'];
+//     $notification->notification_type = $notificationData['type'];
+//     $notification->status = $notificationData['pending'];
+//     if ($notification->save()) {
+    
+//     }
+// }
