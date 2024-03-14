@@ -798,6 +798,7 @@ class UsersController_v2 extends BaseController
                                         $data['is_approach'] = "approach";
                                     }
                                 }
+                                $data['is_approach'] = "approach";
                             }
                         }
                     } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
