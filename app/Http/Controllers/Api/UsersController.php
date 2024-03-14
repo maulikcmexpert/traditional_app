@@ -1001,7 +1001,7 @@ class UsersController extends BaseController
                     'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => 'required',
-                    ''
+                    'address' => 'required'
                 ],
                 [
                     'full_name.required' => 'Please enter Organization Name',
@@ -1010,6 +1010,7 @@ class UsersController extends BaseController
                     'about_us.required' => 'Please Enter About Us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please select Established Year',
+                    'address.required' => 'Please enter Address'
                 ]
             );
 
@@ -1027,9 +1028,10 @@ class UsersController extends BaseController
             $organization_detail->about_us = $request->about_us;
             $organization_detail->size_of_organization_id = $request->size_of_organization_id;
             $organization_detail->established_year = date('Y-m-d', strtotime($request->established_year));;
+            $organization_detail->address = $request->address;
             $organization_detail->save();
             DB::commit();
-            return response()->json(['status' => true, 'message' => "Profile update successfully"]);
+            return response()->json(['status' => true, 'message' => "Organization profile update successfully"]);
         } catch (QueryException $e) {
             DB::rollBack();
             return response()->json(['status' => false, 'message' => "db error"]);
