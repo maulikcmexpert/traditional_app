@@ -1943,6 +1943,7 @@ class UsersController_v2 extends BaseController
             $notificationList = [];
             if (count($notification) != 0) {
                 foreach ($notification as $val) {
+                    $data['id'] = $val->id;
                     $data['user_id'] = $val->sender_id;
                     $data['name'] = $val->sender_user->full_name;
                     $data['profile_image'] = getProfile($val->sender_id);
@@ -1956,6 +1957,36 @@ class UsersController_v2 extends BaseController
 
             return response()->json(['status' => true, 'message' => "Notification lists", 'total_page' => $total_page, 'data' => $notificationList]);
         } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function deleteNotification(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'notification_id' => ['required', 'integer', 'exists:notifications,id'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            $deleteNotification = Notification::where(['id' => $request->notification_id])->first();
+            if ($deleteNotification != null) {
+                $deleteNotification->delete();
+                return response()->json(["status" => true, 'message' => 'Notification deleted successfully']);
+            } else {
+                return response()->json(["status" => false, 'message' => 'Request not found']);
+            }
+        } catch (QueryException $e) {
+
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);

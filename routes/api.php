@@ -120,6 +120,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('update_show_stopper_ques', [UsersController_v2::class, 'updateShowStopperQues'])->middleware('check_user');
     Route::post('logout', [UsersController_v2::class, 'logout'])->middleware('check_user');
     Route::post('notification_list', [UsersController_v2::class, 'notificationList'])->middleware('check_user');
+    Route::post('delete_notification', [UsersController_v2::class, 'deleteNotification'])->middleware('check_user');
 
     // Route::middleware(['check_user'])->group( function () {
     //     Route::get('country_list_login', [ListController::class, 'CountryList']);
