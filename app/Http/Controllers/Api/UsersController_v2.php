@@ -1996,4 +1996,27 @@ class UsersController_v2 extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
+    public function clearNotification()
+    {
+        try {
+
+
+            $deleteNotification = Notification::where(['user_id' => $this->user->id])->first();
+            if ($deleteNotification != null) {
+                $deleteNotification->delete();
+                return response()->json(["status" => true, 'message' => 'Notification clear all successfully']);
+            } else {
+                return response()->json(["status" => false, 'message' => 'Request not found']);
+            }
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
 }
