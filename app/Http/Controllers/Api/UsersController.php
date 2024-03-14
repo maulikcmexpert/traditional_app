@@ -998,7 +998,7 @@ class UsersController extends BaseController
                     'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => 'required',
-                    'address' => 'required'
+                    // 'address' => 'required'
                 ],
                 [
                     'full_name.required' => 'Please enter Organization Name',
@@ -1007,7 +1007,7 @@ class UsersController extends BaseController
                     'about_us.required' => 'Please Enter About Us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please select Established Year',
-                    'address.required' => 'Please enter Address'
+                    // 'address.required' => 'Please enter Address'
                 ]
             );
 
