@@ -69,6 +69,21 @@ function notification($notificationData)
             send_notification_FCM_and($deviceToken, $notificationData);
         }
     }
+
+    if ($notificationData['notify_for'] == 'cancel_request') {
+
+        Notification::where(['user_id' => $notificationData['receiver_id'], 'sender_id' => $notificationData['sender_id'], 'type' => $notificationData['type'], 'status' => $notificationData['status']])->delete();
+        $notification = new Notification();
+        $notification->user_id  = $notificationData['receiver_id'];
+        $notification->sender_id = $notificationData['sender_id'];
+        $notification->notification_type = $notificationData['type'];
+        $notification->message = 'After initiating an approach request, $NAME has canceled the request.';
+        $notification->status = $notificationData['status'];
+        if ($notification->save()) {
+            $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
+            send_notification_FCM_and($deviceToken, $notificationData);
+        }
+    }
 }
 
 
