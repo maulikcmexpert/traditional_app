@@ -1928,7 +1928,7 @@ class UsersController_v2 extends BaseController
                     $data['profile_image'] = getProfile($val->sender_id);
                     $data['message'] = $val->message;
                     $data['notification_type'] = $val->notification_type;
-                    $data['time'] =  setpostTime($val->created_at);
+                    $data['request_time'] =  setpostTime($val->created_at);
                     $data['status'] = $val->status;
                     $notificationList[] = $data;
                 }
