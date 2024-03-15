@@ -33,8 +33,7 @@ class UserValidate extends FormRequest
         return [
             'full_name' => [
                 'required',
-                Rule::regex('/^[a-zA-Z0-9 ]+$/')->message('The full name field should contain only alphanumeric characters and spaces.'),
-                Rule::regex('/\D/')->message('The full name field should contain at least one non-digit character.'),
+
                 'max:200'
             ],
             'country_dial' => ['required', 'string', 'max:5'],
@@ -50,6 +49,8 @@ class UserValidate extends FormRequest
     {
         return [
             'full_name.required' => 'Please enter Full Name',
+            'full_name.regex' => 'Full Name cannot contain special characters',
+            'full_name.regex2' => 'Full Name should not be only digits',
             'email.required' => 'Please enter Email',
             'email.email' => 'Please enter valid Email',
             'city.required' => 'Please enter City Name',
