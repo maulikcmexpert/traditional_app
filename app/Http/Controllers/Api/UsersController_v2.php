@@ -64,6 +64,13 @@ class UsersController_v2 extends BaseController
     }
 
 
+    public function notificationTest()
+    {
+        $data = [
+            'message' => "hi"
+        ];
+        send_notification_FCM_and('fkehMP7RQMi8_9DrdOhvqT:APA91bFot1FDvkYUk7OrStFrKUNMOMAC1Y24IsafcWUdBAT6eodPK5_t9lyAu4XQPeeInLowwTNye5u1_-wtwu2deI9HVN0SKFFwcUjZasiufEtgCS0-6zh9Z0QwMicEZ8EcXhc-F2E9', $data);
+    }
     public function userSignup(UserValidate $request)
     {
         try {
