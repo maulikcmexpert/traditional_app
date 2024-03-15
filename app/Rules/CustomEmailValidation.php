@@ -16,10 +16,10 @@ class CustomEmailValidation implements Rule
         }
 
         // Check if the username part of the email doesn't consist entirely of digits
-        $valueSplit = explode('@', $value);
-        if (ctype_digit($valueSplit[0])) {
-            return false;
-        }
+        // $valueSplit = explode('@', $value);
+        // if (ctype_digit($valueSplit[0])) {
+        //     return false;
+        // }
     }
 
     public function message()
