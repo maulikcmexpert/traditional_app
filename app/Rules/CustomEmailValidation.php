@@ -3,12 +3,14 @@
 
 namespace App\Rules;
 
+
 use Illuminate\Contracts\Validation\Rule;
 
 class CustomEmailValidation implements Rule
 {
     public function passes($attribute, $value)
     {
+        // Extract the email address from the input
         $email = explode('@', $value)[0];
 
         // Check if the email contains only digits
