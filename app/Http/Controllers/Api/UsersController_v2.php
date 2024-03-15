@@ -767,10 +767,6 @@ class UsersController_v2 extends BaseController
                     $data['is_approach'] = "no_button";
                     if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
-
-
-
-
                         $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
                         $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                         $seenProfileUser = $this->getLoginUserLatlog($user_id);
