@@ -9,7 +9,16 @@ class CustomEmailValidation implements Rule
 {
     public function passes($attribute, $value)
     {
-        return preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $value);
+        if (preg_match('/^\d+$/', $value)) {
+            return false;
+        }
+
+        // Check if the email contains '@', 'gmail', or '.com'
+        if (preg_match('/@|gmail|.com/', $value)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function message()
