@@ -1473,10 +1473,12 @@ class UsersController_v2 extends BaseController
                     return response()->json(["status" => false, 'message' => 'commited']);
                 }
             }
+            $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+            $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+            if ($approchOwncheck == null && $female_approch_check == null) {
 
-
-
-            return response()->json(["status" => true, 'message' => 'you are elegible']);
+                return response()->json(["status" => true, 'message' => 'you are elegible']);
+            }
         } catch (QueryException $e) {
 
             DB::rollBack();
