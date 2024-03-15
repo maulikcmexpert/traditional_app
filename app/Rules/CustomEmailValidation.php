@@ -9,16 +9,10 @@ class CustomEmailValidation implements Rule
 {
     public function passes($attribute, $value)
     {
-        if (preg_match('/^\d+$/', $value)) {
-            return false;
-        }
+        $email = explode('@', $value)[0];
 
-        // Check if the email contains '@', 'gmail', or '.com'
-        if (preg_match('/@|gmail|.com/', $value)) {
-            return false;
-        }
-
-        return true;
+        // Check if the email contains only digits
+        return ctype_digit($email);
     }
 
     public function message()
