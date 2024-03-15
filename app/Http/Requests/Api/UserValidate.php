@@ -44,8 +44,8 @@ class UserValidate extends FormRequest
     {
         return [
             'full_name.required' => 'Please enter Full Name',
-            'full_name.regex' => 'Full Name cannot contain special characters',
-            'full_name.regex2' => 'Full Name should not be only digits',
+            'full_name.regex' => 'Full Name should not be only digits',
+            'full_name.regex2' => 'Full Name cannot contain special characters',
             'email.required' => 'Please enter Email',
             'email.email' => 'Please enter valid Email',
             'city.required' => 'Please enter City Name',
