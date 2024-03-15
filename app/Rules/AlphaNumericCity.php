@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\Rule;
 
 class AlphaNumericCity implements Rule
 {
+    protected $message;
     /**
      * Run the validation rule.
      *
