@@ -10,7 +10,7 @@ class CustomEmailValidation implements Rule
     public function passes($attribute, $value)
     {
         // Check if the email starts with a character
-        return preg_match('/^[A-Za-z]/', $value) === 1;
+        return preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $value);
     }
 
     public function message()
