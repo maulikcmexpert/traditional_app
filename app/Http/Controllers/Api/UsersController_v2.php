@@ -909,7 +909,7 @@ class UsersController_v2 extends BaseController
                 [
                     'full_name' => ['required', new FullNameValidation],
                     'state_id' => 'required',
-                    'city' => ['required', new AlphaNumericCity],
+                    'city' => ['required'],
                     'zodiac_sign_id' => 'required',
                     'about_me' => 'required',
                     'height' => 'required|numeric',
@@ -924,7 +924,7 @@ class UsersController_v2 extends BaseController
 
                     'state_id.required' => 'Please select your State.',
 
-                    'city.required' => 'Please Enter Your city.',
+                    'city.required' => 'Please Enter your city.',
 
                     'zodiac_sign_id.required' => 'Please select Zodiac Sign.',
                     'religion_id.required' => 'Please select Religion',
