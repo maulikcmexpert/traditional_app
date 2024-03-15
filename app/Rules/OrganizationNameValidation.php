@@ -19,7 +19,7 @@ class OrganizationNameValidation implements ValidationRule
         }
 
         if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $fail("Organization Name cannot contain special characters");
+            $fail("Church/Organization Name should not be special characters");
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
