@@ -23,7 +23,7 @@ class OrganizationNameValidation implements ValidationRule
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
-            $fail(":Please enter valid Organization Name");
+            $fail(":Please enter vaild Name of Church/Organization");
         }
     }
 }
