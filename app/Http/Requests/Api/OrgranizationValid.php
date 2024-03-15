@@ -49,7 +49,7 @@ class OrgranizationValid extends FormRequest
     public function messages()
     {
         return [
-            'organization_name.required' => 'Please enter Organization Name',
+            'organization_name.required' => 'Please enter Name of Church/Organization',
             'mobile_number.required' => 'Please enter Mobile Number',
             'email.required' => 'Please enter Email',
             'organization_profile.required' => 'Please upload Logo/Image',
