@@ -17,15 +17,22 @@ class AlphaNumericCity implements Rule
     {
         // Check if the value contains at least one letter and one digit
         if (ctype_digit(trim($value))) {
-            $fail("City Name should not be only digits");
+            $this->message = "City Name should not be only digits";
+            return false;
         }
 
         if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $fail("City Name cannot contain special characters");
+            $this->message = "City Name cannot contain special characters";
+            return false;
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
-            $fail(":City Name must not contain only numbers and special characters.");
+            $this->message = "City Name should not be only numbers and special characters";
+            return false;
         }
+    }
+    public function message()
+    {
+        return $this->message;
     }
 }
