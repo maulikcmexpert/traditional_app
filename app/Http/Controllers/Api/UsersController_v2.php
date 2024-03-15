@@ -1768,7 +1768,7 @@ class UsersController_v2 extends BaseController
                 $check->delete();
                 Token::where('user_id', $this->user->id)->delete();
             }
-            return response()->json(['status' => true, 'message' => "Logout successfully"]);
+            return response()->json(['status' => true, 'message' => "Sign Out successfully"]);
         }
     }
 
