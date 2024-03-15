@@ -909,7 +909,7 @@ class UsersController_v2 extends BaseController
                 [
                     'full_name' => ['required', new FullNameValidation],
                     'state_id' => 'required',
-                    'city' => ['required'],
+                    'city' => ['required', new AlphaNumericCity],
                     'zodiac_sign_id' => 'required',
                     'about_me' => 'required',
                     'height' => 'required|numeric',
