@@ -1003,7 +1003,7 @@ class UsersController extends BaseController
                     'full_name.required' => 'Please enter Organization Name',
                     'state_id.required' => 'Please select a State',
                     'city.required' => 'Please Enter City Name',
-                    'about_us.required' => 'Please Enter About Us',
+                    'about_us.required' => 'Please Enter About us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please select Established Year',
                     // 'address.required' => 'Please enter Address'
