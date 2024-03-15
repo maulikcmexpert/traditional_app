@@ -8,7 +8,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class AlphaNumericCity implements Rule
 {
-    protected $message;
     /**
      * Run the validation rule.
      *
@@ -17,23 +16,11 @@ class AlphaNumericCity implements Rule
     public function passes($attribute, $value)
     {
         // Check if the value contains at least one letter and one digit
-        if (ctype_digit(trim($value))) {
-            $this->message = "City Name should not be only digits";
-            return false;
-        }
-
-        if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $this->message = "City Name cannot contain special characters";
-            return false;
-        }
-
-        if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
-            $this->message = "City Name should not be only numbers and special characters";
-            return false;
-        }
+        return (preg_match('/[a-zA-Z]/', $value) && preg_match('/\d/', $value)) || preg_match('/[a-zA-Z]/', $value);
     }
+
     public function message()
     {
-        return $this->message;
+        return 'City Name should not be only digits';
     }
 }
