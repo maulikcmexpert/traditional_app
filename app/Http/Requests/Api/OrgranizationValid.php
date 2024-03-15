@@ -56,7 +56,7 @@ class OrgranizationValid extends FormRequest
             'email.email' => 'Please enter valid Email',
             'established_year.required' => 'Please select Established Year',
             'city.required' => 'Please enter City Name',
-            'city.regex' => 'Please enter valid City Name',
+
             'address' => 'Please enter Address'
         ];
     }
