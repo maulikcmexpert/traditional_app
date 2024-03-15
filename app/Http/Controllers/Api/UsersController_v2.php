@@ -795,7 +795,9 @@ class UsersController_v2 extends BaseController
                                 }
                             }
                         } else {
+
                             $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+                            dd($approchOwncheck);
                             if ($approchOwncheck == null) {
                                 $approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
 
