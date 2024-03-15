@@ -1376,7 +1376,7 @@ class UsersController_v2 extends BaseController
         if ($checkTotalQue == $trueAns) {
             return response()->json(["status" => true, 'message' => 'you are eligible for relationship', 'data' => $wrongQue]);
         } else {
-            return response()->json(["status" => false, 'message' => 'She is not open for reletionship', 'data' => $wrongQue]);
+            return response()->json(["status" => false, 'message' => 'She is not open for relationship', 'data' => $wrongQue]);
         }
     }
 
@@ -1448,7 +1448,7 @@ class UsersController_v2 extends BaseController
                 if (count($checkUserAns) != 0) {
 
                     if (in_array('0', $checkUserAns->toArray())) {
-                        return response()->json(["status" => false, 'message' => 'She is not open for reletionship']);
+                        return response()->json(["status" => false, 'message' => 'She is not open for relationship']);
                     }
                 }
             }
