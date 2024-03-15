@@ -19,11 +19,11 @@ class FullNameValidation implements ValidationRule
         }
 
         if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $fail("Full Name cannot contain special characters");
+            $fail("Full Name should not be only special characters");
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
-            $fail(":Full Name must not contain only numbers and special characters.");
+            $fail("Please enter valid Full Name");
         }
     }
 }
