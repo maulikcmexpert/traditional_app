@@ -768,7 +768,7 @@ class UsersController_v2 extends BaseController
                     if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
                         $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
-
+                        dd($approch_check);
                         $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                         $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
@@ -797,7 +797,7 @@ class UsersController_v2 extends BaseController
                         } else {
 
                             $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
-                            dd($approchOwncheck);
+
                             if ($approchOwncheck == null) {
                                 $approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
 
