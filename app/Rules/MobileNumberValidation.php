@@ -19,7 +19,11 @@ class MobileNumberValidation implements ValidationRule
     public function passes($attribute, $value)
     {
         // Check if the value is a string and exactly 13 characters long
-        return is_string($value) && strlen($value) >= 7 && strlen($value) <= 13;
+        if (is_string($value) && strlen($value) >= 7 && strlen($value) <= 15) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -29,6 +33,12 @@ class MobileNumberValidation implements ValidationRule
      */
     public function message()
     {
-        return 'The :attribute must be exactly 13 characters long.';
+        if (strlen($value) < 7) {
+            return 'Minimum length is 7 digits';
+        } elseif (strlen($value) > 13) {
+            return 'Maximum length is 15 digits';
+        } else {
+            return 'The :attribute is invalid.';
+        }
     }
 }
