@@ -66,7 +66,10 @@ function notification($notificationData)
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
-            send_notification_FCM_and($deviceToken, $notificationData);
+            if ($deviceToken != null) {
+
+                send_notification_FCM_and($deviceToken->device_token, $notificationData);
+            }
         }
     }
 
@@ -81,7 +84,7 @@ function notification($notificationData)
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
-            send_notification_FCM_and($deviceToken, $notificationData);
+            send_notification_FCM_and($deviceToken->device_token, $notificationData);
         }
     }
     if ($notificationData['notify_for'] == 'accept_or_reject') {
@@ -102,7 +105,7 @@ function notification($notificationData)
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
-            send_notification_FCM_and($deviceToken, $notificationData);
+            send_notification_FCM_and($deviceToken->device_token, $notificationData);
         }
     }
 }
