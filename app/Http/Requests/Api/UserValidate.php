@@ -33,7 +33,7 @@ class UserValidate extends FormRequest
             'full_name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:200'],
             'country_dial' => ['required', 'string', 'max:5'],
             'mobile_number' => ['required', new MobileNumberValidation, 'string', 'unique:users,mobile_number'],
-            'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
+            'email' => ['required', 'email', 'max:50', 'unique:users,email'],
             'date_of_birth' => ['required'],
             'state_id' => ['required', 'integer'],
             'city' => ['required', new AlphaNumericCity],
