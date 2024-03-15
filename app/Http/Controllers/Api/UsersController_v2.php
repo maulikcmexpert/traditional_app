@@ -527,11 +527,9 @@ class UsersController_v2 extends BaseController
                 $que->option_2 = $questions['option_2'];
                 $que->prefered_option = $questions['prefered_option'];
                 $que->save();
-
-                DB::commit();
-                return response()->json(["status" => true, 'message' => 'Shows stoppers question created successfully']);
             }
-            return response()->json(["status" => false, 'message' => 'Shows stoppers question not create more then 3 questions']);
+            DB::commit();
+            return response()->json(["status" => true, 'message' => 'Shows stoppers question created successfully']);
         } catch (QueryException $e) {
 
             DB::rollBack();
