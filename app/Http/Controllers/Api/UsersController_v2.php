@@ -921,11 +921,11 @@ class UsersController_v2 extends BaseController
                 ],
                 [
                     'full_name.required' => 'Please Enter your Full Name.',
-                    'full_name.regex' => 'The Full Name can only contain letters and spaces.',
+
                     'state_id.required' => 'Please select your State.',
 
                     'city.required' => 'Please Enter Your city.',
-                    'city.regex' => 'City can only contain letters and spaces.',
+
                     'zodiac_sign_id.required' => 'Please select Zodiac Sign.',
                     'religion_id.required' => 'Please select Religion',
                     'about_me.required' => 'Please enter some information about yourself.',
@@ -933,7 +933,7 @@ class UsersController_v2 extends BaseController
                     'height.numeric' => 'Height must be a number.',
                     'weight.required' => 'Please Enter your Weight.',
                     'weight.numeric' => 'Weight must be a number.',
-                    'education.required' => 'Please enter Education',
+                    'education.required' => 'Please enter your Education',
 
                     'life_styles.required' => 'Please select at least one Lifestyle.',
                     'life_styles.array' => 'Lifestyles must be provided as an array.',
@@ -1018,8 +1018,8 @@ class UsersController_v2 extends BaseController
                 [
                     'full_name.required' => 'Please enter Organization Name',
                     'state_id.required' => 'Please select a State',
-                    'city.required' => 'Please Enter City Name',
-                    'about_us.required' => 'Please Enter About us',
+                    'city.required' => 'Please enter City Name',
+                    'about_us.required' => 'Please enter About us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please select Established Year',
                     'address.required' => 'Please enter Address'
@@ -1376,7 +1376,7 @@ class UsersController_v2 extends BaseController
         if ($checkTotalQue == $trueAns) {
             return response()->json(["status" => true, 'message' => 'you are eligible for relationship', 'data' => $wrongQue]);
         } else {
-            return response()->json(["status" => false, 'message' => 'She is not open for relationship', 'data' => $wrongQue]);
+            return response()->json(["status" => false, 'message' => 'She is not open for reletionship', 'data' => $wrongQue]);
         }
     }
 
