@@ -9,9 +9,10 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use App\Rules\CustomEmailValidation;
 use App\Rules\MobileNumberValidation;
-use App\Rules\AlphaNumeric;
+use App\Rules\OrganizationNameValidation;
 use App\Rules\AlphaNumericCity;
 
+use App\Rules\AddressValidation;
 
 class OrgranizationValid extends FormRequest
 {
@@ -31,7 +32,7 @@ class OrgranizationValid extends FormRequest
     public function rules(): array
     {
         return [
-            'organization_name' => ['required', new AlphaNumeric, 'max:200'],
+            'organization_name' => ['required', new OrganizationNameValidation, 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
             'mobile_number' => ['required', new MobileNumberValidation, 'string', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
@@ -40,7 +41,7 @@ class OrgranizationValid extends FormRequest
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],
             'city' => ['required', new AlphaNumericCity],
-            'address' => ['required'],
+            'address' => ['required', new AddressValidation],
 
         ];
     }

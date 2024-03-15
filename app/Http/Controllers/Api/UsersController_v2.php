@@ -37,8 +37,12 @@ use App\Models\UserDetail;
 use App\Models\Device;
 use App\Models\Notification;
 
-use App\Rules\AlphaNumeric;
+use App\Rules\FullNameValidation;
+use App\Rules\OrganizationNameValidation;
+use App\Rules\AddressValidation;
 use App\Rules\AlphaNumericCity;
+use App\Rules\CustomEmailValidation;
+
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
 use Illuminate\Http\Request;
@@ -511,19 +515,19 @@ class UsersController_v2 extends BaseController
     public function addShowsStoperQues(Request $request)
     {
         try {
+
+            UserShwstpprQue::where('user_id', $this->user->id)->delete();
             DB::beginTransaction();
 
-            $checkCount = UserShwstpprQue::where('user_id', $this->user->id)->delete();
-            if ($checkCount) {
-                foreach ($request->question as $questions) {
-                    $que = new UserShwstpprQue();
-                    $que->user_id = $this->user->id;
-                    $que->question = $questions['question'];
-                    $que->option_1 = $questions['option_1'];
-                    $que->option_2 = $questions['option_2'];
-                    $que->prefered_option = $questions['prefered_option'];
-                    $que->save();
-                }
+            foreach ($request->question as $questions) {
+                $que = new UserShwstpprQue();
+                $que->user_id = $this->user->id;
+                $que->question = $questions['question'];
+                $que->option_1 = $questions['option_1'];
+                $que->option_2 = $questions['option_2'];
+                $que->prefered_option = $questions['prefered_option'];
+                $que->save();
+
                 DB::commit();
                 return response()->json(["status" => true, 'message' => 'Shows stoppers question created successfully']);
             }
@@ -905,7 +909,7 @@ class UsersController_v2 extends BaseController
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'full_name' => 'required|regex:/^[a-zA-Z\s]+$/',
+                    'full_name' => ['required', new FullNameValidation],
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
                     'zodiac_sign_id' => 'required',
@@ -1005,13 +1009,13 @@ class UsersController_v2 extends BaseController
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'full_name' => ['required', new AlphaNumeric],
+                    'full_name' => ['required', new OrganizationNameValidation],
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
                     'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => 'required',
-                    'address' => 'required'
+                    'address' => ['required', new AddressValidation]
                 ],
                 [
                     'full_name.required' => 'Please enter Organization Name',
@@ -1374,7 +1378,7 @@ class UsersController_v2 extends BaseController
         if ($checkTotalQue == $trueAns) {
             return response()->json(["status" => true, 'message' => 'you are eligible for relationship', 'data' => $wrongQue]);
         } else {
-            return response()->json(["status" => false, 'message' => 'She is not open for reletionship', 'data' => $wrongQue]);
+            return response()->json(["status" => false, 'message' => 'She is not open for relationship', 'data' => $wrongQue]);
         }
     }
 
