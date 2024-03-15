@@ -9,15 +9,7 @@ class CustomEmailValidation implements Rule
 {
     public function passes($attribute, $value)
     {
-        if (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $value)) {
-            return false;
-        }
-
-        // elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $value)) {
-        //     return false;
-        // } elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[a-zA-Z0-9]*$/', $value)) {
-        //     return false;
-        // }
+        return preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $value);
     }
 
     public function message()
