@@ -4,23 +4,26 @@ namespace App\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Contracts\Validation\Rule;
 
-class AlphaNumericCity implements Rule
+class AlphaNumericCity implements ValidationRule
 {
     /**
      * Run the validation rule.
      *
      * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // Check if the value contains at least one letter and one digit
-        return (preg_match('/[a-zA-Z]/', $value) && preg_match('/\d/', $value)) || preg_match('/[a-zA-Z]/', $value);
-    }
+        if (ctype_digit(trim($value))) {
+            $fail("City Name should not be only digits");
+        }
 
-    public function message()
-    {
-        return 'City Name should not be only digits';
+        if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
+            $fail("City Name should not be only special characters");
+        }
+
+        if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
+            $fail("Please enter valid City Name");
+        }
     }
 }
