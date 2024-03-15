@@ -1701,7 +1701,7 @@ class UsersController_v2 extends BaseController
                 // soft delete //
 
                 if ($request->type == 'accepted') {
-                    $cancelLeftRequest = ApproachRequest::where(['receiver_id' => $this->user->id])->where('sender_id', '!=', $request->user_id)->get();
+                    $cancelLeftRequest = ApproachRequest::where(['receiver_id' => $this->user->id, 'status' => 'pending'])->where('sender_id', '!=', $request->user_id)->get();
 
                     if (count($cancelLeftRequest) != 0) {
                         foreach ($cancelLeftRequest as $val)
@@ -1711,7 +1711,7 @@ class UsersController_v2 extends BaseController
                         $cancelThisReq->delete();
                     }
 
-                    $cancelLeftRequestOfMale = ApproachRequest::where(['sender_id' =>  $request->user_id])->where('receiver_id', '!=', $this->user->id)->get();
+                    $cancelLeftRequestOfMale = ApproachRequest::where(['sender_id' =>  $request->user_id, 'status' => 'pending'])->where('receiver_id', '!=', $this->user->id)->get();
 
                     if (count($cancelLeftRequestOfMale) != 0) {
                         foreach ($cancelLeftRequestOfMale as $val)
