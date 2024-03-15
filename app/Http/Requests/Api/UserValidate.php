@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Rules\CustomEmailValidation;
 use App\Rules\MobileNumberValidation;
 use App\Rules\AlphaNumericCity;
+use App\Rules\FullNameValidation;
 
 
 class UserValidate extends FormRequest
@@ -33,7 +34,7 @@ class UserValidate extends FormRequest
         return [
             'full_name' => [
                 'required',
-
+                new FullNameValidation,
                 'max:200'
             ],
             'country_dial' => ['required', 'string', 'max:5'],
