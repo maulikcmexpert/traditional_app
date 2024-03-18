@@ -35,7 +35,7 @@ class MobileNumberValidation implements ValidationRule
     {
         if (strlen($value) < 7) {
             return 'Minimum length is 7 digits';
-        } elseif (strlen($value) > 13) {
+        } elseif (strlen($value) > 15) {
             return 'Maximum length is 15 digits';
         } else {
             return 'The :attribute is invalid.';
