@@ -913,7 +913,7 @@ class UsersController_v2 extends BaseController
                     'zodiac_sign_id' => 'required',
                     'about_me' => 'required',
                     'height' => 'required|numeric',
-                    'email' => ['required', new CustomEmailValidation, 'unique:users,email'],
+                    'email' => ['required', new CustomEmailValidation],
                     'weight' => 'required|numeric',
                     'education' => 'required | max:100',
                     'life_styles' => ['required', 'array'],
