@@ -41,7 +41,7 @@ function getManageRequest($type, $page, $receiver_id)
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
         $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
-        $userInfo['message'] =  ($val->status == 'rejected') ? $val->message : "";
+        $userInfo['message'] =  $val->message;
         $userData[] = $userInfo;
     }
 
