@@ -1417,6 +1417,7 @@ class UsersController_v2 extends BaseController
             $approch_request->receiver_id = $receiver_id;
             $approch_request->status = 'pending';
             $approch_request->type = 'approach';
+            $approch_request->message = $request->message;
             $approch_request->save();
             DB::commit();
 
