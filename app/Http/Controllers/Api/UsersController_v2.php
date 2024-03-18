@@ -1639,8 +1639,8 @@ class UsersController_v2 extends BaseController
         }
 
         $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
-        $type =  $cancelRequest->type;
         if ($cancelRequest != null) {
+            $type =  $cancelRequest->type;
             $cancelRequest->status = 'cancelled';
             $cancelRequest->save();
             // Soft delete
