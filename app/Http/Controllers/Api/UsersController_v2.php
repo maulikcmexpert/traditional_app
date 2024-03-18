@@ -1023,7 +1023,7 @@ class UsersController_v2 extends BaseController
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
                     // 'about_us' => 'required',
                     'size_of_organization_id' => 'required',
-                    'established_year' => 'required',
+                    'established_year' => ['required', 'numeric', 'digits:4', 'lte:' . date('Y')],
                     'address' => ['required', new AddressValidation]
                 ],
                 [
@@ -1034,7 +1034,10 @@ class UsersController_v2 extends BaseController
                     'city.required' => 'Please enter City Name',
                     // 'about_us.required' => 'Please enter About us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
-                    'established_year.required' => 'Please select Established Year',
+                    'established_year.required' => 'Please enter Established Year',
+                    'established_year.numeric' => 'Established Year should be only in digit',
+                    'established_year.digits' => 'Established Year should be 4 digit',
+                    'established_year.lte' => 'Established Year should not be grater than current year',
                     'address.required' => 'Please enter Address'
                 ]
             );
