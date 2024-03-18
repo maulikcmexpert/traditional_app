@@ -921,13 +921,13 @@ class UsersController_v2 extends BaseController
                     'date_of_birth' => ['required'],
                     'zodiac_sign_id' => 'required',
                     // 'about_me' => 'required',
-                    'height' => 'numeric',
+                    // 'height' => 'numeric',
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
-                    'weight' => 'numeric',
-                    'education' => 'max:100',
+                    // 'weight' => 'numeric',
+                    // 'education' => 'max:100',
                     'life_styles' => ['required', 'array'],
                     'interest_and_hobby' => ['required', 'array'],
-                    'religion_id' => ['required']
+                    // 'religion_id' => ['required']
                 ],
                 [
                     'full_name.required' => 'Please Enter your Full Name',
@@ -938,12 +938,12 @@ class UsersController_v2 extends BaseController
                     'city.required' => 'Please Enter your city',
                     'date_of_birth.required' => 'Please select Date Of Birth',
                     'zodiac_sign_id.required' => 'Please select Zodiac Sign',
-                    'religion_id.required' => 'Please select Religion',
+                    //'religion_id.required' => 'Please select Religion',
                     // 'about_me.required' => 'Please enter some information about yourself',
                     // 'height.required' => 'Please enter your Height',
-                    'height.numeric' => 'Height must be a number',
+                    // 'height.numeric' => 'Height must be a number',
                     // 'weight.required' => 'Please Enter your Weight',
-                    'weight.numeric' => 'Weight must be a number',
+                    // 'weight.numeric' => 'Weight must be a number',
                     // 'education.required' => 'Please enter your Education',
 
                     'life_styles.required' => 'Please select at least one Lifestyle',
