@@ -52,6 +52,7 @@ class OrgranizationValid extends FormRequest
             'organization_name.required' => 'Please enter Name of Church/Organization',
             'mobile_number.required' => 'Please enter Mobile Number',
             'email.required' => 'Please enter Email',
+            'email.unique' => 'Email is already taken',
             // 'organization_profile.required' => 'Please upload Logo/Image',
             'email.email' => 'Please enter valid Email',
             'established_year.required' => 'Please select Established Year',
