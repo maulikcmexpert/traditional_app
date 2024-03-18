@@ -105,7 +105,10 @@ function notification($notificationData)
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             $user = User::where('id', $notificationData['sender_id'])->first();
             $notificationData['notification_message'] = 'After initiating an approach request,' . $user->full_name . ' has cancelled the request.';
-            send_notification_FCM_and($deviceToken->device_token, $notificationData);
+            if ($deviceToken != null) {
+
+                send_notification_FCM_and($deviceToken->device_token, $notificationData);
+            }
         }
     }
     if ($notificationData['notify_for'] == 'accept_or_reject') {
@@ -130,7 +133,10 @@ function notification($notificationData)
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
-            send_notification_FCM_and($deviceToken->device_token, $notificationData);
+            if ($deviceToken != null) {
+
+                send_notification_FCM_and($deviceToken->device_token, $notificationData);
+            }
         }
     }
 }
