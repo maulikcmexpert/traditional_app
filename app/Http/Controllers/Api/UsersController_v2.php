@@ -1629,48 +1629,49 @@ class UsersController_v2 extends BaseController
 
     public function cancelRequest(Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'user_id' => ['required', 'integer', 'exists:users,id'],
-            ]);
+        // try {
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
-            $type =  $cancelRequest->type;
-            if ($cancelRequest != null) {
-                $cancelRequest->status = 'cancelled';
-                $cancelRequest->save();
-                // Soft delete
-
-                // soft delete //
-                $cancelRequest->delete();
-                // soft delete //
-                $notificationData = [
-                    'sender_id' => $this->user->id,
-                    'receiver_id' => $request->user_id,
-                    'status' => 'cancelled',
-                    'type' => $type,
-                    'notify_for' => 'cancel_request'
-                ];
-
-                notification($notificationData);
-                return response()->json(["status" => true, 'message' => 'Request cancelled successfully']);
-            } else {
-                return response()->json(["status" => false, 'message' => 'Request not found']);
-            }
-        } catch (QueryException $e) {
-
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
+
+        $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
+        $type =  $cancelRequest->type;
+        if ($cancelRequest != null) {
+            $cancelRequest->status = 'cancelled';
+            $cancelRequest->save();
+            // Soft delete
+
+            // soft delete //
+            $cancelRequest->delete();
+            // soft delete //
+            $notificationData = [
+                'sender_id' => $this->user->id,
+                'receiver_id' => $request->user_id,
+                'status' => 'cancelled',
+                'type' => $type,
+                'notify_for' => 'cancel_request'
+            ];
+
+            notification($notificationData);
+            return response()->json(["status" => true, 'message' => 'Request cancelled successfully']);
+        } else {
+            return response()->json(["status" => false, 'message' => 'Request not found']);
+        }
+        // } catch (QueryException $e) {
+
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } 
+        // catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function acceptRejectByFemale(Request $request)
