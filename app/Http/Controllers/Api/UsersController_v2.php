@@ -147,7 +147,7 @@ class UsersController_v2 extends BaseController
             $organization->otp = $randomNumber;
             if ($organization->save()) {
                 $organizationId = $organization->id;
-                if (!empty($request->organization_profile)) {
+                if (!empty($request->organization_profile) || $request->organization_profile != null) {
 
 
                     $image = $request->organization_profile;
