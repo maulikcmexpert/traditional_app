@@ -958,6 +958,7 @@ class UsersController_v2 extends BaseController
             $user_id = $this->user->id;
             $user = User::where('id', $user_id)->first();
             $user->full_name = $request->full_name;
+            $user->email = $request->email;
             $user->save();
             $user_detail = UserDetail::where('user_id', $user_id)->first();
             $user_detail->state_id = $request->state_id;
