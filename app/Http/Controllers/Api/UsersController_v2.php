@@ -1931,8 +1931,6 @@ class UsersController_v2 extends BaseController
 
             $validator = Validator::make($request->all(), [
                 'user_id' => ['required', 'integer', 'exists:users,id'],
-                'type' => ['required', 'string'],
-
             ]);
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
