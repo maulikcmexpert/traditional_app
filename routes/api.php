@@ -117,6 +117,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('accept_reject_by_female', [UsersController_v2::class, 'acceptRejectByFemale'])->middleware('check_user');
     Route::post('search_user', [UsersController_v2::class, 'searchUser'])->middleware('check_user');
     Route::post('block_user_list', [UsersController_v2::class, 'blockUserList'])->middleware('check_user');
+    Route::post('block_unblock_to_user', [UsersController_v2::class, 'blockUnblockToUser'])->middleware('check_user');
     Route::post('update_show_stopper_ques', [UsersController_v2::class, 'updateShowStopperQues'])->middleware('check_user');
     Route::post('logout', [UsersController_v2::class, 'logout'])->middleware('check_user');
     Route::post('notification_list', [UsersController_v2::class, 'notificationList'])->middleware('check_user');
