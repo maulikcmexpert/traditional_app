@@ -1048,6 +1048,7 @@ class UsersController_v2 extends BaseController
             $user_id = $this->user->id;
             $organization = User::where('id', $user_id)->first();
             $organization->full_name = $request->full_name;
+            $organization->email = $request->email;
             $organization->save();
 
             $organization_detail = OrganizationDetail::where('organization_id', $user_id)->first();
