@@ -37,7 +37,7 @@ class OrgranizationValid extends FormRequest
             'mobile_number' => ['required', new MobileNumberValidation, 'string', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             //   'organization_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'established_year' => ['required'],
+            'established_year' => ['required', 'numeric', 'digits:4', 'lte:' . date('Y')],
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],
             'city' => ['required', new AlphaNumericCity],
@@ -55,7 +55,10 @@ class OrgranizationValid extends FormRequest
             'email.unique' => 'Email is already taken',
             // 'organization_profile.required' => 'Please upload Logo/Image',
             'email.email' => 'Please enter valid Email',
-            'established_year.required' => 'Please select Established Year',
+            'established_year.required' => 'Please enter Established Year',
+            'established_year.numeric' => 'Established Year should be only in digit',
+            'established_year.digits' => 'Established Year should be 4 digit',
+            'established_year.lte' => 'Established Year should not be grater than current year',
             'city.required' => 'Please enter City Name',
 
             'address' => 'Please enter Address'
