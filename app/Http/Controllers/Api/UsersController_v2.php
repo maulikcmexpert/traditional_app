@@ -2050,6 +2050,7 @@ class UsersController_v2 extends BaseController
             } else {
                 DB::beginTransaction();
                 $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
+                dd($unblockToUser);
                 if ($unblockToUser != null) {
                     $unblockToUser->delete();
                     return response()->json(['status' => true, 'message' => "unblocked successfully"]);
