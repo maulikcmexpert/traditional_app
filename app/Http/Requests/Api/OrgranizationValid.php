@@ -36,7 +36,7 @@ class OrgranizationValid extends FormRequest
             'country_code' => ['required', 'string', 'max:5'],
             'mobile_number' => ['required', new MobileNumberValidation, 'string', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
-            //  'organization_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            //   'organization_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'established_year' => ['required'],
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],

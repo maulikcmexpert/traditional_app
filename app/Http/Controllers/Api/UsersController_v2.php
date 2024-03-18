@@ -916,8 +916,8 @@ class UsersController_v2 extends BaseController
                     'about_me' => 'required',
                     'height' => 'required|numeric',
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
-                    'weight' => 'required|numeric',
-                    'education' => 'required | max:100',
+                    'weight' => 'numeric',
+                    'education' => 'max:100',
                     'life_styles' => ['required', 'array'],
                     'interest_and_hobby' => ['required', 'array'],
                     'religion_id' => ['required']
@@ -1015,7 +1015,7 @@ class UsersController_v2 extends BaseController
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
-                    'about_us' => 'required',
+                    // 'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => 'required',
                     'address' => ['required', new AddressValidation]
@@ -1026,7 +1026,7 @@ class UsersController_v2 extends BaseController
                     'email.required' => 'Please enter Email',
                     'email.unique' => 'Email is already taken',
                     'city.required' => 'Please enter City Name',
-                    'about_us.required' => 'Please enter About us',
+                    // 'about_us.required' => 'Please enter About us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please select Established Year',
                     'address.required' => 'Please enter Address'
