@@ -1882,7 +1882,7 @@ class UsersController_v2 extends BaseController
             if ($user_id) {
 
                 $data['member_count'] = $totalMember;
-                $data['established_year'] = (date('d-m-Y', strtotime($user->organizationdetail->established_year)) != "") ? date('d-m-Y', strtotime($user->organizationdetail->established_year)) : "";
+                $data['established_year'] = $user->organizationdetail->established_year;
                 $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
                 $data['about_us'] = ($user->organizationdetail->about_us != "") ? $user->organizationdetail->about_us : " ";
                 $data['state'] = ($user->organizationdetail->state != "") ? $user->organizationdetail->state : "";
