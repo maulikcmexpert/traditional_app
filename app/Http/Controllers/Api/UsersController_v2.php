@@ -913,6 +913,7 @@ class UsersController_v2 extends BaseController
                     'zodiac_sign_id' => 'required',
                     'about_me' => 'required',
                     'height' => 'required|numeric',
+                    'email' => ['required', new CustomEmailValidation, 'unique:users,email'],
                     'weight' => 'required|numeric',
                     'education' => 'required | max:100',
                     'life_styles' => ['required', 'array'],
@@ -921,6 +922,7 @@ class UsersController_v2 extends BaseController
                 ],
                 [
                     'full_name.required' => 'Please Enter your Full Name.',
+                    'email.required' => 'Please Enter Email',
 
                     'state_id.required' => 'Please select your State.',
 
@@ -1010,6 +1012,7 @@ class UsersController_v2 extends BaseController
                     'full_name' => ['required', new OrganizationNameValidation],
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
+                    'email' => ['required', new CustomEmailValidation],
                     'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => 'required',
@@ -1018,6 +1021,7 @@ class UsersController_v2 extends BaseController
                 [
                     'full_name.required' => 'Please enter Organization Name',
                     'state_id.required' => 'Please select a State',
+                    'email.required' => 'Please enter Email',
                     'city.required' => 'Please enter City Name',
                     'about_us.required' => 'Please enter About us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
