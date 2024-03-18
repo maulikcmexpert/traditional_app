@@ -1946,7 +1946,7 @@ class UsersController_v2 extends BaseController
             $approch_request->sender_id = $user->id;
             $approch_request->receiver_id = $receiver_id;
             $approch_request->status = 'pending';
-            $approch_request->type = 'request';
+            $approch_request->type = 'friend';
             $approch_request->message = $request->message;
             $approch_request->save();
             DB::commit();
@@ -1955,8 +1955,8 @@ class UsersController_v2 extends BaseController
                 'sender_id' => $user->id,
                 'receiver_id' => $receiver_id,
                 'status' => 'pending',
-                'type' => 'approach',
-                'notify_for' => 'approach_request'
+                'type' => 'friend',
+                'notify_for' => 'friend_request'
             ];
 
             notification($notificationData);

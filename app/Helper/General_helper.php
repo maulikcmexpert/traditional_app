@@ -74,6 +74,24 @@ function notification($notificationData)
         }
     }
 
+    if ($notificationData['notify_for'] == 'friend_request') {
+
+        $notification = new Notification();
+        $notification->user_id  = $notificationData['receiver_id'];
+        $notification->sender_id = $notificationData['sender_id'];
+        $notification->notification_type = $notificationData['type'];
+        $notification->message = '$NAME wants to talk with you';
+        $notification->status = $notificationData['status'];
+        if ($notification->save()) {
+            $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
+            if ($deviceToken != null) {
+                $user = User::where('id', $notificationData['sender_id'])->first();
+                $notificationData['notification_message'] = $user->full_name . ' wants to talk with you';
+                send_notification_FCM_and($deviceToken->device_token, $notificationData);
+            }
+        }
+    }
+
     if ($notificationData['notify_for'] == 'cancel_request') {
 
         Notification::where(['user_id' => $notificationData['receiver_id'], 'sender_id' => $notificationData['sender_id'], 'notification_type' => 'approach', 'status' => 'pending'])->delete();
