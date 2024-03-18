@@ -1574,50 +1574,48 @@ class UsersController_v2 extends BaseController
 
     public function searchUser(Request $request)
     {
-        // try {
+        try {
 
-        $page = 1;
-        if (isset($request->page) && $request->page != "") {
-            $page = $request->page;
+            $page = 1;
+            if (isset($request->page) && $request->page != "") {
+                $page = $request->page;
+            }
+            $search_name = "";
+            if (isset($request->search_name) && $request->search_name != "") {
+                $search_name = $request->search_name;
+            }
+            $city = "";
+            if (isset($request->city) && $request->city != "") {
+                $city = $request->city;
+            }
+
+            $organization_name = "";
+
+            if (isset($request->organization_name) && $request->organization_name != "") {
+                $organization_name = $request->organization_name;
+            }
+            $minAge = 18;
+            $maxAge = 45;
+            if (isset($request->min) && isset($request->max)) {
+                $minAge = $request->min;
+                $maxAge = $request->max;
+            }
+
+            $requests = getSearchUser($search_name, $city, $page, $organization_name, $this->user->id, $minAge, $maxAge);
+            $userData = $requests['userData'];
+            $total_page = $requests['total_page'];
+
+            return response()->json(["status" => true, 'message' => 'Users', 'total_page' => $total_page, 'data' => $userData]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        $search_name = "";
-        if (isset($request->search_name) && $request->search_name != "") {
-            $search_name = $request->search_name;
-        }
-        $city = "";
-        if (isset($request->city) && $request->city != "") {
-            $city = $request->city;
-        }
-
-        $organization_name = "";
-
-        if (isset($request->organization_name) && $request->organization_name != "") {
-            $organization_name = $request->organization_name;
-        }
-        $minAge = 18;
-        $maxAge = 45;
-        if (isset($request->min) && isset($request->max)) {
-            $minAge = $request->min;
-            $maxAge = $request->max;
-        }
-
-        $requests = getSearchUser($search_name, $city, $page, $organization_name, $this->user->id, $minAge, $maxAge);
-        $userData = $requests['userData'];
-        $total_page = $requests['total_page'];
-
-        return response()->json(["status" => true, 'message' => 'Users', 'total_page' => $total_page, 'data' => $userData]);
-        // } 
-
-        // catch (QueryException $e) {
-
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
 
