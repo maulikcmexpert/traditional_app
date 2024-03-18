@@ -568,7 +568,7 @@ class UsersController_v2 extends BaseController
                 $count = UserDetail::where('organization_id', $user_id)->get();
                 $data['member_count'] = (count($count) != "") ? count($count) : "";
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
-                $data['established_year'] = (date('d-m-Y', strtotime($organization_detail[0]->established_year)) != "") ? date('d-m-Y', strtotime($organization_detail[0]->established_year)) : "";
+                $data['established_year'] = $organization_detail[0]->established_year;
                 $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
                 $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
                 $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
