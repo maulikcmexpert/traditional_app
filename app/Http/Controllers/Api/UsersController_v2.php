@@ -2040,18 +2040,23 @@ class UsersController_v2 extends BaseController
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "blocked successfully"]);
             } else {
+                DB::beginTransaction();
                 $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
                 if ($unblockToUser != null) {
                     $unblockToUser->delete();
                     return response()->json(['status' => true, 'message' => "unblocked successfully"]);
                 }
+                DB::commit();
             }
             return response()->json(['status' => true, 'message' => "try again"]);
-        } catch (QueryException $e) {
-            DB::rollBack();
+        }
 
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
+        // catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // }
+        catch (\Exception $e) {
 
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
