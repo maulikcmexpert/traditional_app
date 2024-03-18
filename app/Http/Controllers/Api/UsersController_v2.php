@@ -1962,6 +1962,7 @@ class UsersController_v2 extends BaseController
 
                 'user_id' => ['required', 'integer', 'exists:users,id'],
                 'type' => ['required', 'in:block,unblock'],
+
             ]);
 
             if ($validator->fails()) {
@@ -1976,6 +1977,7 @@ class UsersController_v2 extends BaseController
                 $blockToUser = new ProfileBlock();
                 $blockToUser->blocker_user_id  = $this->user->id;
                 $blockToUser->to_be_blocked_user_id   = $request->user_id;
+                $blockToUser->reason = $request->reason;
                 $blockToUser->save();
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "blocked successfully"]);
