@@ -963,6 +963,7 @@ class UsersController_v2 extends BaseController
             $user->save();
             $user_detail = UserDetail::where('user_id', $user_id)->first();
             $user_detail->state_id = $request->state_id;
+            $user_detail->date_of_birth =  date('Y-m-d', strtotime($request->date_of_birth));
             $user_detail->city = $request->city;
             $user_detail->height = $request->height;
             $user_detail->weight = $request->weight;
