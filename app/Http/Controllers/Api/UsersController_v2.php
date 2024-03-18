@@ -2032,11 +2032,18 @@ class UsersController_v2 extends BaseController
 
             if ($request->type == 'block') {
                 DB::beginTransaction();
-                $blockToUser = new ProfileBlock();
-                $blockToUser->blocker_user_id  = $this->user->id;
-                $blockToUser->to_be_blocked_user_id   = $request->user_id;
-                $blockToUser->reason = $request->reason;
-                $blockToUser->save();
+                $checkIsBlock = ProfileBlock::where([
+                    'blocker_user_id' => $this->user->id,
+                    'to_be_blocked_user_id' => $request->user_id
+                ])->first();
+                if ($checkIsBlock) {
+
+                    $blockToUser = new ProfileBlock();
+                    $blockToUser->blocker_user_id  = $this->user->id;
+                    $blockToUser->to_be_blocked_user_id   = $request->user_id;
+                    $blockToUser->reason = $request->reason;
+                    $blockToUser->save();
+                }
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "blocked successfully"]);
             } else {
