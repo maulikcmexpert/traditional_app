@@ -43,6 +43,8 @@ use App\Rules\AddressValidation;
 use App\Rules\AlphaNumericCity;
 use App\Rules\CustomEmailValidation;
 
+use Illuminate\Validation\Rule;
+
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
 use Illuminate\Http\Request;
@@ -913,7 +915,7 @@ class UsersController_v2 extends BaseController
                     'zodiac_sign_id' => 'required',
                     'about_me' => 'required',
                     'height' => 'required|numeric',
-                    'email' => ['required', new CustomEmailValidation],
+                    'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
                     'weight' => 'required|numeric',
                     'education' => 'required | max:100',
                     'life_styles' => ['required', 'array'],
@@ -921,26 +923,26 @@ class UsersController_v2 extends BaseController
                     'religion_id' => ['required']
                 ],
                 [
-                    'full_name.required' => 'Please Enter your Full Name.',
+                    'full_name.required' => 'Please Enter your Full Name',
                     'email.required' => 'Please Enter Email',
+                    'email.unique' => 'Email is already taken',
+                    'state_id.required' => 'Please select your State',
 
-                    'state_id.required' => 'Please select your State.',
+                    'city.required' => 'Please Enter your city',
 
-                    'city.required' => 'Please Enter your city.',
-
-                    'zodiac_sign_id.required' => 'Please select Zodiac Sign.',
+                    'zodiac_sign_id.required' => 'Please select Zodiac Sign',
                     'religion_id.required' => 'Please select Religion',
-                    'about_me.required' => 'Please enter some information about yourself.',
-                    'height.required' => 'Please enter your Height.',
-                    'height.numeric' => 'Height must be a number.',
-                    'weight.required' => 'Please Enter your Weight.',
-                    'weight.numeric' => 'Weight must be a number.',
+                    'about_me.required' => 'Please enter some information about yourself',
+                    'height.required' => 'Please enter your Height',
+                    'height.numeric' => 'Height must be a number',
+                    'weight.required' => 'Please Enter your Weight',
+                    'weight.numeric' => 'Weight must be a number',
                     'education.required' => 'Please enter your Education',
 
-                    'life_styles.required' => 'Please select at least one Lifestyle.',
-                    'life_styles.array' => 'Lifestyles must be provided as an array.',
-                    'interest_and_hobby.required' => 'Please select at least one Interest or Hobby.',
-                    'interest_and_hobby.array' => 'Interests and Hobbies must be enter as an array.',
+                    'life_styles.required' => 'Please select at least one Lifestyle',
+                    'life_styles.array' => 'Lifestyles must be provided as an array',
+                    'interest_and_hobby.required' => 'Please select at least one Interest or Hobby',
+                    'interest_and_hobby.array' => 'Interests and Hobbies must be enter as an array',
                 ]
             );
 
@@ -1012,7 +1014,7 @@ class UsersController_v2 extends BaseController
                     'full_name' => ['required', new OrganizationNameValidation],
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
-                    'email' => ['required', new CustomEmailValidation],
+                    'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
                     'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => 'required',
@@ -1022,6 +1024,7 @@ class UsersController_v2 extends BaseController
                     'full_name.required' => 'Please enter Organization Name',
                     'state_id.required' => 'Please select a State',
                     'email.required' => 'Please enter Email',
+                    'email.unique' => 'Email is already taken',
                     'city.required' => 'Please enter City Name',
                     'about_us.required' => 'Please enter About us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
