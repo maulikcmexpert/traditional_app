@@ -2017,50 +2017,50 @@ class UsersController_v2 extends BaseController
     public function blockUnblockToUser(Request $request)
     {
 
-        try {
+        // try {
 
-            $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
 
-                'user_id' => ['required', 'integer', 'exists:users,id'],
-                'type' => ['required', 'in:block,unblock'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'type' => ['required', 'in:block,unblock'],
 
-            ]);
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            if ($request->type == 'block') {
-                DB::beginTransaction();
-                $blockToUser = new ProfileBlock();
-                $blockToUser->blocker_user_id  = $this->user->id;
-                $blockToUser->to_be_blocked_user_id   = $request->user_id;
-                $blockToUser->reason = $request->reason;
-                $blockToUser->save();
-                DB::commit();
-                return response()->json(['status' => true, 'message' => "blocked successfully"]);
-            } else {
-                DB::beginTransaction();
-                $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
-                if ($unblockToUser != null) {
-                    $unblockToUser->delete();
-                    return response()->json(['status' => true, 'message' => "unblocked successfully"]);
-                }
-                DB::commit();
-            }
-            return response()->json(['status' => true, 'message' => "try again"]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
+
+        if ($request->type == 'block') {
+            DB::beginTransaction();
+            $blockToUser = new ProfileBlock();
+            $blockToUser->blocker_user_id  = $this->user->id;
+            $blockToUser->to_be_blocked_user_id   = $request->user_id;
+            $blockToUser->reason = $request->reason;
+            $blockToUser->save();
+            DB::commit();
+            return response()->json(['status' => true, 'message' => "blocked successfully"]);
+        } else {
+            DB::beginTransaction();
+            $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
+            if ($unblockToUser != null) {
+                $unblockToUser->delete();
+                return response()->json(['status' => true, 'message' => "unblocked successfully"]);
+            }
+            DB::commit();
+        }
+        return response()->json(['status' => true, 'message' => "try again"]);
+        // }
 
         // catch (QueryException $e) {
         //     DB::rollBack();
 
         //     return response()->json(['status' => false, 'message' => "db error"]);
         // }
-        catch (\Exception $e) {
+        // catch (\Exception $e) {
 
 
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
-        }
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function notificationList(Request $request)
