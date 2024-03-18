@@ -123,7 +123,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('notification_list', [UsersController_v2::class, 'notificationList'])->middleware('check_user');
     Route::post('delete_notification', [UsersController_v2::class, 'deleteNotification'])->middleware('check_user');
     Route::get('clear_notification', [UsersController_v2::class, 'clearNotification'])->middleware('check_user');
-    Route::get('friendRequest', [UsersController_v2::class, 'friendRequest'])->middleware('check_user');
+    Route::get('friend_request', [UsersController_v2::class, 'friendRequest'])->middleware('check_user');
 
     // Route::middleware(['check_user'])->group( function () {
     //     Route::get('country_list_login', [ListController::class, 'CountryList']);
