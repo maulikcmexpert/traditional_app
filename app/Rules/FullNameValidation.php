@@ -15,11 +15,11 @@ class FullNameValidation implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (ctype_digit(trim($value))) {
-            $fail("Full Name should not be only digits");
+            $fail("Please enter valid Full Name");
         }
 
         if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $fail("Full Name should not be only special characters");
+            $fail("Please enter valid Full Name");
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {

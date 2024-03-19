@@ -15,15 +15,15 @@ class OrganizationNameValidation implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (ctype_digit(trim($value))) {
-            $fail("Church/Organization Name should not be only digits");
+            $fail("Please enter valid Name of Church/Organization");
         }
 
         if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $fail("Church/Organization Name should not be special characters");
+            $fail("Please enter valid Name of Church/Organization");
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
-            $fail(":Please enter vaild Name of Church/Organization");
+            $fail(":Please enter valid Name of Church/Organization");
         }
     }
 }

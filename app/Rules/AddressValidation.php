@@ -19,11 +19,11 @@ class AddressValidation implements ValidationRule
         }
 
         if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $fail("Address cannot contain special characters");
+            $fail("Please enter valid Address");
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
-            $fail(":Address must not contain only numbers and special characters.");
+            $fail("Please enter valid Address");
         }
     }
 }

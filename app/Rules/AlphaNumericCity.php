@@ -15,11 +15,11 @@ class AlphaNumericCity implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (ctype_digit(trim($value))) {
-            $fail("City Name should not be only digits");
+            $fail("Please enter valid City Name");
         }
 
         if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $fail("City Name should not be only special characters");
+            $fail("Please enter valid City Name");
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
