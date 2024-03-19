@@ -702,17 +702,17 @@ class UsersController_v2 extends BaseController
             }
             $user_id = $request->user_id;
             // check user blocked //
-            // $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $user_id, 'to_be_blocked_user_id' => $this->user->id])->count();
-            // if ($approch_check_is_block == 1) {
-            //     return response()->json(['status' => false, 'message' => "User not found"]);
-            // }
+            $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $user_id, 'to_be_blocked_user_id' => $this->user->id])->count();
+            if ($approch_check_is_block == 1) {
+                return response()->json(['status' => false, 'message' => "User not found"]);
+            }
             // check user blocked //
 
-            // $addshowprofile = new ProfileSeenUser();
-            // $addshowprofile->profile_id = $user_id;
-            // $addshowprofile->profile_viewer_id = $this->user->id;
-            // $addshowprofile->save();
-            dd("hi");
+            $addshowprofile = new ProfileSeenUser();
+            $addshowprofile->profile_id = $user_id;
+            $addshowprofile->profile_viewer_id = $this->user->id;
+            $addshowprofile->save();
+
             $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
 
             $full_name = ($user->full_name != "") ? $user->full_name : "";
