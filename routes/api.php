@@ -72,7 +72,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 });
 
 
-Route::middleware('throttle:api')->group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
+Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('notification_test', [UsersController_v2::class, 'notificationTest']);
     Route::post('country_list', [UsersController_v2::class, 'country_list'])->name('country_list');
     Route::post('user_signup', [UsersController_v2::class, 'userSignup'])->name('user_signup');
