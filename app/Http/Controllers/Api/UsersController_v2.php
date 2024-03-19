@@ -752,7 +752,7 @@ class UsersController_v2 extends BaseController
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
-
+                    dd("hi");
 
                     $data['profile_image'] = [];
                     if (!empty($user->user_profile)) {
@@ -767,7 +767,7 @@ class UsersController_v2 extends BaseController
                     if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
                         $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
-                        dd("hi");
+
 
                         $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                         $seenProfileUser = $this->getLoginUserLatlog($user_id);
