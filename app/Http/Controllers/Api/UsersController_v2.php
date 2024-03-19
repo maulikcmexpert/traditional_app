@@ -706,8 +706,8 @@ class UsersController_v2 extends BaseController
                 $addshowprofile->profile_viewer_id = $this->user->id;
                 $addshowprofile->save();
 
-                $user = User::with(['userdetail', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
-
+                $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
+                dd($user);
                 $full_name = ($user->full_name != "") ? $user->full_name : "";
 
                 $data = [];
