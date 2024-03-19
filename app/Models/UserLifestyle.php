@@ -17,6 +17,6 @@ class UserLifestyle extends Model
 
     public function lifestyles()
     {
-        return $this->hasMany(UserLifestyle::class, 'lifestyle_id', 'id');
+        return $this->hasMany(Lifestyle::class, 'lifestyle_id', 'id');
     }
 }
