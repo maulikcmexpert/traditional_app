@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\{User, Lifestyle};
+use app\Models\User;
+use app\Models\Lifestyle;
+
 
 class UserLifestyle extends Model
 {
