@@ -707,7 +707,7 @@ class UsersController_v2 extends BaseController
                 $addshowprofile->save();
 
                 $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
-                dd($user);
+
                 $full_name = ($user->full_name != "") ? $user->full_name : "";
 
                 $data = [];
@@ -752,11 +752,11 @@ class UsersController_v2 extends BaseController
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
-                    $user_profile = UserProfile::where('user_id', $user_id)->get();
+
 
                     $data['profile_image'] = [];
-                    if (count($user_profile)) {
-                        foreach ($user_profile as $key => $val) {
+                    if (!empty($user->user_profile)) {
+                        foreach ($user->user_profile as $key => $val) {
                             $image['profile_id'] = $val->id;
                             $image['profile'] = asset('storage/profile/' . $val->profile);
                             $image['is_default'] = $val->is_default;
@@ -842,12 +842,10 @@ class UsersController_v2 extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        // catch (\Exception $e) {
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
     public function checkRelationStatus($user_id)
