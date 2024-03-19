@@ -15,15 +15,15 @@ class AlphaNumericCity implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (ctype_digit(trim($value))) {
-            $fail("Please enter valid City Name");
+            $fail("Please enter valid City");
         }
 
         if (preg_match("/^[^a-zA-Z0-9 ]+$/", trim($value))) {
-            $fail("Please enter valid City Name");
+            $fail("Please enter valid City");
         }
 
         if (preg_match("/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/", $value)) {
-            $fail("Please enter valid City Name");
+            $fail("Please enter valid City");
         }
     }
 }

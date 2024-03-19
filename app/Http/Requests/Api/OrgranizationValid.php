@@ -56,10 +56,10 @@ class OrgranizationValid extends FormRequest
             // 'organization_profile.required' => 'Please upload Logo/Image',
             'email.email' => 'Please enter valid Email',
             'established_year.required' => 'Please enter Established Year',
-            'established_year.numeric' => 'Established Year should be only in digit',
-            'established_year.digits' => 'Established Year should be 4 digit',
-            'established_year.lte' => 'Established Year should not be grater than current year',
-            'city.required' => 'Please enter City Name',
+            'established_year.numeric' => 'Please enter valid Established Year',
+            'established_year.digits' => 'Please enter valid Established Year',
+            'established_year.lte' => 'Please enter valid Established Year',
+            'city.required' => 'Please enter City',
 
             'address' => 'Please enter Address'
         ];
