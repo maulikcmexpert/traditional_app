@@ -19,6 +19,6 @@ class UserLifestyle extends Model
 
     public function lifestyles()
     {
-        return $this->belongsTo(Lifestyle::class, 'lifestyle_id', 'id');
+        return $this->belongsTo(Lifestyle::class);
     }
 }
