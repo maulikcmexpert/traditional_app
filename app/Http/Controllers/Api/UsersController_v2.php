@@ -1457,19 +1457,19 @@ class UsersController_v2 extends BaseController
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
 
-            $checkShwStopperQues = UserShwstpprQue::where('user_id', $request->user_id)->pluck('id');
+            // $checkShwStopperQues = UserShwstpprQue::where('user_id', $request->user_id)->pluck('id');
 
-            if (count($checkShwStopperQues) != 0) {
-                $checkUserAns = UserShwstpperAnswr::where('user_id', $this->user->id)->whereIn('question_id', $checkShwStopperQues)->pluck('answer_status');
+            // if (count($checkShwStopperQues) != 0) {
+            //     $checkUserAns = UserShwstpperAnswr::where('user_id', $this->user->id)->whereIn('question_id', $checkShwStopperQues)->pluck('answer_status');
 
 
-                if (count($checkUserAns) != 0) {
+            //     if (count($checkUserAns) != 0) {
 
-                    if (in_array('0', $checkUserAns->toArray())) {
-                        return response()->json(["status" => false, 'message' => 'She is not open for relationship']);
-                    }
-                }
-            }
+            //         if (in_array('0', $checkUserAns->toArray())) {
+            //             return response()->json(["status" => false, 'message' => 'She is not open for relationship']);
+            //         }
+            //     }
+            // }
 
 
 
