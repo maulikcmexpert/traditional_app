@@ -620,7 +620,8 @@ class UsersController_v2 extends BaseController
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
-            $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'userdetail.organization')->where('id', $user_id)->first();
+            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
+
             if ($user_id) {
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
                 $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
@@ -639,32 +640,31 @@ class UsersController_v2 extends BaseController
                 $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
                 $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
                 $data['organization_name'] = ($user->userdetail->organization_id != NULL) ? $user->userdetail['organization']->full_name : "";
-                $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
 
                 $data['life_style'] = [];
-                if (count($user_lifestyle)) {
-                    foreach ($user_lifestyle as $key => $val) {
+                if (!empty($user->user_lifestyle)) {
+                    foreach ($user->user_lifestyle as $key => $val) {
                         $lifestyle['id'] = $val->lifestyle_id;
-                        $lifeStylename = Lifestyle::where('id', $val->lifestyle_id)->first();
-                        $lifestyle['name'] = $lifeStylename->life_style;
+
+                        $lifestyle['name'] = $val->lifestyle->life_style;
                         $data['life_style'][] = $lifestyle;
                     }
                 }
-                $user_intrest_hobby = UserInterestAndHobby::with('interest_and_hobbies')->where('user_id', $user_id)->get();
-                $data['intrest_and_hobby'] = [];
-                if (count($user_intrest_hobby)) {
 
-                    foreach ($user_intrest_hobby as $key => $val) {
+                $data['intrest_and_hobby'] = [];
+                if (!empty($user->user_intrest_hobby)) {
+
+                    foreach ($user->user_intrest_hobby as $key => $val) {
                         $intrest_hobby['id'] = $val->interest_and_hobby_id;
 
-                        $intrest_hobby['name'] = $val->interest_and_hobbies->interest_and_hobby;
+                        $intrest_hobby['name'] = $val->interest_and_hobby->interest_and_hobby;
                         $data['intrest_and_hobby'][] = $intrest_hobby;
                     }
                 }
-                $user_profile = UserProfile::where('user_id', $user_id)->get();
+
                 $data['profile_image'] = [];
-                if (count($user_profile)) {
-                    foreach ($user_profile as $key => $val) {
+                if (!empty($user->user_profile)) {
+                    foreach ($user->user_profile as $key => $val) {
                         $image['profile_id'] = $val->id;
                         $image['profile'] = asset('storage/profile/' . $val->profile);
                         $image['is_default'] = $val->is_default;
