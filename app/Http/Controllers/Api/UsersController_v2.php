@@ -735,7 +735,7 @@ class UsersController_v2 extends BaseController
                     $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
 
                     $data['life_style'] = [];
-                    if ($user->lifestyle != null || count($user->lifestyle) != 0) {
+                    if (count($user->lifestyle) != 0) {
                         foreach ($user->lifestyle as $key => $val) {
                             $lifestyle['id'] = $val->id;
                             $lifestyle['name'] = $val->lifestyle->life_style;
@@ -744,7 +744,7 @@ class UsersController_v2 extends BaseController
                     }
 
                     $data['intrest_and_hobby'] = [];
-                    if ($user->user_interest_and_hobby != null || count($user->user_interest_and_hobby) != 0) {
+                    if (count($user->user_interest_and_hobby) != 0) {
 
                         foreach ($user->user_interest_and_hobby  as $key => $val) {
                             $intrest_hobby['id'] = $val->id;
