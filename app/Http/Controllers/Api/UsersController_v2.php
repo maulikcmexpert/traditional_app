@@ -70,13 +70,7 @@ class UsersController_v2 extends BaseController
     }
 
 
-    public function notificationTest()
-    {
-        $data = [
-            'message' => "hi"
-        ];
-        send_notification_FCM_and('fkehMP7RQMi8_9DrdOhvqT:APA91bFot1FDvkYUk7OrStFrKUNMOMAC1Y24IsafcWUdBAT6eodPK5_t9lyAu4XQPeeInLowwTNye5u1_-wtwu2deI9HVN0SKFFwcUjZasiufEtgCS0-6zh9Z0QwMicEZ8EcXhc-F2E9', $data);
-    }
+
     public function userSignup(UserValidate $request)
     {
         try {
@@ -120,12 +114,11 @@ class UsersController_v2 extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        //  catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
     public function organizationSignup(OrgranizationValid $request)
@@ -1319,10 +1312,9 @@ class UsersController_v2 extends BaseController
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "Something went wrong"]);
         }
-        // catch (\Exception $e) {
-        //     return response()->json(['status' => false, 'message' => "Something went wrong"]);
-        // }
     }
 
 
@@ -1602,7 +1594,7 @@ class UsersController_v2 extends BaseController
             if (isset($request->organization_name) && $request->organization_name != "") {
                 $organization_name = $request->organization_name;
             }
-            $minAge = 18;
+            $minAge = 16;
             $maxAge = 45;
             if (isset($request->min) && isset($request->max)) {
                 $minAge = $request->min;
