@@ -714,7 +714,7 @@ class UsersController_v2 extends BaseController
             $addshowprofile->save();
 
             $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
-            dd($user);
+
             $full_name = ($user->full_name != "") ? $user->full_name : "";
 
             $data = [];
@@ -742,8 +742,8 @@ class UsersController_v2 extends BaseController
                 $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
 
                 $data['life_style'] = [];
-                if (!empty($user->lifestyle)) {
-                    foreach ($user->lifestyle as $key => $val) {
+                if (!empty($user->user_lifestyle)) {
+                    foreach ($user->user_lifestyle as $key => $val) {
                         $lifestyle['id'] = $val->id;
                         $lifestyle['name'] = $val->lifestyle->life_style;
                         $data['life_style'][] = $lifestyle;
