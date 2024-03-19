@@ -706,7 +706,7 @@ class UsersController_v2 extends BaseController
                 $addshowprofile->profile_viewer_id = $this->user->id;
                 $addshowprofile->save();
 
-                $user = User::with('userdetail', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization')->where('id', $user_id)->first();
+                $user = User::with(['userdetail', 'user_lifestyle', 'user_lifestyle.lifestyles', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobbies' . 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
 
                 $full_name = ($user->full_name != "") ? $user->full_name : "";
 
@@ -733,26 +733,22 @@ class UsersController_v2 extends BaseController
                     $data['country'] = ($user->country->country != null) ? $user->country->country : "";
                     $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : "";
                     $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
-                    $user_lifestyle = UserLifestyle::where('user_id', $user_id)->get();
-                    $data['life_style'] = [];
-                    if (count($user_lifestyle)) {
-                        foreach ($user_lifestyle as $key => $val) {
-                            $lifestyle['id'] = $val->id;
-                            $lifestyleVal = Lifestyle::where('id', $val->lifestyle_id)->select('life_style')->get();
 
-                            $lifestyle['name'] = $lifestyleVal[0]->life_style;
+                    $data['life_style'] = [];
+                    if ($user->user_lifestyle != null || count($user->user_lifestyle) != 0) {
+                        foreach ($user->user_lifestyle as $key => $val) {
+                            $lifestyle['id'] = $val->id;
+                            $lifestyle['name'] = $val->lifestyles->life_style;
                             $data['life_style'][] = $lifestyle;
                         }
                     }
                     $user_intrest_hobby = UserInterestAndHobby::where('user_id', $user_id)->get();
                     $data['intrest_and_hobby'] = [];
-                    if (count($user_intrest_hobby)) {
+                    if ($user->user_interest_and_hobby != null || count($user->user_interest_and_hobby) != 0) {
 
-                        foreach ($user_intrest_hobby as $key => $val) {
+                        foreach ($user->user_interest_and_hobby  as $key => $val) {
                             $intrest_hobby['id'] = $val->id;
-                            $lifestyleVal = InterestAndHobby::where('id', $val->interest_and_hobby_id)->select('interest_and_hobby')->get();
-
-                            $intrest_hobby['name'] = $lifestyleVal[0]->interest_and_hobby;
+                            $intrest_hobby['name'] = $val->interest_and_hobbies->interest_and_hobby;
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
