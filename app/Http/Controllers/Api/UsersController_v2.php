@@ -2157,4 +2157,8 @@ class UsersController_v2 extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
+    public function installApp()
+    {
+        return response()->json(["status" => true, 'message' => 'Application', 'url' => asset('public/application/traditional.zip'), 'version' => "1.0.0"]);
+    }
 }

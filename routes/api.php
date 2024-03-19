@@ -73,6 +73,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
 
 Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
+    Route::get('install_app', [UsersController_v2::class, 'installApp']);
     Route::post('notification_test', [UsersController_v2::class, 'notificationTest']);
     Route::post('country_list', [UsersController_v2::class, 'country_list'])->name('country_list');
     Route::post('user_signup', [UsersController_v2::class, 'userSignup'])->name('user_signup');
@@ -124,6 +125,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('delete_notification', [UsersController_v2::class, 'deleteNotification'])->middleware('check_user');
     Route::get('clear_notification', [UsersController_v2::class, 'clearNotification'])->middleware('check_user');
     Route::get('friend_request', [UsersController_v2::class, 'friendRequest'])->middleware('check_user');
+
 
     // Route::middleware(['check_user'])->group( function () {
     //     Route::get('country_list_login', [ListController::class, 'CountryList']);
