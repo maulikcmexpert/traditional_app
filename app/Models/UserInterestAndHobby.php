@@ -18,7 +18,7 @@ class UserInterestAndHobby extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function interest_and_hobbies()
+    public function interest_and_hobby()
     {
         return $this->belongsTo(InterestAndHobby::class, 'interest_and_hobby_id');
     }
