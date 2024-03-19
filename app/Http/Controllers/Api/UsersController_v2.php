@@ -933,7 +933,7 @@ class UsersController_v2 extends BaseController
                     'email.unique' => 'Email is already taken',
                     'state_id.required' => 'Please select your State',
 
-                    'city.required' => 'Please Enter your city',
+                    'city.required' => 'Please Enter city',
                     'date_of_birth.required' => 'Please select Date Of Birth',
                     'zodiac_sign_id.required' => 'Please select Zodiac Sign',
                     //'religion_id.required' => 'Please select Religion',
@@ -1028,17 +1028,17 @@ class UsersController_v2 extends BaseController
                     'address' => ['required', new AddressValidation]
                 ],
                 [
-                    'full_name.required' => 'Please enter Organization Name',
+                    'full_name.required' => 'Please enter Name of Church/Organization',
                     'state_id.required' => 'Please select a State',
                     'email.required' => 'Please enter Email',
                     'email.unique' => 'Email is already taken',
-                    'city.required' => 'Please enter City Name',
+                    'city.required' => 'Please enter City',
                     // 'about_us.required' => 'Please enter About us',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please enter Established Year',
-                    'established_year.numeric' => 'Established Year should be only in digit',
-                    'established_year.digits' => 'Established Year should be 4 digit',
-                    'established_year.lte' => 'Established Year should not be grater than current year',
+                    'established_year.numeric' => ' Please enter valid Established Year',
+                    'established_year.digits' => ' Please enter valid Established Year',
+                    'established_year.lte' => ' Please enter valid Established Year',
                     'address.required' => 'Please enter Address'
                 ]
             );
