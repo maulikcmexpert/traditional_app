@@ -695,10 +695,10 @@ class UsersController_v2 extends BaseController
             DB::beginTransaction();
             $user_id = $request->user_id;
             // check user blocked //
-            $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $user_id, 'to_be_blocked_user_id' => $this->user->id])->count();
-            if ($approch_check_is_block == 1) {
-                return response()->json(['status' => false, 'message' => "User not found"]);
-            }
+            // $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $user_id, 'to_be_blocked_user_id' => $this->user->id])->count();
+            // if ($approch_check_is_block == 1) {
+            //     return response()->json(['status' => false, 'message' => "User not found"]);
+            // }
             // check user blocked //
             if ($user_id) {
                 // $addshowprofile = new ProfileSeenUser();
