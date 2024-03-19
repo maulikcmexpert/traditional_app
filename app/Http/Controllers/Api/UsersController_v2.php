@@ -735,14 +735,14 @@ class UsersController_v2 extends BaseController
                     $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
 
                     $data['life_style'] = [];
-                    if ($user->user_lifestyle != null || count($user->user_lifestyle) != 0) {
-                        foreach ($user->user_lifestyle as $key => $val) {
+                    if ($user->lifestyles != null || count($user->lifestyles) != 0) {
+                        foreach ($user->lifestyles as $key => $val) {
                             $lifestyle['id'] = $val->id;
                             $lifestyle['name'] = $val->lifestyles->life_style;
                             $data['life_style'][] = $lifestyle;
                         }
                     }
-                    $user_intrest_hobby = UserInterestAndHobby::where('user_id', $user_id)->get();
+
                     $data['intrest_and_hobby'] = [];
                     if ($user->user_interest_and_hobby != null || count($user->user_interest_and_hobby) != 0) {
 
