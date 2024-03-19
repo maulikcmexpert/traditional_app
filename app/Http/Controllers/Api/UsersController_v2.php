@@ -748,7 +748,7 @@ class UsersController_v2 extends BaseController
 
                         foreach ($user->user_interest_and_hobby  as $key => $val) {
                             $intrest_hobby['id'] = $val->id;
-                            $intrest_hobby['name'] = $val->interest_and_hobbies->interest_and_hobby;
+                            $intrest_hobby['name'] = $val->user_interest_and_hobby->interest_and_hobby;
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
