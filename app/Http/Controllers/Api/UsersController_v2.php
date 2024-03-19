@@ -701,10 +701,10 @@ class UsersController_v2 extends BaseController
             }
             // check user blocked //
             if ($user_id) {
-                $addshowprofile = new ProfileSeenUser();
-                $addshowprofile->profile_id = $user_id;
-                $addshowprofile->profile_viewer_id = $this->user->id;
-                $addshowprofile->save();
+                // $addshowprofile = new ProfileSeenUser();
+                // $addshowprofile->profile_id = $user_id;
+                // $addshowprofile->profile_viewer_id = $this->user->id;
+                // $addshowprofile->save();
 
                 $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
 
@@ -752,7 +752,7 @@ class UsersController_v2 extends BaseController
                             $data['intrest_and_hobby'][] = $intrest_hobby;
                         }
                     }
-                    dd("hi");
+
 
                     $data['profile_image'] = [];
                     if (!empty($user->user_profile)) {
