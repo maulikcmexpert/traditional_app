@@ -12,12 +12,12 @@ class UserLifestyle extends Model
 {
     use HasFactory;
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function lifestyles()
+    public function lifestyle()
     {
         return $this->belongsTo(Lifestyle::class);
     }

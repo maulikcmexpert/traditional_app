@@ -74,7 +74,7 @@ class User extends Authenticatable
         return $this->hasMany(UserProfile::class, 'user_id', 'id');
     }
 
-    public function user_lifestyle()
+    public function user_lifestyles()
     {
         return $this->hasMany(UserLifestyle::class, 'user_id', 'id');
     }
