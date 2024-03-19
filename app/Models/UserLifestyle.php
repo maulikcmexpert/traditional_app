@@ -4,21 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\User;
-use app\Models\Lifestyle;
-
+use App\Models\{User, Lifestyle};
 
 class UserLifestyle extends Model
 {
     use HasFactory;
 
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function lifestyle()
+    public function lifestyles()
     {
-        return $this->belongsTo(Lifestyle::class);
+        return $this->belongsTo(Lifestyle::class, 'lifestyle_id', 'id');
     }
 }
