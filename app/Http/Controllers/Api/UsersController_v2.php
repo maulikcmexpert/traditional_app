@@ -1497,7 +1497,7 @@ class UsersController_v2 extends BaseController
             }
 
             if ($approchOwncheck != null) {
-                return response()->json(["status" => false, 'message' => 'you are already commited with enother']);
+                return response()->json(["status" => false, 'message' => 'you have already commited with onther']);
             }
         } catch (QueryException $e) {
 
