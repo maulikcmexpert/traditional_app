@@ -26,14 +26,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            // LifestyleSeeder::class,
-            // InterestAndHobbySeeder::class,
-            // ZodiacSeeder::class,
-            // OrganizationSeeder::class,
-            // SizeOfOrganizationSeeder::class,
-            CountrySeeder::class,
-            StateSeeder::class,
-            CitySeeder::class,
+            UserSeeder::class,
+            LifestyleSeeder::class,
+            InterestAndHobbySeeder::class,
+            ZodiacSeeder::class,
+            OrganizationSeeder::class,
+            SizeOfOrganizationSeeder::class
             // Other seeders if you have
         ]);
     }
