@@ -2037,7 +2037,7 @@ class UsersController_v2 extends BaseController
             $validator = Validator::make($request->all(), [
 
                 'user_id' => ['required', 'integer', 'exists:users,id'],
-                'type' => ['required', 'in:block,unblock'],
+                'type' => ['required', 'in:block,unblock,remove'],
 
             ]);
 
