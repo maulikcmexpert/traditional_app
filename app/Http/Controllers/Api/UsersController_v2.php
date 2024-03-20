@@ -820,6 +820,10 @@ class UsersController_v2 extends BaseController
                             // }
                             // $data['is_approach'] = "approach";
                         }
+
+                        if (($approchOwncheck != null && $female_approch_check == null) || ($approchOwncheck == null && $female_approch_check != null)) {
+                            $data['is_approach'] = "no_button";
+                        }
                     }
                 } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
 
