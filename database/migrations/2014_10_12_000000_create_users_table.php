@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('mobile_number')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->enum('user_type', ['user', 'admin', 'organization'])->default('user');
             $table->string('otp')->nullable();
             $table->enum('is_ghost', ['0', '1'])->default('0')->comment('0 = not ghost, 1 = ghost');

@@ -115,6 +115,7 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id, 
     // Apply filters based on search criteria
     $query->where('full_name', 'like', "%$search_name%");
     $query->where('user_type', 'user');
+    $query->where('status', 'active');
 
     if (!empty($city)) {
 

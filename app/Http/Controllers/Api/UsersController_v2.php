@@ -489,6 +489,11 @@ class UsersController_v2 extends BaseController
                 $user_love_lang->save();
             }
 
+            $statusChange = User::where('id', $this->user->id)->first();
+            if ($statusChange != null) {
+                $statusChange->status = 'active';
+                $statusChange->save();
+            }
 
             DB::commit();
 
@@ -620,7 +625,7 @@ class UsersController_v2 extends BaseController
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
-            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
+            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where(['id' => $user_id, 'status' => 'active'])->first();
 
             if ($user_id) {
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
@@ -713,7 +718,7 @@ class UsersController_v2 extends BaseController
             $addshowprofile->profile_viewer_id = $this->user->id;
             $addshowprofile->save();
 
-            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where('id', $user_id)->first();
+            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where(['id' => $user_id, 'status' => 'active'])->first();
 
             $full_name = ($user->full_name != "") ? $user->full_name : "";
 
@@ -1262,7 +1267,7 @@ class UsersController_v2 extends BaseController
                 'userdetail',
                 'country',
                 'userdetail.state'
-            ])->whereIn('id', $femaleDataArray);
+            ])->whereIn('id', $femaleDataArray)->where('status', 'active');
 
             if (isset($request->organization_id) && $request->organization_id != 0) {
                 $organizationId = $request->organization_id;
@@ -1884,7 +1889,7 @@ class UsersController_v2 extends BaseController
             $organizationId = $request->user_id;
             $user = User::with(['organizationdetail' => function ($query) {
                 return $query->with('state_data', 'city_data', 'size_of_organization');
-            }, 'country', 'user_profile'])->where('id', $organizationId)->first();
+            }, 'country', 'user_profile'])->where(['id' => $organizationId, 'status' => 'active'])->first();
 
             $totalMember = UserDetail::where('organization_id', $organizationId)->count();
             $user_id =  $user->id;
