@@ -2062,7 +2062,7 @@ class UsersController_v2 extends BaseController
                     return response()->json(['status' => true, 'message' => "blocked successfully"]);
                 }
                 return response()->json(['status' => true, 'message' => "already blocked"]);
-            } else {
+            } else if ($request->type == 'unblock') {
                 $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
 
                 if ($unblockToUser != null) {
@@ -2070,6 +2070,16 @@ class UsersController_v2 extends BaseController
                     $unblockToUser->delete();
                     DB::commit();
                     return response()->json(['status' => true, 'message' => "unblocked successfully"]);
+                }
+            } else if ($request->type == 'remove') {
+                $removeBlockUser = ProfileBlock::where([
+                    'blocker_user_id' => $this->user->id,
+                    'to_be_blocked_user_id' => $request->user_id
+                ])->first();
+                if ($removeBlockUser != null) {
+                    $removeBlockUser->is_remove = '1';
+                    $removeBlockUser->save();
+                    return response()->json(['status' => true, 'message' => "blocked user removed successfully"]);
                 }
             }
             return response()->json(['status' => true, 'message' => "try again"]);
