@@ -135,6 +135,7 @@ class UsersController_v2 extends BaseController
             $organization->country_code = $request->country_dial;
             $organization->mobile_number = $request->mobile_number;
             $organization->email = $request->email;
+            $organization->status = 'active';
             $organization->user_type = 'organization';
             $randomNumber = rand(1000, 9999);
             $organization->otp = $randomNumber;
