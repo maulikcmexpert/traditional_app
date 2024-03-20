@@ -1231,7 +1231,9 @@ class UsersController_v2 extends BaseController
             $userLog = (isset($request->longitude) && $request->longitude != "") ? $request->longitude : "";
             // Initialize Firebase
             $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
+
             $factory = (new Factory())->withServiceAccount($serviceAccount);
+            dd($factory);
             $database = $factory->createDatabase();
             // Retrieve data
             $data = $database->getReference('/user_locations')->getValue();
