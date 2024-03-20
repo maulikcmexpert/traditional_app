@@ -1994,43 +1994,43 @@ class UsersController_v2 extends BaseController
 
     public function blockUserList(Request $request)
     {
-        try {
-            DB::beginTransaction();
+        // try {
+        DB::beginTransaction();
 
-            $page = 1;
-            if (isset($request->page) && $request->page != "") {
-                $page = $request->page;
-            }
-
-            $totalBlockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
-                $query->where('is_default', '1')->first();
-            }])->where('blocker_user_id', $this->user->id)->count();
-            $total_page  = ceil($totalBlockUser / 10);
-            $blockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
-                $query->where('is_default', '1')->first();
-            }])->where('blocker_user_id', $this->user->id)->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
-
-
-            $blockUserList = [];
-            if (count($blockUser) != 0) {
-                foreach ($blockUser as $val) {
-                    $data['id'] = $val->blocked_user->id;
-                    $data['name'] = $val->blocked_user->full_name;
-                    $data['profile_image'] = ($val->blocked_user->user_profile != null) ? asset('storage/profile/' . $val->blocked_user->user_profile->profile) : "";
-                    $blockUserList[] = $data;
-                }
-            }
-            DB::commit();
-            return response()->json(['status' => true, 'message' => "block user lists", 'data' => $blockUserList]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        $page = 1;
+        if (isset($request->page) && $request->page != "") {
+            $page = $request->page;
         }
+
+        $totalBlockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
+            $query->where('is_default', '1')->first();
+        }])->where('blocker_user_id', $this->user->id)->count();
+        $total_page  = ceil($totalBlockUser / 10);
+        $blockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
+            $query->where('is_default', '1')->first();
+        }])->where('blocker_user_id', $this->user->id)->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+
+
+        $blockUserList = [];
+        if (count($blockUser) != 0) {
+            foreach ($blockUser as $val) {
+                $data['id'] = $val->blocked_user->id;
+                $data['name'] = $val->blocked_user->full_name;
+                $data['profile_image'] = ($val->blocked_user->user_profile != null) ? asset('storage/profile/' . $val->blocked_user->user_profile->profile) : "";
+                $blockUserList[] = $data;
+            }
+        }
+        DB::commit();
+        return response()->json(['status' => true, 'message' => "block user lists", 'data' => $blockUserList]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function blockUnblockToUser(Request $request)
