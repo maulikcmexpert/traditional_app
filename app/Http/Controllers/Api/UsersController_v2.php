@@ -897,11 +897,9 @@ class UsersController_v2 extends BaseController
 
     public function getLoginUserLatlog($user_id)
     {
-        $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
-        $factory = (new Factory())->withServiceAccount($serviceAccount);
-        $database = $factory->createDatabase();
-        // Retrieve data
+        $database = Firebase::database();
         $data = $database->getReference('/user_locations')->getValue();
+
 
         $loginUserGender = UserDetail::select('gender')->where('user_id', $user_id)->first();
         $latitude = "0";
@@ -1229,13 +1227,7 @@ class UsersController_v2 extends BaseController
 
             $userLat = (isset($request->latitude) && $request->latitude != "") ? $request->latitude : "";
             $userLog = (isset($request->longitude) && $request->longitude != "") ? $request->longitude : "";
-            // Initialize Firebase
-            // $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
 
-            // $factory = (new Factory())->withServiceAccount($serviceAccount);
-
-            // $database = $factory->createDatabase();
-            // Retrieve data
             $database = Firebase::database();
             $data = $database->getReference('/user_locations')->getValue();
 
