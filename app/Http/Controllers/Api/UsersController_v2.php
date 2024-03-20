@@ -799,6 +799,13 @@ class UsersController_v2 extends BaseController
                             if ($distance <= 5) {
                                 $data['is_approach'] = "approach";
                             }
+                        } else if ($approch_check->status == 'rejected') {
+
+
+                            $data['is_approach'] = "friend";
+                            if ($distance <= 5) {
+                                $data['is_approach'] = "approach";
+                            }
                         }
                     } else {
                         $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
