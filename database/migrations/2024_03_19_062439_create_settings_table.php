@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('ios_version')->nullable();
-            $table->string('android_version')->nullable();
             $table->string('min_age')->nullable();
             $table->string('max_age')->nullable();
             $table->timestamps();
