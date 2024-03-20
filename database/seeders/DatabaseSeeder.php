@@ -30,7 +30,6 @@ class DatabaseSeeder extends Seeder
             LifestyleSeeder::class,
             InterestAndHobbySeeder::class,
             ZodiacSeeder::class,
-            OrganizationSeeder::class,
             SizeOfOrganizationSeeder::class
             // Other seeders if you have
         ]);
