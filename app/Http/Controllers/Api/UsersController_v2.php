@@ -47,6 +47,7 @@ use Illuminate\Validation\Rule;
 
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
+use App\Models\VersionSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -2180,6 +2181,7 @@ class UsersController_v2 extends BaseController
     }
     public function installApp()
     {
+        $versionSetting =  VersionSetting::first();
         return response()->json(["status" => true, 'message' => 'Application', 'url' => asset('public/appversion/traditional.apk'), 'version' => "1.0.1"]);
     }
 }
