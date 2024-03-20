@@ -801,10 +801,14 @@ class UsersController_v2 extends BaseController
                             }
                         } else if ($approch_check->status == 'rejected') {
 
+                            $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+                            $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+                            if ($approchOwncheck == null && $female_approch_check == null) {
 
-                            $data['is_approach'] = "friend";
-                            if ($distance <= 5) {
-                                $data['is_approach'] = "approach";
+                                $data['is_approach'] = "friend";
+                                if ($distance <= 5) {
+                                    $data['is_approach'] = "approach";
+                                }
                             }
                         }
                     } else {
@@ -819,10 +823,6 @@ class UsersController_v2 extends BaseController
                             }
                             // }
                             // $data['is_approach'] = "approach";
-                        }
-
-                        if (($approchOwncheck != null && $female_approch_check == null) || ($approchOwncheck == null && $female_approch_check != null)) {
-                            $data['is_approach'] = "no_button";
                         }
                     }
                 } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
