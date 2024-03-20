@@ -747,7 +747,11 @@ class UsersController_v2 extends BaseController
                 $data['country'] = ($user->country->country != null) ? $user->country->country : "";
                 $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : "";
                 $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
-
+                $data['is_block'] = false;
+                $userIsBlock = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $user_id])->first();
+                if ($userIsBlock != null) {
+                    $data['is_block'] = true;
+                }
                 $data['life_style'] = [];
                 if (!empty($user->user_lifestyle)) {
                     foreach ($user->user_lifestyle as $key => $val) {
