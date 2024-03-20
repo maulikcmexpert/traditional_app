@@ -1301,13 +1301,13 @@ class UsersController_v2 extends BaseController
                 if ($already_approched != null) {
                     continue;
                 }
-                // $approch_check_is_rejected = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $val->id])->withTrashed()->orderBy('id', 'DESC')->first();
-                // if ($approch_check_is_rejected != null) {
+                $approch_check_is_rejected = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $val->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                if ($approch_check_is_rejected != null) {
 
-                //     if ($approch_check_is_rejected->status == 'rejected') {
-                //         continue;
-                //     }
-                // }
+                    if ($approch_check_is_rejected->status == 'rejected') {
+                        continue;
+                    }
+                }
                 $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $val->id, 'to_be_blocked_user_id' => $this->user->id])->count();
                 if ($approch_check_is_block == 1) {
                     continue;
