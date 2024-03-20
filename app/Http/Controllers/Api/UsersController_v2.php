@@ -2175,6 +2175,6 @@ class UsersController_v2 extends BaseController
     }
     public function installApp()
     {
-        return response()->json(["status" => true, 'message' => 'Application', 'url' => asset('public/appversion/traditional.apk'), 'version' => "1.0.0"]);
+        return response()->json(["status" => true, 'message' => 'Application', 'url' => asset('public/appversion/traditional.apk'), 'version' => "1.0.1"]);
     }
 }
