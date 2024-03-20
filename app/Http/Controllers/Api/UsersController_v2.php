@@ -22,7 +22,7 @@ use App\Models\ApproachRequest;
 use App\Models\Country;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
-
+use Kreait\Laravel\Firebase\Facades\Firebase;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OrganizationDetail;
@@ -1230,12 +1230,13 @@ class UsersController_v2 extends BaseController
             $userLat = (isset($request->latitude) && $request->latitude != "") ? $request->latitude : "";
             $userLog = (isset($request->longitude) && $request->longitude != "") ? $request->longitude : "";
             // Initialize Firebase
-            $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
+            // $serviceAccount = base_path('app/Http/Controllers/Api/firebase-credentials.json');
 
-            $factory = (new Factory())->withServiceAccount($serviceAccount);
+            // $factory = (new Factory())->withServiceAccount($serviceAccount);
 
-            $database = $factory->createDatabase();
+            // $database = $factory->createDatabase();
             // Retrieve data
+            $database = Firebase::database();
             $data = $database->getReference('/user_locations')->getValue();
 
             if ($userLat == "" && $userLog == "") {
