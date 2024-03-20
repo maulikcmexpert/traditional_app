@@ -1495,6 +1495,10 @@ class UsersController_v2 extends BaseController
 
                 return response()->json(["status" => true, 'message' => 'you are elegible']);
             }
+
+            if ($approchOwncheck != null) {
+                return response()->json(["status" => false, 'message' => 'you are already commited with enother']);
+            }
         } catch (QueryException $e) {
 
             DB::rollBack();
