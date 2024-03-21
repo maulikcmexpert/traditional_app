@@ -870,7 +870,7 @@ class UsersController_v2 extends BaseController
                 if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
 
                     $sender_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
-                    dd($sender_approch_check);
+
 
                     // $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                     // $seenProfileUser = $this->getLoginUserLatlog($user_id);
@@ -879,7 +879,7 @@ class UsersController_v2 extends BaseController
                     $data['is_approach'] = "friend";
 
                     if ($sender_approch_check != null) {
-
+                        dd($sender_approch_check);
                         if ($approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
                         } else if ($approch_check->status == 'pending') {
