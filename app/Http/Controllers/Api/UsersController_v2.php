@@ -829,7 +829,7 @@ class UsersController_v2 extends BaseController
                                 $data['is_approach'] = "withdrawn";
                             }
                         } else if ($approch_check->status == 'cancelled' || $approch_check->status == 'unblock') {
-
+                            dd($approch_check->status);
 
                             $data['is_approach'] = "friend";
                             if ($distance <= 5) {
