@@ -816,7 +816,7 @@ class UsersController_v2 extends BaseController
                     $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
                     $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
-
+                    dd($approch_check);
                     if ($approch_check != null) {
 
                         if ($approch_check->status == 'accepted') {
@@ -1832,6 +1832,100 @@ class UsersController_v2 extends BaseController
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
+
+
+    public function acceptRejectFriendRequest(Request $request)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'type' => ['required', 'string', 'in:accepted,rejected'],
+
+            ]);
+
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            $cancelRequest = ApproachRequest::where(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id, 'status' => 'friend'])->orderBy('id', 'DESC')->first();
+
+            if ($cancelRequest != null) {
+
+                $cancelRequest->status = $request->type;
+                $cancelRequest->save();
+
+
+                // Soft delete
+                // soft delete //
+                if ($request->type == 'rejected') {
+                    $notificationData = [
+                        'sender_id' => $this->user->id,
+                        'receiver_id' => $request->user_id,
+                        'status' => 'rejected',
+                        'type' =>  $cancelRequest->type,
+
+                        'notify_for' => 'accept_or_reject_friend'
+                    ];
+
+                    notification($notificationData);
+                    $cancelRequest->delete();
+                }
+
+                // soft delete //
+
+                if ($request->type == 'accepted') {
+                    $cancelLeftRequest = ApproachRequest::where(['receiver_id' => $this->user->id, 'status' => 'pending'])->where('sender_id', '!=', $request->user_id)->get();
+
+                    if (count($cancelLeftRequest) != 0) {
+                        foreach ($cancelLeftRequest as $val)
+                            $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
+                        $cancelThisReq->status = 'cancelled';
+                        $cancelThisReq->save();
+                        $cancelThisReq->delete();
+                    }
+
+                    $cancelLeftRequestOfMale = ApproachRequest::where(['sender_id' =>  $request->user_id, 'status' => 'pending'])->where('receiver_id', '!=', $this->user->id)->get();
+
+                    if (count($cancelLeftRequestOfMale) != 0) {
+                        foreach ($cancelLeftRequestOfMale as $val)
+                            $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
+                        $cancelThisReq->status = 'cancelled';
+                        $cancelThisReq->save();
+                        $cancelThisReq->delete();
+                    }
+
+                    $notificationData = [
+                        'sender_id' => $this->user->id,
+                        'receiver_id' => $request->user_id,
+                        'status' => 'accepted',
+                        'type' =>  $cancelRequest->type,
+                        'notify_for' => 'accept_or_reject'
+                    ];
+
+                    notification($notificationData);
+                }
+
+
+                // add notification //
+
+                return response()->json(["status" => true, 'message' => 'Request ' . $request->type . ' successfully']);
+            } else {
+                return response()->json(["status" => false, 'message' => 'Request not found']);
+            }
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
 
     public function logout()
 
