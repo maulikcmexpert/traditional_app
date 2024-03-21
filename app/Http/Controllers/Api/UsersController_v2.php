@@ -869,7 +869,7 @@ class UsersController_v2 extends BaseController
                 }
                 if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
 
-                    $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    $sender_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
 
 
                     // $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
@@ -1682,7 +1682,7 @@ class UsersController_v2 extends BaseController
 
             $cancelRequest = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->first();
             if ($cancelRequest != null) {
-                $type =  $cancelRequest->type;
+                ($cancelRequest->type);
                 $cancelRequest->status = 'cancelled';
                 $cancelRequest->save();
                 // Soft delete
@@ -2026,11 +2026,11 @@ class UsersController_v2 extends BaseController
 
         $totalBlockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
             $query->where('is_default', '1')->first();
-        }])->where('blocker_user_id', $this->user->id)->count();
+        }])->where(['blocker_user_id' => $this->user->id, 'is_remove' => '0'])->count();
         $total_page  = ceil($totalBlockUser / 10);
         $blockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
             $query->where('is_default', '1')->first();
-        }])->where('blocker_user_id', $this->user->id)->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+        }])->where(['blocker_user_id' => $this->user->id, 'is_remove' => '0'])->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
 
 
         $blockUserList = [];
