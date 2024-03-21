@@ -828,7 +828,7 @@ class UsersController_v2 extends BaseController
                             if ($approch_check->type == 'approach') {
                                 $data['is_approach'] = "withdrawn";
                             }
-                        } else if ($approch_check->status == 'cancelled') {
+                        } else if ($approch_check->status == 'cancelled' || $approch_check->status == 'unblock') {
 
 
                             $data['is_approach'] = "friend";
