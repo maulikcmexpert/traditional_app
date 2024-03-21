@@ -2223,15 +2223,8 @@ class UsersController_v2 extends BaseController
     public function clearNotification()
     {
         try {
-
-
-            $deleteNotification = Notification::where(['user_id' => $this->user->id])->first();
-            if ($deleteNotification != null) {
-                $deleteNotification->delete();
-                return response()->json(["status" => true, 'message' => 'Notification clear all successfully']);
-            } else {
-                return response()->json(["status" => false, 'message' => 'Request not found']);
-            }
+            $deleteNotification = Notification::where(['user_id' => $this->user->id])->delete();
+            return response()->json(["status" => true, 'message' => 'Notification clear all successfully']);
         } catch (QueryException $e) {
 
             DB::rollBack();
