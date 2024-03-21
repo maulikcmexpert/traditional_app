@@ -898,7 +898,7 @@ class UsersController_v2 extends BaseController
                     $data['is_approach'] = "friend";
 
                     if ($approch_check != null) {
-
+                        $data['relation_type'] = $approch_check->type;
                         if ($approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
                         } else if ($approch_check->status == 'pending') {
@@ -919,7 +919,7 @@ class UsersController_v2 extends BaseController
                     $sender_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
 
 
-
+                    $data['relation_type'] = $sender_approch_check->type;
                     $data['is_approach'] = "friend";
 
                     if ($sender_approch_check != null) {
