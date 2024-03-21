@@ -1770,7 +1770,7 @@ class UsersController_v2 extends BaseController
         }
     }
 
-    public function acceptRejectByUser(Request $request)
+    public function acceptRejectByFemale(Request $request)
     {
         try {
 
