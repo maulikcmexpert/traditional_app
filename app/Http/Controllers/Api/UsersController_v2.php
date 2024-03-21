@@ -2100,7 +2100,7 @@ class UsersController_v2 extends BaseController
                 $blockToUser->reason = $request->reason;
                 $blockToUser->save();
 
-                $changeApproachStatus = ApproachRequest::where('')->orWhere(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                $changeApproachStatus = ApproachRequest::orWhere(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
                     ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id])->orderBy('id', 'DESC')->first();
                 dd($changeApproachStatus);
                 if ($changeApproachStatus != null) {
