@@ -905,7 +905,7 @@ class UsersController_v2 extends BaseController
                             $data['is_approach'] = "cancel";
 
                             if ($approch_check->type == 'approach') {
-                                dd($approch_check->type);
+
                                 $data['is_approach'] = "accept_reject";
                             }
                         } else if ($approch_check->status == 'rejected') {
