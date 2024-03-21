@@ -836,30 +836,15 @@ class UsersController_v2 extends BaseController
                                 $data['is_approach'] = "approach";
                             }
                         }
-                        // else if ($approch_check->status == 'rejected') {
-
-                        //     $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
-                        //     $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
-                        //     if ($approchOwncheck == null && $female_approch_check == null) {
-
-                        //         $data['is_approach'] = "friend";
-                        //         if ($distance <= 5) {
-                        //             $data['is_approach'] = "approach";
-                        //         }
-                        //     }
-                        // }
                     } else {
                         $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
                         $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
                         if ($approchOwncheck == null && $female_approch_check == null) {
-                            // $status = $this->checkRelationStatus($user_id);
-                            // if ($status == 'true') {
+
                             $data['is_approach'] = "friend";
                             if ($distance <= 5) {
                                 $data['is_approach'] = "approach";
                             }
-                            // }
-                            // $data['is_approach'] = "approach";
                         }
                     }
                 } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
@@ -896,10 +881,7 @@ class UsersController_v2 extends BaseController
                     $sender_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
 
 
-                    // $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
-                    // $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
-                    // $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
                     $data['is_approach'] = "friend";
 
                     if ($sender_approch_check != null) {
@@ -1040,7 +1022,7 @@ class UsersController_v2 extends BaseController
             $user_detail->height_type = $request->height_type;
             // dd($user_detail)
             $user_detail->save();
-            // UserLifestyle::where('user_id', $user_id)->delete();
+
             $lifeStyles = $request->life_styles;
             $interest_and_hobby = $request->interest_and_hobby;
             if (isset($lifeStyles) && is_array($lifeStyles)) {
@@ -1052,6 +1034,15 @@ class UsersController_v2 extends BaseController
                     $life_style->user_id = $this->user->id;
                     $life_style->lifestyle_id = $val;
                     $life_style->save();
+                }
+            }
+
+            if (isset($user_love_lang) && is_array($user_love_lang)) {
+                // if exists then delete prev data //
+                foreach ($user_love_lang as $val) {
+                    $updateUserLoveLang =  UserLoveLang::where('id', $val->id)->first();
+                    $updateUserLoveLang->rate =  $val->rate;
+                    $updateUserLoveLang->save();
                 }
             }
 
