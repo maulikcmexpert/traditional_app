@@ -2010,13 +2010,13 @@ class UsersController_v2 extends BaseController
             $query->where('is_default', '1')->first();
         }])->where('blocker_user_id', $this->user->id)->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
 
-        dd($blockUser);
+
         $blockUserList = [];
         if (count($blockUser) != 0) {
             foreach ($blockUser as $val) {
                 $data['id'] = $val->blocked_user->id;
                 $data['name'] = $val->blocked_user->full_name;
-                $data['profile_image'] = ($val->blocked_user->user_profile != null) ? asset('storage/profile/' . $val->blocked_user->user_profile->profile) : "";
+                $data['profile_image'] = ($val->blocked_user->user_profile != null) ? asset('storage/profile/' . $val->blocked_user->user_profile[0]->profile) : "";
                 $blockUserList[] = $data;
             }
         }
