@@ -2102,6 +2102,7 @@ class UsersController_v2 extends BaseController
 
                 $changeApproachStatus = ApproachRequest::where('')->orWhere(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
                     ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id])->orderBy('id', 'DESC')->first();
+                dd($changeApproachStatus);
                 if ($changeApproachStatus != null) {
                     $changeApproachStatus->status = 'block';
                     $changeApproachStatus->save();
