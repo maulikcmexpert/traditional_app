@@ -2083,8 +2083,12 @@ class UsersController_v2 extends BaseController
                     $blockToUser->blocker_user_id  = $this->user->id;
                     $blockToUser->to_be_blocked_user_id   = $request->user_id;
                     $blockToUser->reason = $request->reason;
-                    $blockToUser->save();
+                    $blockToUser->save()
+                    
+                    
                     DB::commit();
+
+
                     return response()->json(['status' => true, 'message' => "blocked successfully"]);
                 }
                 return response()->json(['status' => true, 'message' => "already blocked"]);
