@@ -2100,11 +2100,14 @@ class UsersController_v2 extends BaseController
                     $blockToUser->reason = $request->reason;
                     $blockToUser->save();
 
-                    $changeApproachStatus = ApproachRequest::orWhere(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                    $changeApproachStatus = ApproachRequest::where('')->orWhere(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
                         ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id])->orderBy('id', 'DESC')->first();
-
+                    if ($changeApproachStatus != null) {
+                        $changeApproachStatus->status = 'block';
+                        $changeApproachStatus->save();
+                        $changeApproachStatus->delete();
+                    }
                     DB::commit();
-
 
                     return response()->json(['status' => true, 'message' => "blocked successfully"]);
                 }
