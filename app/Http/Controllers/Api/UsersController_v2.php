@@ -897,9 +897,7 @@ class UsersController_v2 extends BaseController
                     $data['is_approach'] = "friend";
 
                     if ($approch_check != null) {
-                        echo "hi";
-                        exit;
-                        $data['is_approach'] = "cancel";
+
                         if ($approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
                         } else if ($approch_check->status == 'pending') {
