@@ -833,6 +833,7 @@ class UsersController_v2 extends BaseController
                     }
 
                     if ($approch_check != null) {
+                        $data['relation_type'] = $approch_check->type;
 
                         if ($approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
