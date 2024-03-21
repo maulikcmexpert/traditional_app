@@ -2097,6 +2097,7 @@ class UsersController_v2 extends BaseController
                     DB::commit();
                     return response()->json(['status' => true, 'message' => "unblocked successfully"]);
                 }
+                return response()->json(['status' => true, 'message' => "User not found"]);
             } else if ($request->type == 'remove') {
                 $removeBlockUser = ProfileBlock::where([
                     'blocker_user_id' => $this->user->id,
