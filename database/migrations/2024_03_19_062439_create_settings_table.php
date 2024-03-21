@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('min_age')->nullable();
-            $table->string('max_age')->nullable();
+            $table->integer('min_age')->default(16);
+            $table->integer('max_age')->default(45);
             $table->timestamps();
         });
     }
