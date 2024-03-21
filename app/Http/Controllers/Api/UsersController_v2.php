@@ -880,10 +880,10 @@ class UsersController_v2 extends BaseController
 
                     if ($sender_approch_check != null) {
 
-                        if ($approch_check->status == 'accepted') {
+                        if ($sender_approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
-                        } else if ($approch_check->status == 'pending') {
-                            dd($approch_check->status);
+                        } else if ($sender_approch_check->status == 'pending') {
+
                             $data['is_approach'] = "cancel";
                         }
                     }
