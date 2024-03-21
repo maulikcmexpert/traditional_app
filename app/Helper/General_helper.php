@@ -100,12 +100,26 @@ function notification($notificationData)
         $notification->user_id  = $notificationData['receiver_id'];
         $notification->sender_id = $notificationData['sender_id'];
         $notification->notification_type = $notificationData['type'];
-        $notification->message = 'After initiating an approach request, $NAME has cancelled the request.';
+        if ($notificationData['type'] == 'approach') {
+
+            $notification->message = 'After initiating an approach request, $NAME has cancelled the request.';
+        } else if ($notificationData['type'] == 'friend') {
+
+            $notification->message = 'After initiating an friend request, $NAME has cancelled the request.';
+        }
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             $user = User::where('id', $notificationData['sender_id'])->first();
-            $notificationData['notification_message'] = 'After initiating an approach request,' . $user->full_name . ' has cancelled the request.';
+            if ($notificationData['type'] == 'approach') {
+
+                $notificationData['notification_message'] = 'After initiating an approach request,' . $user->full_name . ' has cancelled the request.';
+            } else if ($notificationData['type'] == 'friend') {
+
+                $notificationData['notification_message'] = 'After initiating an friend request,' . $user->full_name . ' has cancelled the request.';
+            }
+
+
             if ($deviceToken != null) {
 
                 send_notification_FCM_and($deviceToken->device_token, $notificationData);
