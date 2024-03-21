@@ -782,7 +782,7 @@ class UsersController_v2 extends BaseController
                     }
                 }
                 $data['is_approach'] = "no_button";
-                dd($user->userdetail->gender);
+
                 if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
                     $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
@@ -867,6 +867,8 @@ class UsersController_v2 extends BaseController
                         }
                     }
                 } elseif ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
+                    echo "hi";
+                    exit;
                     $approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
 
 
