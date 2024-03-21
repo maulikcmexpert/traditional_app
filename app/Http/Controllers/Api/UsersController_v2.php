@@ -628,8 +628,8 @@ class UsersController_v2 extends BaseController
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
-            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where(['id' => $user_id, 'status' => 'active'])->first();
-
+            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
+            dd($user);
             if ($user_id) {
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
                 $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
@@ -679,6 +679,8 @@ class UsersController_v2 extends BaseController
                         $data['profile_image'][] = $image;
                     }
                 }
+
+
                 $data['show_stopper_ques'] = [];
                 if ($user->userdetail->gender == 'female') {
                     $getQuestions = UserShwstpprQue::select('id', 'user_id', 'question', 'option_1', 'option_2', 'prefered_option')->where('user_id', $user->id)->get();
@@ -2229,6 +2231,6 @@ class UsersController_v2 extends BaseController
         $Settings =  Setting::select('min_age', 'max_age')->first();
 
 
-        return response()->json(["status" => true, 'message' => 'Application', 'data' => $Settings]);
+        return response()->json(["status" => true, 'message' => 'Age limit', 'data' => $Settings]);
     }
 }
