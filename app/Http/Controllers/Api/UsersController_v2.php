@@ -866,10 +866,11 @@ class UsersController_v2 extends BaseController
                             $data['is_approach'] = "no_button";
                         }
                     }
-                } elseif ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
+                }
+                if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
                     echo "hi";
                     exit;
-                    $approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
 
 
                     // $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
