@@ -816,7 +816,7 @@ class UsersController_v2 extends BaseController
                     $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
                     $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
-                    dd($approch_check->status);
+
                     if ($approch_check != null) {
 
                         if ($approch_check->status == 'accepted') {
@@ -2125,6 +2125,18 @@ class UsersController_v2 extends BaseController
 
             if ($unblockToUser != null) {
                 DB::beginTransaction();
+                $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
+                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                        ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+                })
+                    ->orderBy('id', 'DESC')
+                    ->first();
+                if ($changeApproachStatus != null) {
+
+                    $changeApproachStatus->status = 'unblock';
+                    $changeApproachStatus->save();
+                    $changeApproachStatus->delete();
+                }
                 $unblockToUser->delete();
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "unblocked successfully"]);
