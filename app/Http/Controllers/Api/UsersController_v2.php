@@ -733,7 +733,7 @@ class UsersController_v2 extends BaseController
             $addshowprofile->profile_viewer_id = $this->user->id;
             $addshowprofile->save();
 
-            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization'])->where(['id' => $user_id, 'status' => 'active'])->first();
+            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
 
             $full_name = ($user->full_name != "") ? $user->full_name : "";
 
@@ -794,6 +794,17 @@ class UsersController_v2 extends BaseController
                         $data['profile_image'][] = $image;
                     }
                 }
+
+                $data['user_love_lang'] = [];
+                if (!empty($user->user_love_lang)) {
+                    foreach ($user->user_love_lang as $key => $val) {
+                        $loveLang['id'] = $val->id;
+                        $loveLang['love_lang'] = $val->love_lang;
+                        $loveLang['rate'] = $val->rate;
+                        $data['user_love_lang'][] = $loveLang;
+                    }
+                }
+
                 $data['is_approach'] = "no_button";
 
                 if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
