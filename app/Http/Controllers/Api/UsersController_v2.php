@@ -1770,7 +1770,7 @@ class UsersController_v2 extends BaseController
         }
     }
 
-    public function acceptRejectByFemale(Request $request)
+    public function acceptRejectByUser(Request $request)
     {
         try {
             if ($request->type == 'rejected') {
