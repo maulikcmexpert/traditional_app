@@ -877,7 +877,7 @@ class UsersController_v2 extends BaseController
 
                     // $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
                     $data['is_approach'] = "friend";
-                    dd($approch_check);
+
                     if ($approch_check != null) {
 
                         if ($approch_check->status == 'accepted') {
@@ -885,14 +885,6 @@ class UsersController_v2 extends BaseController
                         } else if ($approch_check->status == 'pending') {
 
                             $data['is_approach'] = "cancel";
-
-                            if ($approch_check->type == 'approach') {
-
-                                $data['is_approach'] = "accept_reject";
-                            }
-                        } else if ($approch_check->status == 'rejected') {
-
-                            $data['is_approach'] = "no_button";
                         }
                     }
                 }
