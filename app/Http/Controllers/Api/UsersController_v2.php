@@ -1039,8 +1039,8 @@ class UsersController_v2 extends BaseController
             $user_love_lang = $request->user_love_lang;
             if (isset($user_love_lang) && is_array($user_love_lang)) {
                 // if exists then delete prev data //
-                dd($user_love_lang['id']);
                 foreach ($user_love_lang as $val) {
+                    dd($val->id);
                     $updateUserLoveLang =  UserLoveLang::where('id', $val->id)->first();
                     $updateUserLoveLang->rate =  $val->rate;
                     $updateUserLoveLang->save();
