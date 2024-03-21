@@ -889,7 +889,7 @@ class UsersController_v2 extends BaseController
                         $approch_check = $from_female_approch_check;
                     }
 
-                    dd($approch_check);
+
                     $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                     $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
@@ -897,6 +897,8 @@ class UsersController_v2 extends BaseController
                     $data['is_approach'] = "friend";
 
                     if ($approch_check != null) {
+                        echo "hi";
+                        exit;
                         $data['is_approach'] = "cancel";
                         if ($approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
