@@ -145,7 +145,7 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id, 
     $query->whereNotIn('id', function ($q) use ($user_id) {
         $q->select('to_be_blocked_user_id')
             ->from('profile_blocks')
-            ->where('blocker_user_id', $user_id)
+            ->where('to_be_blocked_user_id', $user_id)
             ->whereNull('deleted_at');
     });
 
