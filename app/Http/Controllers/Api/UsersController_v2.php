@@ -809,14 +809,29 @@ class UsersController_v2 extends BaseController
 
                 if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
 
-                    $approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    $approch_check = null;
+                    $from_male_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    $from_female_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
 
 
                     $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                     $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
                     $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
-                    dd($approch_check);
+
+                    if ($from_male_approch_check != null && $from_female_approch_check != null) {
+
+                        if ($from_male_approch_check->id < $from_female_approch_check->id) {
+                            $approch_check = $from_female_approch_check;
+                        } else {
+                            $approch_check = $from_male_approch_check;
+                        }
+                    } else if ($from_male_approch_check != null) {
+                        $approch_check = $from_male_approch_check;
+                    } else if ($from_female_approch_check != null) {
+                        $approch_check = $from_female_approch_check;
+                    }
+
                     if ($approch_check != null) {
 
                         if ($approch_check->status == 'accepted') {
