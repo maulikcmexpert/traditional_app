@@ -33,10 +33,11 @@ use App\Models\UserInterestAndHobby;
 use App\Models\UserLifestyle;
 use App\Models\UserShwstpprQue;
 use App\Models\User;
+
 use App\Models\UserDetail;
 use App\Models\Device;
 use App\Models\Notification;
-use App\Models\setting;
+use App\Models\Setting;
 use App\Rules\FullNameValidation;
 use App\Rules\OrganizationNameValidation;
 use App\Rules\AddressValidation;
