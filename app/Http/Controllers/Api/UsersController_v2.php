@@ -791,7 +791,7 @@ class UsersController_v2 extends BaseController
                     $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
                     $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
-                    dd($approch_check);
+
                     if ($approch_check != null) {
 
                         if ($approch_check->status == 'accepted') {
@@ -846,6 +846,33 @@ class UsersController_v2 extends BaseController
                     $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
                     $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
+                    $data['is_approach'] = "friend";
+
+                    if ($approch_check != null) {
+
+                        if ($approch_check->status == 'accepted') {
+                            $data['is_approach'] = "message";
+                        } else if ($approch_check->status == 'pending') {
+
+                            $data['is_approach'] = "cancel";
+
+                            if ($approch_check->type == 'approach') {
+
+                                $data['is_approach'] = "accept_reject";
+                            }
+                        } else if ($approch_check->status == 'rejected') {
+
+                            $data['is_approach'] = "no_button";
+                        }
+                    }
+                } else if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
+                    $approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
+
+
+                    // $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
+                    // $seenProfileUser = $this->getLoginUserLatlog($user_id);
+
+                    // $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
                     $data['is_approach'] = "friend";
 
                     if ($approch_check != null) {
