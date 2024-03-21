@@ -36,7 +36,7 @@ use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Device;
 use App\Models\Notification;
-
+use App\Models\setting;
 use App\Rules\FullNameValidation;
 use App\Rules\OrganizationNameValidation;
 use App\Rules\AddressValidation;
@@ -2217,5 +2217,13 @@ class UsersController_v2 extends BaseController
         $versionSetting =  VersionSetting::first();
 
         return response()->json(["status" => true, 'message' => 'Application', 'url' => asset('public/appversion/traditional.apk'), 'version' => $versionSetting->android_version]);
+    }
+
+    public function ageLimiter()
+    {
+        $Settings =  Setting::select('min_age', 'max_age')->first();
+
+
+        return response()->json(["status" => true, 'message' => 'Application', 'data' => $Settings]);
     }
 }
