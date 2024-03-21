@@ -889,7 +889,7 @@ class UsersController_v2 extends BaseController
                         $approch_check = $from_female_approch_check;
                     }
 
-
+                    dd($approch_check);
                     $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
                     $seenProfileUser = $this->getLoginUserLatlog($user_id);
 
