@@ -683,8 +683,8 @@ class UsersController_v2 extends BaseController
                 $data['user_love_lang'] = [];
                 if (!empty($user->user_love_lang)) {
                     foreach ($user->user_love_lang as $key => $val) {
+                        $loveLang['id'] = $val->id;
                         $loveLang['love_lang'] = $val->love_lang;
-
                         $loveLang['rate'] = $val->rate;
                         $data['user_love_lang'][] = $loveLang;
                     }
