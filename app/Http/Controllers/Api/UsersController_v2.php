@@ -878,7 +878,7 @@ class UsersController_v2 extends BaseController
                     // $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
                     $data['is_approach'] = "friend";
 
-                    if ($approch_check != null) {
+                    if ($sender_approch_check != null) {
 
                         if ($approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
