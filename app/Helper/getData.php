@@ -114,8 +114,10 @@ function getManageRequestByUser($type, $page, $receiver_id)
         } else if ($val->type == 'friend') {
             if ($is_role == 'receiver') {
                 $userInfo['is_approach'] = "accept_reject";
+                $userInfo['message'] = 'Hey! you got new friend request from $NAME';
+            } elseif ($is_role == 'sender') {
+                $userInfo['message'] = '$NAME';
             }
-            $userInfo['message'] = 'Hey! you got new friend request from $NAME';
         }
         $userData[] = $userInfo;
     }
