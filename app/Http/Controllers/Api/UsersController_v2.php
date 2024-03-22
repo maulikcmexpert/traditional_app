@@ -2164,7 +2164,7 @@ class UsersController_v2 extends BaseController
 
                     $changeApproachStatus->status = 'block';
                     $changeApproachStatus->save();
-                    $changeApproachStatus->delete();
+                    // $changeApproachStatus->delete();
                 }
                 DB::commit();
 
