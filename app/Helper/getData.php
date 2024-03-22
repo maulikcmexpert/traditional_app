@@ -183,9 +183,9 @@ function getManageRequestByMale($type, $page, $receiver_id)
 
     $request = ApproachRequest::with(['sender_user', 'receiver_user'])
         ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'status' => $type])
-                ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
-        })
+            $query->orWhere(['sender_id' => $receiver_id])
+                ->orWhere(['receiver_id' => $receiver_id]);
+        })->where(['status' => $type])
         ->orderBy('updated_at', 'desc')
         ->paginate(10, ['*'], 'page', $page);
 
