@@ -26,8 +26,8 @@ function getManageRequestByFemale($type, $page, $receiver_id)
     $request =  ApproachRequest::with(['sender_user', 'receiver_user'])
 
         ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'type' => $type])
-                ->orWhere(['receiver_id' => $receiver_id, 'type' => $type]);
+            $query->orWhere(['sender_id' => $receiver_id, 'status' => $type])
+                ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
         })->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
 
     if ($type == 'rejected') {
@@ -175,8 +175,8 @@ function getManageRequestByMale($type, $page, $receiver_id)
     $total_request = ApproachRequest::with(['sender_user', 'receiver_user'])
 
         ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'type' => $type])
-                ->orWhere(['receiver_id' => $receiver_id, 'type' => $type]);
+            $query->orWhere(['sender_id' => $receiver_id, 'status' => $type])
+                ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
         })->orderBy('updated_at', 'desc')->count();
     $total_page  = ceil($total_request / 10);
 
@@ -184,8 +184,8 @@ function getManageRequestByMale($type, $page, $receiver_id)
     $request =  ApproachRequest::with(['sender_user', 'receiver_user'])
 
         ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'type' => $type])
-                ->orWhere(['receiver_id' => $receiver_id, 'type' => $type]);
+            $query->orWhere(['sender_id' => $receiver_id, 'status' => $type])
+                ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
         })->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
 
     if ($type == 'rejected') {
