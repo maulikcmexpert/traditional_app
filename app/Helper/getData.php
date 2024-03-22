@@ -175,7 +175,7 @@ function getManageRequestByMale($type, $page, $receiver_id)
     $total_request = ApproachRequest::with(['sender_user', 'receiver_user'])
 
         ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'status' => $type])
+            $query->where(['sender_id' => $receiver_id, 'status' => $type])
                 ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
         })->orderBy('updated_at', 'desc')->count();
     $total_page  = ceil($total_request / 10);
