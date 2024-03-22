@@ -171,22 +171,23 @@ function getManageRequestByFemale($type, $page, $receiver_id)
 
 function getManageRequestByMale($type, $page, $receiver_id)
 {
-    echo $type;
+
     $total_request = ApproachRequest::with(['sender_user', 'receiver_user'])
-
         ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'status' => $type])
-                ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
-        })->orderBy('updated_at', 'desc')->count();
-    $total_page  = ceil($total_request / 10);
+            $query->orWhere(['sender_id' => $receiver_id, 'status' => strtolower($type)])
+                ->orWhere(['receiver_id' => $receiver_id, 'status' => strtolower($type)]);
+        })
+        ->orderBy('updated_at', 'desc')
+        ->paginate(10, ['*'], 'page', $page);
 
 
-    $request =  ApproachRequest::with(['sender_user', 'receiver_user'])
-
+    $request = ApproachRequest::with(['sender_user', 'receiver_user'])
         ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'status' => $type])
-                ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
-        })->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+            $query->orWhere(['sender_id' => $receiver_id, 'status' => strtolower($type)])
+                ->orWhere(['receiver_id' => $receiver_id, 'status' => strtolower($type)]);
+        })
+        ->orderBy('updated_at', 'desc')
+        ->paginate(10, ['*'], 'page', $page);
 
     // if ($type == 'rejected') {
 
