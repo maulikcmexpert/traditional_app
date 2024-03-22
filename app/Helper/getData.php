@@ -95,13 +95,13 @@ function getManageRequestByUser($type, $page, $receiver_id)
             if ($is_role == 'receiver') {
                 $userInfo['is_approach'] = "accept_reject";
             }
-            $userInfo['message'] = '$NAME';
+            $userInfo['message'] = 'Hey! you got connection approach from $NAME';
             $userInfo['user_message'] =  $val->message;
         } else if ($val->type == 'friend') {
             if ($is_role == 'receiver') {
                 $userInfo['is_approach'] = "accept_reject";
             }
-            $userInfo['message'] = '$NAME';
+            $userInfo['message'] = 'Hey! you got new friend request from $NAME';
         }
         $userData[] = $userInfo;
     }
