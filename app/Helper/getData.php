@@ -104,25 +104,45 @@ function getManageRequestByUser($type, $page, $receiver_id)
             $userInfo['user_message'] = "";
         }
         $userInfo['relation_type'] =  $val->type;
-        $userInfo['message'] = 'After initiating an approach request, $NAME has cancelled the request';
+
         $userInfo['is_approach'] = "cancel";
 
         if ($val->type == 'approach') {
 
+            if ($type == 'pending') {
 
-            if ($is_role == 'receiver') {
-                $userInfo['is_approach'] = "accept_reject";
+                if ($is_role == 'receiver') {
+                    $userInfo['is_approach'] = "accept_reject";
+                }
+                $userInfo['message'] = 'Hey! you got connection approach from $NAME';
+            } else if ($type == 'rejected') {
+
+                $userInfo['user_message'] =  $val->message;
+            } else if ($type == 'cancelled') {
+                $userInfo['message'] = 'After initiating an approach request, $NAME has cancelled the request';
             }
-            $userInfo['message'] = 'Hey! you got connection approach from $NAME';
-            $userInfo['user_message'] =  $val->message;
         } else if ($val->type == 'friend') {
 
+            if ($type == 'pending') {
+                if ($is_role == 'receiver') {
+                    $userInfo['is_approach'] = "accept_reject";
+                    $userInfo['message'] = 'Hey! you got new friend request from $NAME';
+                } elseif ($is_role == 'sender') {
+                    $userInfo['message'] = '$NAME';
+                }
+            } else if ($type == 'rejected') {
 
-            if ($is_role == 'receiver') {
-                $userInfo['is_approach'] = "accept_reject";
-                $userInfo['message'] = 'Hey! you got new friend request from $NAME';
-            } elseif ($is_role == 'sender') {
-                $userInfo['message'] = '$NAME';
+
+                if ($is_role == 'receiver') {
+                    $userInfo['message'] = 'Hey You have rejected friend request of $NAME';
+                } elseif ($is_role == 'sender') {
+                    $userInfo['message'] = 'Hey $NAME have rejected your friend request';
+                }
+            } else if ($type == 'cancelled') {
+
+                if ($is_role == 'receiver') {
+                    $userInfo['message'] = 'After initiating an friend request, $NAME has cancelled the request';
+                }
             }
         }
         $userData[] = $userInfo;
