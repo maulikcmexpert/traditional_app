@@ -113,10 +113,10 @@ function notification($notificationData)
             $user = User::where('id', $notificationData['sender_id'])->first();
             if ($notificationData['type'] == 'approach') {
 
-                $notificationData['notification_message'] = 'After initiating an approach request,' . $user->full_name . ' has cancelled the request.';
+                $notificationData['notification_message'] = 'After initiating an approach request, ' . $user->full_name . ' has cancelled the request.';
             } else if ($notificationData['type'] == 'friend') {
 
-                $notificationData['notification_message'] = 'After initiating an friend request,' . $user->full_name . ' has cancelled the request.';
+                $notificationData['notification_message'] = 'After initiating an friend request, ' . $user->full_name . ' has cancelled the request.';
             }
 
 

@@ -23,4 +23,7 @@ return [
 
     'approach_msg' => 'Hey! you got connection approach from $NAME',
 
+
+    // manage request by male // 
+
 ];
