@@ -104,15 +104,20 @@ function getManageRequestByUser($type, $page, $receiver_id)
             $userInfo['user_message'] = "";
         }
         $userInfo['relation_type'] =  $val->type;
-
+        $userInfo['message'] = 'After initiating an approach request, $NAME has cancelled the request';
         $userInfo['is_approach'] = "cancel";
+
         if ($val->type == 'approach') {
+
+
             if ($is_role == 'receiver') {
                 $userInfo['is_approach'] = "accept_reject";
             }
             $userInfo['message'] = 'Hey! you got connection approach from $NAME';
             $userInfo['user_message'] =  $val->message;
         } else if ($val->type == 'friend') {
+
+
             if ($is_role == 'receiver') {
                 $userInfo['is_approach'] = "accept_reject";
                 $userInfo['message'] = 'Hey! you got new friend request from $NAME';
