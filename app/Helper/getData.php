@@ -103,6 +103,7 @@ function getManageRequestByUser($type, $page, $receiver_id)
             $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
             $userInfo['user_message'] = "";
         }
+        $userInfo['relation_type'] =  $val->type;
 
         $userInfo['is_approach'] = "cancel";
         if ($val->type == 'approach') {
