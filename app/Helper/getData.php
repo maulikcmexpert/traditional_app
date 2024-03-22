@@ -173,19 +173,19 @@ function getManageRequestByMale($type, $page, $receiver_id)
 {
 
     $total_request = ApproachRequest::with(['sender_user', 'receiver_user'])
-        ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'status' => strtolower($type)])
-                ->orWhere(['receiver_id' => $receiver_id, 'status' => strtolower($type)]);
-        })
+        ->where(function ($query) use ($receiver_id) {
+            $query->orWhere(['sender_id' => $receiver_id])
+                ->orWhere(['receiver_id' => $receiver_id]);
+        })->where('status', $type)
         ->orderBy('updated_at', 'desc')
         ->paginate(10, ['*'], 'page', $page);
 
 
     $request = ApproachRequest::with(['sender_user', 'receiver_user'])
         ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'status' => strtolower($type)])
-                ->orWhere(['receiver_id' => $receiver_id, 'status' => strtolower($type)]);
-        })
+            $query->orWhere(['sender_id' => $receiver_id])
+                ->orWhere(['receiver_id' => $receiver_id]);
+        })->where('status', $type)
         ->orderBy('updated_at', 'desc')
         ->paginate(10, ['*'], 'page', $page);
 
