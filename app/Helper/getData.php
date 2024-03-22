@@ -231,7 +231,7 @@ function getManageRequestByMale($type, $page, $receiver_id)
         }
         $userInfo['relation_type'] =  $val->type;
 
-        $userInfo['is_approach'] = "cancel";
+
 
         if ($val->type == 'approach') {
 
@@ -243,8 +243,8 @@ function getManageRequestByMale($type, $page, $receiver_id)
             } else if ($type == 'rejected') {
 
                 $userInfo['user_message'] =  $val->message;
-                $userInfo['message'] = '$NAME';
             }
+            $userInfo['message'] = '$NAME';
         } else if ($val->type == 'friend') {
 
             if ($type == 'pending') {
