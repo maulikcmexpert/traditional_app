@@ -909,7 +909,7 @@ class UsersController_v2 extends BaseController
 
                                 $data['is_approach'] = "accept_reject";
                             }
-                        } else if ($approch_check->status == 'rejected') {
+                        } else if ($approch_check->status == 'rejected' || $approch_check->status == 'block') {
 
                             $data['is_approach'] = "no_button";
                         }
