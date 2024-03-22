@@ -231,7 +231,7 @@ function getManageRequestByMale($type, $page, $receiver_id)
         }
         $userInfo['relation_type'] =  $val->type;
 
-
+        $userInfo['status'] = $val->status;
 
         if ($val->type == 'approach') {
 
