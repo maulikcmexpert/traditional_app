@@ -82,7 +82,7 @@ function getManageRequestByFemale($type, $page, $receiver_id)
                 if ($is_role == 'receiver') {
                     $userInfo['is_approach'] = "accept_reject";
                 }
-                $userInfo['message'] = 'Hey! you got connection approach from $NAME';
+                $userInfo['message'] = __('messages.approach_msg');
             } else if ($type == 'rejected') {
 
                 $userInfo['user_message'] =  $val->message;

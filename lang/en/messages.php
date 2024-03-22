@@ -19,4 +19,8 @@ return [
     // 'getCategoryOrSubcategory' => 'Get Category And Subcategory successfully.',
     // 'sendRequest' => 'Send Request successfully.',
 
+    // manage request by female // 
+
+    'approach_msg' => 'Hey! you got connection approach from $NAME',
+
 ];
