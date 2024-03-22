@@ -1830,10 +1830,10 @@ class UsersController_v2 extends BaseController
                     ];
 
                     notification($notificationData);
-                    if ($cancelRequest->type == 'approach') {
+                    // if ($cancelRequest->type == 'approach') {
 
-                        $cancelRequest->delete();
-                    }
+                    $cancelRequest->delete();
+                    // }
                 }
 
                 // soft delete //
