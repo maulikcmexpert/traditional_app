@@ -178,14 +178,14 @@ function getManageRequestByMale($type, $page, $receiver_id)
                 ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
         })
         ->orderBy('updated_at', 'desc')
-        ->paginate(10, ['*'], 'page', $page);
+        ->count();
 
 
     $request = ApproachRequest::with(['sender_user', 'receiver_user'])
         ->where(function ($query) use ($receiver_id, $type) {
             $query->orWhere(['sender_id' => $receiver_id, 'receiver_id' => $receiver_id]);
         })->where(['status' => $type])
-        ->orderBy('updated_at', 'desc')->get();
+        ->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     // $queryP = $request->toSql();
 
     // if ($type == 'rejected') {
@@ -200,7 +200,7 @@ function getManageRequestByMale($type, $page, $receiver_id)
     //     $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     // }
     $userData = [];
-    dd($request);
+
     foreach ($request as $val) {
         $is_role = "";
         if ($val->sender_id == $receiver_id) {
