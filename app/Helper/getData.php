@@ -200,7 +200,7 @@ function getManageRequestByMale($type, $page, $receiver_id)
     //     $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     // }
     $userData = [];
-    dd($request->lastPage);
+    dd($request['lastPage']);
     foreach ($request as $val) {
         $is_role = "";
         if ($val->sender_id == $receiver_id) {
