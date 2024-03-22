@@ -872,9 +872,9 @@ class UsersController_v2 extends BaseController
 
 
                                 $data['is_approach'] = "friend";
-                                // if ($distance <= 5) {
-                                // $data['is_approach'] = "approach";
-                                // }
+                                if ($distance <= 5) {
+                                    $data['is_approach'] = "approach";
+                                }
                             }
                         }
                     } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
