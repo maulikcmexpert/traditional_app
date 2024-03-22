@@ -129,14 +129,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProfileSeenUser::class);
     }
-    public function profile_blocker()
+    public function profile_block()
     {
-        return $this->hasMany(ProfileBlock::class, 'blocker_user_id', 'id');
-    }
-
-    public function profile_blocked()
-    {
-        return $this->hasMany(ProfileBlock::class, 'to_be_blocked_user_id', 'id');
+        return $this->hasMany(ProfileBlock::class);
     }
 
     public function  profile_verify()

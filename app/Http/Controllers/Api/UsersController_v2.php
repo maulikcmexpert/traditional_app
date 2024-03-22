@@ -2206,9 +2206,13 @@ class UsersController_v2 extends BaseController
             $query->where('is_default', '1')->first();
         }])->where(['blocker_user_id' => $this->user->id, 'is_remove' => '0'])->count();
         $total_page  = ceil($totalBlockUser / 10);
-        $blockUser = ProfileBlock::with(['blocked_user', 'blocked_user.user_profile' => function ($query) {
-            $query->where('is_default', '1')->first();
-        }])->where(['blocker_user_id' => $this->user->id, 'is_remove' => '0'])->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+        $blockUser = ProfileBlock::with(['blocked_user.user_profile' => function ($query) {
+            $query->where('is_default', '1');
+        }])
+            ->where(['blocker_user_id' => $this->user->id, 'is_remove' => '0'])
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10, ['*'], 'page', $page);
+
 
         dd($blockUser);
         $blockUserList = [];
