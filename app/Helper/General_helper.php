@@ -129,6 +129,7 @@ function notification($notificationData)
     if ($notificationData['notify_for'] == 'accept_or_reject') {
 
         Notification::where(['user_id' => $notificationData['sender_id'], 'sender_id' => $notificationData['receiver_id'], 'notification_type' => 'approach', 'status' => 'pending'])->delete();
+        Notification::where(['user_id' => $notificationData['sender_id'], 'sender_id' => $notificationData['receiver_id'], 'notification_type' => 'friend', 'status' => 'pending'])->delete();
         $notification = new Notification();
         $notification->user_id  = $notificationData['receiver_id'];
         $notification->sender_id = $notificationData['sender_id'];
