@@ -171,7 +171,7 @@ function getManageRequestByFemale($type, $page, $receiver_id)
 
 function getManageRequestByMale($type, $page, $receiver_id)
 {
-
+    dd($type);
     $total_request = ApproachRequest::with(['sender_user', 'receiver_user'])
 
         ->where(function ($query) use ($receiver_id, $type) {
