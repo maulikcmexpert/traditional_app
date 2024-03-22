@@ -114,6 +114,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('approach_request', [UsersController_v2::class, 'approachRequest'])->middleware('check_user');
     Route::post('manage_request_by_male', [UsersController_v2::class, 'manageRequestByMale'])->middleware('check_user');
     Route::post('cancel_request', [UsersController_v2::class, 'cancelRequest'])->middleware('check_user');
+    Route::post('manage_request_by_user', [UsersController_v2::class, 'manageRequestByUser'])->middleware('check_user');
     Route::post('manage_request_by_female', [UsersController_v2::class, 'manageRequestByFemale'])->middleware('check_user');
     Route::post('accept_reject_by_user', [UsersController_v2::class, 'acceptRejectByUser'])->middleware('check_user');
     Route::post('search_user', [UsersController_v2::class, 'searchUser'])->middleware('check_user');

@@ -75,52 +75,52 @@ class UsersController_v2 extends BaseController
 
     public function userSignup(UserValidate $request)
     {
-        // try {
-        DB::beginTransaction();
-        $user = new User();
-        $user->full_name = $request->full_name;
+        try {
+            DB::beginTransaction();
+            $user = new User();
+            $user->full_name = $request->full_name;
 
-        $getCountry = Country::where('iso', $request->country_code)->first();
+            $getCountry = Country::where('iso', $request->country_code)->first();
 
-        $user->country_id = $getCountry->id;
-        $user->country_code = $request->country_dial;
-        $user->mobile_number = $request->mobile_number;
-        $user->email = $request->email;
-        $user->user_type = "user";
-        $randomNumber = rand(1000, 9999);
-        $user->otp = $randomNumber;
+            $user->country_id = $getCountry->id;
+            $user->country_code = $request->country_dial;
+            $user->mobile_number = $request->mobile_number;
+            $user->email = $request->email;
+            $user->user_type = "user";
+            $randomNumber = rand(1000, 9999);
+            $user->otp = $randomNumber;
 
-        if ($user->save()) {
-            $user_detail = new UserDetail();
-            $user_detail->user_id = $user->id;
-            $user_detail->gender = $request->gender;
-            $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-            $user_detail->city = $request->city;
-            $user_detail->state_id = $request->state_id;
-            $user_detail->organization_id = $request->organization_id;
-            $user_detail->save();
+            if ($user->save()) {
+                $user_detail = new UserDetail();
+                $user_detail->user_id = $user->id;
+                $user_detail->gender = $request->gender;
+                $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
+                $user_detail->city = $request->city;
+                $user_detail->state_id = $request->state_id;
+                $user_detail->organization_id = $request->organization_id;
+                $user_detail->save();
+            }
+            DB::commit();
+
+            $response = [
+                'status' => true,
+                'message' => __('messages.registered'),
+                'mobile_number' => $user->mobile_number,
+                'country_code' => $user->country_code,
+                'otp' => strval($user->otp),
+            ];
+
+            return response()->json($response);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        DB::commit();
-
-        $response = [
-            'status' => true,
-            'message' => __('messages.registered'),
-            'mobile_number' => $user->mobile_number,
-            'country_code' => $user->country_code,
-            'otp' => strval($user->otp),
-        ];
-
-        return response()->json($response);
-        // } catch (QueryException $e) {
-
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
     public function organizationSignup(OrgranizationValid $request)
@@ -1708,6 +1708,46 @@ class UsersController_v2 extends BaseController
     }
 
     public function manageRequestByFemale(Request $request)
+    {
+        try {
+
+            $page = 1;
+            if (isset($request->page) && $request->page != "") {
+                $page = $request->page;
+            }
+
+            $type = "pending";
+            if (isset($request->type) && $request->type != "") {
+                $type = $request->type;
+            }
+
+            $requests = getManageRequest($type, $page, $this->user->id);
+            $userData = $requests['userData'];
+            $total_page = $requests['total_page'];
+            $msg = "";
+            if ($type == 'pending') {
+                $msg = "Pending";
+            } elseif ($type == 'rejected') {
+                $msg = "Rejected";
+            } elseif ($type == 'accepted') {
+                $msg = "Accepted";
+            }
+            // add notification //
+            return response()->json(["status" => true, 'message' => $msg . ' Requests', 'total_page' => $total_page, 'data' => $userData]);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+
+    public function manageRequestByUser(Request $request)
     {
         try {
 
