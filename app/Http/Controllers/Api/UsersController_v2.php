@@ -1690,12 +1690,11 @@ class UsersController_v2 extends BaseController
             if (isset($request->page) && $request->page != "") {
                 $page = $request->page;
             }
-            $search_name = "";
-            if (isset($request->search_name) && $request->search_name != "") {
-                $search_name = $request->search_name;
+            $type = "pending";
+            if (isset($request->type) && $request->type != "") {
+                $type = $request->type;
             }
-
-            $requests = getManageRequestByMale($search_name, $page, $this->user->id);
+            $requests = getManageRequestByMale($type, $page, $this->user->id);
             $userData = $requests['userData'];
             $total_page = $requests['total_page'];
 
