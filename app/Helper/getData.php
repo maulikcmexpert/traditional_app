@@ -76,22 +76,31 @@ function getManageRequestByUser($type, $page, $receiver_id)
     $userData = [];
 
     foreach ($request as $val) {
-        $userInfo['is_role'] = "";
+        $is_role = "";
         if ($val->sender_id == $receiver_id) {
-            $userInfo['is_role'] = "sender";
+            $is_role = "sender";
         } else if ($val->receiver_id == $receiver_id) {
-            $userInfo['is_role'] = "receiver";
+            $is_role = "receiver";
         }
         $userInfo['id'] = $val->id;
+        $userInfo['is_role'] = $is_role;
         $userInfo['user_id'] = $val->sender_id;
         $userInfo['name'] = $val->sender_user->full_name;
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
         $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
-        $userInfo['user_message'] =  $val->message;
+        $userInfo['user_message'] = "";
+        $userInfo['is_approach'] = "cancel";
         if ($val->type == 'approach') {
+            if ($is_role == 'receiver') {
+                $userInfo['is_approach'] = "accept_reject";
+            }
             $userInfo['message'] = 'Hey! you got connection approach from $NAME';
+            $userInfo['user_message'] =  $val->message;
         } else if ($val->type == 'friend') {
+            if ($is_role == 'receiver') {
+                $userInfo['is_approach'] = "accept_reject";
+            }
             $userInfo['message'] = 'Hey! you got new friend request from $NAME';
         }
         $userData[] = $userInfo;
