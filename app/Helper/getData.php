@@ -186,8 +186,8 @@ function getManageRequestByMale($type, $page, $receiver_id)
             $query->orWhere(['sender_id' => $receiver_id])
                 ->orWhere(['receiver_id' => $receiver_id]);
         })->where(['status' => $type])
-        ->orderBy('updated_at', 'desc')
-        ->paginate(10, ['*'], 'page', $page);
+        ->orderBy('updated_at', 'desc')->get();
+
 
     // if ($type == 'rejected') {
 
