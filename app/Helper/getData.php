@@ -75,6 +75,12 @@ function getManageRequestByUser($type, $page, $receiver_id)
     $userData = [];
 
     foreach ($request as $val) {
+        $userInfo['is_role'] = "";
+        if ($val->sender_id == $receiver_id) {
+            $userInfo['is_role'] = "sender";
+        } else if ($val->receiver_id == $receiver_id) {
+            $userInfo['is_role'] = "receiver";
+        }
         $userInfo['id'] = $val->id;
         $userInfo['user_id'] = $val->sender_id;
         $userInfo['name'] = $val->sender_user->full_name;
