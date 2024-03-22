@@ -1749,41 +1749,41 @@ class UsersController_v2 extends BaseController
 
     public function manageRequestByUser(Request $request)
     {
-        try {
+        // try {
 
-            $page = 1;
-            if (isset($request->page) && $request->page != "") {
-                $page = $request->page;
-            }
-
-            $type = "pending";
-            if (isset($request->type) && $request->type != "") {
-                $type = $request->type;
-            }
-
-            $requests = getManageRequestByUser($type, $page, $this->user->id);
-            $userData = $requests['userData'];
-            $total_page = $requests['total_page'];
-            $msg = "";
-            if ($type == 'pending') {
-                $msg = "Pending";
-            } elseif ($type == 'rejected') {
-                $msg = "Rejected";
-            } elseif ($type == 'accepted') {
-                $msg = "Accepted";
-            }
-            // add notification //
-            return response()->json(["status" => true, 'message' => $msg . ' Requests', 'total_page' => $total_page, 'data' => $userData]);
-        } catch (QueryException $e) {
-
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        $page = 1;
+        if (isset($request->page) && $request->page != "") {
+            $page = $request->page;
         }
+
+        $type = "pending";
+        if (isset($request->type) && $request->type != "") {
+            $type = $request->type;
+        }
+
+        $requests = getManageRequestByUser($type, $page, $this->user->id);
+        $userData = $requests['userData'];
+        $total_page = $requests['total_page'];
+        $msg = "";
+        if ($type == 'pending') {
+            $msg = "Pending";
+        } elseif ($type == 'rejected') {
+            $msg = "Rejected";
+        } elseif ($type == 'accepted') {
+            $msg = "Accepted";
+        }
+        // add notification //
+        return response()->json(["status" => true, 'message' => $msg . ' Requests', 'total_page' => $total_page, 'data' => $userData]);
+        // } catch (QueryException $e) {
+
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
