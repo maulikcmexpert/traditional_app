@@ -20,7 +20,7 @@ function getManageRequest($type, $page, $receiver_id)
 
     $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->count();
     $total_page  = ceil($total_request / 10);
-    $request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+    $request =  ApproachRequest::with(['sender_user'])->Where(['status' => $type, 'sender_id' => $receiver_id])->orwhere(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     if ($type == 'rejected') {
         $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->onlyTrashed()->count();
         $total_page  = ceil($total_request / 10);
@@ -33,7 +33,7 @@ function getManageRequest($type, $page, $receiver_id)
         $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     }
     $userData = [];
-
+    dd($request);
     foreach ($request as $val) {
         $userInfo['id'] = $val->id;
         $userInfo['user_id'] = $val->sender_id;
@@ -41,7 +41,12 @@ function getManageRequest($type, $page, $receiver_id)
         $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
         $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
         $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
-        $userInfo['message'] =  $val->message;
+        $userInfo['user_message'] =  $val->message;
+        if ($val->type == 'approach') {
+            $userInfo['message'] = 'Hey! you got connection approach from $NAME';
+        } else if ($val->type == 'friend') {
+            $userInfo['message'] = 'Hey! you got new friend request from $NAME';
+        }
         $userData[] = $userInfo;
     }
 
