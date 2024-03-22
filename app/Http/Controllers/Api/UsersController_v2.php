@@ -925,17 +925,33 @@ class UsersController_v2 extends BaseController
                         }
                     } elseif ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
 
-                        $sender_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+
+                        $approch_check = null;
+                        $male1_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                        $male2_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' =>  $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
 
 
-                        $data['relation_type'] = $sender_approch_check->type;
+                        if ($male1_approch_check != null && $male2_approch_check != null) {
+
+                            if ($male1_approch_check->id < $male2_approch_check->id) {
+                                $approch_check = $male2_approch_check;
+                            } else {
+                                $approch_check = $male1_approch_check;
+                            }
+                        } else if ($male1_approch_check != null) {
+                            $approch_check = $male1_approch_check;
+                        } else if ($male2_approch_check != null) {
+                            $approch_check = $male2_approch_check;
+                        }
+
+                        $data['relation_type'] = $approch_check->type;
                         $data['is_approach'] = "friend";
 
-                        if ($sender_approch_check != null) {
+                        if ($approch_check != null) {
 
-                            if ($sender_approch_check->status == 'accepted') {
+                            if ($approch_check->status == 'accepted') {
                                 $data['is_approach'] = "message";
-                            } else if ($sender_approch_check->status == 'pending') {
+                            } else if ($approch_check->status == 'pending') {
 
                                 $data['is_approach'] = "cancel";
                             }
