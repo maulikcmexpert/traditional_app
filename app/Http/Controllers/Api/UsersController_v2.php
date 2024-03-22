@@ -922,7 +922,7 @@ class UsersController_v2 extends BaseController
                                 $data['is_approach'] = "no_button";
                             }
                         }
-                    } elseif ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
+                    } else if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'male') {
 
 
                         $approch_check = null;
@@ -955,7 +955,7 @@ class UsersController_v2 extends BaseController
                                 $data['is_approach'] = "cancel";
                             }
                         }
-                    } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'female') {
+                    } else if ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'female') {
 
 
                         $approch_check = null;
