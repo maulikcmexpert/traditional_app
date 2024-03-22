@@ -135,9 +135,13 @@ function notification($notificationData)
         $notification->notification_type = $notificationData['type'];
         $user = User::where('id', $notificationData['sender_id'])->first();
         if ($notificationData['status'] == 'rejected') {
-
-            $notification->message = "\$NAME rejected your approach 🚫💔 - '" . $notificationData['message'] . "'";
-            $notificationData['notification_message'] = $user->full_name . " rejected your approach 🚫💔 - '" . $notificationData['message'] . "'";
+            if ($notificationData['type'] == 'friend') {
+                $notification->message = "\$NAME rejected your friend request";
+                $notificationData['notification_message'] = $user->full_name . " rejected your friend request";
+            } elseif ($notificationData['type'] == 'approach') {
+                $notification->message = "\$NAME rejected your approach 🚫💔 - '" . $notificationData['message'] . "'";
+                $notificationData['notification_message'] = $user->full_name . " rejected your approach 🚫💔 - '" . $notificationData['message'] . "'";
+            }
         }
         if ($notificationData['status'] == 'accepted') {
             $reciverUser = User::where('id', $notificationData['receiver_id'])->first();
