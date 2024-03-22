@@ -75,52 +75,52 @@ class UsersController_v2 extends BaseController
 
     public function userSignup(UserValidate $request)
     {
-        try {
-            DB::beginTransaction();
-            $user = new User();
-            $user->full_name = $request->full_name;
+        // try {
+        DB::beginTransaction();
+        $user = new User();
+        $user->full_name = $request->full_name;
 
-            $getCountry = Country::where('iso', $request->country_code)->first();
+        $getCountry = Country::where('iso', $request->country_code)->first();
 
-            $user->country_id = $getCountry->id;
-            $user->country_code = $request->country_dial;
-            $user->mobile_number = $request->mobile_number;
-            $user->email = $request->email;
-            $user->user_type = "user";
-            $randomNumber = rand(1000, 9999);
-            $user->otp = $randomNumber;
+        $user->country_id = $getCountry->id;
+        $user->country_code = $request->country_dial;
+        $user->mobile_number = $request->mobile_number;
+        $user->email = $request->email;
+        $user->user_type = "user";
+        $randomNumber = rand(1000, 9999);
+        $user->otp = $randomNumber;
 
-            if ($user->save()) {
-                $user_detail = new UserDetail();
-                $user_detail->user_id = $user->id;
-                $user_detail->gender = $request->gender;
-                $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-                $user_detail->city = $request->city;
-                $user_detail->state_id = $request->state_id;
-                $user_detail->organization_id = $request->organization_id;
-                $user_detail->save();
-            }
-            DB::commit();
-
-            $response = [
-                'status' => true,
-                'message' => __('messages.registered'),
-                'mobile_number' => $user->mobile_number,
-                'country_code' => $user->country_code,
-                'otp' => strval($user->otp),
-            ];
-
-            return response()->json($response);
-        } catch (QueryException $e) {
-
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        if ($user->save()) {
+            $user_detail = new UserDetail();
+            $user_detail->user_id = $user->id;
+            $user_detail->gender = $request->gender;
+            $user_detail->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
+            $user_detail->city = $request->city;
+            $user_detail->state_id = $request->state_id;
+            $user_detail->organization_id = $request->organization_id;
+            $user_detail->save();
         }
+        DB::commit();
+
+        $response = [
+            'status' => true,
+            'message' => __('messages.registered'),
+            'mobile_number' => $user->mobile_number,
+            'country_code' => $user->country_code,
+            'otp' => strval($user->otp),
+        ];
+
+        return response()->json($response);
+        // } catch (QueryException $e) {
+
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function organizationSignup(OrgranizationValid $request)
