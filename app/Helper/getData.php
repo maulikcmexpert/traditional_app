@@ -56,6 +56,9 @@ function getManageRequestByUser($type, $page, $receiver_id)
     $request =  ApproachRequest::with(['sender_user'])
         ->Where(['status' => $type, 'sender_id' => $receiver_id])
         ->orwhere(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+    $query = $request->toSql();
+
+    dd($query);
     // if ($type == 'rejected') {
     //     $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->onlyTrashed()->count();
     //     $total_page  = ceil($total_request / 10);
