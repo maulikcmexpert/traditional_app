@@ -189,14 +189,12 @@ function getManageRequestByMale($type, $page, $receiver_id)
         })->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
 
     if ($type == 'rejected') {
-        echo "hi r";
-        exit;
+
         $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->onlyTrashed()->count();
         $total_page  = ceil($total_request / 10);
         $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     } else if ($type == "cancelled") {
-        echo "hi c";
-        exit;
+
         $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->count();
         $total_page  = ceil($total_request / 10);
         $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
@@ -247,7 +245,8 @@ function getManageRequestByMale($type, $page, $receiver_id)
                 $userInfo['user_message'] =  $val->message;
             }
             $userInfo['message'] = '$NAME';
-        } else if ($val->type == 'friend') {
+        }
+        if ($val->type == 'friend') {
 
             if ($type == 'pending') {
                 if ($is_role == 'receiver') {
