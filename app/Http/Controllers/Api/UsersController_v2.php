@@ -879,7 +879,6 @@ class UsersController_v2 extends BaseController
                         }
                     } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
 
-                        // $approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
 
                         $approch_check = null;
                         $from_male_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
@@ -942,6 +941,39 @@ class UsersController_v2 extends BaseController
                             $approch_check = $male1_approch_check;
                         } else if ($male2_approch_check != null) {
                             $approch_check = $male2_approch_check;
+                        }
+
+                        $data['relation_type'] = $approch_check->type;
+                        $data['is_approach'] = "friend";
+
+                        if ($approch_check != null) {
+
+                            if ($approch_check->status == 'accepted') {
+                                $data['is_approach'] = "message";
+                            } else if ($approch_check->status == 'pending') {
+
+                                $data['is_approach'] = "cancel";
+                            }
+                        }
+                    } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'female') {
+
+
+                        $approch_check = null;
+                        $female1_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                        $female2_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' =>  $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+
+
+                        if ($female1_approch_check != null && $female2_approch_check != null) {
+
+                            if ($female1_approch_check->id < $female2_approch_check->id) {
+                                $approch_check = $female2_approch_check;
+                            } else {
+                                $approch_check = $female1_approch_check;
+                            }
+                        } else if ($female1_approch_check != null) {
+                            $approch_check = $female1_approch_check;
+                        } else if ($female2_approch_check != null) {
+                            $approch_check = $female2_approch_check;
                         }
 
                         $data['relation_type'] = $approch_check->type;
