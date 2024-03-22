@@ -1761,7 +1761,7 @@ class UsersController_v2 extends BaseController
                 $type = $request->type;
             }
 
-            $requests = getManageRequest($type, $page, $this->user->id);
+            $requests = getManageRequestByUser($type, $page, $this->user->id);
             $userData = $requests['userData'];
             $total_page = $requests['total_page'];
             $msg = "";
