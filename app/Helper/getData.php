@@ -232,9 +232,9 @@ function getManageRequestByMale($type, $page, $receiver_id)
         $userInfo['status'] = $val->status;
 
         if ($val->type == 'approach') {
-            dd($type);
-            if ($type == 'pending') {
 
+            if ($type == 'pending') {
+                dd($is_role);
                 if ($is_role == 'sender') {
                     $userInfo['is_approach'] = "withdrwan";
                 }
