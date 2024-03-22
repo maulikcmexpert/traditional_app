@@ -2214,7 +2214,7 @@ class UsersController_v2 extends BaseController
             ->paginate(10, ['*'], 'page', $page);
 
 
-        dd($blockUser);
+
         $blockUserList = [];
         if (count($blockUser) != 0) {
             foreach ($blockUser as $val) {
