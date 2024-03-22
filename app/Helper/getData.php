@@ -61,13 +61,6 @@ function getManageRequestByUser($type, $page, $receiver_id)
             $query->where(['sender_id' => $receiver_id, 'type' => $type])
                 ->orWhere(['receiver_id' => $receiver_id, 'type' => $type]);
         })->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
-    $request->getCollection()->transform(function ($item) use ($authenticatedUserId) {
-        $item->sender_user = $item->sender;
-        $item->is_sender = $item->sender_id === $authenticatedUserId;
-        // Add any other necessary checks here
-        return $item;
-    });
-    dd($request);
     if ($type == 'rejected') {
         $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->onlyTrashed()->count();
         $total_page  = ceil($total_request / 10);
@@ -80,7 +73,7 @@ function getManageRequestByUser($type, $page, $receiver_id)
         $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     }
     $userData = [];
-    dd($request);
+
     foreach ($request as $val) {
         $userInfo['id'] = $val->id;
         $userInfo['user_id'] = $val->sender_id;
