@@ -869,7 +869,7 @@ class UsersController_v2 extends BaseController
                             $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted',])->withTrashed()->orderBy('id', 'DESC')->pluck('type');
                             $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->pluck('type');
 
-                            dd($approchOwncheck);
+                            dd($female_approch_check);
 
 
                             if ($approchOwncheck == null && $female_approch_check == null) {
