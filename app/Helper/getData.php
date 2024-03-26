@@ -19,27 +19,41 @@ function getReligions()
 function getManageRequestByFemale($type, $page, $receiver_id)
 {
 
-    $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->count();
+    $total_request = ApproachRequest::with(['sender_user', 'receiver_user'])
+        ->where(function ($query) use ($receiver_id, $type) {
+            $query->orWhere(['sender_id' => $receiver_id, 'receiver_id' => $receiver_id]);
+        })->where(['status' => $type])
+        ->orderBy('updated_at', 'desc')
+        ->count();
     $total_page  = ceil($total_request / 10);
 
-
-    $request =  ApproachRequest::with(['sender_user', 'receiver_user'])
-
-        ->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id, 'status' => $type])
-                ->orWhere(['receiver_id' => $receiver_id, 'status' => $type]);
-        })->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+    $request = ApproachRequest::with(['sender_user', 'receiver_user'])
+        ->where(function ($query) use ($receiver_id) {
+            $query->orWhere(['sender_id' => $receiver_id, 'receiver_id' => $receiver_id]);
+        })->where(['status' => $type])
+        ->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
 
     if ($type == 'rejected') {
-        $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->orderBy('updated_at', 'desc')->onlyTrashed()->count();
+        $total_request =  ApproachRequest::with(['sender_user'])->where(function ($query) use ($receiver_id) {
+            $query->orWhere(['receiver_id' => $receiver_id]);
+        })->where(['status' => $type])->orderBy('updated_at', 'desc')->onlyTrashed()->count();
+
+
         $total_page  = ceil($total_request / 10);
-        $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+        $request = ApproachRequest::with(['sender_user'])->where(function ($query) use ($receiver_id, $type) {
+            $query->orWhere(['receiver_id' => $receiver_id]);
+        })->where(['status' => $type])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     }
 
     if ($type == "cancelled") {
-        $total_request =  ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->count();
+        $total_request =  ApproachRequest::with(['sender_user'])->where(function ($query) use ($receiver_id, $type) {
+            $query->orWhere(['receiver_id' => $receiver_id]);
+        })->where(['status' => $type])->onlyTrashed()->count();
         $total_page  = ceil($total_request / 10);
-        $request = ApproachRequest::with(['sender_user'])->where(['status' => $type, 'receiver_id' => $receiver_id])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+        $request = ApproachRequest::with(['sender_user'])->where(function ($query) use ($receiver_id, $type) {
+            $query->orWhere(['receiver_id' => $receiver_id]);
+        })->where(['status' => $type])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
+    }
     }
     $userData = [];
 
