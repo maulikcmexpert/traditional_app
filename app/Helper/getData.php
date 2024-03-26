@@ -3,10 +3,14 @@
 use App\Models\ApproachRequest;
 use App\Models\{
     Religion,
+    Setting,
     User,
-    UserProfile
+    UserProfile,
+    ProfileSeenUser
 };
+use Carbon\Carbon;
 
+use Illuminate\Support\Facades\DB;
 
 
 function getReligions()
@@ -379,4 +383,16 @@ function getProfile($user_id)
         $singleProfile = asset('public/storage/profile/' . $profile->profile);
     }
     return $singleProfile;
+}
+
+
+function is_ghost($userId)
+{
+    $ghostSetting = Setting::select('ghost_count', 'ghost_day')->first();
+    $currentDate = Carbon::now();
+
+    // Subtract 5 days from the current date
+    $targetDate = $currentDate->subDays($ghostSetting->ghost_day);
+    $getData = ProfileSeenUser::select('profile_id', DB::raw('count(*) as view_count'))->where('profile_viewer_id', $userId)->whereDate('created_at', '<=', $targetDate)->groupBy('profile_id')->get();
+    dd($getData);
 }
