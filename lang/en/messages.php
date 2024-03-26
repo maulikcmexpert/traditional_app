@@ -21,7 +21,12 @@ return [
 
     // manage request by female // 
 
-    'approach_msg' => 'Hey! you got connection approach from $NAME',
+    'approach_request_msg' => 'Hey! you got connection approach from $NAME',
+    'approach_cancel_msg' => 'After initiating an approach request, $NAME has cancelled the request',
+    'friend_request_msg' => 'Hey! you got new friend request from $NAME',
+    'self_friend_request_rejected_msg' => 'Hey You have rejected friend request of $NAME',
+    'friend_request_rejected_msg' => 'Hey $NAME have rejected your friend request',
+    'friend_cancel_msg' => 'After initiating an friend request, $NAME has cancelled the request',
 
 
     // manage request by male // 

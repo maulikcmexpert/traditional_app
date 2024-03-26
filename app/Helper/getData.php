@@ -95,9 +95,9 @@ function getManageRequestByFemale($type, $page, $receiver_id)
                 if ($is_role == 'receiver') {
                     $userInfo['is_approach'] = "accept_reject";
                 }
-                $userInfo['message'] = __('messages.approach_msg');
+                $userInfo['message'] = __('messages.approach_request_msg');
             } else if ($type == 'cancelled') {
-                $userInfo['message'] = 'After initiating an approach request, $NAME has cancelled the request';
+                $userInfo['message'] = __('messages.approach_cancel_msg');
             }
             $userInfo['user_message'] =  $val->message;
         } else if ($val->type == 'friend') {
@@ -105,7 +105,7 @@ function getManageRequestByFemale($type, $page, $receiver_id)
             if ($type == 'pending') {
                 if ($is_role == 'receiver') {
                     $userInfo['is_approach'] = "accept_reject";
-                    $userInfo['message'] = 'Hey! you got new friend request from $NAME';
+                    $userInfo['message'] = __('messages.friend_request_msg');
                 } elseif ($is_role == 'sender') {
                     $userInfo['message'] = '$NAME';
                 }
@@ -113,14 +113,14 @@ function getManageRequestByFemale($type, $page, $receiver_id)
 
 
                 if ($is_role == 'receiver') {
-                    $userInfo['message'] = 'Hey You have rejected friend request of $NAME';
+                    $userInfo['message'] = __('messages.self_friend_request_rejected_msg');
                 } elseif ($is_role == 'sender') {
-                    $userInfo['message'] = 'Hey $NAME have rejected your friend request';
+                    $userInfo['message'] = __('messages.friend_request_rejected_msg');
                 }
             } else if ($type == 'cancelled') {
 
                 if ($is_role == 'receiver') {
-                    $userInfo['message'] = 'After initiating an friend request, $NAME has cancelled the request';
+                    $userInfo['message'] = __('messages.friend_cancel_msg');
                 }
             }
         }
@@ -268,7 +268,7 @@ function getManageRequestByMale($type, $page, $receiver_id)
             if ($type == 'pending') {
                 if ($is_role == 'receiver') {
                     $userInfo['is_approach'] = "accept_reject";
-                    $userInfo['message'] = 'Hey! you got new friend request from $NAME';
+                    $userInfo['message'] = __('messages.friend_request_msg');
                 } elseif ($is_role == 'sender') {
                     $userInfo['message'] = '$NAME';
                 }
@@ -276,14 +276,14 @@ function getManageRequestByMale($type, $page, $receiver_id)
 
 
                 if ($is_role == 'receiver') {
-                    $userInfo['message'] = 'Hey You have rejected friend request of $NAME';
+                    $userInfo['message'] = __('messages.self_friend_request_rejected_msg');
                 } elseif ($is_role == 'sender') {
-                    $userInfo['message'] = 'Hey $NAME have rejected your friend request';
+                    $userInfo['message'] = __('messages.friend_request_rejected_msg');
                 }
             } else if ($type == 'cancelled') {
 
                 if ($is_role == 'receiver') {
-                    $userInfo['message'] = 'After initiating an friend request, $NAME has cancelled the request';
+                    $userInfo['message'] = __('messages.friend_cancel_msg');
                 }
             }
         }

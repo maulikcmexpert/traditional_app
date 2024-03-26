@@ -2202,6 +2202,7 @@ class UsersController_v2 extends BaseController
                     $data['id'] = $val->blocked_user->id;
                     $data['name'] = $val->blocked_user->full_name;
                     $data['profile_image'] = ($val->blocked_user->user_profile != null) ? asset('storage/profile/' . $val->blocked_user->user_profile[0]->profile) : "";
+                    $data['reason'] = $val->reason;
                     $blockUserList[] = $data;
                 }
             }
