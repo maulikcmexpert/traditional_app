@@ -721,7 +721,7 @@ class UsersController_v2 extends BaseController
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
-            $checkIsGhost = is_ghost($request->user_id);
+
             $is_block = false;
             $user_id = $request->user_id;
             // check user blocked //
@@ -768,6 +768,7 @@ class UsersController_v2 extends BaseController
                 $data['country'] = ($user->country->country != null) ? $user->country->country : "";
                 $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : "";
                 $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
+                $data['is_ghost'] = is_ghost($request->user_id);
                 $data['is_block'] = false;
                 $userIsBlock = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $user_id])->first();
                 if ($userIsBlock != null) {
