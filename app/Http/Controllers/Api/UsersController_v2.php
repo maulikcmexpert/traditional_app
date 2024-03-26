@@ -820,7 +820,7 @@ class UsersController_v2 extends BaseController
 
                 $data['is_approach'] = "no_button";
                 if (!$is_block) {
-                    if ($this->user->userdetail->gender = 'male' && $user->userdetail->gender == 'female') {
+                    if ($this->user->userdetail->gender == 'male' && $user->userdetail->gender == 'female') {
 
                         $approch_check = null;
                         $from_male_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
@@ -894,7 +894,7 @@ class UsersController_v2 extends BaseController
                                 $data['is_approach'] = "friend";
                             }
                         }
-                    } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
+                    } elseif ($this->user->userdetail->gender == 'female' && $user->userdetail->gender == 'male') {
 
 
                         $approch_check = null;
