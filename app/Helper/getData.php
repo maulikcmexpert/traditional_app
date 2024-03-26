@@ -189,14 +189,14 @@ function getManageRequestByMale($type, $page, $receiver_id)
 
     if ($type == 'rejected') {
 
-        $total_request =  ApproachRequest::with(['receiver_user'])->where(function ($query) use ($receiver_id) {
-            $query->orWhere(['sender_id' => $receiver_id]);
+        $total_request =  ApproachRequest::with(['sender_user'])->where(function ($query) use ($receiver_id) {
+            $query->orWhere(['receiver_id' => $receiver_id]);
         })->where(['status' => $type])->orderBy('updated_at', 'desc')->onlyTrashed()->count();
 
 
         $total_page  = ceil($total_request / 10);
-        $request = ApproachRequest::with(['receiver_user'])->where(function ($query) use ($receiver_id, $type) {
-            $query->orWhere(['sender_id' => $receiver_id]);
+        $request = ApproachRequest::with(['sender_user'])->where(function ($query) use ($receiver_id, $type) {
+            $query->orWhere(['receiver_id' => $receiver_id]);
         })->where(['status' => $type])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     } else if ($type == "cancelled") {
 
