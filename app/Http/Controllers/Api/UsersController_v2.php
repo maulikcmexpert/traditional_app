@@ -19,6 +19,7 @@ use App\Models\State;
 use App\Models\ZodiacSign;
 
 use App\Models\ApproachRequest;
+use App\Models\BlockReason;
 use App\Models\Country;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
@@ -1726,7 +1727,7 @@ class UsersController_v2 extends BaseController
     public function manageRequestByFemale(Request $request)
     {
 
-
+        dd("")
         try {
 
             $page = 1;
@@ -2408,5 +2409,13 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Age limit', 'data' => $Settings]);
+    }
+
+    public function blockReason()
+    {
+        $BlockReason =  BlockReason::select('id','reason')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Block Reasons', 'data' => $BlockReason]);
     }
 }
