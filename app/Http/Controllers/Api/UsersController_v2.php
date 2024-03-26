@@ -2241,11 +2241,17 @@ class UsersController_v2 extends BaseController
             ])->first();
             if ($checkIsBlock == null) {
                 DB::beginTransaction();
+                $checkReason = BlockReason::where('id', $request->block_reason_id)->first();
 
                 $blockToUser = new ProfileBlock();
                 $blockToUser->blocker_user_id  = $this->user->id;
                 $blockToUser->to_be_blocked_user_id   = $request->user_id;
-                $blockToUser->reason = $request->reason;
+                $blockToUser->block_reason_id   = $request->block_reason_id;
+
+                if ($checkReason != null && $checkReason->reason == 'Others') {
+                    $blockToUser->reason = $request->reason;
+                }
+                $blockToUser->reason = $checkReason->reason;
                 $blockToUser->save();
 
                 // check from login user //
