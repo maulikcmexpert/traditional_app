@@ -263,10 +263,8 @@ function getManageRequestByMale($type, $page, $receiver_id)
                 if ($is_role == 'sender') {
                     $userInfo['is_approach'] = "withdrawn";
                 }
-            } else if ($type == 'rejected') {
-
-                $userInfo['user_message'] =  $val->message;
             }
+            $userInfo['user_message'] =  $val->message;
             $userInfo['message'] = '$NAME';
         }
         if ($val->type == 'friend') {
