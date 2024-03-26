@@ -866,13 +866,10 @@ class UsersController_v2 extends BaseController
                                 }
                             }
                         } else {
-                            $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted',])->withTrashed()->orderBy('id', 'DESC')->pluck('type');
-                            $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->pluck('type');
+                            $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'type' => 'approach', 'status' => 'accepted',])->withTrashed()->orderBy('id', 'DESC')->first();
+                            $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'type' => 'approach', 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
 
-
-
-
-                            if (count($approchOwncheck) == 0 && count($female_approch_check) == 0) {
+                            if ($approchOwncheck == null && $female_approch_check == null) {
 
 
                                 $data['is_approach'] = "friend";
@@ -880,20 +877,16 @@ class UsersController_v2 extends BaseController
                                     $data['is_approach'] = "approach";
                                 }
                             }
-                            if (count($approchOwncheck) != 0 && count($female_approch_check) == 0) {
-                                $data['is_approach'] = "approach";
-                                if (in_array('approach', $approchOwncheck)) {
 
-                                    $data['is_approach'] = "friend";
-                                }
+                            if ($approchOwncheck != null) {
+
+                                $data['is_approach'] = "friend";
                             }
 
-                            if (count($female_approch_check) != 0 && count($approchOwncheck) == 0) {
 
-                                if (in_array('approach', $female_approch_check)) {
+                            if ($approchOwncheck != null) {
 
-                                    $data['is_approach'] = "friend";
-                                }
+                                $data['is_approach'] = "friend";
                             }
                         }
                     } elseif ($this->user->userdetail->gender = 'female' && $user->userdetail->gender == 'male') {
