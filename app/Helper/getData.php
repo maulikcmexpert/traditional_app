@@ -247,7 +247,7 @@ function getManageRequestByMale($type, $page, $receiver_id)
             if ($type == 'pending') {
 
                 if ($is_role == 'sender') {
-                    $userInfo['is_approach'] = "withdrwn";
+                    $userInfo['is_approach'] = "withdrawn";
                 }
             } else if ($type == 'rejected') {
 
