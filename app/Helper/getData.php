@@ -73,7 +73,6 @@ function getManageRequestByFemale($type, $page, $receiver_id)
             $getProfile = UserProfile::where(['user_id' => $val->receiver_id, 'is_default' => '1'])->first();
             $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
             $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
-            $userInfo['user_message'] = "";
         } else if ($is_role == 'receiver') {
 
             $userInfo['id'] = $val->id;
@@ -83,8 +82,8 @@ function getManageRequestByFemale($type, $page, $receiver_id)
             $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
             $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
             $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
-            $userInfo['user_message'] = "";
         }
+        $userInfo['user_message'] = "";
         $userInfo['relation_type'] =  $val->type;
 
         $userInfo['is_approach'] = "cancel";
@@ -97,12 +96,10 @@ function getManageRequestByFemale($type, $page, $receiver_id)
                     $userInfo['is_approach'] = "accept_reject";
                 }
                 $userInfo['message'] = __('messages.approach_msg');
-            } else if ($type == 'rejected') {
-
-                $userInfo['user_message'] =  $val->message;
             } else if ($type == 'cancelled') {
                 $userInfo['message'] = 'After initiating an approach request, $NAME has cancelled the request';
             }
+            $userInfo['user_message'] =  $val->message;
         } else if ($val->type == 'friend') {
 
             if ($type == 'pending') {
