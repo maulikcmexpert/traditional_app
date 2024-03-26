@@ -965,11 +965,11 @@ class UsersController_v2 extends BaseController
                         $approch_check = $male2_approch_check;
                     }
 
-                    $data['relation_type'] = $approch_check->type;
                     $data['is_approach'] = "friend";
 
                     if ($approch_check != null) {
 
+                        $data['relation_type'] = $approch_check->type;
                         if ($approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
                         } else if ($approch_check->status == 'pending') {
@@ -998,11 +998,11 @@ class UsersController_v2 extends BaseController
                         $approch_check = $female2_approch_check;
                     }
 
-                    $data['relation_type'] = $approch_check->type;
+
                     $data['is_approach'] = "friend";
 
                     if ($approch_check != null) {
-
+                        $data['relation_type'] = $approch_check->type;
                         if ($approch_check->status == 'accepted') {
                             $data['is_approach'] = "message";
                         } else if ($approch_check->status == 'pending') {
