@@ -2249,10 +2249,10 @@ class UsersController_v2 extends BaseController
                 $blockToUser->to_be_blocked_user_id   = $request->user_id;
                 $blockToUser->block_reason_id   = $request->block_reason_id;
 
-                if ($checkReason != null && $checkReason->reason == 'Others') {
-                    $blockToUser->reason = $request->reason;
-                }
                 $blockToUser->reason = $checkReason->reason;
+                if ($checkReason != null && $checkReason->reason == 'Others') {
+                    $blockToUser->reason = $request->message;
+                }
                 $blockToUser->save();
 
                 // check from login user //
