@@ -1644,7 +1644,7 @@ class UsersController_v2 extends BaseController
 
 
 
-            $checkIsApproched =  ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+            $checkIsApproched =  ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id, 'type' => 'approach'])->withTrashed()->orderBy('id', 'DESC')->first();
 
             if ($checkIsApproched != null) {
 
@@ -1660,8 +1660,8 @@ class UsersController_v2 extends BaseController
                     return response()->json(["status" => false, 'message' => 'commited']);
                 }
             }
-            $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
-            $female_approch_check = ApproachRequest::where(['receiver_id' => $request->user_id, 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+            $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'status' => 'accepted', 'type' => 'approach'])->withTrashed()->orderBy('id', 'DESC')->first();
+            $female_approch_check = ApproachRequest::where(['receiver_id' => $request->user_id, 'status' => 'accepted', 'type' => 'approach'])->withTrashed()->orderBy('id', 'DESC')->first();
             if ($approchOwncheck == null && $female_approch_check == null) {
 
                 return response()->json(["status" => true, 'message' => 'you are elegible']);
