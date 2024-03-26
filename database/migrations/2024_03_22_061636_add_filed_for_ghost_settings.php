@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->integer('ghost_count');
+            $table->integer('ghost_count')->after('max_age');
             $table->integer('ghost_day');
         });
     }
