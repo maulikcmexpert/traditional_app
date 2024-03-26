@@ -348,6 +348,14 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id, 
             ->whereNull('deleted_at');
     });
 
+    $query->whereNotIn('id', function ($q) use ($user_id) {
+        $q->select('blocker_user_id')
+            ->from('profile_blocks')
+            ->where('blocker_user_id', $user_id)
+            ->whereNull('deleted_at');
+    });
+
+
     $query->where('id', '!=', $user_id);
 
     // Paginate the results
