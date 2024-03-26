@@ -18,7 +18,7 @@ function getReligions()
 
 function getManageRequestByFemale($type, $page, $receiver_id)
 {
-   
+
     $total_request = ApproachRequest::with(['sender_user', 'receiver_user'])
         ->where(function ($query) use ($receiver_id, $type) {
             $query->orWhere(['sender_id' => $receiver_id, 'receiver_id' => $receiver_id]);
@@ -54,7 +54,7 @@ function getManageRequestByFemale($type, $page, $receiver_id)
             $query->orWhere(['receiver_id' => $receiver_id]);
         })->where(['status' => $type])->onlyTrashed()->orderBy('updated_at', 'desc')->paginate(10, ['*'], 'page', $page);
     }
-    }
+
     $userData = [];
 
     foreach ($request as $val) {
