@@ -712,318 +712,318 @@ class UsersController_v2 extends BaseController
 
     public function showUserProfile(Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required',
+        // try {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
 
-            ]);
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            $is_block = false;
-            $user_id = $request->user_id;
-            // check user blocked //
-            $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $user_id, 'to_be_blocked_user_id' => $this->user->id])->count();
-            if ($approch_check_is_block == 1) {
-                return response()->json(['status' => false, 'message' => "User not found"]);
-            } else {
-                $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $user_id])->count();
-                if ($approch_check_is_block != null) {
-                    $is_block = true;
-                }
-            }
-            // check user blocked //
-            $isRefresh = (!isset($request->refresh)) ? false : $request->refresh;
-            if ($isRefresh == false) {
-
-                $addshowprofile = new ProfileSeenUser();
-                $addshowprofile->profile_id = $user_id;
-                $addshowprofile->profile_viewer_id = $this->user->id;
-                $addshowprofile->save();
-            }
-
-            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
-
-            $full_name = ($user->full_name != "") ? $user->full_name : "";
-
-            $data = [];
-            $data = [
-                'name' => $full_name,
-            ];
-
-            if ($user != null) {
-
-                $data['gender'] = ($user->userdetail->gender != "") ? $user->userdetail->gender : "";
-                $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
-                $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
-                $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
-                $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
-                $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
-                $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
-                $data['weight'] = ($user->userdetail->weight != "") ? $user->userdetail->weight : "";
-                $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
-                $data['religion'] = ($user->userdetail->religon != "") ? $user->userdetail->religon->religion : "";
-                $data['zodiac_sign'] = ($user->userdetail->zodiac_sign->zodiac_sign != "") ? $user->userdetail->zodiac_sign->zodiac_sign : "";
-                $data['state'] = ($user->userdetail->state->state != "") ? $user->userdetail->state->state : "";
-                $data['city'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
-                $data['country'] = ($user->country->country != null) ? $user->country->country : "";
-                $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : "";
-                $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
-                $data['is_ghost'] = is_ghost($request->user_id);
-                $data['is_block'] = false;
-                $userIsBlock = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $user_id])->first();
-                if ($userIsBlock != null) {
-                    $data['is_block'] = true;
-                }
-                $data['life_style'] = [];
-                if (!empty($user->user_lifestyle)) {
-                    foreach ($user->user_lifestyle as $key => $val) {
-                        $lifestyle['id'] = $val->id;
-                        $lifestyle['name'] = $val->lifestyle->life_style;
-                        $data['life_style'][] = $lifestyle;
-                    }
-                }
-
-                $data['intrest_and_hobby'] = [];
-                if (!empty($user->user_interest_and_hobby)) {
-
-                    foreach ($user->user_interest_and_hobby  as $key => $val) {
-                        $intrest_hobby['id'] = $val->id;
-                        $intrest_hobby['name'] = $val->interest_and_hobby->interest_and_hobby;
-                        $data['intrest_and_hobby'][] = $intrest_hobby;
-                    }
-                }
-
-
-                $data['profile_image'] = [];
-                if (!empty($user->user_profile)) {
-                    foreach ($user->user_profile as $key => $val) {
-                        $image['profile_id'] = $val->id;
-                        $image['profile'] = asset('storage/profile/' . $val->profile);
-                        $image['is_default'] = $val->is_default;
-                        $data['profile_image'][] = $image;
-                    }
-                }
-
-                $data['user_love_lang'] = [];
-                if (!empty($user->user_love_lang)) {
-                    foreach ($user->user_love_lang as $key => $val) {
-                        $loveLang['id'] = $val->id;
-                        $loveLang['love_lang'] = $val->love_lang;
-                        $loveLang['rate'] = $val->rate;
-                        $data['user_love_lang'][] = $loveLang;
-                    }
-                }
-
-
-                $data['is_approach'] = "no_button";
-                if (!$is_block) {
-                    if ($this->user->userdetail->gender == 'male' && $user->userdetail->gender == 'female') {
-
-                        $approch_check = null;
-                        $from_male_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
-                        $from_female_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
-
-
-                        $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
-                        $seenProfileUser = $this->getLoginUserLatlog($user_id);
-
-                        $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
-
-                        if ($from_male_approch_check != null && $from_female_approch_check != null) {
-
-                            if ($from_male_approch_check->id < $from_female_approch_check->id) {
-                                $approch_check = $from_female_approch_check;
-                            } else {
-                                $approch_check = $from_male_approch_check;
-                            }
-                        } else if ($from_male_approch_check != null) {
-                            $approch_check = $from_male_approch_check;
-                        } else if ($from_female_approch_check != null) {
-                            $approch_check = $from_female_approch_check;
-                        }
-
-                        if ($approch_check != null) {
-                            $data['relation_type'] = $approch_check->type;
-
-                            if ($approch_check->status == 'accepted') {
-                                $data['is_approach'] = "message";
-                            } else if ($approch_check->status == 'pending') {
-
-                                if ($approch_check->sender_id == $this->user->id) {
-
-                                    $data['is_approach'] = "cancel";
-                                } else {
-                                    $data['is_approach'] = "accept_reject";
-                                }
-
-                                if ($approch_check->type == 'approach') {
-                                    $data['is_approach'] = "withdrawn";
-                                }
-                            } else if (($approch_check->status == 'cancelled') || ($approch_check->status == 'unblock') || ($approch_check->status == 'rejected' &&  $approch_check->type == 'friend')) {
-
-
-                                $data['is_approach'] = "friend";
-                                if ($distance <= 5) {
-                                    $data['is_approach'] = "approach";
-                                }
-                            }
-                        } else {
-                            $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'type' => 'approach', 'status' => 'accepted',])->withTrashed()->orderBy('id', 'DESC')->first();
-                            $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'type' => 'approach', 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
-
-                            if ($approchOwncheck == null && $female_approch_check == null) {
-
-
-                                $data['is_approach'] = "friend";
-                                if ($distance <= 5) {
-                                    $data['is_approach'] = "approach";
-                                }
-                            }
-
-                            if ($approchOwncheck != null) {
-
-                                $data['is_approach'] = "friend";
-                            }
-
-
-                            if ($approchOwncheck != null) {
-
-                                $data['is_approach'] = "friend";
-                            }
-                        }
-                    } elseif ($this->user->userdetail->gender == 'female' && $user->userdetail->gender == 'male') {
-
-
-                        $approch_check = null;
-                        $from_male_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
-                        $from_female_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' =>  $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
-
-
-                        if ($from_male_approch_check != null && $from_female_approch_check != null) {
-
-                            if ($from_male_approch_check->id < $from_female_approch_check->id) {
-                                $approch_check = $from_female_approch_check;
-                            } else {
-                                $approch_check = $from_male_approch_check;
-                            }
-                        } else if ($from_male_approch_check != null) {
-                            $approch_check = $from_male_approch_check;
-                        } else if ($from_female_approch_check != null) {
-                            $approch_check = $from_female_approch_check;
-                        }
-
-
-                        $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
-                        $seenProfileUser = $this->getLoginUserLatlog($user_id);
-
-                        $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
-                        $data['is_approach'] = "friend";
-
-                        if ($approch_check != null) {
-                            $data['relation_type'] = $approch_check->type;
-                            if ($approch_check->status == 'accepted') {
-                                $data['is_approach'] = "message";
-                            } else if ($approch_check->status == 'pending') {
-                                if ($approch_check->sender_id == $this->user->id) {
-
-                                    $data['is_approach'] = "cancel";
-                                } else {
-                                    $data['is_approach'] = "accept_reject";
-                                }
-
-
-                                if ($approch_check->type == 'approach') {
-
-                                    $data['is_approach'] = "accept_reject";
-                                }
-                            } else if (($approch_check->status == 'rejected' && $approch_check->type == 'approach') || $approch_check->status == 'block') {
-
-                                $data['is_approach'] = "no_button";
-                            }
-                        }
-                    } else if ($this->user->userdetail->gender == 'male' && $user->userdetail->gender == 'male') {
-
-
-                        $approch_check = null;
-                        $male1_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
-                        $male2_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' =>  $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
-
-
-                        if ($male1_approch_check != null && $male2_approch_check != null) {
-
-                            if ($male1_approch_check->id < $male2_approch_check->id) {
-                                $approch_check = $male2_approch_check;
-                            } else {
-                                $approch_check = $male1_approch_check;
-                            }
-                        } else if ($male1_approch_check != null) {
-                            $approch_check = $male1_approch_check;
-                        } else if ($male2_approch_check != null) {
-                            $approch_check = $male2_approch_check;
-                        }
-
-                        $data['relation_type'] = $approch_check->type;
-                        $data['is_approach'] = "friend";
-
-                        if ($approch_check != null) {
-
-                            if ($approch_check->status == 'accepted') {
-                                $data['is_approach'] = "message";
-                            } else if ($approch_check->status == 'pending') {
-
-                                $data['is_approach'] = "cancel";
-                            }
-                        }
-                    } else if ($this->user->userdetail->gender == 'female' && $user->userdetail->gender == 'female') {
-
-
-                        $approch_check = null;
-                        $female1_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
-                        $female2_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' =>  $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
-
-
-                        if ($female1_approch_check != null && $female2_approch_check != null) {
-
-                            if ($female1_approch_check->id < $female2_approch_check->id) {
-                                $approch_check = $female2_approch_check;
-                            } else {
-                                $approch_check = $female1_approch_check;
-                            }
-                        } else if ($female1_approch_check != null) {
-                            $approch_check = $female1_approch_check;
-                        } else if ($female2_approch_check != null) {
-                            $approch_check = $female2_approch_check;
-                        }
-
-                        $data['relation_type'] = $approch_check->type;
-                        $data['is_approach'] = "friend";
-
-                        if ($approch_check != null) {
-
-                            if ($approch_check->status == 'accepted') {
-                                $data['is_approach'] = "message";
-                            } else if ($approch_check->status == 'pending') {
-
-                                $data['is_approach'] = "cancel";
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            return response()->json(['status' => true, 'message' => "Success", 'data' => $data]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
+
+        $is_block = false;
+        $user_id = $request->user_id;
+        // check user blocked //
+        $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $user_id, 'to_be_blocked_user_id' => $this->user->id])->count();
+        if ($approch_check_is_block == 1) {
+            return response()->json(['status' => false, 'message' => "User not found"]);
+        } else {
+            $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $user_id])->count();
+            if ($approch_check_is_block != null) {
+                $is_block = true;
+            }
+        }
+        // check user blocked //
+        $isRefresh = (!isset($request->refresh)) ? false : $request->refresh;
+        if ($isRefresh == false) {
+
+            $addshowprofile = new ProfileSeenUser();
+            $addshowprofile->profile_id = $user_id;
+            $addshowprofile->profile_viewer_id = $this->user->id;
+            $addshowprofile->save();
+        }
+
+        $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
+
+        $full_name = ($user->full_name != "") ? $user->full_name : "";
+
+        $data = [];
+        $data = [
+            'name' => $full_name,
+        ];
+
+        if ($user != null) {
+
+            $data['gender'] = ($user->userdetail->gender != "") ? $user->userdetail->gender : "";
+            $data['country_code'] = ($user->country_code != "") ? $user->country_code : "";
+            $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
+            $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
+            $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
+            $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
+            $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
+            $data['weight'] = ($user->userdetail->weight != "") ? $user->userdetail->weight : "";
+            $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
+            $data['religion'] = ($user->userdetail->religon != "") ? $user->userdetail->religon->religion : "";
+            $data['zodiac_sign'] = ($user->userdetail->zodiac_sign->zodiac_sign != "") ? $user->userdetail->zodiac_sign->zodiac_sign : "";
+            $data['state'] = ($user->userdetail->state->state != "") ? $user->userdetail->state->state : "";
+            $data['city'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
+            $data['country'] = ($user->country->country != null) ? $user->country->country : "";
+            $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : "";
+            $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
+            $data['is_ghost'] = is_ghost($request->user_id);
+            $data['is_block'] = false;
+            $userIsBlock = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $user_id])->first();
+            if ($userIsBlock != null) {
+                $data['is_block'] = true;
+            }
+            $data['life_style'] = [];
+            if (!empty($user->user_lifestyle)) {
+                foreach ($user->user_lifestyle as $key => $val) {
+                    $lifestyle['id'] = $val->id;
+                    $lifestyle['name'] = $val->lifestyle->life_style;
+                    $data['life_style'][] = $lifestyle;
+                }
+            }
+
+            $data['intrest_and_hobby'] = [];
+            if (!empty($user->user_interest_and_hobby)) {
+
+                foreach ($user->user_interest_and_hobby  as $key => $val) {
+                    $intrest_hobby['id'] = $val->id;
+                    $intrest_hobby['name'] = $val->interest_and_hobby->interest_and_hobby;
+                    $data['intrest_and_hobby'][] = $intrest_hobby;
+                }
+            }
+
+
+            $data['profile_image'] = [];
+            if (!empty($user->user_profile)) {
+                foreach ($user->user_profile as $key => $val) {
+                    $image['profile_id'] = $val->id;
+                    $image['profile'] = asset('storage/profile/' . $val->profile);
+                    $image['is_default'] = $val->is_default;
+                    $data['profile_image'][] = $image;
+                }
+            }
+
+            $data['user_love_lang'] = [];
+            if (!empty($user->user_love_lang)) {
+                foreach ($user->user_love_lang as $key => $val) {
+                    $loveLang['id'] = $val->id;
+                    $loveLang['love_lang'] = $val->love_lang;
+                    $loveLang['rate'] = $val->rate;
+                    $data['user_love_lang'][] = $loveLang;
+                }
+            }
+
+
+            $data['is_approach'] = "no_button";
+            if (!$is_block) {
+                if ($this->user->userdetail->gender == 'male' && $user->userdetail->gender == 'female') {
+
+                    $approch_check = null;
+                    $from_male_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    $from_female_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
+
+
+                    $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
+                    $seenProfileUser = $this->getLoginUserLatlog($user_id);
+
+                    $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
+
+                    if ($from_male_approch_check != null && $from_female_approch_check != null) {
+
+                        if ($from_male_approch_check->id < $from_female_approch_check->id) {
+                            $approch_check = $from_female_approch_check;
+                        } else {
+                            $approch_check = $from_male_approch_check;
+                        }
+                    } else if ($from_male_approch_check != null) {
+                        $approch_check = $from_male_approch_check;
+                    } else if ($from_female_approch_check != null) {
+                        $approch_check = $from_female_approch_check;
+                    }
+
+                    if ($approch_check != null) {
+                        $data['relation_type'] = $approch_check->type;
+
+                        if ($approch_check->status == 'accepted') {
+                            $data['is_approach'] = "message";
+                        } else if ($approch_check->status == 'pending') {
+
+                            if ($approch_check->sender_id == $this->user->id) {
+
+                                $data['is_approach'] = "cancel";
+                            } else {
+                                $data['is_approach'] = "accept_reject";
+                            }
+
+                            if ($approch_check->type == 'approach') {
+                                $data['is_approach'] = "withdrawn";
+                            }
+                        } else if (($approch_check->status == 'cancelled') || ($approch_check->status == 'unblock') || ($approch_check->status == 'rejected' &&  $approch_check->type == 'friend')) {
+
+
+                            $data['is_approach'] = "friend";
+                            if ($distance <= 5) {
+                                $data['is_approach'] = "approach";
+                            }
+                        }
+                    } else {
+                        $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'type' => 'approach', 'status' => 'accepted',])->withTrashed()->orderBy('id', 'DESC')->first();
+                        $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'type' => 'approach', 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+
+                        if ($approchOwncheck == null && $female_approch_check == null) {
+
+
+                            $data['is_approach'] = "friend";
+                            if ($distance <= 5) {
+                                $data['is_approach'] = "approach";
+                            }
+                        }
+
+                        if ($approchOwncheck != null) {
+
+                            $data['is_approach'] = "friend";
+                        }
+
+
+                        if ($approchOwncheck != null) {
+
+                            $data['is_approach'] = "friend";
+                        }
+                    }
+                } elseif ($this->user->userdetail->gender == 'female' && $user->userdetail->gender == 'male') {
+
+
+                    $approch_check = null;
+                    $from_male_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    $from_female_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' =>  $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+
+
+                    if ($from_male_approch_check != null && $from_female_approch_check != null) {
+
+                        if ($from_male_approch_check->id < $from_female_approch_check->id) {
+                            $approch_check = $from_female_approch_check;
+                        } else {
+                            $approch_check = $from_male_approch_check;
+                        }
+                    } else if ($from_male_approch_check != null) {
+                        $approch_check = $from_male_approch_check;
+                    } else if ($from_female_approch_check != null) {
+                        $approch_check = $from_female_approch_check;
+                    }
+
+
+                    $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
+                    $seenProfileUser = $this->getLoginUserLatlog($user_id);
+
+                    $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
+                    $data['is_approach'] = "friend";
+
+                    if ($approch_check != null) {
+                        $data['relation_type'] = $approch_check->type;
+                        if ($approch_check->status == 'accepted') {
+                            $data['is_approach'] = "message";
+                        } else if ($approch_check->status == 'pending') {
+                            if ($approch_check->sender_id == $this->user->id) {
+
+                                $data['is_approach'] = "cancel";
+                            } else {
+                                $data['is_approach'] = "accept_reject";
+                            }
+
+
+                            if ($approch_check->type == 'approach') {
+
+                                $data['is_approach'] = "accept_reject";
+                            }
+                        } else if (($approch_check->status == 'rejected' && $approch_check->type == 'approach') || $approch_check->status == 'block') {
+
+                            $data['is_approach'] = "no_button";
+                        }
+                    }
+                } else if ($this->user->userdetail->gender == 'male' && $user->userdetail->gender == 'male') {
+
+
+                    $approch_check = null;
+                    $male1_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    $male2_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' =>  $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+
+
+                    if ($male1_approch_check != null && $male2_approch_check != null) {
+
+                        if ($male1_approch_check->id < $male2_approch_check->id) {
+                            $approch_check = $male2_approch_check;
+                        } else {
+                            $approch_check = $male1_approch_check;
+                        }
+                    } else if ($male1_approch_check != null) {
+                        $approch_check = $male1_approch_check;
+                    } else if ($male2_approch_check != null) {
+                        $approch_check = $male2_approch_check;
+                    }
+
+                    $data['relation_type'] = $approch_check->type;
+                    $data['is_approach'] = "friend";
+
+                    if ($approch_check != null) {
+
+                        if ($approch_check->status == 'accepted') {
+                            $data['is_approach'] = "message";
+                        } else if ($approch_check->status == 'pending') {
+
+                            $data['is_approach'] = "cancel";
+                        }
+                    }
+                } else if ($this->user->userdetail->gender == 'female' && $user->userdetail->gender == 'female') {
+
+
+                    $approch_check = null;
+                    $female1_approch_check = ApproachRequest::where(['sender_id' => $user_id, 'receiver_id' => $this->user->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    $female2_approch_check = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' =>  $user_id])->withTrashed()->orderBy('id', 'DESC')->first();
+
+
+                    if ($female1_approch_check != null && $female2_approch_check != null) {
+
+                        if ($female1_approch_check->id < $female2_approch_check->id) {
+                            $approch_check = $female2_approch_check;
+                        } else {
+                            $approch_check = $female1_approch_check;
+                        }
+                    } else if ($female1_approch_check != null) {
+                        $approch_check = $female1_approch_check;
+                    } else if ($female2_approch_check != null) {
+                        $approch_check = $female2_approch_check;
+                    }
+
+                    $data['relation_type'] = $approch_check->type;
+                    $data['is_approach'] = "friend";
+
+                    if ($approch_check != null) {
+
+                        if ($approch_check->status == 'accepted') {
+                            $data['is_approach'] = "message";
+                        } else if ($approch_check->status == 'pending') {
+
+                            $data['is_approach'] = "cancel";
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return response()->json(['status' => true, 'message' => "Success", 'data' => $data]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function checkRelationStatus($user_id)
