@@ -395,5 +395,16 @@ function is_ghost($userId)
     $targetDate = $currentDate->subDays($ghostSetting->ghost_day);
 
     $getData = ProfileSeenUser::select('profile_id', DB::raw('count(*) as view_count'))->where('profile_viewer_id', $userId)->whereDate('created_at', '>=', $targetDate)->groupBy('profile_id')->pluck('view_count');
-    dd($getData);
+    $collection = collect($getData);
+
+    // Check if there's any element greater than 10
+    $isBigDigitAvailable = $collection->contains(function ($value, $key) {
+        return $value > 10;
+    });
+
+    if ($isBigDigitAvailable) {
+        return "is_ghost";
+    } else {
+        return "not_ghost";
+    }
 }
