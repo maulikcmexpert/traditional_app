@@ -1727,7 +1727,7 @@ class UsersController_v2 extends BaseController
     public function manageRequestByFemale(Request $request)
     {
 
-        dd("")
+
         try {
 
             $page = 1;
@@ -2413,7 +2413,7 @@ class UsersController_v2 extends BaseController
 
     public function blockReason()
     {
-        $BlockReason =  BlockReason::select('id','reason')->get();
+        $BlockReason =  BlockReason::select('id', 'reason')->get();
 
 
         return response()->json(["status" => true, 'message' => 'Block Reasons', 'data' => $BlockReason]);
