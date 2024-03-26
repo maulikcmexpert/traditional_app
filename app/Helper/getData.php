@@ -394,6 +394,6 @@ function is_ghost($userId)
     // Subtract 5 days from the current date
     $targetDate = $currentDate->subDays($ghostSetting->ghost_day);
 
-    $getData = ProfileSeenUser::select('profile_id', DB::raw('count(*) as view_count'))->where('profile_viewer_id', $userId)->whereDate('created_at', '>=', $targetDate)->groupBy('profile_id')->get();
+    $getData = ProfileSeenUser::select('profile_id', DB::raw('count(*) as view_count'))->where('profile_viewer_id', $userId)->whereDate('created_at', '>=', $targetDate)->groupBy('profile_id')->pluck('view_count');
     dd($getData);
 }
