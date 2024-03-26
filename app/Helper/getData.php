@@ -403,8 +403,8 @@ function is_ghost($userId)
     });
 
     if ($isBigDigitAvailable) {
-        return "is_ghost";
+        return true;
     } else {
-        return "not_ghost";
+        return false;
     }
 }
