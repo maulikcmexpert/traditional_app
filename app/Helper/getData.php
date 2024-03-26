@@ -340,11 +340,20 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id, 
         });
     }
 
-    // Exclude blocked users
+
+    // Exclude blocked users where current user is the blocker
     $query->whereNotIn('id', function ($q) use ($user_id) {
         $q->select('to_be_blocked_user_id')
             ->from('profile_blocks')
             ->where('to_be_blocked_user_id', $user_id)
+            ->whereNull('deleted_at');
+    });
+
+    // Include profiles where current user is the blocked user
+    $query->orWhereIn('id', function ($q) use ($user_id) {
+        $q->select('blocked_user_id')
+            ->from('profile_blocks')
+            ->where('blocked_user_id', $user_id)
             ->whereNull('deleted_at');
     });
 
