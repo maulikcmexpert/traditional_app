@@ -240,7 +240,6 @@ function getManageRequestByMale($type, $page, $receiver_id)
             $getProfile = UserProfile::where(['user_id' => $val->receiver_id, 'is_default' => '1'])->first();
             $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
             $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
-            $userInfo['user_message'] = "";
         } else if ($is_role == 'receiver') {
 
             $userInfo['id'] = $val->id;
@@ -250,8 +249,8 @@ function getManageRequestByMale($type, $page, $receiver_id)
             $getProfile = UserProfile::where(['user_id' => $val->sender_id, 'is_default' => '1'])->first();
             $userInfo['profile'] = ($getProfile != null) ? asset('public/storage/profile/' . $getProfile->profile) : "";
             $userInfo['request_time'] =  ($val->status == 'rejected') ? setpostTime($val->deleted_at) : setpostTime($val->updated_at);
-            $userInfo['user_message'] = "";
         }
+        $userInfo['user_message'] = "";
         $userInfo['relation_type'] =  $val->type;
 
         $userInfo['status'] = $val->status;
