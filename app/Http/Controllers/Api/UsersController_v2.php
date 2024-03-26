@@ -2234,7 +2234,7 @@ class UsersController_v2 extends BaseController
         if ($validator->fails()) {
             return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
-
+        $checkIsGhost = is_ghost($request->user_id);
         if ($request->type == 'block') {
             $checkIsBlock = ProfileBlock::where([
                 'blocker_user_id' => $this->user->id,
