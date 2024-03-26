@@ -361,7 +361,7 @@ function getSearchUser($search_name, $city, $page, $organizationName, $user_id, 
             'id' => $val->id,
             'name' => $val->full_name,
             'city' => $val->userdetail->city ?? "",
-
+            'is_ghost' => is_ghost($val->id),
             'profile' => ($userProfile != null) ? asset('public/storage/profile/' . $userProfile->profile) : ""
         ];
         $userData[] = $userInfo;
