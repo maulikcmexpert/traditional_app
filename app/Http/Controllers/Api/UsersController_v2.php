@@ -1460,9 +1460,10 @@ class UsersController_v2 extends BaseController
 
             foreach ($result as $val) {
 
-                $already_friend = ApproachRequest::where(function ($query) use ($request) {
-                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id, 'type' => 'friend'])
-                        ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id, 'type' => 'friend']);
+                $femaleId = $val->id;
+                $already_friend = ApproachRequest::where(function ($query) use ($femaleId) {
+                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $femaleId, 'type' => 'friend'])
+                        ->orWhere(['sender_id' => $femaleId, 'receiver_id' => $this->user->id, 'type' => 'friend']);
                 })
                     ->orderBy('id', 'DESC')
 
