@@ -1686,6 +1686,11 @@ class UsersController_v2 extends BaseController
             }
 
             if ($approchOwncheck != null) {
+
+                return response()->json(["status" => false, 'message' => 'You have already committed with another user']);
+            }
+
+            if ($female_approch_check != null) {
                 return response()->json(["status" => false, 'message' => 'You have already committed with another user']);
             }
         } catch (QueryException $e) {
