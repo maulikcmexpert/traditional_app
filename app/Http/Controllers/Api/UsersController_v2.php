@@ -1943,21 +1943,25 @@ class UsersController_v2 extends BaseController
                         $cancelLeftRequest = ApproachRequest::where(['receiver_id' => $this->user->id, 'status' => 'pending'])->where('sender_id', '!=', $request->user_id)->get();
 
                         if (count($cancelLeftRequest) != 0) {
-                            foreach ($cancelLeftRequest as $val)
+                            foreach ($cancelLeftRequest as $val) {
+
                                 $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
-                            $cancelThisReq->status = 'cancelled';
-                            $cancelThisReq->save();
-                            $cancelThisReq->delete();
+                                $cancelThisReq->status = 'cancelled';
+                                $cancelThisReq->save();
+                                $cancelThisReq->delete();
+                            }
                         }
 
                         $cancelLeftRequestOfMale = ApproachRequest::where(['sender_id' =>  $request->user_id, 'status' => 'pending'])->where('receiver_id', '!=', $this->user->id)->get();
-                        dd($cancelLeftRequestOfMale);
+
                         if (count($cancelLeftRequestOfMale) != 0) {
-                            foreach ($cancelLeftRequestOfMale as $value1)
+                            foreach ($cancelLeftRequestOfMale as $value1) {
+
                                 $cancelThisReqMale = ApproachRequest::where(['id' => $value1->id])->first();
-                            $cancelThisReqMale->status = 'cancelled';
-                            $cancelThisReqMale->save();
-                            $cancelThisReqMale->delete();
+                                $cancelThisReqMale->status = 'cancelled';
+                                $cancelThisReqMale->save();
+                                $cancelThisReqMale->delete();
+                            }
                         }
 
                         $notificationData = [
