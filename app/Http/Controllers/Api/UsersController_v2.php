@@ -39,6 +39,7 @@ use App\Models\UserReportChat;
 
 use App\Models\UserDetail;
 use App\Models\Device;
+use App\Models\FeedbackReviewList;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Rules\FullNameValidation;
@@ -2509,5 +2510,13 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Block Reasons', 'data' => $BlockReason]);
+    }
+
+    public function feedbackReviewList()
+    {
+        $feedbackReviewList =  FeedbackReviewList::select('id', 'feedback_review')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Feedback Review List', 'data' => $feedbackReviewList]);
     }
 }
