@@ -275,6 +275,7 @@ function getManageRequestByMale($type, $page, $receiver_id)
                     $userInfo['message'] = __('messages.friend_request_msg');
                 } elseif ($is_role == 'sender') {
                     $userInfo['message'] = '$NAME';
+                    $userInfo['is_approach'] = "cancel";
                 }
             } else if ($type == 'rejected') {
 
