@@ -2499,7 +2499,7 @@ class UsersController_v2 extends BaseController
         $feedback_user = new FeedbackReview();
         $feedback_user->by_user_id = $this->user->id;
         $feedback_user->feedback_review_id = $request->selected_feedback;
-        $feedback_user->to_be_feedback_user_id = $request->to_be_feedback_user_id;
+        $feedback_user->user_id = $request->to_be_feedback_user_id;
         $feedback_user->review = $request->feedback_message;
 
 
