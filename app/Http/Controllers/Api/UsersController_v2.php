@@ -19,6 +19,7 @@ use App\Models\State;
 use App\Models\ZodiacSign;
 
 use App\Models\ApproachRequest;
+use App\Models\BadWord;
 use App\Models\BlockReason;
 use App\Models\Country;
 use Kreait\Firebase\Factory;
@@ -2574,5 +2575,13 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Feedback Review List', 'data' => $feedbackReviewList]);
+    }
+
+    public function CertainWordList()
+    {
+        $certainWordList =  BadWord::select('id', 'words')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Feedback Review List', 'data' => $certainWordList]);
     }
 }
