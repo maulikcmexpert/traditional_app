@@ -1951,13 +1951,13 @@ class UsersController_v2 extends BaseController
                         }
 
                         $cancelLeftRequestOfMale = ApproachRequest::where(['sender_id' =>  $request->user_id, 'status' => 'pending'])->where('receiver_id', '!=', $this->user->id)->get();
-
+                        dd($cancelLeftRequestOfMale);
                         if (count($cancelLeftRequestOfMale) != 0) {
-                            foreach ($cancelLeftRequestOfMale as $val)
-                                $cancelThisReq = ApproachRequest::where(['id' => $val->id])->first();
-                            $cancelThisReq->status = 'cancelled';
-                            $cancelThisReq->save();
-                            $cancelThisReq->delete();
+                            foreach ($cancelLeftRequestOfMale as $value1)
+                                $cancelThisReqMale = ApproachRequest::where(['id' => $value1->id])->first();
+                            $cancelThisReqMale->status = 'cancelled';
+                            $cancelThisReqMale->save();
+                            $cancelThisReqMale->delete();
                         }
 
                         $notificationData = [
