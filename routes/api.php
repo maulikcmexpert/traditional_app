@@ -130,6 +130,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('friend_request', [UsersController_v2::class, 'friendRequest'])->middleware('check_user');
     Route::post('report_user', [UsersController_v2::class, 'ReportUser'])->middleware('check_user');
     Route::get('feedback_review_list', [UsersController_v2::class, 'feedbackReviewList'])->middleware('check_user');
+    Route::get('feedback_review_user', [UsersController_v2::class, 'feedbackReviewUser'])->middleware('check_user');
 
 
     // Route::middleware(['check_user'])->group( function () {
