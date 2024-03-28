@@ -2412,7 +2412,7 @@ class UsersController_v2 extends BaseController
             $request->all(),
             [
                 'to_be_reported_user_id' => ['required', 'integer'],
-                'report_message' => ['required', 'text'],
+                'report_message' => ['required', 'string'],
             ],
             [
                 'report_message.required' => "Please enter Report Message"
