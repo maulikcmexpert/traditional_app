@@ -131,6 +131,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('report_user', [UsersController_v2::class, 'ReportUser'])->middleware('check_user');
     Route::get('feedback_review_list', [UsersController_v2::class, 'feedbackReviewList']);
     Route::post('user_feedback', [UsersController_v2::class, 'UserFeedback'])->middleware('check_user');
+    Route::get('certain_word_list', [UsersController_v2::class, 'CertainWordList']);
 
 
     // Route::middleware(['check_user'])->group( function () {
