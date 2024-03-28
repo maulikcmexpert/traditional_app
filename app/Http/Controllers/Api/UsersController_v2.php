@@ -844,7 +844,7 @@ class UsersController_v2 extends BaseController
                         } else if ($from_female_approch_check != null) {
                             $approch_check = $from_female_approch_check;
                         }
-                        dd($approch_check);
+
                         if ($approch_check != null) {
                             $data['relation_type'] = $approch_check->type;
 
@@ -866,13 +866,16 @@ class UsersController_v2 extends BaseController
 
 
                                 $data['is_approach'] = "friend";
-                                if ($distance <= 5) {
-                                    $data['is_approach'] = "approach";
+                                $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'type' => 'approach', 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
+                                if ($female_approch_check == null) {
+
+                                    if ($distance <= 5) {
+                                        $data['is_approach'] = "approach";
+                                    }
                                 }
                             }
                         } else {
-                            echo "hi";
-                            exit;
+
                             $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'type' => 'approach', 'status' => 'accepted',])->withTrashed()->orderBy('id', 'DESC')->first();
                             $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'type' => 'approach', 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
 
