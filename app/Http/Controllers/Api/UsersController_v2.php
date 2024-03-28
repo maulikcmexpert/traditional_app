@@ -2442,7 +2442,8 @@ class UsersController_v2 extends BaseController
 
         if (!empty($request->report_chat_list)) {
             $report_id = $report_user->id;
-            foreach ($request->report_chat_list as $value) {
+            $chatData = json_decode($request->report_chat_list, true);
+            foreach ($chatData as $value) {
 
                 $reportChat =  new UserReportChat();
                 $reportChat->report_id = $report_id;
