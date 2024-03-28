@@ -39,6 +39,7 @@ use App\Models\UserReportChat;
 
 use App\Models\UserDetail;
 use App\Models\Device;
+use App\Models\FeedbackReview;
 use App\Models\FeedbackReviewList;
 use App\Models\Notification;
 use App\Models\Setting;
@@ -2408,71 +2409,126 @@ class UsersController_v2 extends BaseController
     public function ReportUser(Request $request)
     {
 
-        // try {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'to_be_reported_user_id' => ['required', 'integer'],
-                'report_message' => ['required', 'string'],
-            ],
-            [
-                'report_message.required' => "Please enter Report Message"
-            ]
-        );
+        try {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'to_be_reported_user_id' => ['required', 'integer'],
+                    'report_message' => ['required', 'string'],
+                ],
+                [
+                    'report_message.required' => "Please enter Report Message"
+                ]
+            );
 
-        if ($validator->fails()) {
-            return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
-        }
-
-        DB::beginTransaction();
-        $report_user = new Report();
-        $report_user->reporter_user_id = $this->user->id;
-        $report_user->to_be_reported_user_id = $request->to_be_reported_user_id;
-        $report_user->report_message = $request->report_message;
-        if (!empty($request->report_image)) {
-            $image = $request->report_image;
-
-            $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-
-
-            $image->move(public_path('storage/report_media'), $imageName);
-            $report_user->report_image = $imageName;
-        }
-
-        $report_user->save();
-
-        if (!empty($request->report_chat_list)) {
-            $report_id = $report_user->id;
-            $chatData = json_decode($request->report_chat_list, true);
-            foreach ($chatData as $value) {
-
-                $reportChat =  new UserReportChat();
-                $reportChat->report_id = $report_id;
-                $reportChat->sender_id = $value['sender_id'];
-                $reportChat->message = $value['message'];
-                $reportChat->save();
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
             }
+
+            DB::beginTransaction();
+            $report_user = new Report();
+            $report_user->reporter_user_id = $this->user->id;
+            $report_user->to_be_reported_user_id = $request->to_be_reported_user_id;
+            $report_user->report_message = $request->report_message;
+            if (!empty($request->report_image)) {
+                $image = $request->report_image;
+
+                $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+
+
+                $image->move(public_path('storage/report_media'), $imageName);
+                $report_user->report_image = $imageName;
+            }
+
+            $report_user->save();
+
+            if (!empty($request->report_chat_list)) {
+                $report_id = $report_user->id;
+                $chatData = json_decode($request->report_chat_list, true);
+                foreach ($chatData as $value) {
+
+                    $reportChat =  new UserReportChat();
+                    $reportChat->report_id = $report_id;
+                    $reportChat->sender_id = $value['sender_id'];
+                    $reportChat->message = $value['message'];
+                    $reportChat->save();
+                }
+            }
+
+            DB::commit();
+
+            $response = [
+                'status' => true,
+                'message' => __('messages.report_success_msg')
+            ];
+
+            return response()->json($response);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        DB::commit();
-
-        $response = [
-            'status' => true,
-            'message' => __('messages.report_success_msg')
-        ];
-
-        return response()->json($response);
-        // } catch (QueryException $e) {
-
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
+
+    public function UserFeedback(Request $request)
+    {
+
+        try {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'selected_feedback' => ['required'],
+                    'to_be_feedback_user_id' => ['required', 'integer'],
+                    'feedback_message' => ['required', 'string'],
+                ],
+                [
+                    'feedback_message.required' => "Please enter Feedback / Review"
+                ]
+            );
+
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            }
+
+            DB::beginTransaction();
+            $feedback_user = new FeedbackReview();
+            $feedback_user->by_user_id = $this->user->id;
+            $feedback_user->feedback_review_id = $request->selected_feedback;
+            $feedback_user->to_be_feedback_user_id = $request->to_be_feedback_user_id;
+            $feedback_user->review = $request->feedback_message;
+
+
+            $feedback_user->save();
+
+
+
+            DB::commit();
+
+            $response = [
+                'status' => true,
+                'message' => __('messages.feedback_success_msg')
+            ];
+
+            return response()->json($response);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+
+
     public function clearNotification()
     {
         try {
