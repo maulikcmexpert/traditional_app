@@ -27,6 +27,7 @@ return [
     'self_friend_request_rejected_msg' => 'Hey You have rejected friend request of $NAME',
     'friend_request_rejected_msg' => 'Hey $NAME have rejected your friend request',
     'friend_cancel_msg' => 'After initiating an friend request, $NAME has cancelled the request',
+    'report_success_msg' => 'Report successfully',
 
 
     // manage request by male // 

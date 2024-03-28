@@ -128,6 +128,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('delete_notification', [UsersController_v2::class, 'deleteNotification'])->middleware('check_user');
     Route::get('clear_notification', [UsersController_v2::class, 'clearNotification'])->middleware('check_user');
     Route::post('friend_request', [UsersController_v2::class, 'friendRequest'])->middleware('check_user');
+    Route::post('report_user', [UsersController_v2::class, 'ReportUser'])->middleware('check_user');
 
 
     // Route::middleware(['check_user'])->group( function () {

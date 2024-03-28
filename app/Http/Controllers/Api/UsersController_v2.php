@@ -34,6 +34,8 @@ use App\Models\UserInterestAndHobby;
 use App\Models\UserLifestyle;
 use App\Models\UserShwstpprQue;
 use App\Models\User;
+use App\Models\Report;
+use App\Models\UserReportChat;
 
 use App\Models\UserDetail;
 use App\Models\Device;
@@ -1510,10 +1512,9 @@ class UsersController_v2 extends BaseController
             return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "Something went wrong"]);
         }
-        //  catch (\Exception $e) {
-        //     return response()->json(['status' => false, 'message' => "Something went wrong"]);
-        // }
     }
 
 
@@ -2391,6 +2392,74 @@ class UsersController_v2 extends BaseController
             } else {
                 return response()->json(["status" => false, 'message' => 'Request not found']);
             }
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function ReportUser(Request $request)
+    {
+
+        try {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'to_be_reported_user_id' => ['required', 'integer'],
+                    'report_message' => ['required', 'text'],
+                ],
+                [
+                    'report_message.required' => "Please enter Report Message"
+                ]
+            );
+
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            }
+
+            DB::beginTransaction();
+            $report_user = new Report();
+            $report_user->reporter_user_id = $this->user->id;
+            $report_user->to_be_reported_user_id = $request->to_be_reported_user_id;
+            $report_user->report_message = $request->report_message;
+            if (!empty($request->report_image)) {
+                $image = $request->report_image;
+
+                $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+
+
+                $image->move(public_path('storage/report_media'), $imageName);
+                $report_user->report_image = $imageName;
+            }
+
+            $report_user->save();
+
+            if (!empty($request->report_chat_list)) {
+                $report_id = $report_user->id;
+                foreach ($request->report_chat_list as $value) {
+
+                    $reportChat =  new UserReportChat();
+                    $reportChat->report_id = $report_id;
+                    $reportChat->sender_id = $value['sender_id'];
+                    $reportChat->message = $value['message'];
+                    $reportChat->save();
+                }
+            }
+
+            DB::commit();
+
+            $response = [
+                'status' => true,
+                'message' => __('messages.report_success_msg')
+            ];
+
+            return response()->json($response);
         } catch (QueryException $e) {
 
             DB::rollBack();

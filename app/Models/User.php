@@ -142,6 +142,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Country::class, 'country_id');
     }
+    public function  user_report_chat()
+    {
+        return $this->belongsTo(UserReportChat::class, 'sender_id');
+    }
 
 
 
