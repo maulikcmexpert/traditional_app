@@ -867,7 +867,7 @@ class UsersController_v2 extends BaseController
                                 if ($approch_check->type == 'approach') {
                                     $data['is_approach'] = "withdrawn";
                                 }
-                            } else if (($approch_check->status == 'cancelled') || ($approch_check->status == 'unblock') || ($approch_check->status == 'rejected' &&  $approch_check->type == 'friend')) {
+                            } else if (($approch_check->status == 'cancelled') || ($approch_check->status == 'leave') || ($approch_check->status == 'unblock') || ($approch_check->status == 'rejected' &&  $approch_check->type == 'friend')) {
 
 
                                 $data['is_approach'] = "friend";
@@ -1498,7 +1498,7 @@ class UsersController_v2 extends BaseController
                     continue;
                 }
 
-                $already_approched = ApproachRequest::where(['receiver_id' => $val->id, 'status' => 'accepted'])->orderBy('id', 'DESC')->first();
+                $already_approched = ApproachRequest::where(['receiver_id' => $val->id, 'type' => 'approach', 'status' => 'accepted'])->orderBy('id', 'DESC')->first();
                 if ($already_approched != null) {
                     continue;
                 }
