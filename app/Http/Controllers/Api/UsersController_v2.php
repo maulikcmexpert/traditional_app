@@ -2588,6 +2588,6 @@ class UsersController_v2 extends BaseController
         $certainWordList =  BadWord::select('id', 'words')->get();
 
 
-        return response()->json(["status" => true, 'message' => 'Feedback Review List', 'data' => $certainWordList]);
+        return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $certainWordList]);
     }
 }
