@@ -2247,101 +2247,100 @@ class UsersController_v2 extends BaseController
     public function blockUnblockToUser(Request $request)
     {
 
-        // try {
+        try {
 
-        $validator = Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
 
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'type' => ['required', 'in:block,unblock,remove'],
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'type' => ['required', 'in:block,unblock,remove'],
 
-        ]);
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            if ($request->type == 'block') {
+                $checkIsBlock = ProfileBlock::where([
+                    'blocker_user_id' => $this->user->id,
+                    'to_be_blocked_user_id' => $request->user_id
+                ])->first();
+                if ($checkIsBlock == null) {
+                    DB::beginTransaction();
+                    $checkReason = BlockReason::where('id', $request->block_reason_id)->first();
+
+                    $blockToUser = new ProfileBlock();
+                    $blockToUser->blocker_user_id  = $this->user->id;
+                    $blockToUser->to_be_blocked_user_id   = $request->user_id;
+                    $blockToUser->block_reason_id   = $request->block_reason_id;
+
+                    $blockToUser->reason = $checkReason->reason;
+                    if ($checkReason != null && $checkReason->reason == 'Others') {
+                        $blockToUser->reason = $request->message;
+                    }
+                    $blockToUser->save();
+
+                    // check from login user //
+                    $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
+                        $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                            ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+                    })
+                        ->orderBy('id', 'DESC')
+                        ->first();
+                    if ($changeApproachStatus != null) {
+
+                        $changeApproachStatus->status = 'block';
+                        $changeApproachStatus->save();
+                        // $changeApproachStatus->delete();
+                    }
+                    DB::commit();
+
+                    return response()->json(['status' => true, 'message' => "blocked successfully"]);
+                }
+                return response()->json(['status' => true, 'message' => "already blocked"]);
+            } else if ($request->type == 'unblock') {
+                $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
+
+                if ($unblockToUser != null) {
+                    DB::beginTransaction();
+                    $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
+                        $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                            ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+                    })
+                        ->orderBy('id', 'DESC')
+                        ->first();
+                    if ($changeApproachStatus != null) {
+
+                        $changeApproachStatus->status = 'unblock';
+                        $changeApproachStatus->save();
+                        $changeApproachStatus->delete();
+                    }
+                    $unblockToUser->delete();
+                    DB::commit();
+                    return response()->json(['status' => true, 'message' => "unblocked successfully"]);
+                }
+                return response()->json(['status' => true, 'message' => "User not found"]);
+            } else if ($request->type == 'remove') {
+                $removeBlockUser = ProfileBlock::where([
+                    'blocker_user_id' => $this->user->id,
+                    'to_be_blocked_user_id' => $request->user_id
+                ])->first();
+                if ($removeBlockUser != null) {
+                    $removeBlockUser->is_remove = '1';
+                    $removeBlockUser->save();
+                    return response()->json(['status' => true, 'message' => "blocked user removed successfully"]);
+                }
+            }
+            return response()->json(['status' => true, 'message' => "try again"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        if ($request->type == 'block') {
-            $checkIsBlock = ProfileBlock::where([
-                'blocker_user_id' => $this->user->id,
-                'to_be_blocked_user_id' => $request->user_id
-            ])->first();
-            if ($checkIsBlock == null) {
-                DB::beginTransaction();
-                $checkReason = BlockReason::where('id', $request->block_reason_id)->first();
-
-                $blockToUser = new ProfileBlock();
-                $blockToUser->blocker_user_id  = $this->user->id;
-                $blockToUser->to_be_blocked_user_id   = $request->user_id;
-                $blockToUser->block_reason_id   = $request->block_reason_id;
-
-                $blockToUser->reason = $checkReason->reason;
-                if ($checkReason != null && $checkReason->reason == 'Others') {
-                    $blockToUser->reason = $request->message;
-                }
-                $blockToUser->save();
-
-                // check from login user //
-                $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
-                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                        ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
-                })
-                    ->orderBy('id', 'DESC')
-                    ->first();
-                if ($changeApproachStatus != null) {
-
-                    $changeApproachStatus->status = 'block';
-                    $changeApproachStatus->save();
-                    // $changeApproachStatus->delete();
-                }
-                DB::commit();
-
-                return response()->json(['status' => true, 'message' => "blocked successfully"]);
-            }
-            return response()->json(['status' => true, 'message' => "already blocked"]);
-        } else if ($request->type == 'unblock') {
-            $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
-
-            if ($unblockToUser != null) {
-                DB::beginTransaction();
-                $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
-                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                        ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
-                })
-                    ->orderBy('id', 'DESC')
-                    ->first();
-                if ($changeApproachStatus != null) {
-
-                    $changeApproachStatus->status = 'unblock';
-                    $changeApproachStatus->save();
-                    $changeApproachStatus->delete();
-                }
-                $unblockToUser->delete();
-                DB::commit();
-                return response()->json(['status' => true, 'message' => "unblocked successfully"]);
-            }
-            return response()->json(['status' => true, 'message' => "User not found"]);
-        } else if ($request->type == 'remove') {
-            $removeBlockUser = ProfileBlock::where([
-                'blocker_user_id' => $this->user->id,
-                'to_be_blocked_user_id' => $request->user_id
-            ])->first();
-            if ($removeBlockUser != null) {
-                $removeBlockUser->is_remove = '1';
-                $removeBlockUser->save();
-                return response()->json(['status' => true, 'message' => "blocked user removed successfully"]);
-            }
-        }
-        return response()->json(['status' => true, 'message' => "try again"]);
-        // } 
-        // catch (QueryException $e) {
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
     public function notificationList(Request $request)
@@ -2485,53 +2484,53 @@ class UsersController_v2 extends BaseController
     public function UserFeedback(Request $request)
     {
 
-        // try {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'selected_feedback' => ['required'],
-                'to_be_feedback_user_id' => ['required', 'integer'],
-                'feedback_message' => ['required', 'string'],
-            ],
-            [
-                'feedback_message.required' => "Please enter Feedback / Review"
-            ]
-        );
+        try {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'selected_feedback' => ['required'],
+                    'to_be_feedback_user_id' => ['required', 'integer'],
+                    'feedback_message' => ['required', 'string'],
+                ],
+                [
+                    'feedback_message.required' => "Please enter Feedback / Review"
+                ]
+            );
 
-        if ($validator->fails()) {
-            return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            }
+
+            DB::beginTransaction();
+            $feedback_user = new FeedbackReview();
+            $feedback_user->by_user_id = $this->user->id;
+            $feedback_user->feedback_review_id = json_encode($request->selected_feedback);
+            $feedback_user->user_id = $request->to_be_feedback_user_id;
+            $feedback_user->review = $request->feedback_message;
+
+
+            $feedback_user->save();
+
+
+
+            DB::commit();
+
+            $response = [
+                'status' => true,
+                'message' => __('messages.feedback_success_msg')
+            ];
+
+            return response()->json($response);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        DB::beginTransaction();
-        $feedback_user = new FeedbackReview();
-        $feedback_user->by_user_id = $this->user->id;
-        $feedback_user->feedback_review_id = json_encode($request->selected_feedback);
-        $feedback_user->user_id = $request->to_be_feedback_user_id;
-        $feedback_user->review = $request->feedback_message;
-
-
-        $feedback_user->save();
-
-
-
-        DB::commit();
-
-        $response = [
-            'status' => true,
-            'message' => __('messages.feedback_success_msg')
-        ];
-
-        return response()->json($response);
-        // } catch (QueryException $e) {
-
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
 
@@ -2589,5 +2588,55 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $certainWordList]);
+    }
+
+    public function DisconnectToUser(Request $request)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'disconnect_reason_id' => ['required'],
+
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+
+            $approch_check = ApproachRequest::where(function ($query) use ($request) {
+                $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                    ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+            })
+                ->where('status', 'accepted')
+                ->withTrashed()
+                ->orderBy('id', 'DESC')
+                ->first();
+            if ($approch_check != null) {
+                DB::beginTransaction();
+                $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
+
+
+                $approch_check->status  = 'leave';
+                $approch_check->save();
+                $approch_check->delete();
+                DB::commit();
+
+                return response()->json(['status' => true, 'message' => "Leave successfully"]);
+            }
+            return response()->json(['status' => true, 'message' => "already Leave"]);
+
+            return response()->json(['status' => true, 'message' => "try again"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
     }
 }
