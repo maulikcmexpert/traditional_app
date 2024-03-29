@@ -2592,6 +2592,8 @@ class UsersController_v2 extends BaseController
 
     public function DisconnectToUser(Request $request)
     {
+
+
         try {
 
             $validator = Validator::make($request->all(), [
@@ -2620,13 +2622,18 @@ class UsersController_v2 extends BaseController
 
 
                 $approch_check->status  = 'leave';
+                $approch_check->message = $checkReason->reason;
+                if ($checkReason != null && $checkReason->reason == 'Others') {
+                    $approch_check->reason = $request->message;
+                }
                 $approch_check->save();
                 $approch_check->delete();
+
                 DB::commit();
 
-                return response()->json(['status' => true, 'message' => "Leave successfully"]);
+                return response()->json(['status' => true, 'message' => "blocked successfully"]);
             }
-            return response()->json(['status' => true, 'message' => "already Leave"]);
+            return response()->json(['status' => true, 'message' => "already blocked"]);
 
             return response()->json(['status' => true, 'message' => "try again"]);
         } catch (QueryException $e) {
