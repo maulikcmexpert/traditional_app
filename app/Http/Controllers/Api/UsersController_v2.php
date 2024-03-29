@@ -1211,6 +1211,16 @@ class UsersController_v2 extends BaseController
 
     public function getApproachPreference()
     {
+        $result = ApproachPreference::where('user_id', $this->user->id)->first();
+        if ($result != null) {
+            if ($result->religious_preference != null) {
+                $religious_preference = json_decode($result->religious_preference);
+                $religious = Religion::select('id', 'religion')->whereIn('id', $religious_preference)->get();
+                $result['religious_preference'] = $religious;
+                return response()->json(["status" => true, 'message' => "Approach reference", "data" => $result]);
+            }
+            return response()->json(["status" => false, 'message' => "Data not found", "data" => null]);
+        }
     }
     public function updateApproachPreference(Request $request)
     {
