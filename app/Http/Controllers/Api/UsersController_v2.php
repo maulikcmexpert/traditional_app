@@ -1487,13 +1487,10 @@ class UsersController_v2 extends BaseController
                         ->orWhere(['sender_id' => $femaleId, 'receiver_id' => $maleId]);
                 })
                     ->where(['status' => 'accepted'])
-                    ->orderBy('id', 'DESC');
+                    ->orderBy('id', 'DESC')
+                    ->count();
 
-                $q = $already_friend->toSql();
-                dd($q);
-                // ->count();
-
-
+                dd($already_friend);
                 if ($already_friend == 1) {
                     continue;
                 }
