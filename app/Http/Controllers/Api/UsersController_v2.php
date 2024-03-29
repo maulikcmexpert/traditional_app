@@ -1494,7 +1494,7 @@ class UsersController_v2 extends BaseController
                 })
                     ->where('status', 'accepted')
                     ->orderBy('id', 'DESC')
-                    ->get();
+                    ->count();
 
                 if ($already_friend == 1) {
                     continue;
