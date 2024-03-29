@@ -2391,18 +2391,18 @@ class UsersController_v2 extends BaseController
 
                 if ($unblockToUser != null) {
                     DB::beginTransaction();
-                    $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
+                    $changeUnBlockApproachStatus = ApproachRequest::where(function ($query) use ($request) {
                         $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
                             ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
                     })
                         ->orderBy('id', 'DESC')
                         ->first();
 
-                    if ($changeApproachStatus != null) {
+                    if ($changeUnBlockApproachStatus != null) {
 
-                        $changeApproachStatus->status = 'unblock';
-                        $changeApproachStatus->save();
-                        $changeApproachStatus->delete();
+                        $changeUnBlockApproachStatus->status = 'unblock';
+                        $changeUnBlockApproachStatus->save();
+                        $changeUnBlockApproachStatus->delete();
                     }
                     $unblockToUser->delete();
                     DB::commit();
