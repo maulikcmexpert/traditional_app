@@ -1480,30 +1480,26 @@ class UsersController_v2 extends BaseController
 
             foreach ($result as $key => $val) {
 
+
                 $femaleId = $val->id;
                 $maleId = $this->user->id;
-                // $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
-                //     $query->where(['sender_id' => $maleId, 'receiver_id' => $femaleId])
-                //         ->orWhere(['sender_id' => $femaleId, 'receiver_id' => $maleId]);
-                // })
-                //     ->where(['status' => 'accepted'])
-                //     ->orderBy('id', 'DESC')
-                //     ->count();
-                if ($key == 1) {
+                $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
+                    $query->where(function ($query) use ($femaleId, $maleId) {
+                        $query->where('sender_id', $maleId)
+                            ->where('receiver_id', $femaleId);
+                    })->orWhere(function ($query) use ($femaleId, $maleId) {
+                        $query->where('sender_id', $femaleId)
+                            ->where('receiver_id', $maleId);
+                    });
+                })
+                    ->where('status', 'accepted')
+                    ->orderBy('id', 'DESC')
+                    ->get();
 
-                    $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
-                        $query->where(['sender_id' => $maleId, 'receiver_id' => $femaleId])
-                            ->orWhere(['sender_id' => $femaleId, 'receiver_id' => $maleId]);
-                    })
-                        ->where(['status' => 'accepted'])
-                        ->orderBy('id', 'DESC')
-                        ->get();
-
-                    dd($already_friend);
-                    if ($already_friend == 1) {
-                        continue;
-                    }
+                if ($already_friend == 1) {
+                    continue;
                 }
+
 
                 $already_approched = ApproachRequest::where(['receiver_id' => $val->id, 'type' => 'approach', 'status' => 'accepted'])->orderBy('id', 'DESC')->first();
                 if ($already_approched != null) {
