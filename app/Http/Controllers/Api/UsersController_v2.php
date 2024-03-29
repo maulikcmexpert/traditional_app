@@ -885,7 +885,7 @@ class UsersController_v2 extends BaseController
 
                             $approchOwncheck = ApproachRequest::where(['sender_id' => $this->user->id, 'type' => 'approach', 'status' => 'accepted',])->withTrashed()->orderBy('id', 'DESC')->first();
                             $female_approch_check = ApproachRequest::where(['receiver_id' => $user_id, 'type' => 'approach', 'status' => 'accepted'])->withTrashed()->orderBy('id', 'DESC')->first();
-                            dd($female_approch_check);
+
                             if ($approchOwncheck == null && $female_approch_check == null) {
 
 
@@ -901,7 +901,7 @@ class UsersController_v2 extends BaseController
                             }
 
 
-                            if ($approchOwncheck != null) {
+                            if ($female_approch_check != null) {
 
                                 $data['is_approach'] = "friend";
                             }
