@@ -2622,6 +2622,7 @@ class UsersController_v2 extends BaseController
 
 
             $approch_check->status  = 'leave';
+            $approch_check->leave_reason_id   = $request->disconnect_reason_id;
             $approch_check->message = $checkReason->message;
             if ($checkReason != null && $checkReason->reason == 'Others') {
                 $approch_check->reason = $request->message;
@@ -2631,9 +2632,9 @@ class UsersController_v2 extends BaseController
 
             DB::commit();
 
-            return response()->json(['status' => true, 'message' => "blocked successfully"]);
+            return response()->json(['status' => true, 'message' => "Leave successfully"]);
         }
-        return response()->json(['status' => true, 'message' => "already blocked"]);
+        return response()->json(['status' => true, 'message' => "Already leave"]);
 
         return response()->json(['status' => true, 'message' => "try again"]);
         // } catch (QueryException $e) {
