@@ -1491,6 +1491,7 @@ class UsersController_v2 extends BaseController
                 //     ->count();
                 if ($key == 1) {
                     echo $femaleId = $val->id;
+                    echo $this->user->id;
                     exit;
                     $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
                         $query->where(['sender_id' => $maleId, 'receiver_id' => $femaleId])
