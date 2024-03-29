@@ -18,7 +18,9 @@ use App\Models\{
     UserShwstpperAnswr,
     UserSubscription,
     Notification,
-    Device
+    Device,
+    ApproachPreference,
+    UserReportChat
 };
 
 class User extends Authenticatable
@@ -146,7 +148,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UserReportChat::class, 'sender_id');
     }
-
+    public function  approach_preference()
+    {
+        return $this->hasOne(ApproachPreference::class);
+    }
 
 
     // public function user_showstoppers_answers()
