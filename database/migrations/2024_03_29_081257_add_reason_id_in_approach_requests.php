@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('approach_requests', function (Blueprint $table) {
-            $table->unsignedBigInteger('reason_id')->after('message');
-            $table->foreign('reason_id')->references('id')->on('leave_reasons')->onDelete('cascade');
+            $table->unsignedBigInteger('leave_reason_id')->after('message');
+            $table->foreign('leave_reason_id')->references('id')->on('leave_reasons')->onDelete('cascade');
         });
     }
 
