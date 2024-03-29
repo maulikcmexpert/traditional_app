@@ -2395,9 +2395,10 @@ class UsersController_v2 extends BaseController
                         $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
                             ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
                     })
+                        ->where('status', 'block')
                         ->orderBy('id', 'DESC')
                         ->first();
-
+                    dd($changeUnBlockApproachStatus);
                     if ($changeUnBlockApproachStatus != null) {
 
                         $changeUnBlockApproachStatus->status = 'unblock';
