@@ -985,8 +985,12 @@ class UsersController_v2 extends BaseController
                             if ($approch_check->status == 'accepted') {
                                 $data['is_approach'] = "message";
                             } else if ($approch_check->status == 'pending') {
+                                if ($this->user->id == $approch_check->sender_id) {
 
-                                $data['is_approach'] = "cancel";
+                                    $data['is_approach'] = "cancel";
+                                } else if ($this->user->id  == $approch_check->receiver_id) {
+                                    $data['is_approach'] = "accept_reject";
+                                }
                             }
                         }
                     } else if ($this->user->userdetail->gender == 'female' && $user->userdetail->gender == 'female') {
@@ -1018,8 +1022,12 @@ class UsersController_v2 extends BaseController
                             if ($approch_check->status == 'accepted') {
                                 $data['is_approach'] = "message";
                             } else if ($approch_check->status == 'pending') {
+                                if ($this->user->id == $approch_check->sender_id) {
 
-                                $data['is_approach'] = "cancel";
+                                    $data['is_approach'] = "cancel";
+                                } else if ($this->user->id  == $approch_check->receiver_id) {
+                                    $data['is_approach'] = "accept_reject";
+                                }
                             }
                         }
                     }
