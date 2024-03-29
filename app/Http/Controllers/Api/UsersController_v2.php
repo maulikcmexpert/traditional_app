@@ -1244,7 +1244,7 @@ class UsersController_v2 extends BaseController
                 return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
             }
             $user_id = $this->user->id;
-            $approachPreference = ApproachPreference::where('id', $user_id)->first();
+            $approachPreference = ApproachPreference::where('user_id', $user_id)->first();
             if ($approachPreference != null) {
                 $approachPreference->user_id = $this->user->id;
                 $approachPreference->min_age = $request->min_age;
