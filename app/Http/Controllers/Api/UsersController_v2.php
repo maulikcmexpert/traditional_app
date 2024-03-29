@@ -1483,11 +1483,14 @@ class UsersController_v2 extends BaseController
                 $femaleId = $val->id;
 
                 $already_friend = ApproachRequest::where(function ($query) use ($femaleId) {
-                    $query->orWhere(['sender_id' => $femaleId, 'receiver_id' => $femaleId]);
-                })->where(['status' => 'accepted'])
-                    ->orderBy('id', 'DESC')
+                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $femaleId])
+                        ->orWhere(['sender_id' => $femaleId, 'receiver_id' => $this->user->id]);
+                })
+                    ->where('status', 'accepted')
 
+                    ->orderBy('id', 'DESC')
                     ->count();
+
 
                 if ($already_friend == 1) {
                     continue;
