@@ -9,6 +9,7 @@ use App\Http\Requests\Api\{
     OrgranizationValid,
     UserPersonalityRequest
 };
+use App\Models\ApproachPreference;
 use App\Models\City;
 
 use App\Models\InterestAndHobby;
@@ -34,6 +35,7 @@ use App\Models\ProfileBlock;
 use App\Models\UserInterestAndHobby;
 use App\Models\UserLifestyle;
 use App\Models\UserShwstpprQue;
+
 use App\Models\User;
 use App\Models\Report;
 use App\Models\UserReportChat;
@@ -1201,14 +1203,73 @@ class UsersController_v2 extends BaseController
             DB::rollBack();
 
             return response()->json(['status' => false, 'message' => "db error"]);
-        }
-        // catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
     }
 
+    public function getApproachPreference()
+    {
+    }
+    public function updateApproachPreference(Request $request)
+    {
+        try {
 
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'min_age' => ['required'],
+                    'max_age' => 'required',
+                    'religious_preference' => ['required'],
+                    'min_weight' => ['required'],
+                    'max_weight' => ['required'],
+                    'min_height' => ['required'],
+                    'max_height' => ['required'],
+                ],
+
+            );
+
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            }
+            $user_id = $this->user->id;
+            $approachPreference = ApproachPreference::where('id', $user_id)->first();
+            if ($approachPreference != null) {
+                $approachPreference->user_id = $this->user->id;
+                $approachPreference->min_age = $request->min_age;
+                $approachPreference->max_age = $request->max_age;
+                $approachPreference->religious_preference = json_encode($request->religious_preference);
+                $approachPreference->min_weight = $request->min_weight;
+                $approachPreference->max_weight = $request->max_weight;
+                $approachPreference->min_height = $request->min_height;
+                $approachPreference->max_height = $request->max_height;
+                $approachPreference->preference_apply_in_search = $request->preference_apply_in_search;
+                $approachPreference->save();
+            } else {
+                $addApproachPreference = new ApproachPreference();
+                $addApproachPreference->user_id = $this->user->id;
+                $addApproachPreference->min_age = $request->min_age;
+                $addApproachPreference->max_age = $request->max_age;
+                $addApproachPreference->religious_preference = json_encode($request->religious_preference);
+                $addApproachPreference->min_weight = $request->min_weight;
+                $addApproachPreference->max_weight = $request->max_weight;
+                $addApproachPreference->min_height = $request->min_height;
+                $addApproachPreference->max_height = $request->max_height;
+                $addApproachPreference->preference_apply_in_search = $request->preference_apply_in_search;
+                $addApproachPreference->save();
+            }
+
+            return response()->json(['status' => true, 'message' => "Approach preference update successfully"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
     public function updateOrganizationprofile(Request $request)
     {
         try {
