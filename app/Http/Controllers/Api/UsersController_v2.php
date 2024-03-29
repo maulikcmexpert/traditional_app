@@ -1460,7 +1460,7 @@ class UsersController_v2 extends BaseController
 
                 $users->whereHas('userdetail', function ($query) use ($minAge, $maxAge) {
                     $query->whereBetween('date_of_birth', [
-                        now()->subYears($maxAge)->format('Y-m-d'),
+                        now()->subYears($maxAge + 1)->format('Y-m-d'),
                         now()->subYears($minAge)->format('Y-m-d'),
                     ]);
                 });
