@@ -2703,7 +2703,6 @@ class UsersController_v2 extends BaseController
                 ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
         })
             ->where('status', 'accepted')
-            ->withTrashed()
             ->orderBy('id', 'DESC')
             ->first();
         if ($approch_check != null) {
