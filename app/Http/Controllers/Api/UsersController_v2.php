@@ -2594,56 +2594,56 @@ class UsersController_v2 extends BaseController
     {
 
 
-        try {
+        // try {
 
-            $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
 
-                'user_id' => ['required', 'integer', 'exists:users,id'],
-                'disconnect_reason_id' => ['required'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'disconnect_reason_id' => ['required'],
 
-            ]);
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-
-            $approch_check = ApproachRequest::where(function ($query) use ($request) {
-                $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                    ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
-            })
-                ->where('status', 'accepted')
-                ->withTrashed()
-                ->orderBy('id', 'DESC')
-                ->first();
-            if ($approch_check != null) {
-                DB::beginTransaction();
-                $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
-
-
-                $approch_check->status  = 'leave';
-                $approch_check->message = $checkReason->reason;
-                if ($checkReason != null && $checkReason->reason == 'Others') {
-                    $approch_check->reason = $request->message;
-                }
-                $approch_check->save();
-                $approch_check->delete();
-
-                DB::commit();
-
-                return response()->json(['status' => true, 'message' => "blocked successfully"]);
-            }
-            return response()->json(['status' => true, 'message' => "already blocked"]);
-
-            return response()->json(['status' => true, 'message' => "try again"]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
+
+
+        $approch_check = ApproachRequest::where(function ($query) use ($request) {
+            $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+        })
+            ->where('status', 'accepted')
+            ->withTrashed()
+            ->orderBy('id', 'DESC')
+            ->first();
+        if ($approch_check != null) {
+            DB::beginTransaction();
+            $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
+
+
+            $approch_check->status  = 'leave';
+            $approch_check->message = $checkReason->reason;
+            if ($checkReason != null && $checkReason->reason == 'Others') {
+                $approch_check->reason = $request->message;
+            }
+            $approch_check->save();
+            $approch_check->delete();
+
+            DB::commit();
+
+            return response()->json(['status' => true, 'message' => "blocked successfully"]);
+        }
+        return response()->json(['status' => true, 'message' => "already blocked"]);
+
+        return response()->json(['status' => true, 'message' => "try again"]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 }
