@@ -132,9 +132,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::get('feedback_review_list', [UsersController_v2::class, 'feedbackReviewList']);
     Route::post('user_feedback', [UsersController_v2::class, 'UserFeedback'])->middleware('check_user');
     Route::get('certain_word_list', [UsersController_v2::class, 'CertainWordList']);
-    Route::post('disconnect_to_user', [UsersController_v2::class, 'DisconnectToUser']);
-    Route::post('update_approach_preference', [UsersController_v2::class, 'updateApproachPreference']);
-    Route::post('get_approach_preference', [UsersController_v2::class, 'getApproachPreference']);
+    Route::post('disconnect_to_user', [UsersController_v2::class, 'DisconnectToUser'])->middleware('check_user');
+    Route::post('update_approach_preference', [UsersController_v2::class, 'updateApproachPreference'])->middleware('check_user');
+    Route::get('get_approach_preference', [UsersController_v2::class, 'getApproachPreference'])->middleware('check_user');
 
 
     // Route::middleware(['check_user'])->group( function () {
