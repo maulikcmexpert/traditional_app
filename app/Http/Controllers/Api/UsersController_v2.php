@@ -1473,10 +1473,10 @@ class UsersController_v2 extends BaseController
             foreach ($result as $val) {
 
                 $femaleId = $val->id;
+
                 $already_friend = ApproachRequest::where(function ($query) use ($femaleId) {
-                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $femaleId, 'type' => 'friend', 'status' => 'accepted'])
-                        ->orWhere(['sender_id' => $femaleId, 'receiver_id' => $this->user->id, 'type' => 'friend', 'status' => 'accepted']);
-                })
+                    $query->orWhere(['sender_id' => $femaleId, 'receiver_id' => $femaleId]);
+                })->where(['status' => 'accepted'])
                     ->orderBy('id', 'DESC')
 
                     ->count();
