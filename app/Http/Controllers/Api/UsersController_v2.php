@@ -2398,7 +2398,7 @@ class UsersController_v2 extends BaseController
                         ->where('status', 'block')
                         ->orderBy('id', 'DESC')
                         ->first();
-                    dd($changeUnBlockApproachStatus);
+
                     if ($changeUnBlockApproachStatus != null) {
 
                         $changeUnBlockApproachStatus->status = 'unblock';
