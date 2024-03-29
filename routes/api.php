@@ -134,6 +134,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::get('certain_word_list', [UsersController_v2::class, 'CertainWordList']);
     Route::post('disconnect_to_user', [UsersController_v2::class, 'DisconnectToUser']);
     Route::post('update_approach_preference', [UsersController_v2::class, 'updateApproachPreference']);
+    Route::post('get_approach_preference', [UsersController_v2::class, 'getApproachPreference']);
 
 
     // Route::middleware(['check_user'])->group( function () {
