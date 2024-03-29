@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\{
-    User
+    User,
+    LeaveReason
 };
 
 class ApproachRequest extends Model
@@ -22,5 +23,9 @@ class ApproachRequest extends Model
     public function receiver_user()
     {
         return $this->belongsTo(User::class, 'receiver_id');
+    }
+    public function Leave_reason()
+    {
+        return $this->belongsTo(LeaveReason::class, 'reason_id');
     }
 }

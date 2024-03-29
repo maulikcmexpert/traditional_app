@@ -2622,7 +2622,7 @@ class UsersController_v2 extends BaseController
 
 
             $approch_check->status  = 'leave';
-            $approch_check->message = $checkReason->reason;
+            $approch_check->message = $checkReason->message;
             if ($checkReason != null && $checkReason->reason == 'Others') {
                 $approch_check->reason = $request->message;
             }
