@@ -2705,6 +2705,7 @@ class UsersController_v2 extends BaseController
             ->where('status', 'accepted')
             ->orderBy('id', 'DESC')
             ->first();
+        dd($approch_check);
         if ($approch_check != null) {
             DB::beginTransaction();
             $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
