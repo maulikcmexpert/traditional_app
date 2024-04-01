@@ -2724,15 +2724,23 @@ class UsersController_v2 extends BaseController
                 return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
             }
 
+            $checkAlreadyFeedback = FeedbackReview::where(['by_user_id' => $this->user->id, 'user_id' => $to_be_feedback_user_id])->first();
             DB::beginTransaction();
-            $feedback_user = new FeedbackReview();
-            $feedback_user->by_user_id = $this->user->id;
-            $feedback_user->feedback_review_id = json_encode($request->selected_feedback);
-            $feedback_user->user_id = $request->to_be_feedback_user_id;
-            $feedback_user->review = $request->feedback_message;
+            if ($checkAlreadyFeedback != null) {
+
+                $feedback_user = new FeedbackReview();
+                $feedback_user->by_user_id = $this->user->id;
+                $feedback_user->feedback_review_id = json_encode($request->selected_feedback);
+                $feedback_user->user_id = $request->to_be_feedback_user_id;
+                $feedback_user->review = $request->feedback_message;
+                $feedback_user->save();
+            } else {
 
 
-            $feedback_user->save();
+                $checkAlreadyFeedback->feedback_review_id = json_encode($request->selected_feedback);
+                $checkAlreadyFeedback->review = $request->feedback_message;
+                $checkAlreadyFeedback->save();
+            }
 
 
 
