@@ -2703,10 +2703,8 @@ class UsersController_v2 extends BaseController
                 ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
         })
             ->where('status', 'accepted')
-            ->orderBy('id', 'DESC');
-
-        // dd($approch_check->toSql());
-        ->first();
+            ->orderBy('id', 'DESC')
+            ->first();
         if ($approch_check != null) {
             DB::beginTransaction();
             $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
