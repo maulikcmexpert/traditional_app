@@ -2431,7 +2431,7 @@ class UsersController_v2 extends BaseController
                 // check from login user //
                 $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
                     $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                        ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+                        ->Where(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
                 })
                     ->orderBy('id', 'DESC')
                     ->first();
