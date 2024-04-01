@@ -2434,9 +2434,9 @@ class UsersController_v2 extends BaseController
                     $query->where(['sender_id' => $this->user->id, 'receiver_id' => $toBeBlockId])
                         ->orWhere(['sender_id' => $toBeBlockId, 'receiver_id' => $this->user->id]);
                 })
-                    ->orderBy('id', 'DESC')
-                    ->first();
-                dd($changeApproachStatus);
+                    ->orderBy('id', 'DESC');
+                dd($changeApproachStatus->toSql());
+                // ->first();
                 if ($changeApproachStatus != null) {
 
                     $changeApproachStatus->status = 'block';
