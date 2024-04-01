@@ -1216,7 +1216,7 @@ class UsersController_v2 extends BaseController
         if ($result != null) {
             if ($result->religious_preference != null) {
                 $religious_preference = json_decode($result->religious_preference);
-                $religious = Religion::select('id', 'religion')->whereIn('id', $religious_preference)->get();
+                $religious = Religion::select('id', 'religion as name')->whereIn('id', $religious_preference)->get();
                 $result['religious_preference'] = $religious;
                 return response()->json(["status" => true, 'message' => "Approach reference", "data" => $result]);
             }
