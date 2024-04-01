@@ -1768,8 +1768,10 @@ class UsersController_v2 extends BaseController
             $checkIsApproched = ApproachRequest::where(function ($query) use ($request) {
                 $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
                     ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
-            })->withTrashed()->orderBy('id', 'DESC')->first();
-
+            })->withTrashed()
+                ->selectRaw('*, CASE WHEN sender_id = ? THEN "sender" ELSE "receiver" END AS user_role', [$this->user->id])
+                ->orderBy('id', 'DESC')->first();
+            dd($checkIsApproched);
             if ($checkIsApproched != null) {
 
                 if ($checkIsApproched->status == 'pending') {
