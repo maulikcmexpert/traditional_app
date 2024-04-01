@@ -303,7 +303,21 @@ function getSearchUser($filter, $page, $user_id)
     $userData = [];
     $total_page = 0;
 
-    dd($filter['search_name']);
+    $search_name = $filter['search_name'];
+    $organizationName = $filter['organization_name'];
+    $city = $filter['city'];
+    $minAge = $filter['minAge'];
+    $maxAge = $filter['maxAge'];
+    $words_of_affirmation_min = $filter['words_of_affirmation_min'];
+    $words_of_affirmation_max = $filter['words_of_affirmation_max'];
+    $act_of_services_min = $filter['act_of_services_min'];
+    $act_of_services_max = $filter['act_of_services_max'];
+    $gifts_min = $filter['gifts_min'];
+    $gifts_max = $filter['gifts_max'];
+    $quality_time_min = $filter['quality_time_min'];
+    $quality_time_max = $filter['quality_time_max'];
+    $physical_touch_min = $filter['physical_touch_min'];
+    $physical_touch_max = $filter['physical_touch_max'];
     // Input validation
     if (empty($search_name)) {
         return array('userData' => $userData, 'total_page' => $total_page);
@@ -341,6 +355,14 @@ function getSearchUser($filter, $page, $user_id)
             ]);
         });
     }
+
+    $query->whereHas('user_love_lang', function ($q) use ($words_of_affirmation_min, $words_of_affirmation_max, $act_of_services_min, $act_of_services_max, $gifts_min, $gifts_max, $quality_time_min, $quality_time_max, $physical_touch_min, $physical_touch_max) {
+        $q->whereBetween('words_of_affirmation', [$words_of_affirmation_min, $words_of_affirmation_max])
+            ->whereBetween('act_of_services', [$act_of_services_min, $act_of_services_max])
+            ->whereBetween('gifts', [$gifts_min, $gifts_max])
+            ->whereBetween('quality_time', [$quality_time_min, $quality_time_max])
+            ->whereBetween('physical_touch', [$physical_touch_min, $physical_touch_max]);
+    });
 
     // Exclude blocked users
     $query->whereNotIn('id', function ($q) use ($user_id) {
