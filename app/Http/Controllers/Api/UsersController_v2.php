@@ -1563,77 +1563,69 @@ class UsersController_v2 extends BaseController
                 $femaleId = $val->id;
                 $maleId = $this->user->id;
 
-                // $approachPreferences = ApproachPreference::where('user_id', $femaleId)->first();
+                $approachPreferences = ApproachPreference::where('user_id', $femaleId)->first();
+                $maleAge = calculateAge($this->user->userdetail->date_of_birth, date('Y-m-d'));
+                $maleHeight = $this->user->userdetail->height;
+                $maleWeight = $this->user->userdetail->weight;
+                $male_religion_id = $this->user->userdetail->religion_id;
+                $religious_preference = json_decode($approachPreferences->religious_preference);
+                if (
+                    ($approachPreferences->min_age <= $maleAge && $approachPreferences->max_age >= $maleAge) &&
+                    ($approachPreferences->min_weight <= $maleWeight && $approachPreferences->max_weight >= $maleWeight) &&
+                    ($approachPreferences->min_height <= $maleHeight && $approachPreferences->max_height >= $maleHeight) &&
+                    (isNotNullOrBlank($religious_preference) && in_array($male_religion_id, $religious_preference))
+                ) {
 
-                // if ($approachPreferences != null) {
-                //     $maleAge = calculateAge($this->user->userdetail->date_of_birth, date('Y-m-d'));
-                //     if (
-                //         !($maleAge >= $approachPreferences->min_age && $maleAge <= $approachPreferences->max_age)
 
-                //     ) {
-                //         if (isNotNullOrBlank($approachPreferences->religious_preference)) {
+                    $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
+                        $query->where(function ($query) use ($femaleId, $maleId) {
+                            $query->where('sender_id', $maleId)
+                                ->where('receiver_id', $femaleId);
+                        })->orWhere(function ($query) use ($femaleId, $maleId) {
+                            $query->where('sender_id', $femaleId)
+                                ->where('receiver_id', $maleId);
+                        });
+                    })
+                        ->where('status', 'accepted')
+                        ->orderBy('id', 'DESC')
+                        ->count();
 
-                //             $religiousPreferences = json_decode($approachPreferences->religious_preference);
-                //             if (!in_array($this->user->userdetail->religion_id, $religiousPreferences)) {
-                //                 if (!($this->user->userdetail->weight >= $approachPreferences->min_weight && $this->user->userdetail->weight <= $approachPreferences->max_weight)) {
-                //                     if (!($this->user->userdetail->height >= $approachPreferences->min_weight && $this->user->userdetail->weight <= $approachPreferences->max_weight)) {
-                //                     }
-                //                 }
-                //             }
-                //         }
+                    if ($already_friend == 1) {
+                        continue;
+                    }
 
-                //         continue; // Skip this female user if not meeting the approach preferences
-                //     }
-                // }
 
-                $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
-                    $query->where(function ($query) use ($femaleId, $maleId) {
-                        $query->where('sender_id', $maleId)
-                            ->where('receiver_id', $femaleId);
-                    })->orWhere(function ($query) use ($femaleId, $maleId) {
-                        $query->where('sender_id', $femaleId)
-                            ->where('receiver_id', $maleId);
-                    });
-                })
-                    ->where('status', 'accepted')
-                    ->orderBy('id', 'DESC')
-                    ->count();
+                    $already_approched = ApproachRequest::where(['receiver_id' => $val->id, 'type' => 'approach', 'status' => 'accepted'])->orderBy('id', 'DESC')->first();
+                    if ($already_approched != null) {
+                        continue;
+                    }
+                    // $approch_check_is_rejected = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $val->id])->withTrashed()->orderBy('id', 'DESC')->first();
+                    // if ($approch_check_is_rejected != null) {
 
-                if ($already_friend == 1) {
-                    continue;
+                    //     if ($approch_check_is_rejected->status == 'rejected') {
+                    //         continue;
+                    //     }
+                    // }
+                    $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $val->id, 'to_be_blocked_user_id' => $this->user->id])->count();
+                    if ($approch_check_is_block == 1) {
+                        continue;
+                    }
+
+                    $userInfo['id'] = $val->id;
+                    $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
+                    $userInfo['name'] = $val->full_name;
+                    $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
+                    $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
+                    $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
+                    $userInfo['state'] = $val->userdetail->state->state;
+                    $userInfo['country'] = $val->country->country;
+                    $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
+                    $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
+
+                    $userData[] = $userInfo;
                 }
-
-
-                $already_approched = ApproachRequest::where(['receiver_id' => $val->id, 'type' => 'approach', 'status' => 'accepted'])->orderBy('id', 'DESC')->first();
-                if ($already_approched != null) {
-                    continue;
-                }
-                // $approch_check_is_rejected = ApproachRequest::where(['sender_id' => $this->user->id, 'receiver_id' => $val->id])->withTrashed()->orderBy('id', 'DESC')->first();
-                // if ($approch_check_is_rejected != null) {
-
-                //     if ($approch_check_is_rejected->status == 'rejected') {
-                //         continue;
-                //     }
-                // }
-                $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $val->id, 'to_be_blocked_user_id' => $this->user->id])->count();
-                if ($approch_check_is_block == 1) {
-                    continue;
-                }
-
-                $userInfo['id'] = $val->id;
-                $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
-                $userInfo['name'] = $val->full_name;
-                $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
-                $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
-                $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
-                $userInfo['state'] = $val->userdetail->state->state;
-                $userInfo['country'] = $val->country->country;
-                $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
-                $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
-
-                $userData[] = $userInfo;
+                return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
             }
-            return response()->json(["status" => true, 'message' => 'User data', 'data' => $userData]);
         } catch (QueryException $e) {
             return response()->json(['status' => false, 'message' => "Database error"]);
         } catch (\Exception $e) {
