@@ -1783,8 +1783,9 @@ class UsersController_v2 extends BaseController
                         if ($checkIsApproched->user_role == 'sender') {
 
                             return response()->json(["status" => false, 'message' => 'You have already friend request to this person']);
-                        }elseif ($checkIsApproched->user_role == 'receiver') {
+                        } elseif ($checkIsApproched->user_role == 'receiver') {
                             return response()->json(["status" => false, 'message' => 'You have already friend request from this person']);
+                        }
                     }
                 }
                 // if ($checkIsApproched->status == 'rejected') {
