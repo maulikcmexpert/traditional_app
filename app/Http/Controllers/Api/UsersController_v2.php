@@ -1568,14 +1568,20 @@ class UsersController_v2 extends BaseController
             $maleHeight = $this->user->userdetail->height;
             $maleWeight = $this->user->userdetail->weight;
             $male_religion_id = $this->user->userdetail->religion_id;
-            $religious_preference = json_decode($approachPreferences->religious_preference);
+
             if (
                 ($approachPreferences->min_age <= $maleAge && $approachPreferences->max_age >= $maleAge) &&
                 ($approachPreferences->min_weight <= $maleWeight && $approachPreferences->max_weight >= $maleWeight) &&
-                ($approachPreferences->min_height <= $maleHeight && $approachPreferences->max_height >= $maleHeight) &&
-                (isNotNullOrBlank($religious_preference) && in_array($male_religion_id, $religious_preference))
+                ($approachPreferences->min_height <= $maleHeight && $approachPreferences->max_height >= $maleHeight)
+
             ) {
 
+                if (isNotNullOrBlank($approachPreferences->religious_preference)) {
+                    $religious_preference = json_decode($approachPreferences->religious_preference);
+                    if (!in_array($this->user->userdetail->rereligion_id, $religious_preference)) {
+                        continue;
+                    }
+                }
 
                 $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
                     $query->where(function ($query) use ($femaleId, $maleId) {
