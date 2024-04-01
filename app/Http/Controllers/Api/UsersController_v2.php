@@ -1277,7 +1277,7 @@ class UsersController_v2 extends BaseController
                 $addApproachPreference->max_weight = $request->max_weight;
                 $addApproachPreference->min_height = $request->min_height;
                 $addApproachPreference->max_height = $request->max_height;
-                $addApproachPreference->preference_apply_in_search = $request->preference_apply_in_search;
+                $addApproachPreference->preference_apply_in_search = ($request->preference_apply_in_search == true) ? '1' : '0';
                 $addApproachPreference->save();
             }
 
