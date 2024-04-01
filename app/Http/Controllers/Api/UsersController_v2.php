@@ -1254,6 +1254,7 @@ class UsersController_v2 extends BaseController
                 $approachPreference->user_id = $this->user->id;
                 $approachPreference->min_age = $request->min_age;
                 $approachPreference->max_age = $request->max_age;
+                $approachPreference->religious_preference = "";
                 if (!empty($request->religious_preference)) {
                     $approachPreference->religious_preference = json_encode($request->religious_preference);
                 }
