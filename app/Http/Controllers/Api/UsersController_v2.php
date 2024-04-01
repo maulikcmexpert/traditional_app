@@ -2430,7 +2430,7 @@ class UsersController_v2 extends BaseController
 
                 $toBeBlockId = $request->user_id;
                 // check from login user //
-                $changeApproachStatus = ApproachRequest::orwhere(function ($query) use ($toBeBlockId) {
+                $changeApproachStatus = ApproachRequest::orWhere(function ($query) use ($toBeBlockId) {
                     $query->where(['sender_id' => $this->user->id, 'receiver_id' => $toBeBlockId])
                         ->where(['sender_id' => $toBeBlockId, 'receiver_id' => $this->user->id]);
                 })
