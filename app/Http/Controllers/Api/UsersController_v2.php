@@ -2726,6 +2726,7 @@ class UsersController_v2 extends BaseController
 
         DB::beginTransaction();
         $checkAlreadyFeedback = FeedbackReview::where(['by_user_id' => $this->user->id, 'user_id' => $request->to_be_feedback_user_id])->first();
+        dd($checkAlreadyFeedback);
         if ($checkAlreadyFeedback != null) {
 
             $feedback_user = new FeedbackReview();
