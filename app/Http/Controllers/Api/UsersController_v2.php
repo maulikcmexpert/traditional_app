@@ -2707,61 +2707,61 @@ class UsersController_v2 extends BaseController
     public function UserFeedback(Request $request)
     {
 
-        // try {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'selected_feedback' => ['required'],
-                'to_be_feedback_user_id' => ['required', 'integer'],
-                'feedback_message' => ['required', 'string'],
-            ],
-            [
-                'feedback_message.required' => "Please enter Feedback / Review"
-            ]
-        );
+        try {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'selected_feedback' => ['required'],
+                    'to_be_feedback_user_id' => ['required', 'integer'],
+                    'feedback_message' => ['required', 'string'],
+                ],
+                [
+                    'feedback_message.required' => "Please enter Feedback / Review"
+                ]
+            );
 
-        if ($validator->fails()) {
-            return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, 'message' => $validator->errors()->first()]);
+            }
+
+            DB::beginTransaction();
+            $checkAlreadyFeedback = FeedbackReview::where(['by_user_id' => $this->user->id, 'user_id' => $request->to_be_feedback_user_id])->first();
+
+            if ($checkAlreadyFeedback == null) {
+
+                $feedback_user = new FeedbackReview();
+                $feedback_user->by_user_id = $this->user->id;
+                $feedback_user->feedback_review_id = json_encode($request->selected_feedback);
+                $feedback_user->user_id = $request->to_be_feedback_user_id;
+                $feedback_user->review = $request->feedback_message;
+                $feedback_user->save();
+            } else {
+
+                $checkAlreadyFeedback->feedback_review_id = json_encode($request->selected_feedback);
+                $checkAlreadyFeedback->review = $request->feedback_message;
+                $checkAlreadyFeedback->save();
+            }
+
+
+
+            DB::commit();
+
+            $response = [
+                'status' => true,
+                'message' => __('messages.feedback_success_msg')
+            ];
+
+            return response()->json($response);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-
-        DB::beginTransaction();
-        $checkAlreadyFeedback = FeedbackReview::where(['by_user_id' => $this->user->id, 'user_id' => $request->to_be_feedback_user_id])->first();
-        dd($checkAlreadyFeedback);
-        if ($checkAlreadyFeedback != null) {
-
-            $feedback_user = new FeedbackReview();
-            $feedback_user->by_user_id = $this->user->id;
-            $feedback_user->feedback_review_id = json_encode($request->selected_feedback);
-            $feedback_user->user_id = $request->to_be_feedback_user_id;
-            $feedback_user->review = $request->feedback_message;
-            $feedback_user->save();
-        } else {
-
-            $checkAlreadyFeedback->feedback_review_id = json_encode($request->selected_feedback);
-            $checkAlreadyFeedback->review = $request->feedback_message;
-            $checkAlreadyFeedback->save();
-        }
-
-
-
-        DB::commit();
-
-        $response = [
-            'status' => true,
-            'message' => __('messages.feedback_success_msg')
-        ];
-
-        return response()->json($response);
-        // } catch (QueryException $e) {
-
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
 
