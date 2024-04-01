@@ -775,6 +775,7 @@ class UsersController_v2 extends BaseController
                 $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : "";
                 $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
                 $data['is_ghost'] = is_ghost($request->user_id);
+
                 $data['is_block'] = false;
                 $userIsBlock = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $user_id])->first();
                 if ($userIsBlock != null) {
@@ -822,6 +823,8 @@ class UsersController_v2 extends BaseController
 
 
                 $data['is_approach'] = "no_button";
+                $data['conversation_id'] = "";
+
                 if (!$is_block) {
                     if ($this->user->userdetail->gender == 'male' && $user->userdetail->gender == 'female') {
 
@@ -852,6 +855,7 @@ class UsersController_v2 extends BaseController
                             $data['relation_type'] = $approch_check->type;
 
                             if ($approch_check->status == 'accepted') {
+                                $data['conversation_id'] = $approch_check->conversation_id;
                                 $data['is_approach'] = "message";
                             } else if ($approch_check->status == 'pending') {
 
@@ -935,6 +939,7 @@ class UsersController_v2 extends BaseController
                         if ($approch_check != null) {
                             $data['relation_type'] = $approch_check->type;
                             if ($approch_check->status == 'accepted') {
+                                $data['conversation_id'] = $approch_check->conversation_id;
                                 $data['is_approach'] = "message";
                             } else if ($approch_check->status == 'pending') {
                                 if ($approch_check->sender_id == $this->user->id) {
@@ -982,6 +987,7 @@ class UsersController_v2 extends BaseController
 
                             $data['relation_type'] = $approch_check->type;
                             if ($approch_check->status == 'accepted') {
+                                $data['conversation_id'] = $approch_check->conversation_id;
                                 $data['is_approach'] = "message";
                             } else if ($approch_check->status == 'pending') {
                                 if ($this->user->id == $approch_check->sender_id) {
@@ -1019,6 +1025,7 @@ class UsersController_v2 extends BaseController
                         if ($approch_check != null) {
                             $data['relation_type'] = $approch_check->type;
                             if ($approch_check->status == 'accepted') {
+                                $data['conversation_id'] = $approch_check->conversation_id;
                                 $data['is_approach'] = "message";
                             } else if ($approch_check->status == 'pending') {
                                 if ($this->user->id == $approch_check->sender_id) {
@@ -2168,18 +2175,17 @@ class UsersController_v2 extends BaseController
                                 $cancelThisReqMale->delete();
                             }
                         }
-
-                        $notificationData = [
-                            'sender_id' => $this->user->id,
-                            'receiver_id' => $request->user_id,
-                            'status' => 'accepted',
-                            'type' =>  $cancelRequest->type,
-                            'notify_for' => 'accept_or_reject'
-                        ];
-
-                        notification($notificationData);
                     }
                 }
+                $notificationData = [
+                    'sender_id' => $this->user->id,
+                    'receiver_id' => $request->user_id,
+                    'status' => 'accepted',
+                    'type' =>  $cancelRequest->type,
+                    'notify_for' => 'accept_or_reject'
+                ];
+
+                notification($notificationData);
 
                 // add notification //
 
