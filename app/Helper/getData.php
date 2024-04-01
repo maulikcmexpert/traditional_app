@@ -92,7 +92,7 @@ function getManageRequestByFemale($type, $page, $receiver_id)
         $userInfo['relation_type'] =  $val->type;
 
         $userInfo['is_approach'] = "cancel";
-
+        $userInfo['conversation_id'] = "";
         if ($val->type == 'approach') {
 
             if ($type == 'pending') {
@@ -103,6 +103,9 @@ function getManageRequestByFemale($type, $page, $receiver_id)
                 $userInfo['message'] = __('messages.approach_request_msg');
             } else if ($type == 'cancelled') {
                 $userInfo['message'] = __('messages.approach_cancel_msg');
+            } else if ($type == 'accepted') {
+
+                $userInfo['conversation_id'] = $val->conversation_id;
             }
             $userInfo['user_message'] =  $val->message;
         } else if ($val->type == 'friend') {
@@ -127,6 +130,9 @@ function getManageRequestByFemale($type, $page, $receiver_id)
                 if ($is_role == 'receiver') {
                     $userInfo['message'] = __('messages.friend_cancel_msg');
                 }
+            } else if ($type == 'accepted') {
+
+                $userInfo['conversation_id'] = $val->conversation_id;
             }
         }
         $userData[] = $userInfo;
