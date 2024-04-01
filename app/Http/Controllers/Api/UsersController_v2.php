@@ -1220,7 +1220,7 @@ class UsersController_v2 extends BaseController
                 $religious = Religion::select('id', 'religion as name')->whereIn('id', $religious_preference)->get();
                 $result['religious_preference'] = $religious;
             }
-            $result['preference_apply_in_search'] = ($result->preference_apply_in_search == "0") ? false : true;
+
             return response()->json(["status" => true, 'message' => "Approach reference", "data" => $result]);
         }
         return response()->json(["status" => false, 'message' => "Data not found", "data" => null]);
