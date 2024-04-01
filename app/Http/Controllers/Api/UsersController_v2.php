@@ -1212,8 +1212,8 @@ class UsersController_v2 extends BaseController
 
     public function getApproachPreference()
     {
-        $result = ApproachPreference::where('user_id', $this->user->id)->first();
         $result['religious_preference'] = [];
+        $result = ApproachPreference::where('user_id', $this->user->id)->first();
         if ($result != null) {
             dd($result);
             if ($result->religious_preference != null) {
