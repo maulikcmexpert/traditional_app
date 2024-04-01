@@ -1771,15 +1771,20 @@ class UsersController_v2 extends BaseController
             })->withTrashed()
                 ->selectRaw('*, CASE WHEN sender_id = ? THEN "sender" ELSE "receiver" END AS user_role', [$this->user->id])
                 ->orderBy('id', 'DESC')->first();
-            dd($checkIsApproched);
+
             if ($checkIsApproched != null) {
 
                 if ($checkIsApproched->status == 'pending') {
                     if ($checkIsApproched->type == 'approach') {
 
+
                         return response()->json(["status" => false, 'message' => 'You have already approach request to this person']);
                     } else if ($checkIsApproched->type == 'friend') {
-                        return response()->json(["status" => false, 'message' => 'You have already friend request to this person']);
+                        if ($checkIsApproched->user_role == 'sender') {
+
+                            return response()->json(["status" => false, 'message' => 'You have already friend request to this person']);
+                        }elseif ($checkIsApproched->user_role == 'receiver') {
+                            return response()->json(["status" => false, 'message' => 'You have already friend request from this person']);
                     }
                 }
                 // if ($checkIsApproched->status == 'rejected') {
