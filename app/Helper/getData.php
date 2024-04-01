@@ -298,11 +298,12 @@ function getManageRequestByMale($type, $page, $receiver_id)
     return array('userData' => $userData, 'total_page' => $total_page);
 }
 
-function getSearchUser($search_name, $city, $page, $organizationName, $user_id, $minAge, $maxAge)
+function getSearchUser($filter, $page, $user_id)
 {
     $userData = [];
     $total_page = 0;
 
+    dd($filter);
     // Input validation
     if (empty($search_name)) {
         return array('userData' => $userData, 'total_page' => $total_page);

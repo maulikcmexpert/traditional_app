@@ -1909,28 +1909,43 @@ class UsersController_v2 extends BaseController
         if (isset($request->page) && $request->page != "") {
             $page = $request->page;
         }
-        $search_name = "";
+        $filter['search_name'] = "";
         if (isset($request->search_name) && $request->search_name != "") {
-            $search_name = $request->search_name;
+            $filter['search_name'] = $request->search_name;
         }
-        $city = "";
+        $filter['city'] = "";
         if (isset($request->city) && $request->city != "") {
-            $city = $request->city;
+            $filter['city'] = $request->city;
         }
 
-        $organization_name = "";
+        $filter['organization_name'] = "";
 
         if (isset($request->organization_name) && $request->organization_name != "") {
-            $organization_name = $request->organization_name;
-        }
-        $minAge = 16;
-        $maxAge = 45;
-        if (isset($request->min) && isset($request->max)) {
-            $minAge = $request->min;
-            $maxAge = $request->max;
+            $filter['organization_name']  = $request->organization_name;
         }
 
-        $requests = getSearchUser($search_name, $city, $page, $organization_name, $this->user->id, $minAge, $maxAge);
+        if (isset($request->min) && isset($request->max)) {
+            $filter['minAge'] = $request->min;
+            $filter['maxAge'] = $request->max;
+        }
+
+        $filter['words_of_affirmation_min'] = $request->words_of_affirmation_min;
+        $filter['words_of_affirmation_max'] = $request->words_of_affirmation_max;
+        $filter['act_of_services_min'] = $request->act_of_services_min;
+        $filter['act_of_services_max'] = $request->act_of_services_max;
+        $filter['gifts_min'] = $request->gifts_min;
+        $filter['gifts_max'] = $request->gifts_max;
+        $filter['quality_time_min'] = $request->quality_time_min;
+        $filter['quality_time_max'] = $request->quality_time_max;
+        $filter['physical_touch_min'] = $request->physical_touch_min;
+        $filter['physical_touch_max'] = $request->physical_touch_max;
+
+        $requests = getSearchUser(
+            $filter,
+            $page,
+            $this->user->id
+
+        );
         $userData = $requests['userData'];
         $total_page = $requests['total_page'];
 
