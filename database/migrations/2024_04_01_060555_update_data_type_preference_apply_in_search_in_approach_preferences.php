@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('approach_preferences', function (Blueprint $table) {
-            $table->enum('preference_apply_in_search', ["true", "false"])->default("false")->change();
+            $table->enum('preference_apply_in_search', ["0", "1"])->default("0")->change();
         });
     }
 
