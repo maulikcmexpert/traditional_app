@@ -451,3 +451,27 @@ function is_ghost($userId)
         return false;
     }
 }
+
+
+function showProfile($user_id, $login_user)
+{
+    $checkIsalreadyInRelation = ApproachRequest::where(function ($query) use ($user_id, $login_user) {
+        $query->where(function ($query) use ($user_id, $login_user) {
+            $query->where('sender_id', $login_user)
+                ->where('receiver_id', $user_id);
+        })->orWhere(function ($query) use ($user_id, $login_user) {
+            $query->where('sender_id', $user_id)
+                ->where('receiver_id', $login_user);
+        });
+    })
+        ->where('status', 'accepted')
+        ->orderBy('id', 'DESC')
+        ->count();
+    if ($checkIsalreadyInRelation == 0) {
+
+        $addshowprofile = new ProfileSeenUser();
+        $addshowprofile->profile_id = $user_id;
+        $addshowprofile->profile_viewer_id = $login_user;
+        $addshowprofile->save();
+    }
+}

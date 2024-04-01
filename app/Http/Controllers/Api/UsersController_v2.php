@@ -745,10 +745,7 @@ class UsersController_v2 extends BaseController
             $isRefresh = (!isset($request->refresh)) ? false : $request->refresh;
             if ($isRefresh == false) {
 
-                $addshowprofile = new ProfileSeenUser();
-                $addshowprofile->profile_id = $user_id;
-                $addshowprofile->profile_viewer_id = $this->user->id;
-                $addshowprofile->save();
+                showProfile($user_id, $this->user->id);
             }
 
             $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
