@@ -2429,14 +2429,19 @@ class UsersController_v2 extends BaseController
                 $blockToUser->save();
 
                 $toBeBlockId = $request->user_id;
+
                 // check from login user //
-                $changeApproachStatus = ApproachRequest::orWhere(function ($query) use ($toBeBlockId) {
-                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $toBeBlockId])
-                        ->where(['sender_id' => $toBeBlockId, 'receiver_id' => $this->user->id]);
+                $changeApproachStatus = ApproachRequest::where(function ($query) use ($toBeBlockId) {
+                    $query->where('sender_id', $this->user->id)
+                        ->where('receiver_id', $toBeBlockId)
+                        ->orWhere(function ($query) use ($toBeBlockId) {
+                            $query->where('sender_id', $toBeBlockId)
+                                ->where('receiver_id', $this->user->id);
+                        });
                 })
-                    ->orderBy('id', 'DESC');
-                dd($changeApproachStatus->toSql());
-                // ->first();
+                    ->orderBy('id', 'DESC')
+                    ->first();
+                dd($changeApproachStatus);
                 if ($changeApproachStatus != null) {
 
                     $changeApproachStatus->status = 'block';
