@@ -2115,7 +2115,7 @@ class UsersController_v2 extends BaseController
                 }
                 $cancelRequest->status = $request->type;
                 if ($request->type == 'accepted') {
-                    $conversation_id =  generateConversationId($request->user_id, $this->user->id);
+                    $conversation_id =  generateConversationId([$request->user_id, $this->user->id]);
                     $cancelRequest->conversation_id = $conversation_id;
                 }
                 $cancelRequest->save();
