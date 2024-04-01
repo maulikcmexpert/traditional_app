@@ -303,7 +303,7 @@ function getSearchUser($filter, $page, $user_id)
     $userData = [];
     $total_page = 0;
 
-    dd($filter);
+    dd($filter['search_name']);
     // Input validation
     if (empty($search_name)) {
         return array('userData' => $userData, 'total_page' => $total_page);
