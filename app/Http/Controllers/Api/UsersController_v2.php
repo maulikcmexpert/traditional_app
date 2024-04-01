@@ -2441,7 +2441,7 @@ class UsersController_v2 extends BaseController
                 })
                     ->orderBy('id', 'DESC')
                     ->first();
-                dd($changeApproachStatus);
+
                 if ($changeApproachStatus != null) {
 
                     $changeApproachStatus->status = 'block';
