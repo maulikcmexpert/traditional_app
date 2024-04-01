@@ -2432,7 +2432,7 @@ class UsersController_v2 extends BaseController
                 // check from login user //
                 $changeApproachStatus = ApproachRequest::where(function ($query) use ($toBeBlockId) {
                     $query->where(['sender_id' => $this->user->id, 'receiver_id' => $toBeBlockId])
-                        ->orWhere(['sender_id' => $toBeBlockId, 'receiver_id' => $this->user->id]);
+                        ->Where(['sender_id' => $toBeBlockId, 'receiver_id' => $this->user->id]);
                 })
                     ->orderBy('id', 'DESC');
                 dd($changeApproachStatus->toSql());
