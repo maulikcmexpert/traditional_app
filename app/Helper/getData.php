@@ -254,9 +254,10 @@ function getManageRequestByMale($type, $page, $receiver_id)
         }
         $userInfo['user_message'] = "";
         $userInfo['relation_type'] =  $val->type;
-
+        $data['conversation_id'] = "";
         $userInfo['status'] = $val->status;
         $userInfo['is_approach'] = "";
+        $userInfo['conversation_id'] = "";
         if ($val->type == 'approach') {
 
             if ($type == 'pending') {
@@ -291,6 +292,9 @@ function getManageRequestByMale($type, $page, $receiver_id)
                 if ($is_role == 'receiver') {
                     $userInfo['message'] = __('messages.friend_cancel_msg');
                 }
+            } else if ($type == 'accepted') {
+
+                $userInfo['conversation_id'] = $val->conversation_id;
             }
         }
         $userData[] = $userInfo;
