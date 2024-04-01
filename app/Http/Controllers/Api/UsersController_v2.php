@@ -744,9 +744,8 @@ class UsersController_v2 extends BaseController
             // check user blocked //
             $isRefresh = (!isset($request->refresh)) ? false : $request->refresh;
             if ($isRefresh == false) {
-
-                showProfile($user_id, $this->user->id);
             }
+
 
             $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
 
@@ -1523,7 +1522,8 @@ class UsersController_v2 extends BaseController
             $users->with([
                 'userdetail',
                 'country',
-                'userdetail.state'
+                'userdetail.state',
+
             ])->whereIn('id', $femaleDataArray)->where('status', 'active');
 
             if (isset($request->organization_id) && $request->organization_id != 0) {
@@ -1562,6 +1562,30 @@ class UsersController_v2 extends BaseController
 
                 $femaleId = $val->id;
                 $maleId = $this->user->id;
+
+                // $approachPreferences = ApproachPreference::where('user_id', $femaleId)->first();
+
+                // if ($approachPreferences != null) {
+                //     $maleAge = calculateAge($this->user->userdetail->date_of_birth, date('Y-m-d'));
+                //     if (
+                //         !($maleAge >= $approachPreferences->min_age && $maleAge <= $approachPreferences->max_age)
+
+                //     ) {
+                //         if (isNotNullOrBlank($approachPreferences->religious_preference)) {
+
+                //             $religiousPreferences = json_decode($approachPreferences->religious_preference);
+                //             if (!in_array($this->user->userdetail->religion_id, $religiousPreferences)) {
+                //                 if (!($this->user->userdetail->weight >= $approachPreferences->min_weight && $this->user->userdetail->weight <= $approachPreferences->max_weight)) {
+                //                     if (!($this->user->userdetail->height >= $approachPreferences->min_weight && $this->user->userdetail->weight <= $approachPreferences->max_weight)) {
+                //                     }
+                //                 }
+                //             }
+                //         }
+
+                //         continue; // Skip this female user if not meeting the approach preferences
+                //     }
+                // }
+
                 $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
                     $query->where(function ($query) use ($femaleId, $maleId) {
                         $query->where('sender_id', $maleId)
@@ -2371,102 +2395,103 @@ class UsersController_v2 extends BaseController
     public function blockUnblockToUser(Request $request)
     {
 
-        try {
+        // try {
 
-            $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
 
-                'user_id' => ['required', 'integer', 'exists:users,id'],
-                'type' => ['required', 'in:block,unblock,remove'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'type' => ['required', 'in:block,unblock,remove'],
 
-            ]);
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            if ($request->type == 'block') {
-                $checkIsBlock = ProfileBlock::where([
-                    'blocker_user_id' => $this->user->id,
-                    'to_be_blocked_user_id' => $request->user_id
-                ])->first();
-                if ($checkIsBlock == null) {
-                    DB::beginTransaction();
-                    $checkReason = BlockReason::where('id', $request->block_reason_id)->first();
-
-                    $blockToUser = new ProfileBlock();
-                    $blockToUser->blocker_user_id  = $this->user->id;
-                    $blockToUser->to_be_blocked_user_id   = $request->user_id;
-                    $blockToUser->block_reason_id   = $request->block_reason_id;
-
-                    $blockToUser->reason = $checkReason->reason;
-                    if ($checkReason != null && $checkReason->reason == 'Others') {
-                        $blockToUser->reason = $request->message;
-                    }
-                    $blockToUser->save();
-
-                    // check from login user //
-                    $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
-                        $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                            ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
-                    })
-                        ->orderBy('id', 'DESC')
-                        ->first();
-                    if ($changeApproachStatus != null) {
-
-                        $changeApproachStatus->status = 'block';
-                        $changeApproachStatus->save();
-                        // $changeApproachStatus->delete();
-                    }
-                    DB::commit();
-
-                    return response()->json(['status' => true, 'message' => "blocked successfully"]);
-                }
-                return response()->json(['status' => true, 'message' => "already blocked"]);
-            } else if ($request->type == 'unblock') {
-                $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
-
-                if ($unblockToUser != null) {
-                    DB::beginTransaction();
-                    $changeUnBlockApproachStatus = ApproachRequest::where(function ($query) use ($request) {
-                        $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                            ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
-                    })
-                        ->where('status', 'block')
-                        ->orderBy('id', 'DESC')
-                        ->first();
-
-                    if ($changeUnBlockApproachStatus != null) {
-
-                        $changeUnBlockApproachStatus->status = 'unblock';
-                        $changeUnBlockApproachStatus->save();
-                        $changeUnBlockApproachStatus->delete();
-                    }
-                    $unblockToUser->delete();
-                    DB::commit();
-                    return response()->json(['status' => true, 'message' => "unblocked successfully"]);
-                }
-                return response()->json(['status' => true, 'message' => "User not found"]);
-            } else if ($request->type == 'remove') {
-                $removeBlockUser = ProfileBlock::where([
-                    'blocker_user_id' => $this->user->id,
-                    'to_be_blocked_user_id' => $request->user_id
-                ])->first();
-                if ($removeBlockUser != null) {
-                    $removeBlockUser->is_remove = '1';
-                    $removeBlockUser->save();
-                    return response()->json(['status' => true, 'message' => "blocked user removed successfully"]);
-                }
-            }
-            return response()->json(['status' => true, 'message' => "try again"]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
+
+        if ($request->type == 'block') {
+            $checkIsBlock = ProfileBlock::where([
+                'blocker_user_id' => $this->user->id,
+                'to_be_blocked_user_id' => $request->user_id
+            ])->first();
+            if ($checkIsBlock == null) {
+                DB::beginTransaction();
+                $checkReason = BlockReason::where('id', $request->block_reason_id)->first();
+
+                $blockToUser = new ProfileBlock();
+                $blockToUser->blocker_user_id  = $this->user->id;
+                $blockToUser->to_be_blocked_user_id   = $request->user_id;
+                $blockToUser->block_reason_id   = $request->block_reason_id;
+
+                $blockToUser->reason = $checkReason->reason;
+                if ($checkReason != null && $checkReason->reason == 'Others') {
+                    $blockToUser->reason = $request->message;
+                }
+                $blockToUser->save();
+
+                // check from login user //
+                $changeApproachStatus = ApproachRequest::where(function ($query) use ($request) {
+                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                        ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+                })
+                    ->orderBy('id', 'DESC')
+                    ->first();
+                dd($changeApproachStatus);
+                if ($changeApproachStatus != null) {
+
+                    $changeApproachStatus->status = 'block';
+                    $changeApproachStatus->save();
+                    // $changeApproachStatus->delete();
+                }
+                DB::commit();
+
+                return response()->json(['status' => true, 'message' => "blocked successfully"]);
+            }
+            return response()->json(['status' => true, 'message' => "already blocked"]);
+        } else if ($request->type == 'unblock') {
+            $unblockToUser = ProfileBlock::where(['blocker_user_id' => $this->user->id, 'to_be_blocked_user_id' => $request->user_id])->first();
+
+            if ($unblockToUser != null) {
+                DB::beginTransaction();
+                $changeUnBlockApproachStatus = ApproachRequest::where(function ($query) use ($request) {
+                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
+                        ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+                })
+                    ->where('status', 'block')
+                    ->orderBy('id', 'DESC')
+                    ->first();
+
+                if ($changeUnBlockApproachStatus != null) {
+
+                    $changeUnBlockApproachStatus->status = 'unblock';
+                    $changeUnBlockApproachStatus->save();
+                    $changeUnBlockApproachStatus->delete();
+                }
+                $unblockToUser->delete();
+                DB::commit();
+                return response()->json(['status' => true, 'message' => "unblocked successfully"]);
+            }
+            return response()->json(['status' => true, 'message' => "User not found"]);
+        } else if ($request->type == 'remove') {
+            $removeBlockUser = ProfileBlock::where([
+                'blocker_user_id' => $this->user->id,
+                'to_be_blocked_user_id' => $request->user_id
+            ])->first();
+            if ($removeBlockUser != null) {
+                $removeBlockUser->is_remove = '1';
+                $removeBlockUser->save();
+                return response()->json(['status' => true, 'message' => "blocked user removed successfully"]);
+            }
+        }
+        return response()->json(['status' => true, 'message' => "try again"]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function notificationList(Request $request)

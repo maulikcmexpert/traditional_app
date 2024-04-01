@@ -2,6 +2,7 @@
 
 use App\Models\ApproachRequest;
 use App\Models\{
+    ApproachPreference,
     Religion,
     Setting,
     User,
@@ -474,4 +475,10 @@ function showProfile($user_id, $login_user)
         $addshowprofile->profile_viewer_id = $login_user;
         $addshowprofile->save();
     }
+}
+
+function checkCriteriaOfFemale($male, $female)
+{
+    $male = User::findOrFalil($male);
+    $femaleApproachPreference = ApproachPreference::where('user_id', $female)->first();
 }
