@@ -1792,8 +1792,12 @@ class UsersController_v2 extends BaseController
 
 
             $checkIsApproched = ApproachRequest::where(function ($query) use ($request) {
-                $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                    ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+                $query->where('sender_id', $this->user->id)
+                    ->where('receiver_id', $request->user_id)
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('sender_id', $request->user_id)
+                            ->where('receiver_id', $this->user->id);
+                    });
             })->withTrashed()
                 ->selectRaw('*, CASE WHEN sender_id = ? THEN "sender" ELSE "receiver" END AS user_role', [$this->user->id])
                 ->orderBy('id', 'DESC')->first();
@@ -2458,9 +2462,14 @@ class UsersController_v2 extends BaseController
 
             if ($unblockToUser != null) {
                 DB::beginTransaction();
+
                 $changeUnBlockApproachStatus = ApproachRequest::where(function ($query) use ($request) {
-                    $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                        ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+                    $query->where('sender_id', $this->user->id)
+                        ->where('receiver_id', $request->user_id)
+                        ->orWhere(function ($query) use ($request) {
+                            $query->where('sender_id', $request->user_id)
+                                ->where('receiver_id', $this->user->id);
+                        });
                 })
                     ->where('status', 'block')
                     ->orderBy('id', 'DESC')
@@ -2766,8 +2775,12 @@ class UsersController_v2 extends BaseController
 
 
         $approch_check = ApproachRequest::where(function ($query) use ($request) {
-            $query->where(['sender_id' => $this->user->id, 'receiver_id' => $request->user_id])
-                ->orWhere(['sender_id' => $request->user_id, 'receiver_id' => $this->user->id]);
+            $query->where('sender_id', $this->user->id)
+                ->where('receiver_id', $request->user_id)
+                ->orWhere(function ($query) use ($request) {
+                    $query->where('sender_id', $request->user_id)
+                        ->where('receiver_id', $this->user->id);
+                });
         })
             ->where('status', 'accepted')
             ->orderBy('id', 'DESC')

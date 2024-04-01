@@ -476,9 +476,3 @@ function showProfile($user_id, $login_user)
         $addshowprofile->save();
     }
 }
-
-function checkCriteriaOfFemale($male, $female)
-{
-    $male = User::findOrFalil($male);
-    $femaleApproachPreference = ApproachPreference::where('user_id', $female)->first();
-}
