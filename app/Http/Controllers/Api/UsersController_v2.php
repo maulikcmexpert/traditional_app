@@ -1216,7 +1216,7 @@ class UsersController_v2 extends BaseController
         $result = ApproachPreference::where('user_id', $this->user->id)->first();
         if ($result != null) {
 
-            if ($result->religious_preference != null || $result->religious_preference != "") {
+            if (isNotNullOrBlank($result->religious_preference)) {
 
                 $religious_preference = json_decode($result->religious_preference);
                 $religious = Religion::select('id', 'religion as name')->whereIn('id', $religious_preference)->get();

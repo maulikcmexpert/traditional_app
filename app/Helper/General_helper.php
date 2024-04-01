@@ -53,6 +53,11 @@ function setpostTime($dateTime)
     return $timeAgo;
 }
 
+function isNotNullOrBlank($value)
+{
+    return !is_null($value) && !empty(trim($value));
+}
+
 function notification($notificationData)
 {
 
