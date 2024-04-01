@@ -208,3 +208,19 @@ function send_notification_FCM_and($deviceToken, $notifyData)
 
     return $result_noti;
 }
+
+
+function generateConversationId($userIds)
+{
+    // Sort user IDs to ensure consistency
+    sort($userIds);
+
+    // Concatenate sorted user IDs
+    $concatenatedIds = implode("", $userIds);
+
+    // Generate hash value using SHA-256
+    $hashValue = hash("sha256", $concatenatedIds);
+
+    // Take the first 10 characters of the hash value
+    return substr($hashValue, 0, 20);
+}
