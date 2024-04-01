@@ -2714,7 +2714,7 @@ class UsersController_v2 extends BaseController
             $approch_check->leave_reason_id   = $request->disconnect_reason_id;
             $approch_check->message = $checkReason->message;
             if ($checkReason != null && $checkReason->reason == 'Others') {
-                $approch_check->reason = $request->message;
+                $approch_check->message = $request->message;
             }
             $approch_check->save();
             $approch_check->delete();
