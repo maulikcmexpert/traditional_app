@@ -1220,7 +1220,7 @@ class UsersController_v2 extends BaseController
                 $religious = Religion::select('id', 'religion as name')->whereIn('id', $religious_preference)->get();
                 $result['religious_preference'] = $religious;
             }
-
+            $result['preference_apply_in_search'] = ($result->preference_apply_in_search == "0") ? false : true;
             return response()->json(["status" => true, 'message' => "Approach reference", "data" => $result]);
         }
         return response()->json(["status" => false, 'message' => "Data not found", "data" => null]);
@@ -1234,7 +1234,7 @@ class UsersController_v2 extends BaseController
                 [
                     'min_age' => ['required'],
                     'max_age' => 'required',
-                    'religious_preference' => ['required'],
+
                     'min_weight' => ['required'],
                     'max_weight' => ['required'],
                     'min_height' => ['required'],
@@ -1252,12 +1252,15 @@ class UsersController_v2 extends BaseController
                 $approachPreference->user_id = $this->user->id;
                 $approachPreference->min_age = $request->min_age;
                 $approachPreference->max_age = $request->max_age;
-                $approachPreference->religious_preference = json_encode($request->religious_preference);
+                if (!empty($request->religious_preference)) {
+                    $approachPreference->religious_preference = json_encode($request->religious_preference);
+                }
+
                 $approachPreference->min_weight = $request->min_weight;
                 $approachPreference->max_weight = $request->max_weight;
                 $approachPreference->min_height = $request->min_height;
                 $approachPreference->max_height = $request->max_height;
-                $approachPreference->preference_apply_in_search = $request->preference_apply_in_search;
+                $approachPreference->preference_apply_in_search = ($request->preference_apply_in_search == true) ? '1' : '0';
                 $approachPreference->save();
             } else {
                 $addApproachPreference = new ApproachPreference();
