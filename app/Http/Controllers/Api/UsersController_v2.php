@@ -1556,7 +1556,7 @@ class UsersController_v2 extends BaseController
 
 
         $userData = [];
-        dd($result);
+
         foreach ($result as $key => $val) {
 
 
@@ -1564,7 +1564,7 @@ class UsersController_v2 extends BaseController
             $maleId = $this->user->id;
 
             $approachPreferences = ApproachPreference::where('user_id', $femaleId)->first();
-
+            dd($approachPreferences);
             $maleAge = calculateAge($this->user->userdetail->date_of_birth, date('Y-m-d'));
             $maleHeight = $this->user->userdetail->height;
             $maleWeight = $this->user->userdetail->weight;
