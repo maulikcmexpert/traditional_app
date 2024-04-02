@@ -83,8 +83,12 @@ function notification($notificationData)
             $data = $database->getReference('/users/' . $notificationData['receiver_id'] . '/notificationCount/')->getValue();
             if ($data == null) {
                 $fieldsToUpdate = ['notificationCount' => 1];
-                $data = $database->getReference('/users/15')->update($fieldsToUpdate);
+                $data = $database->getReference('/users/' . $notificationData['receiver_id'])->update($fieldsToUpdate);
                 // $update = $data->update($fieldsToUpdate);
+            } else {
+
+                $fieldsToUpdate = ['notificationCount' => $data + 1];
+                $data = $database->getReference('/users/' . $notificationData['receiver_id'])->update($fieldsToUpdate);
             }
             exit;
             addNotificationCount($notificationData['receiver_id']);
