@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
 
         $user = [
             'full_name' => "admin",
+            'country_id' => 1,
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin@123'),
             'created_at' => Carbon::now(),
