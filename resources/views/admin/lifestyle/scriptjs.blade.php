@@ -24,7 +24,7 @@
             $('#life_style .lifestyle').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
-
+                alert(thatVal);
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter lifestyle');
                 } else {
