@@ -102,10 +102,9 @@ class LifeStyleController extends Controller
     public function LifestyleExist(Request $request)
     {
         try {
-            echo $request->life_style;
-            exit;
-            $eventType = Lifestyle::where(['life_style' => $request->life_style])->get();
 
+            $eventType = Lifestyle::where(['life_style' => $request->life_style])->get();
+            dd($eventType);
             if (count($eventType) > 0) {
 
                 if (isset($request->id) && !empty($request->id)) {
