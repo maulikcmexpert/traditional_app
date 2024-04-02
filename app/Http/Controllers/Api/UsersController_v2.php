@@ -820,8 +820,9 @@ class UsersController_v2 extends BaseController
                         $data['user_love_lang'][] = $loveLang;
                     }
                 }
-
-
+                $seenProfileUser = $this->getLoginUserLatlog($user_id);
+                $data['latitude'] = $seenProfileUser['latitude'];
+                $data['longitude'] = $seenProfileUser['longitude'];
                 $data['is_approach'] = "no_button";
                 $data['conversation_id'] = "";
 
@@ -834,7 +835,7 @@ class UsersController_v2 extends BaseController
 
 
                         $loginUserLatlong = $this->getLoginUserLatlog($this->user->id);
-                        $seenProfileUser = $this->getLoginUserLatlog($user_id);
+
 
                         $distance = distanceCalculation($loginUserLatlong['latitude'], $loginUserLatlong['longitude'], $seenProfileUser['latitude'], $seenProfileUser['longitude']);
 
