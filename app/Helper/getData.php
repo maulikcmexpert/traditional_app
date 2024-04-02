@@ -368,7 +368,7 @@ function getSearchUser($filter, $page, $user_id)
         });
     }
 
-    $query->where('user_love_lang', function ($q) use ($words_of_affirmation_min, $words_of_affirmation_max, $act_of_services_min, $act_of_services_max, $gifts_min, $gifts_max, $quality_time_min, $quality_time_max, $physical_touch_min, $physical_touch_max) {
+    $query->whereHas('user_love_lang', function ($q) use ($words_of_affirmation_min, $words_of_affirmation_max, $act_of_services_min, $act_of_services_max, $gifts_min, $gifts_max, $quality_time_min, $quality_time_max, $physical_touch_min, $physical_touch_max) {
         $loveLanguages = [
             'words_of_affirmation' => [$words_of_affirmation_min, $words_of_affirmation_max],
             'act_of_services' => [$act_of_services_min, $act_of_services_max],
