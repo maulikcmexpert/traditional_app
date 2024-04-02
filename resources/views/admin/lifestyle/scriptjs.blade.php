@@ -143,7 +143,7 @@
                             if (output == true) {
 
                                 var lifestyle = $('#lifestyle-table').DataTable();
-                                lifestyle.ajax.reload();
+                                window.reload();
                                 toastr.success("Lifestyle deleted successfully !");
                             } else {
                                 toastr.error("Lifestyle don't Deleted !");
