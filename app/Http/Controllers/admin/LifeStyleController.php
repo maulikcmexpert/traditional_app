@@ -50,7 +50,7 @@ class LifeStyleController extends Controller
             foreach ($request->lifestyle as $val) {
 
                 $lifestyle = new Lifestyle();
-                $lifestyle->lifestyle = $val;
+                $lifestyle->life_style = $val;
                 $lifestyle->save();
             }
             DB::commit();
