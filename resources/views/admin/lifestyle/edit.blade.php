@@ -31,7 +31,7 @@
                                     <div class="col-xxl-6 col-md-6">
                                         <label class="form-label">Lifestyle</label>
                                         <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control lifestyle_id" name="id" />
-                                        <input type="text" value="{{$getData->lifestyle}}" class="form-control lifestyle" name="lifestyle" />
+                                        <input type="text" value="{{$getData->life_style}}" class="form-control lifestyle" name="lifestyle" />
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
