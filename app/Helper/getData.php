@@ -423,12 +423,12 @@ function getSearchUser($filter, $page, $user_id)
             $approachPreferences = ApproachPreference::where('user_id', $val->id)->first();
             if ($approachPreferences != null) {
                 if ($approachPreferences->preference_apply_in_search == '1') {
-
                     $getLoginUser = User::with('userdetail')->where('id', $user_id)->first();
                     $LoginUserAge = calculateAge($getLoginUser->userdetail->date_of_birth, date('Y-m-d'));
                     $LoginUserHeight = $getLoginUser->userdetail->height;
                     $LoginUserWeight = $getLoginUser->userdetail->weight;
                     $LoginUser_religion_id = (isNotNullOrBlank($getLoginUser->userdetail->religion_id)) ? $getLoginUser->userdetail->religion_id : 0;
+
 
                     if (
                         ($approachPreferences->min_age <= $LoginUserAge && $approachPreferences->max_age >= $LoginUserAge) &&
@@ -453,15 +453,20 @@ function getSearchUser($filter, $page, $user_id)
                         ];
                         $userData[] = $userInfo;
                     } else {
-                        $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
-                        $userInfo = [
-                            'id' => $val->id,
-                            'name' => $val->full_name,
-                            'city' => $val->userdetail->city ?? "",
-                            'is_ghost' => is_ghost($val->id),
-                            'profile' => ($userProfile != null) ? asset('public/storage/profile/' . $userProfile->profile) : ""
-                        ];
-                        $userData[] = $userInfo;
+                        if (
+                            isNotNullOrBlank($LoginUserHeight) || isNotNullOrBlank($LoginUserWeight)
+                        ) {
+
+                            $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
+                            $userInfo = [
+                                'id' => $val->id,
+                                'name' => $val->full_name,
+                                'city' => $val->userdetail->city ?? "",
+                                'is_ghost' => is_ghost($val->id),
+                                'profile' => ($userProfile != null) ? asset('public/storage/profile/' . $userProfile->profile) : ""
+                            ];
+                            $userData[] = $userInfo;
+                        }
                     }
                 } else {
                     $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
