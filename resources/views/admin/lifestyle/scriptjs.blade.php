@@ -141,11 +141,10 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-
-                                var lifestyle = $('#lifestyle-table').DataTable();
-                                window.reload();
+                                location.reload();
                                 toastr.success("Lifestyle deleted successfully !");
                             } else {
+
                                 toastr.error("Lifestyle don't Deleted !");
                             }
                         },
