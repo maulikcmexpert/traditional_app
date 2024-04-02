@@ -82,7 +82,7 @@ function notification($notificationData)
             $database = Firebase::database();
             $data = $database->getReference('/users/' . $notificationData['receiver_id'] . '/notificationCount/')->getValue();
             if ($data == null) {
-                $fieldsToUpdate = ['notificationCount' => '1'];
+                $fieldsToUpdate = ['notificationCount' => 1];
                 $data = $database->getReference('/users/' . $notificationData['receiver_id'])->update($fieldsToUpdate);
                 // $update = $data->update($fieldsToUpdate);
             }
