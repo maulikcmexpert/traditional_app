@@ -424,10 +424,10 @@ function getSearchUser($filter, $page, $user_id)
             if ($approachPreferences != null) {
                 if ($approachPreferences->preference_apply_in_search == '1') {
                     $getLoginUser = User::with('userdetail')->where('id', $user_id)->first();
-                    echo $LoginUserAge = calculateAge($getLoginUser->userdetail->date_of_birth, date('Y-m-d'));
-                    echo $LoginUserHeight = $getLoginUser->userdetail->height;
-                    echo $LoginUserWeight = $getLoginUser->userdetail->weight;
-                    echo $LoginUser_religion_id = (isNotNullOrBlank($getLoginUser->userdetail->religion_id)) ? $getLoginUser->userdetail->religion_id : 0;
+                    echo $LoginUserAge = calculateAge($getLoginUser->userdetail->date_of_birth, date('Y-m-d')) . "<br>";
+                    echo $LoginUserHeight = $getLoginUser->userdetail->height . "<br>";
+                    echo $LoginUserWeight = $getLoginUser->userdetail->weight . "<br>";
+                    echo $LoginUser_religion_id = (isNotNullOrBlank($getLoginUser->userdetail->religion_id)) ? $getLoginUser->userdetail->religion_id : 0 . "<br>";
                     exit;
 
                     if (
