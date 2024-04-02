@@ -23,7 +23,7 @@ class LifeStyleController extends Controller
     public function index(LifeStyleDataTable $dataTable)
     {
         $page = 'admin.lifestyle.list';
-        $title = 'Interest and hobby';
+        $title = 'Lifestyle';
         $js = 'admin.lifestyle.scriptjs';
         return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
