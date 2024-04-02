@@ -376,16 +376,21 @@ function getSearchUser($filter, $page, $user_id)
             'quality_time' => [$quality_time_min, $quality_time_max],
             'physical_touch' => [$physical_touch_min, $physical_touch_max],
         ];
-
+        $i = 0;
         foreach ($loveLanguages as $loveLang => $range) {
             [$min, $max] = $range;
+            if ($i == 0) {
+                if ($min !== null && $max !== null) {
+                    $q->whereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
+                }
+            } else {
 
+                if ($min !== null && $max !== null) {
 
-            if ($min !== null && $max !== null) {
-                $q->orWhere(function ($qq) use ($min, $max, $loveLang) {
-                    $qq->whereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
-                });
+                    $q->orWhereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
+                }
             }
+            $i++;
         }
     });
 
@@ -406,10 +411,10 @@ function getSearchUser($filter, $page, $user_id)
 
 
     $query->where('id', '!=', $user_id);
-  
+
     // Paginate the results
     $result = $query->paginate(10, ['*'], 'page', $page);
-  
+
     // Format results
     foreach ($result as $val) {
 
