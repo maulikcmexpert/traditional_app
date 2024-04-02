@@ -64,7 +64,7 @@
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
                     console.log("No duplicate lifestyle, submitting form");
-                    $("#interest_and_hobby").submit();
+                    $("#lifestyle").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
