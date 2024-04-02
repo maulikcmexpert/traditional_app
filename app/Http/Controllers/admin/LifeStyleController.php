@@ -93,7 +93,24 @@ class LifeStyleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = Lifestyle::Findorfail($ids);
+            $update->life_style = $request->lifestyle;
+            $update->save();
+            DB::commit();
+            toastr()->success('Lifestyle updated successfully !');
+            return redirect()->route('lifestyle.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('lifestyle.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('lifestyle.create');
+        }
     }
 
     /**
@@ -101,7 +118,16 @@ class LifeStyleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = Lifestyle::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
     }
 
     public function LifestyleExist(Request $request)
