@@ -81,7 +81,11 @@ function notification($notificationData)
         if ($notification->save()) {
             $database = Firebase::database();
             $data = $database->getReference('/users/' . $notificationData['receiver_id'] . '/notificationCount/')->getValue();
-            dd($data);
+            if ($data == null) {
+                $fieldsToUpdate = ['notificationCount' => '1'];
+                $update = $data->update($fieldsToUpdate);
+            }
+            exit;
             addNotificationCount($notificationData['receiver_id']);
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             if ($deviceToken != null) {
