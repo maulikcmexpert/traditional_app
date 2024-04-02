@@ -80,7 +80,12 @@ class LifeStyleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.lifestyle.edit';
+        $title = 'Update Lifestyle';
+        $js = 'admin.lifestyle.scriptjs';
+        $getData = Lifestyle::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
