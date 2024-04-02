@@ -422,7 +422,7 @@ function getSearchUser($filter, $page, $user_id)
 
             $approachPreferences = ApproachPreference::where('user_id', $val->id)->first();
             if ($approachPreferences != null) {
-                dd($approachPreferences->preference_apply_in_search);
+
                 if ($approachPreferences->preference_apply_in_search == '1') {
 
                     $getLoginUser = User::with('userdetail')->where('id', $user_id)->first();
