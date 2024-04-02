@@ -406,7 +406,7 @@ function getSearchUser($filter, $page, $user_id)
 
 
     $query->where('id', '!=', $user_id);
-    // dd($query->toSql());
+    dd($query->toSql());
     // Paginate the results
     $result = $query->paginate(10, ['*'], 'page', $page);
 
