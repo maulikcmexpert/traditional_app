@@ -454,7 +454,7 @@ function getSearchUser($filter, $page, $user_id)
                         $userData[] = $userInfo;
                     } else {
                         if (
-                            isNullOrBlank($LoginUserHeight) || isNullOrBlank($LoginUserWeight)
+                            ($LoginUserHeight == NULL || $LoginUserHeight == "") || ($LoginUserWeight == NULL || $LoginUserWeight == "")
                         ) {
 
                             $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
