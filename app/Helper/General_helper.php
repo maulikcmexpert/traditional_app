@@ -58,6 +58,11 @@ function isNotNullOrBlank($value)
     return !is_null($value) && !empty(trim($value));
 }
 
+function isNullOrBlank($value)
+{
+    return is_null($value) && empty(trim($value));
+}
+
 function addNotificationCount($userId)
 {
 }

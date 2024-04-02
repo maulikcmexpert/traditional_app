@@ -435,8 +435,7 @@ function getSearchUser($filter, $page, $user_id)
                         ($approachPreferences->min_height <= $LoginUserHeight && $approachPreferences->max_height >= $LoginUserHeight)
 
                     ) {
-                        echo "right";
-                        exit;
+
                         if (isNotNullOrBlank($approachPreferences->religious_preference)) {
                             $religious_preference = json_decode($approachPreferences->religious_preference);
                             if (!in_array($LoginUser_religion_id, $religious_preference)) {
@@ -455,7 +454,7 @@ function getSearchUser($filter, $page, $user_id)
                         $userData[] = $userInfo;
                     } else {
                         if (
-                            isNotNullOrBlank($LoginUserHeight) || isNotNullOrBlank($LoginUserWeight)
+                            isNullOrBlank($LoginUserHeight) || isNullOrBlank($LoginUserWeight)
                         ) {
 
                             $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
