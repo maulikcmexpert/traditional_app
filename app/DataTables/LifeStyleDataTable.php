@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\LifeStyle;
+use App\Models\Lifestyle;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -39,7 +39,7 @@ class LifeStyleDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(LifeStyle $model): QueryBuilder
+    public function query(Lifestyle $model): QueryBuilder
     {
         return $model->newQuery();
     }
