@@ -22,7 +22,7 @@ class PostLifestyle extends FormRequest
     public function rules(): array
     {
         return [
-            'lifestyle.*' => ['required', 'string', 'max:255', 'unique:life_style,lifestyles'],
+            'lifestyle.*' => ['required', 'string', 'max:255', 'unique:lifestyles,life_style'],
         ];
     }
 }
