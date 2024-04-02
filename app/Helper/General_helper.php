@@ -66,6 +66,17 @@ function isNullOrBlank($value)
 
 function addNotificationCount($userId)
 {
+    $database = Firebase::database();
+    $data = $database->getReference('/users/' . $userId . '/notificationCount/')->getValue();
+    if ($data == null) {
+        $fieldsToUpdate = ['notificationCount' => 1];
+        $data = $database->getReference('/users/' . $userId)->update($fieldsToUpdate);
+        // $update = $data->update($fieldsToUpdate);
+    } else {
+
+        $fieldsToUpdate = ['notificationCount' => $data + 1];
+        $data = $database->getReference('/users/' . $userId)->update($fieldsToUpdate);
+    }
 }
 function notification($notificationData)
 {
@@ -79,19 +90,10 @@ function notification($notificationData)
         $notification->message = 'Hey! you got connection approach from  $NAME';
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
-            $database = Firebase::database();
-            $data = $database->getReference('/users/' . $notificationData['receiver_id'] . '/notificationCount/')->getValue();
-            if ($data == null) {
-                $fieldsToUpdate = ['notificationCount' => 1];
-                $data = $database->getReference('/users/' . $notificationData['receiver_id'])->update($fieldsToUpdate);
-                // $update = $data->update($fieldsToUpdate);
-            } else {
 
-                $fieldsToUpdate = ['notificationCount' => $data + 1];
-                $data = $database->getReference('/users/' . $notificationData['receiver_id'])->update($fieldsToUpdate);
-            }
-            exit;
+            // firebase count add //
             addNotificationCount($notificationData['receiver_id']);
+            // firebase count add //
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             if ($deviceToken != null) {
                 $user = User::where('id', $notificationData['sender_id'])->first();
@@ -110,6 +112,9 @@ function notification($notificationData)
         $notification->message = '$NAME wants to talk with you';
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
+            // firebase count add //
+            addNotificationCount($notificationData['receiver_id']);
+            // firebase count add //
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             if ($deviceToken != null) {
                 $user = User::where('id', $notificationData['sender_id'])->first();
@@ -136,6 +141,9 @@ function notification($notificationData)
         }
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
+            // firebase count add //
+            addNotificationCount($notificationData['receiver_id']);
+            // firebase count add //
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             $user = User::where('id', $notificationData['sender_id'])->first();
             if ($notificationData['type'] == 'approach') {
@@ -172,6 +180,9 @@ function notification($notificationData)
             }
         }
         if ($notificationData['status'] == 'accepted') {
+            // firebase count add //
+            addNotificationCount($notificationData['receiver_id']);
+            // firebase count add //
             $reciverUser = User::where('id', $notificationData['receiver_id'])->first();
             $notification->message = 'Hey $MYNAME ! $NAME has accepted your request. now you can message to her';
             $notificationData['notification_message'] =  'Hey ' . $reciverUser->full_name . ' ! ' . $user->full_name . ' has accepted your request. now you can message to her';
