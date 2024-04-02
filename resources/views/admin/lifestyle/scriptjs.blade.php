@@ -6,12 +6,12 @@
 
         $(document).on('click', '#addMore', function() {
             var addMoreData = $("#addMoreData").html();
-            $("#interest").append(addMoreData);
+            $("#lifestyle").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#interest .interest_and_hobby").each(function() {
+        $("#lifestyle .lifestyle").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -21,12 +21,12 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#interest .interest_and_hobby').each(function() {
+            $('#lifestyle .lifestyle').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter interest and hobby');
+                    that.next('.text-danger').text('Please enter lifestyle');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -35,13 +35,13 @@
                             },
                             dataType: 'Json',
                             type: "POST",
-                            url: "{{route('interest_and_hobby.exist')}}",
+                            url: "{{route('lifestyle.exist')}}",
                             data: {
-                                interest_and_hobby: thatVal
+                                lifestyle: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('interest and hobby already exist');
+                                    that.next('.text-danger').text('Lifestyle already exist');
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
@@ -60,10 +60,10 @@
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
-                    console.log("Duplicate interest and hobby found");
+                    console.log("Duplicate lifestyle found");
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
-                    console.log("No duplicate interest and hobby, submitting form");
+                    console.log("No duplicate lifestyle, submitting form");
                     $("#interest_and_hobby").submit();
                 }
             }).catch(function(error) {
@@ -75,9 +75,9 @@
 
 
 
-        $("#interest_and_hobby").validate({
+        $("#lifestyle").validate({
             rules: {
-                interest_and_hobby: {
+                lifestyle: {
                     required: true,
                     remote: {
                         headers: {
@@ -85,11 +85,11 @@
                                 "content"
                             ),
                         },
-                        url: "{{route('interest_and_hobby.exist')}}",
+                        url: "{{route('lifestyle.exist')}}",
                         method: "POST",
                         data: {
-                            interest_and_hobby: function() {
-                                return $("input[name='interest_and_hobby']").val();
+                            lifestyle: function() {
+                                return $("input[name='lifestyle']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -100,9 +100,9 @@
 
             },
             messages: {
-                interest_and_hobby: {
-                    required: "Please enter interest and hobby",
-                    remote: "Interest and hobby already exist",
+                lifestyle: {
+                    required: "Please enter lifestyle",
+                    remote: "Iifestyle already exist",
                 },
 
             },
@@ -113,8 +113,8 @@
 
 
         $(document).on('click', '#edit', function() {
-            if ($("#interest_and_hobby").valid()) {
-                $("#interest_and_hobby").submit();
+            if ($("#lifestyle").valid()) {
+                $("#lifestyle").submit();
             }
         })
 
@@ -142,9 +142,9 @@
                         success: function(output) {
                             if (output == true) {
                                 table.ajax.reload();
-                                toastr.success("Interest and hobby deleted successfully !");
+                                toastr.success("Lifestyle deleted successfully !");
                             } else {
-                                toastr.error("Interest and hobby don't Deleted !");
+                                toastr.error("Lifestyle don't Deleted !");
                             }
                         },
                     });

@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('interest_and_hobby.index')}}">Interest and hobbies</a></li>
+                <li class="breadcrumb-item"><a href="{{route('lifestyle.index')}}">Interest and hobbies</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Add</li>
             </ol>
         </nav>
@@ -23,15 +23,15 @@
                 <!-- end card header -->
                 <div class="card-body">
                     <div class="live-preview">
-                        <form method="POST" id="interest_and_hobby" action="{{ route('interest_and_hobby.store')}}" enctype="multipart/form-data">
+                        <form method="POST" id="lifestyle" action="{{ route('lifestyle.store')}}">
                             @csrf
                             <div class="form-group" id="interest">
                                 <div class="row gy-4">
                                     <div class="col-xxl-6 col-md-6">
-                                        <label class="form-label">Interest and hobbies</label>
-                                        <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
+                                        <label class="form-label">Lifestyle</label>
+                                        <input type="text" class="form-control lifestyle" name="lifestyle[]" />
 
-                                        <span class="text-danger"> @if ($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
+                                        <span class="text-danger"> @if ($errors->has('lifestyle*.')){{ $errors->first('lifestyle*.') }} @endif</span>
 
 
                                     </div>
@@ -59,10 +59,10 @@
     <div class="row gy-4">
 
         <div class="col-xxl-6 col-md-6">
-            <label class="form-label">Interest and hobbies</label>
-            <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
+            <label class="form-label">Lifestyle</label>
+            <input type="text" class="form-control lifestyle" name="lifestyle[]" />
 
-            <span class="text-danger"> @if($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
+            <span class="text-danger"> @if($errors->has('lifestyle*.')){{ $errors->first('lifestyle*.') }} @endif</span>
 
         </div>
 
