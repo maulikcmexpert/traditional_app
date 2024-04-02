@@ -92,7 +92,7 @@
     new PerfectScrollbar(".app-container");
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 @stack('scripts')
 
 
