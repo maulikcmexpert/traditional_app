@@ -382,7 +382,7 @@ function getSearchUser($filter, $page, $user_id)
 
 
             if ($min !== null && $max !== null) {
-                $q->where(function ($qq) use ($min, $max, $loveLang) {
+                $q->orWhere(function ($qq) use ($min, $max, $loveLang) {
                     $qq->whereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
                 });
             }
