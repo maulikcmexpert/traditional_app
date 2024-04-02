@@ -423,6 +423,7 @@ function getSearchUser($filter, $page, $user_id)
             $approachPreferences = ApproachPreference::where('user_id', $val->id)->first();
             if ($approachPreferences != null) {
                 if ($approachPreferences->preference_apply_in_search == '1') {
+                    dd($approachPreferences->preference_apply_in_search);
                     $getLoginUser = User::with('userdetail')->where('id', $user_id)->first();
                     $LoginUserAge = calculateAge($getLoginUser->userdetail->date_of_birth, date('Y-m-d'));
                     $LoginUserHeight = $getLoginUser->userdetail->height;
@@ -453,9 +454,7 @@ function getSearchUser($filter, $page, $user_id)
                         ];
                         $userData[] = $userInfo;
                     } else {
-                        echo $LoginUserHeight;
-                        echo $LoginUserWeight;
-                        exit;
+
                         if (
                             ($LoginUserHeight == NULL || $LoginUserHeight == "") || ($LoginUserWeight == NULL || $LoginUserWeight == "")
                         ) {
