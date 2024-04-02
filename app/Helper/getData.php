@@ -380,7 +380,7 @@ function getSearchUser($filter, $page, $user_id)
         foreach ($loveLanguages as $loveLang => $range) {
             [$min, $max] = $range;
             if ($min !== null && $max !== null) {
-                $q->Where(function ($qq) use ($min, $max, $loveLang) {
+                $q->orWhere(function ($qq) use ($min, $max, $loveLang) {
                     $qq->whereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
                 });
             }
@@ -404,7 +404,7 @@ function getSearchUser($filter, $page, $user_id)
 
 
     $query->where('id', '!=', $user_id);
-
+    dd($query->toSql());
     // Paginate the results
     $result = $query->paginate(10, ['*'], 'page', $page);
 
