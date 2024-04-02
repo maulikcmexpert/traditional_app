@@ -141,8 +141,8 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-                                var lifestyleTable = $('#lifestyle-table').DataTable();
-                                lifestyleTable.ajax.reload();
+
+                                table.ajax.reload();
                                 toastr.success("Lifestyle deleted successfully !");
                             } else {
                                 toastr.error("Lifestyle don't Deleted !");
