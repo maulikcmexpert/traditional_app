@@ -453,6 +453,9 @@ function getSearchUser($filter, $page, $user_id)
                         ];
                         $userData[] = $userInfo;
                     } else {
+                        echo $LoginUserHeight;
+                        echo $LoginUserWeight;
+                        exit;
                         if (
                             ($LoginUserHeight == NULL || $LoginUserHeight == "") || ($LoginUserWeight == NULL || $LoginUserWeight == "")
                         ) {
