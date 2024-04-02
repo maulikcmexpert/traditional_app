@@ -121,6 +121,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
+            var dataTable = $('#lifestyle-table').DataTable();
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
