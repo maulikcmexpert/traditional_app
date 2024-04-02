@@ -406,10 +406,10 @@ function getSearchUser($filter, $page, $user_id)
 
 
     $query->where('id', '!=', $user_id);
-    dd($query->toSql());
+  
     // Paginate the results
     $result = $query->paginate(10, ['*'], 'page', $page);
-
+  
     // Format results
     foreach ($result as $val) {
 
