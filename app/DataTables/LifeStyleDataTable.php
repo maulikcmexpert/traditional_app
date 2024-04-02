@@ -22,7 +22,17 @@ class LifeStyleDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'lifestyle.action')
+            ->addColumn('action', function ($row) {
+
+                $id = encrypt($row->id);
+                $editRoute = route('lifestyle.edit', $id);
+                $deleteRoute = route('lifestyle.destroy', $id);
+
+
+                return '<div><a href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
+            <a href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a></div>
+            ';
+            })
             ->setRowId('id');
     }
 
@@ -40,20 +50,20 @@ class LifeStyleDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('lifestyle-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('lifestyle-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -62,15 +72,11 @@ class LifeStyleDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+
+            Column::make('life_style'),
+
+            Column::make('action'),
+
         ];
     }
 
