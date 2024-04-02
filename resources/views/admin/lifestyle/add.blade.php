@@ -25,7 +25,7 @@
                     <div class="live-preview">
                         <form method="POST" id="lifestyle" action="{{ route('lifestyle.store')}}">
                             @csrf
-                            <div class="form-group" id="interest">
+                            <div class="form-group" id="life_style">
                                 <div class="row gy-4">
                                     <div class="col-xxl-6 col-md-6">
                                         <label class="form-label">Lifestyle</label>

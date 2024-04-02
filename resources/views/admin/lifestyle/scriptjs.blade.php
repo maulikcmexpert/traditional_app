@@ -6,12 +6,12 @@
 
         $(document).on('click', '#addMore', function() {
             var addMoreData = $("#addMoreData").html();
-            $("#lifestyle").append(addMoreData);
+            $("#life_style").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#lifestyle .lifestyle").each(function() {
+        $("#life_style .lifestyle").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -21,7 +21,7 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#lifestyle .lifestyle').each(function() {
+            $('#life_style .lifestyle').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
