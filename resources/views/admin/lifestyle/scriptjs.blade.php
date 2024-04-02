@@ -2,7 +2,7 @@
     $(document).ready(function() {
         // Validate the form with ID 'interest_and_hobbies'
 
-
+        var lifestyle = $('#lifestyle-table').DataTable();
 
         $(document).on('click', '#addMore', function() {
             var addMoreData = $("#addMoreData").html();
@@ -141,10 +141,9 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-                                location.reload();
+                                lifestyle.ajax.reload();
                                 toastr.success("Lifestyle deleted successfully !");
                             } else {
-
                                 toastr.error("Lifestyle don't Deleted !");
                             }
                         },
