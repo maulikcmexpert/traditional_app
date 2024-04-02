@@ -34,7 +34,7 @@ class OrgranizationValid extends FormRequest
         return [
             'organization_name' => ['required', new OrganizationNameValidation, 'max:200'],
             'country_code' => ['required', 'string', 'max:5'],
-            'mobile_number' => ['required', new MobileNumberValidation, 'string', 'unique:users,mobile_number'],
+            'mobile_number' => ['required', new MobileNumberValidation, 'numeric', 'unique:users,mobile_number'],
             'email' => ['required', 'email', new CustomEmailValidation, 'max:50', 'unique:users,email'],
             //   'organization_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'established_year' => ['required', 'numeric', 'digits:4', 'lte:' . date('Y')],
@@ -51,6 +51,7 @@ class OrgranizationValid extends FormRequest
         return [
             'organization_name.required' => 'Please enter Name of Church/Organization',
             'mobile_number.required' => 'Please enter Mobile Number',
+            'mobile_number.numeric' => 'Please enter mobile number in digit',
             'email.required' => 'Please enter Email',
             'email.unique' => 'Email is already taken',
             // 'organization_profile.required' => 'Please upload Logo/Image',

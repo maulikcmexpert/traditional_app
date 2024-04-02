@@ -51,6 +51,7 @@ class UserValidate extends FormRequest
         return [
             'full_name.required' => 'Please enter Full Name',
             'email.required' => 'Please enter Email',
+            'mobile_number.numeric' => 'Please enter mobile number in digit',
             'email.email' => 'Please enter valid Email',
             'city.required' => 'Please enter City',
         ];
