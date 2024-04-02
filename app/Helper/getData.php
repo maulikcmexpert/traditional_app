@@ -424,11 +424,10 @@ function getSearchUser($filter, $page, $user_id)
             if ($approachPreferences != null) {
                 if ($approachPreferences->preference_apply_in_search == '1') {
                     $getLoginUser = User::with('userdetail')->where('id', $user_id)->first();
-                    echo $LoginUserAge = calculateAge($getLoginUser->userdetail->date_of_birth, date('Y-m-d')) . "<br>";
-                    echo $LoginUserHeight = $getLoginUser->userdetail->height . "<br>";
-                    echo $LoginUserWeight = $getLoginUser->userdetail->weight . "<br>";
-                    echo $LoginUser_religion_id = (isNotNullOrBlank($getLoginUser->userdetail->religion_id)) ? $getLoginUser->userdetail->religion_id : 0 . "<br>";
-                    exit;
+                    $LoginUserAge = calculateAge($getLoginUser->userdetail->date_of_birth, date('Y-m-d'));
+                    $LoginUserHeight = $getLoginUser->userdetail->height;
+                    $LoginUserWeight = $getLoginUser->userdetail->weight;
+                    $LoginUser_religion_id = (isNotNullOrBlank($getLoginUser->userdetail->religion_id)) ? $getLoginUser->userdetail->religion_id : 0;
 
                     if (
                         ($approachPreferences->min_age <= $LoginUserAge && $approachPreferences->max_age >= $LoginUserAge) &&
@@ -436,6 +435,8 @@ function getSearchUser($filter, $page, $user_id)
                         ($approachPreferences->min_height <= $LoginUserHeight && $approachPreferences->max_height >= $LoginUserHeight)
 
                     ) {
+                        echo "right";
+                        exit;
                         if (isNotNullOrBlank($approachPreferences->religious_preference)) {
                             $religious_preference = json_decode($approachPreferences->religious_preference);
                             if (!in_array($LoginUser_religion_id, $religious_preference)) {
