@@ -7,6 +7,7 @@ use App\Models\{
     User,
     Device
 };
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 function distanceCalculation($latitude1, $longitude1, $latitude2, $longitude2)
 {
@@ -78,7 +79,9 @@ function notification($notificationData)
         $notification->message = 'Hey! you got connection approach from  $NAME';
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
-
+            $database = Firebase::database();
+            $data = $database->getReference('/users/' . $notificationData['receiver_id'] . '/notificationCount/')->getValue();
+            dd($data);
             addNotificationCount($notificationData['receiver_id']);
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             if ($deviceToken != null) {
