@@ -452,6 +452,16 @@ function getSearchUser($filter, $page, $user_id)
                             'profile' => ($userProfile != null) ? asset('public/storage/profile/' . $userProfile->profile) : ""
                         ];
                         $userData[] = $userInfo;
+                    } else {
+                        $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
+                        $userInfo = [
+                            'id' => $val->id,
+                            'name' => $val->full_name,
+                            'city' => $val->userdetail->city ?? "",
+                            'is_ghost' => is_ghost($val->id),
+                            'profile' => ($userProfile != null) ? asset('public/storage/profile/' . $userProfile->profile) : ""
+                        ];
+                        $userData[] = $userInfo;
                     }
                 } else {
                     $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
