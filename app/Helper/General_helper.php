@@ -58,6 +58,9 @@ function isNotNullOrBlank($value)
     return !is_null($value) && !empty(trim($value));
 }
 
+function addNotificationCount($userId)
+{
+}
 function notification($notificationData)
 {
 
@@ -70,6 +73,8 @@ function notification($notificationData)
         $notification->message = 'Hey! you got connection approach from  $NAME';
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
+
+            addNotificationCount($notificationData['receiver_id']);
             $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
             if ($deviceToken != null) {
                 $user = User::where('id', $notificationData['sender_id'])->first();
