@@ -11,34 +11,33 @@
         </nav>
     </div>
     <!-- -----header-breadcrumb-end-- -->
-
-
-    <div class="row">
-        <div class="col-lg-12">
+        <div class="container">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Add</h4>
-
                 </div>
                 <!-- end card header -->
                 <div class="card-body">
                     <div class="live-preview">
                         <form method="POST" id="interest_and_hobby" action="{{ route('interest_and_hobby.store')}}" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group" id="interest">
-                                <div class="row gy-4">
+                            <div class="form-group row" id="interest">
+                                
                                     <div class="col-xxl-6 col-md-6">
-                                        <label class="form-label">Interest and hobbies</label>
-                                        <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
-
-                                        <span class="text-danger"> @if ($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
-
-
+                                        <div class="w-100 d-flex align-items-center gap-2">
+                                            <div class="w-100">
+                                                <label class="form-label">Interest and hobbies</label>
+                                                <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
+                                                <span class="text-danger"> @if ($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
+                                            </div>
+                                            <span class="btn btn-primary" id="addMore"><i class="fa-solid fa-plus"></i></span>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <span class="btn btn-primary" id="addMore"><i class="fa-solid fa-plus"></i></span>
-                                    </div>
-                                </div>
+                                    
+                                    <!-- <div class="col-lg-1 mt-5">
+                                        
+                                    </div> -->
+                                
 
                             </div>
 
@@ -52,23 +51,24 @@
             </div>
         </div>
         <!--end col-->
-    </div>
+    
 
 </div>
 <div id="addMoreData" style="display: none;">
-    <div class="row gy-4">
-
         <div class="col-xxl-6 col-md-6">
-            <label class="form-label">Interest and hobbies</label>
-            <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
+           
+                <div>
+                    <label class="form-label">Interest and hobbies</label>
+                    <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
 
-            <span class="text-danger"> @if($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
-
+                    <span class="text-danger"> @if($errors->has('interest_and_hobby*.')){{ $errors->first('interest_and_hobby*.') }} @endif</span>
+                </div>
+                <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
+            
         </div>
 
-        <div class="col-lg-4">
-            <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
-        </div>
-
-    </div>
+        <!-- <div class="col-lg-4">
+            
+        </div> -->
+    
 </div>

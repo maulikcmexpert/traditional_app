@@ -87,7 +87,7 @@ table.dataTable thead th{
     border: none !important;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+.paginate_button.current{
     color: #fff !important;
     border-radius: 5px;
     -webkit-border-radius: 5px;
