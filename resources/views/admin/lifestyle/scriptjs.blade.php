@@ -143,9 +143,11 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
+                                sessionStorage.setItem('showSuccessNotification', 'true');
                                 location.reload();
-                                toastr.success("Lifestyle deleted successfully !");
+
                             } else {
+                                sessionStorage.setItem('showErrorNotification', 'true');
                                 toastr.error("Lifestyle don't Deleted !");
                             }
                         },
@@ -154,6 +156,12 @@
             });
         });
 
+        if (sessionStorage.getItem('showSuccessNotification')) {
+            // Show the success notification using Toastr
+            toastr.success("Lifestyle deleted successfully !");
+            // Remove the flag from sessionStorage
+            sessionStorage.removeItem('showSuccessNotification');
+        }
 
     });
 </script>
