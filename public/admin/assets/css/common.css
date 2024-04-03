@@ -5,6 +5,7 @@
 
 body{
     font-family: 'IBM Plex Sans' !important;
+    background-color: #F5F6F8;
 }
 
 img{
@@ -57,6 +58,62 @@ select{
     background-color: #F5F6F8;
 }
 
+table.dataTable{
+    border-collapse: collapse !important;
+    margin-bottom: 15px !important;
+    border-bottom: 0 !important;
+}
+
+table.dataTable tr,
+table.dataTable thead tr
+{
+    border-bottom: 1px solid #eff2f5 !important;
+}
+
+table.dataTable tbody tr:last-child{
+    border-bottom: 0 !important;
+}
+
+table.dataTable td,
+table.dataTable th{
+    padding: 13px 10px !important;
+}
+
+table.dataTable thead th{
+    color: #495057 !important;
+}
+
+.dataTables_paginate{
+    border: none !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+    color: #fff !important;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.card-header{
+    display: flex !important;
+    align-items: center !important;
+}
+
+.card-header a{
+    margin-left: auto !important;
+}
+
+.dataTables_paginate{
+    display: flex;
+    gap: 5px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled{
+    border: 1px solid #eff2f5 !important;
+    color: #acacac !important;
+}
 
 @media only screen and (max-width:768px){
     p{

@@ -501,8 +501,9 @@ table.dataTable td {
   border-radius: 2px;
   background: transparent;
 }
+
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-  color: inherit !important;
+  color: #fff !important;
   border: 1px solid rgba(0, 0, 0, 0.3);
   background-color: rgba(0, 0, 0, 0.05);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(230, 230, 230, 0.05)), color-stop(100%, rgba(0, 0, 0, 0.05))); /* Chrome,Safari4+ */
@@ -643,6 +644,7 @@ html.dark .dataTables_wrapper .dataTables_length select {
   background-color: var(--dt-html-background);
 }
 html.dark .dataTables_wrapper .dataTables_paginate .paginate_button.current, html.dark .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  color: #fff !important;
   border: 1px solid rgb(89, 91, 94);
   background: rgba(255, 255, 255, 0.15);
 }
