@@ -1630,7 +1630,7 @@ class UsersController_v2 extends BaseController
                                         ->where('to_be_blocked_user_id', $this->user->id);
                                 });
                         })->orderBy('id', 'DESC')->count();
-
+                        dd($approch_check_is_block);
                         if ($approch_check_is_block == 1) {
                             continue;
                         }
