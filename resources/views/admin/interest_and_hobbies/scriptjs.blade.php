@@ -9,7 +9,7 @@
             $("#interest").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
-            $(this).parent().parent().remove();
+            $(this).parent().remove();
         });
         $("#interest .interest_and_hobby").each(function() {
             $(this).focus(function() {
