@@ -1577,7 +1577,7 @@ class UsersController_v2 extends BaseController
                 $maleHeight = $this->user->userdetail->height;
                 $maleWeight = $this->user->userdetail->weight;
                 $male_religion_id = (isNotNullOrBlank($this->user->userdetail->religion_id)) ? $this->user->userdetail->religion_id : 0;
-                if ($approachPreferences != null) {
+                if ($approachPreferences != null && ($maleAge != NULL || $maleAge != "") && ($maleHeight != NULL || $maleHeight != "") && ($maleWeight != NULL || $maleWeight != "")) {
                     if (
                         ($approachPreferences->min_age <= $maleAge && $approachPreferences->max_age >= $maleAge) &&
                         ($approachPreferences->min_weight <= $maleWeight && $approachPreferences->max_weight >= $maleWeight) &&
