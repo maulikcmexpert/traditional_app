@@ -121,7 +121,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-            var dataTable = $('#lifestyle-table').DataTable();
+
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
@@ -131,6 +131,7 @@
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
+
                     $.ajax({
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -142,9 +143,11 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-                                dataTable.ajax.reload(null, false);
-                                toastr.success("Lifestyle deleted successfully !");
+                                sessionStorage.setItem('showSuccessNotification', 'true');
+                                location.reload();
+
                             } else {
+                                sessionStorage.setItem('showErrorNotification', 'true');
                                 toastr.error("Lifestyle don't Deleted !");
                             }
                         },
@@ -153,6 +156,12 @@
             });
         });
 
+        if (sessionStorage.getItem('showSuccessNotification')) {
+            // Show the success notification using Toastr
+            toastr.success("Lifestyle deleted successfully !");
+            // Remove the flag from sessionStorage
+            sessionStorage.removeItem('showSuccessNotification');
+        }
 
     });
 </script>
