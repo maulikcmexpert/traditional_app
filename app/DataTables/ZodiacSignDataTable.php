@@ -26,11 +26,11 @@ class ZodiacSignDataTable extends DataTable
 
                 $id = encrypt($row->id);
                 $editRoute = route('zodiacsign.edit', $id);
-                $deleteRoute = route('zodiacsign.destroy', $id);
-
+                // $deleteRoute = route('zodiacsign.destroy', $id);
+                // <a href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a>
 
                 return '<div><a href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
-            <a href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a></div>
+           </div>
             ';
             })
             ->setRowId('id');
