@@ -5,7 +5,8 @@ use App\Http\Controllers\admin\{
     DashboardController,
     UserController,
     InterestAndHobbiesController,
-    LifeStyleController
+    LifeStyleController,
+    ZodiacSignController
 };
 
 
@@ -15,7 +16,9 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'user' => UserController::class,
         'interest_and_hobby' => InterestAndHobbiesController::class,
         'lifestyle' => LifeStyleController::class,
+        'zodiacsign' => ZodiacSignController::class,
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('lifestyle/lifestyle_exist', [LifeStyleController::class, 'lifestyleExist'])->name('lifestyle.exist');
+    Route::post('zodiacsign/zodiacsign_exist', [ZodiacSignController::class, 'zodiacsignExist'])->name('zodiacsign.exist');
 });
