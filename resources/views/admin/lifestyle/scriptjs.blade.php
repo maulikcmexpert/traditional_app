@@ -121,7 +121,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-            var dataTable = $('#lifestyle-table').DataTable();
+
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
@@ -131,6 +131,7 @@
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
+                    var dataTable = $('#lifestyle-table').DataTable();
                     $.ajax({
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
