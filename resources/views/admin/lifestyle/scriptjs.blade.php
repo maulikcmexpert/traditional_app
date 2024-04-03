@@ -121,7 +121,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-            var dataTable = $('#lifestyle-table').DataTable();
+
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
@@ -142,13 +142,9 @@
                         url: userURL,
                         dataType: "json",
                         success: function(output) {
-
                             if (output == true) {
-
-                                dataTable.ajax.reload(null, false);
-                                toastr.success("Lifestyle deleted successfully !");
-                                // sessionStorage.setItem('showSuccessNotification', 'true');
-                                // location.reload();
+                                sessionStorage.setItem('showSuccessNotification', 'true');
+                                location.reload();
 
                             } else {
                                 sessionStorage.setItem('showErrorNotification', 'true');
