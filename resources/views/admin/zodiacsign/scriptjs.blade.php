@@ -6,12 +6,12 @@
 
         $(document).on('click', '#addMore', function() {
             var addMoreData = $("#addMoreData").html();
-            $("#interest").append(addMoreData);
+            $("#zodiacsign").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#interest .interest_and_hobby").each(function() {
+        $("#zodiacsign .zodiacsign").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -21,12 +21,12 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#interest .interest_and_hobby').each(function() {
+            $('#zodiacsign .zodiacsign').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter interest and hobby');
+                    that.next('.text-danger').text('Please enter Zodiac Sign');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -35,13 +35,13 @@
                             },
                             dataType: 'Json',
                             type: "POST",
-                            url: "{{route('interest_and_hobby.exist')}}",
+                            url: "{{route('zodiacsign.exist')}}",
                             data: {
-                                interest_and_hobby: thatVal
+                                zodiacsign: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('interest and hobby already exist');
+                                    that.next('.text-danger').text('Zodiac Sign already exist');
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
@@ -60,11 +60,11 @@
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
-                    console.log("Duplicate interest and hobby found");
+                    console.log("Duplicate Zodiac Sign found");
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
-                    console.log("No duplicate interest and hobby, submitting form");
-                    $("#interest_and_hobby").submit();
+                    console.log("No duplicate Zodiac Sign, submitting form");
+                    $("#zodiacsign").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
@@ -75,9 +75,9 @@
 
 
 
-        $("#interest_and_hobby").validate({
+        $("#zodiacsign").validate({
             rules: {
-                interest_and_hobby: {
+                zodiacsign: {
                     required: true,
                     remote: {
                         headers: {
@@ -85,11 +85,11 @@
                                 "content"
                             ),
                         },
-                        url: "{{route('interest_and_hobby.exist')}}",
+                        url: "{{route('zodiacsign.exist')}}",
                         method: "POST",
                         data: {
-                            interest_and_hobby: function() {
-                                return $("input[name='interest_and_hobby']").val();
+                            zodiacsign: function() {
+                                return $("input[name='zodiacsign']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -100,9 +100,9 @@
 
             },
             messages: {
-                interest_and_hobby: {
-                    required: "Please enter interest and hobby",
-                    remote: "Interest and hobby already exist",
+                zodiacsign: {
+                    required: "Please enter Zodiac Sign",
+                    remote: "Zodiac Sign already exist",
                 },
 
             },
@@ -113,8 +113,8 @@
 
 
         $(document).on('click', '#edit', function() {
-            if ($("#interest_and_hobby").valid()) {
-                $("#interest_and_hobby").submit();
+            if ($("#zodiacsign").valid()) {
+                $("#zodiacsign").submit();
             }
         })
 
@@ -148,7 +148,7 @@
 
 
                             } else {
-                                toastr.error("Interest and hobby don't Deleted !");
+                                toastr.error("Zodiac Sign don't Deleted !");
                             }
                         },
                     });
@@ -158,7 +158,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Interest and hobby deleted successfully !");
+            toastr.success("Zodiac Sign deleted successfully !");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }
