@@ -142,8 +142,10 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-                                dataTable.ajax.reload(null, false);
-                                toastr.success("Interest and hobby deleted successfully !");
+
+                                sessionStorage.setItem('showSuccessNotification', 'true');
+                                location.reload();
+
 
                             } else {
                                 toastr.error("Interest and hobby don't Deleted !");
