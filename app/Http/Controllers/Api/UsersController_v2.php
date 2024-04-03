@@ -2282,16 +2282,9 @@ class UsersController_v2 extends BaseController
             $page = $request->page;
         }
         // $organization_id = $this->user->id;
-        // dd($organization_id);
-        if (isset($request->user_id)) {
-            echo "hi";
-            exit;
-            // $request->user_id
-        } else {
-            echo "from token";
-            exit;
-            // $this->user->id
-        }
+
+        dd($this->user->id);
+        $organization_id = (isset($request->user_id)) ? $request->user_id : $this->user->id;
         $total_request =  UserDetail::with(['user', 'user.user_profile' => function ($query) {
             $query->where('is_default', '1');
         }])->where('organization_id', $organization_id)->count();
