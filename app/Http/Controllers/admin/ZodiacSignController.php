@@ -31,7 +31,10 @@ class ZodiacSignController extends Controller
      */
     public function create()
     {
-        //
+        $page = 'admin.zodiacsign.add';
+        $title = 'Add Zodiac Sign';
+        $js = 'admin.zodiacsign.scriptjs';
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
