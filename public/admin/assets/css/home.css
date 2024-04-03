@@ -30,6 +30,9 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 5px;
 }
 .breadcrumb {
   margin-bottom: 0px;
