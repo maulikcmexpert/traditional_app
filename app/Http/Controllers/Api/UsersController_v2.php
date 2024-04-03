@@ -2281,9 +2281,8 @@ class UsersController_v2 extends BaseController
         if (isset($request->page) && $request->page != "") {
             $page = $request->page;
         }
-        // $organization_id = $this->user->id;
 
-        dd($this->user->id);
+
         $organization_id = (isset($request->user_id)) ? $request->user_id : $this->user->id;
         $total_request =  UserDetail::with(['user', 'user.user_profile' => function ($query) {
             $query->where('is_default', '1');
