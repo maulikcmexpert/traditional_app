@@ -2275,46 +2275,46 @@ class UsersController_v2 extends BaseController
 
     public function memberOfOrganization(Request $request)
     {
-        try {
-            DB::beginTransaction();
-            $page = 1;
-            if (isset($request->page) && $request->page != "") {
-                $page = $request->page;
-            }
-            // $organization_id = $this->user->id;
-            // dd($organization_id);
-            $organization_id = (isset($request->user_id)) ? $request->user_id : $this->user->id;
-            $total_request =  UserDetail::with(['user', 'user.user_profile' => function ($query) {
-                $query->where('is_default', '1');
-            }])->where('organization_id', $organization_id)->count();
-            $total_page  = ceil($total_request / 10);
-            $get_member = UserDetail::with(['user', 'user.user_profile' => function ($query) {
-                $query->where('is_default', '1');
-            }])->where('organization_id', $organization_id)->select('user_id')->paginate(10, ['*'], 'page', $page);
-
-            $data = [];
-            foreach ($get_member as $val) {
-
-                $profile['user_id'] = $val->user_id;
-                $profile['full_name'] = ($val->user->full_name != "") ? $val->user->full_name  : "";
-                $profile['image']  = "";
-
-                if ($val->user->user_profile->isNotEmpty()) {
-                    $profile['image'] = asset('storage/profile/' . $val->user->user_profile->first()->profile);
-                }
-                $data[] = $profile;
-            }
-
-            DB::commit();
-            return response()->json(["status" => true, 'message' => 'Success',  'total_page' => $total_page, 'data' => $data]);
-        } catch (QueryException $e) {
-
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // try {
+        DB::beginTransaction();
+        $page = 1;
+        if (isset($request->page) && $request->page != "") {
+            $page = $request->page;
         }
+        // $organization_id = $this->user->id;
+        // dd($organization_id);
+        $organization_id = (isset($request->user_id)) ? $request->user_id : $this->user->id;
+        $total_request =  UserDetail::with(['user', 'user.user_profile' => function ($query) {
+            $query->where('is_default', '1');
+        }])->where('organization_id', $organization_id)->count();
+        $total_page  = ceil($total_request / 10);
+        $get_member = UserDetail::with(['user', 'user.user_profile' => function ($query) {
+            $query->where('is_default', '1');
+        }])->where('organization_id', $organization_id)->select('user_id')->paginate(10, ['*'], 'page', $page);
+
+        $data = [];
+        foreach ($get_member as $val) {
+
+            $profile['user_id'] = $val->user_id;
+            $profile['full_name'] = ($val->user->full_name != "") ? $val->user->full_name  : "";
+            $profile['image']  = "";
+
+            if ($val->user->user_profile->isNotEmpty()) {
+                $profile['image'] = asset('storage/profile/' . $val->user->user_profile->first()->profile);
+            }
+            $data[] = $profile;
+        }
+
+        DB::commit();
+        return response()->json(["status" => true, 'message' => 'Success',  'total_page' => $total_page, 'data' => $data]);
+        // } catch (QueryException $e) {
+
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
