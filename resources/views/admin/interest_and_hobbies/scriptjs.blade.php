@@ -121,6 +121,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
+            var dataTable = $('#interestandhobbies-table').DataTable();
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
@@ -141,7 +142,7 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-                                table.ajax.reload();
+                                dataTable.ajax.reload(null, false);
                                 toastr.success("Interest and hobby deleted successfully !");
                             } else {
                                 toastr.error("Interest and hobby don't Deleted !");
