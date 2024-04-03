@@ -144,6 +144,7 @@
                             if (output == true) {
                                 dataTable.ajax.reload(null, false);
                                 toastr.success("Interest and hobby deleted successfully !");
+
                             } else {
                                 toastr.error("Interest and hobby don't Deleted !");
                             }
