@@ -27,7 +27,7 @@
                             @csrf
 
                             <div class="form-group AddInterest">
-                                <div class="row" id="life_style">
+                                <div class="row" id="zodiac_sign">
                                     <div class="col-xxl-12 col-md-6">
                                         <div class="w-100 d-flex align-items-end gap-2">
                                             <div class="w-100 mb-2 position-relative">
@@ -58,20 +58,18 @@
     </div>
 
 </div>
+
+
 <div id="addMoreData" style="display: none;">
-    <div class="row gy-4">
+    <div class="col-xl-6">
+        <div class="d-flex align-items-end gap-2 mt-2 mb-2">
+            <div class="w-100 position-relative">
+                <label class="form-label">Zidiac Sign</label>
+                <input type="text" class="form-control zodiacsign" name="zodiacsign[]" />
 
-        <div class="col-xxl-6 col-md-6">
-            <label class="form-label">Zidiac Sign</label>
-            <input type="text" class="form-control zodiacsign" name="zodiacsign[]" />
-
-            <span class="text-danger"> @if($errors->has('zodiacsign*.')){{ $errors->first('zodiacsign*.') }} @endif</span>
-
-        </div>
-
-        <div class="col-lg-4">
+                <span class="text-danger"> @if($errors->has('zodiacsign*.')){{ $errors->first('zodiacsign*.') }} @endif</span>
+            </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>
-
     </div>
 </div>

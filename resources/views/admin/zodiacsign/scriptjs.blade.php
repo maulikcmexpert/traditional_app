@@ -6,7 +6,7 @@
 
         $(document).on('click', '#addMore', function() {
             var addMoreData = $("#addMoreData").html();
-            $("#zodiacsign").append(addMoreData);
+            $("#zodiac_sign").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
