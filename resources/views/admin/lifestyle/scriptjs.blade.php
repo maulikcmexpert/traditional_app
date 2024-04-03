@@ -9,7 +9,7 @@
             $("#life_style").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
-            $(this).parent().parent().remove();
+            $(this).parent().remove();
         });
         $("#life_style .lifestyle").each(function() {
             $(this).focus(function() {
