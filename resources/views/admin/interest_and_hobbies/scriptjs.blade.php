@@ -121,7 +121,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-            var dataTable = $('#interestandhobbies-table').DataTable();
+
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
@@ -142,8 +142,10 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-                                dataTable.ajax.reload(null, false);
-                                toastr.success("Interest and hobby deleted successfully !");
+
+                                sessionStorage.setItem('showSuccessNotification', 'true');
+                                location.reload();
+
 
                             } else {
                                 toastr.error("Interest and hobby don't Deleted !");
@@ -153,7 +155,13 @@
                 }
             });
         });
+        if (sessionStorage.getItem('showSuccessNotification')) {
+            // Show the success notification using Toastr
 
+            toastr.success("Interest and hobby deleted successfully !");
+            // Remove the flag from sessionStorage
+            sessionStorage.removeItem('showSuccessNotification');
+        }
 
     });
 </script>
