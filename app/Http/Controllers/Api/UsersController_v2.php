@@ -1630,7 +1630,7 @@ class UsersController_v2 extends BaseController
                                         ->where('to_be_blocked_user_id', $this->user->id);
                                 });
                         })->orderBy('id', 'DESC')->count();
-                        dd($approch_check_is_block);
+
                         if ($approch_check_is_block == 1) {
                             continue;
                         }
@@ -1678,7 +1678,17 @@ class UsersController_v2 extends BaseController
                     //         continue;
                     //     }
                     // }
-                    $approch_check_is_block = ProfileBlock::where(['blocker_user_id' => $val->id, 'to_be_blocked_user_id' => $this->user->id])->count();
+
+
+                    $approch_check_is_block = ProfileBlock::where(function ($query) use ($val) {
+                        $query->where('blocker_user_id', $this->user->id)
+                            ->where('to_be_blocked_user_id', $val->id)
+                            ->orWhere(function ($query) use ($val) {
+                                $query->where('blocker_user_id', $val->id)
+                                    ->where('to_be_blocked_user_id', $this->user->id);
+                            });
+                    })->orderBy('id', 'DESC')->count();
+
                     if ($approch_check_is_block == 1) {
                         continue;
                     }
