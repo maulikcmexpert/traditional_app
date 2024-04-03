@@ -142,9 +142,13 @@
                         url: userURL,
                         dataType: "json",
                         success: function(output) {
+
                             if (output == true) {
-                                sessionStorage.setItem('showSuccessNotification', 'true');
-                                location.reload();
+                                var dataTable = $('#lifestyle-table').DataTable();
+                                dataTable.ajax.reload(null, false);
+                                toastr.success("Lifestyle deleted successfully !");
+                                // sessionStorage.setItem('showSuccessNotification', 'true');
+                                // location.reload();
 
                             } else {
                                 sessionStorage.setItem('showErrorNotification', 'true');
