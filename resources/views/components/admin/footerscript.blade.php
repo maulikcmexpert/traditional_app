@@ -27,8 +27,6 @@
 <script src="{{asset('admin/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
-<!-- <script src="{{asset('admin/assets/plugins/apexcharts-bundle/js/apexcharts.min.js')}}"></script> -->
-<!-- <script src="{{asset('admin/assets/plugins/apexcharts-bundle/js/apex-custom.js')}}"></script> -->
 
 <script src="{{asset('admin/assets/plugins/%40fullcalendar/core/main.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/%40fullcalendar/bootstrap/main.min.js')}}"></script>
@@ -93,6 +91,8 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 @stack('scripts')
 
 
