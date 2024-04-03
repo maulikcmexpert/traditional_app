@@ -143,7 +143,7 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-                                window.load();
+                                location.reload();
                                 toastr.success("Lifestyle deleted successfully !");
                             } else {
                                 toastr.error("Lifestyle don't Deleted !");
