@@ -27,7 +27,7 @@
                             @csrf
 
                             <div class="form-group AddInterest">
-                                <div class="row" id="interest">
+                                <div class="row" id="lifestyle">
                                     <div class="col-xxl-12 col-md-6">
                                         <div class="w-100 d-flex align-items-end gap-2">
                                             <div class="w-100 mb-2 position-relative">
