@@ -131,7 +131,7 @@
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
-                    var dataTable = $('#lifestyle-table').DataTable();
+
                     $.ajax({
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -143,7 +143,7 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-                                dataTable.ajax.reload(null, false);
+                                window.load();
                                 toastr.success("Lifestyle deleted successfully !");
                             } else {
                                 toastr.error("Lifestyle don't Deleted !");
