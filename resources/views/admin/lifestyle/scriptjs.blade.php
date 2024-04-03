@@ -2,7 +2,7 @@
     $(document).ready(function() {
         // Validate the form with ID 'interest_and_hobbies'
 
-        var dataTable = $('#lifestyle-table').DataTable();
+
 
         $(document).on('click', '#addMore', function() {
             var addMoreData = $("#addMoreData").html();
@@ -121,7 +121,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-
+            var dataTable = $('#lifestyle-table').DataTable();
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
