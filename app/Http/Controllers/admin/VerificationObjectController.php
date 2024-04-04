@@ -48,7 +48,7 @@ class VerificationObjectController extends Controller
 
             if (!empty($request->object_image)) {
                 $image = $request->object_image;
-                $imageName = time() . $image->getClientOriginalExtension();
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/verification_object'), $imageName);
 
                 $verifyObj = new VerificationObject();
@@ -98,7 +98,37 @@ class VerificationObjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+
+            $updateVerifyObj = VerificationObject::where('id', $ids)->first();
+            if (!empty($request->object_image_edit)) {
+                $filePath = public_path('storage/verification_object/' . $updateVerifyObj->object_image);
+                if (file_exists($filePath)) {
+
+                    unlink($filePath);
+                }
+
+                $image = $request->object_image_edit;
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/verification_object'), $imageName);
+                $updateVerifyObj->object_image = $imageName;
+            }
+            $updateVerifyObj->object_type = $request->object_type;
+            $updateVerifyObj->save();
+            DB::commit();
+            toastr()->success('Verification Object updated successfully !');
+            return redirect()->route('verificationobject.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('verificationobject.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('verificationobject.create');
+        }
     }
 
     /**
