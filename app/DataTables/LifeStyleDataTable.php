@@ -29,8 +29,8 @@ class LifeStyleDataTable extends DataTable
                 $deleteRoute = route('lifestyle.destroy', $id);
 
 
-                return '<div><a href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
-            <a href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a></div>
+                return '<div class="d-flex gap-2"><a class="editBtns" href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
+            <a class="deleteBtns" href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a></div>
             ';
             })
             ->setRowId('id');

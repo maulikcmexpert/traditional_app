@@ -14,7 +14,8 @@
 
     <div class="container">
         <div class="card">
-            <div class="card-header">Lifestyle
+            <div class="card-header">
+                <h4 class="card-title">Lifestyle</h4>
 
                 <a href="{{route('lifestyle.create')}}" class="btn btn-primary text-right">Add</a>
             </div>

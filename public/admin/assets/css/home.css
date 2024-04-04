@@ -1,7 +1,7 @@
 .header-breadcrumb h5 {
-  color: var(--primaryColor);
+  color: #000;
   font-family: "IBM Plex Sans";
-  font-size: 18px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -15,7 +15,9 @@
   line-height: normal;
 }
 .header-breadcrumb .breadcrumb .breadcrumb-item a {
-  color: var(--primaryColor) !important;
+  color: #0690fb !important;
+    font-size: 15px;
+    font-weight: 500;
 }
 .header-breadcrumb .breadcrumb .breadcrumb-item.active {
   color: var(--secondryColor);

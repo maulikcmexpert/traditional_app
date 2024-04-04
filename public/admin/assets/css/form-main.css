@@ -1,8 +1,8 @@
 .form-main-wrp .card-header{
     padding: 16px;
 }
-.form-main-wrp .card-title{
-    font-size: 24px;
+.card-title{
+    font-size: 22px;
     color: var(--primaryColor);
     font-weight: 600;
 }
@@ -36,8 +36,9 @@
     cursor: pointer;
 }
 .form-main-wrp .live-preview .form-label{
-    font-weight: 500;
-    font-size: 14px;
+  font-weight: 500;
+  font-size: 15px;
+  color: #6b6d6f !important;
 }
 .form-main-wrp .live-preview .form-control{
     /* font-size: 14px; */

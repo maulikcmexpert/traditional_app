@@ -13,8 +13,8 @@
     <!-- -----header-breadcrumb-end-- -->
 
 
-    <div class="row">
-        <div class="col-lg-12">
+    
+        <div class="container">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Add</h4>
@@ -26,9 +26,9 @@
                         <form method="POST" id="lifestyle" action="{{ route('lifestyle.store')}}">
                             @csrf
 
-                            <div class="form-group AddInterest">
+                            <div class="form-group AddMoreForm">
                                 <div class="row" id="life_style">
-                                    <div class="col-xxl-12 col-md-6">
+                                    <div class="col-xxl-6 col-md-6 mb-2">
                                         <div class="w-100 d-flex align-items-end gap-2">
                                             <div class="w-100 mb-2 position-relative">
                                                 <label class="form-label">Lifestyle</label>
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-center"><input type="button" id="add" class="btn btn-primary interestButton" value="Add Lifestyle"></div>
+                            <div class="text-center"><input type="button" id="add" class="btn btn-primary submitButton" value="Add Lifestyle"></div>
 
 
                         </form>
@@ -54,13 +54,13 @@
             </div>
         </div>
         <!--end col-->
-    </div>
+    
 
 </div>
 
 <div id="addMoreData" style="display: none;">
-    <div class="col-xl-6">
-        <div class="d-flex align-items-end gap-2 mt-2 mb-2">
+    <div class="col-xl-6 mb-2">
+        <div class="d-flex align-items-end gap-2">
             <div class="w-100 position-relative">
                 <label class="form-label">Lifestyle</label>
                 <input type="text" class="form-control lifestyle" name="lifestyle[]" />

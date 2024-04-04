@@ -64,8 +64,12 @@ table.dataTable{
     border-bottom: 0 !important;
 }
 
-table.dataTable tr,
-table.dataTable thead tr
+
+table.dataTable thead tr{
+    border-bottom: 1px solid #a0a1a1 !important;
+}
+
+table.dataTable tr
 {
     border-bottom: 1px solid #eff2f5 !important;
 }
@@ -74,14 +78,17 @@ table.dataTable tbody tr:last-child{
     border-bottom: 0 !important;
 }
 
-table.dataTable td,
-table.dataTable th{
+
+table.dataTable td{
     padding: 13px 10px !important;
     font-size: 14px !important;
 }
 
 table.dataTable thead th{
-    color: #495057 !important;
+    color: #707479 !important;
+    font-size: 15px !important;
+    padding: 13px 10px !important;
+    font-size: 15px !important;
 }
 
 .dataTables_paginate{
@@ -100,6 +107,7 @@ table.dataTable thead th{
 .card-header{
     display: flex !important;
     align-items: center !important;
+    border-bottom: 1px solid #d5d5d5;
 }
 
 .card-header a{
@@ -118,8 +126,8 @@ table.dataTable thead th{
 
 .AddMoreForm .w-100.position-relative .text-danger{
     position: absolute;
-    bottom: -17px;
-    font-size: 12px;
+    bottom: -15px;
+    font-size: 11px;
 }
 
 .AddMoreForm .btn.remove{
@@ -145,6 +153,39 @@ table.dataTable thead th{
    background-color: transparent;
    border: 1px solid #037DE2 !important;
    color: #037DE2;
+}
+
+.editBtns{
+    width: 25px;
+    height: 25px;
+    display: block;
+    text-align: center;
+    background-color: #037DE2;
+    color: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    line-height: 24px;
+}
+
+.deleteBtns{
+    width: 25px;
+    height: 25px;
+    display: block;
+    text-align: center;
+    background-color: red;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    line-height: 24px;
+}
+
+.deleteBtns i{
+    color: #fff !important;
 }
 
 @media only screen and (max-width:768px){

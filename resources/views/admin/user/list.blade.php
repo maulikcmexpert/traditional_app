@@ -1,7 +1,7 @@
 <div class="page-content">
     <!-- -----header-breadcrumb-start-- -->
     <div class="header-breadcrumb">
-        <h5>Interest and hobbies</h5>
+        <!-- <h5>Interest and hobbies</h5> -->
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
@@ -12,7 +12,9 @@
     <!-- -----header-breadcrumb-end-- -->
     <div class="container">
         <div class="card">
-            <div class="card-header">Manage Users</div>
+            <div class="card-header">
+                <h4 class="card-title">Manage Users</h4>
+            </div>
             <div class="card-body">
                 {{ $dataTable->table() }}
             </div>
