@@ -206,6 +206,20 @@ table.dataTable thead th{
     color:red
 }
 
+.preview-Img{
+    width: 120px;
+    height: 120px;
+}
+
+.preview-Img img{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
 @media only screen and (max-width:768px){
     p{
         font-size: 14px !important;
