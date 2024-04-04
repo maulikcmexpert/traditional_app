@@ -91,7 +91,24 @@ class CurseWordController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = BadWord::Findorfail($ids);
+            $update->words = $request->words;
+            $update->save();
+            DB::commit();
+            toastr()->success('Curse Word updated successfully !');
+            return redirect()->route('curseword.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('curseword.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('curseword.create');
+        }
     }
 
     /**
@@ -99,7 +116,16 @@ class CurseWordController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = BadWord::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
     }
 
     public function CursewordExist(Request $request)
