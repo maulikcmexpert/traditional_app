@@ -40,9 +40,36 @@ class VerificationObjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostVerificationObject $request)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+
+            if (!empty($request->object_image)) {
+                $image = $request->object_image;
+                $imageName = time() . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/verification_object'), $imageName);
+
+                $verifyObj = new VerificationObject();
+                $verifyObj->object_type = $request->object_type;
+                $verifyObj->object_image = $imageName;
+                $verifyObj->save();
+            }
+
+
+            DB::commit();
+            toastr()->success('Verfication Object created successfully !');
+            return redirect()->route('lifestyle.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('lifestyle.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('lifestyle.create');
+        }
     }
 
     /**

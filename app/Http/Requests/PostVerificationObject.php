@@ -11,7 +11,7 @@ class PostVerificationObject extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class PostVerificationObject extends FormRequest
     {
         return [
             'object_type' => ['required', 'string', 'max:255', 'unique:verification_objects,object_type'],
-            'object_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'object_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048',
         ];
     }
 }
