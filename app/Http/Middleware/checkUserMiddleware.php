@@ -16,7 +16,9 @@ class checkUserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         if (!Auth::guard('api')->check()) {
+
             return response()->json(['status' => false, 'message' => 'Unauthorized'], 401);
         }
         return $next($request);
