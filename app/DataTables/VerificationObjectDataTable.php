@@ -11,6 +11,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\Html\Html;
 
 class VerificationObjectDataTable extends DataTable
 {
@@ -76,6 +77,9 @@ class VerificationObjectDataTable extends DataTable
         return [
             Column::make('object_type'),
             Column::make('object_image'),
+            Column::make('object_image')->title('Image')->render(function ($data) {
+                return Html::image(asset('storage/verification_object/', $data->object_image), 'Image', ['class' => 'img-thumbnail', 'style' => 'width:100px;height:100px']);
+            }),
             Column::make('action'),
         ];
     }
