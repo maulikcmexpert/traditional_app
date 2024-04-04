@@ -22,7 +22,7 @@
                     <form method="POST" id="curseword" action="{{ route('curseword.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group AddMoreForm">
-                            <div class="row" id="interest">
+                            <div class="row" id="curse_word">
                                 <div class="col-xxl-6 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">

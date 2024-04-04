@@ -6,14 +6,14 @@
 
         $(document).on('click', '#addMore', function() {
 
-            $("#parentAddBtn").hide();
+
             var addMoreData = $("#addMoreData").html();
-            $("#interest").append(addMoreData);
+            $("#curse_word").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().remove();
         });
-        $("#interest .interest_and_hobby").each(function() {
+        $("#curse_word .words").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -23,12 +23,12 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#interest .interest_and_hobby').each(function() {
+            $('#curse_word .words').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter interest and hobby');
+                    that.next('.text-danger').text('Please enter Curse Word');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -37,13 +37,13 @@
                             },
                             dataType: 'Json',
                             type: "POST",
-                            url: "{{route('interest_and_hobby.exist')}}",
+                            url: "{{route('curseword.exist')}}",
                             data: {
-                                interest_and_hobby: thatVal
+                                words: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('interest and hobby already exist');
+                                    that.next('.text-danger').text('Curse Word already exist');
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
@@ -62,11 +62,11 @@
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
-                    console.log("Duplicate interest and hobby found");
+                    console.log("Duplicate Curse Word found");
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
-                    console.log("No duplicate interest and hobby, submitting form");
-                    $("#interest_and_hobby").submit();
+                    console.log("No duplicate Curse Word, submitting form");
+                    $("#curseword").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
@@ -77,9 +77,9 @@
 
 
 
-        $("#interest_and_hobby").validate({
+        $("#curseword").validate({
             rules: {
-                interest_and_hobby: {
+                words: {
                     required: true,
                     remote: {
                         headers: {
@@ -87,11 +87,11 @@
                                 "content"
                             ),
                         },
-                        url: "{{route('interest_and_hobby.exist')}}",
+                        url: "{{route('curseword.exist')}}",
                         method: "POST",
                         data: {
-                            interest_and_hobby: function() {
-                                return $("input[name='interest_and_hobby']").val();
+                            words: function() {
+                                return $("input[name='words']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -102,9 +102,9 @@
 
             },
             messages: {
-                interest_and_hobby: {
-                    required: "Please enter interest and hobby",
-                    remote: "Interest and hobby already exist",
+                words: {
+                    required: "Please enter Curse Word",
+                    remote: "Curse Word already exist",
                 },
 
             },
@@ -115,8 +115,8 @@
 
 
         $(document).on('click', '#edit', function() {
-            if ($("#interest_and_hobby").valid()) {
-                $("#interest_and_hobby").submit();
+            if ($("#curseword").valid()) {
+                $("#curseword").submit();
             }
         })
 
@@ -150,7 +150,7 @@
 
 
                             } else {
-                                toastr.error("Interest and hobby don't Deleted !");
+                                toastr.error("Curse Word don't Deleted !");
                             }
                         },
                     });
@@ -160,7 +160,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Interest and hobby deleted successfully !");
+            toastr.success("Curse Word deleted successfully !");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }
