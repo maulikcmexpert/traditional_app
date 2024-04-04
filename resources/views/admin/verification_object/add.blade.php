@@ -35,7 +35,7 @@
                             </div>
                             <div>
                                 <label class="form-label">Object Image</label>
-                                <input id="file-upload" type="file" name="object_image" accept="image/*" />
+                                <input id="file-upload" class="form-control" type="file" name="object_image" accept="image/*" />
                             </div>
 
 
