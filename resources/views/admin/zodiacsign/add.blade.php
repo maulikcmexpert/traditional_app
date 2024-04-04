@@ -43,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-center"><input type="button" id="add" class="btn btn-primary interestButton" value="Add Lifestyle"></div>
+                            <div class="text-center"><input type="button" id="add" class="btn btn-primary interestButton" value="Add Zodiac Sign"></div>
 
 
 
