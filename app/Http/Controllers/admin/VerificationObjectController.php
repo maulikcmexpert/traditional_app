@@ -103,4 +103,45 @@ class VerificationObjectController extends Controller
     {
         //
     }
+
+    public function VerificationObjectExist(Request $request)
+    {
+        try {
+
+            $eventType = VerificationObject::where(['object_type' => $request->object_type])->get();
+
+            if (count($eventType) > 0) {
+
+                if (isset($request->id) && !empty($request->id)) {
+
+
+
+                    if ($eventType[0]->id == decrypt($request->id)) {
+
+
+
+                        $return =  true;
+
+                        echo json_encode($return);
+
+                        exit;
+                    }
+                }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
 }
