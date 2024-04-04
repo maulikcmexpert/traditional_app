@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('verification_objects', function (Blueprint $table) {
             $table->id();
-            $table->string('question')->nullable();
-            $table->binary('post_image')->nullable();
+            $table->string('object_type')->nullable();
+            $table->string('object_image')->nullable();
             $table->timestamps();
         });
     }

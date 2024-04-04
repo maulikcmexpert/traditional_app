@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('profile_verifies', function (Blueprint $table) {
             $table->id();
-            $table->binary('profile')->nullable();
+            $table->string('profile')->nullable();
             $table->unsignedBigInteger('verification_object_id')->nullable();
             $table->foreign('verification_object_id')->references('id')->on('verification_objects')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->enum('status',['true','false']);
+            $table->enum('status', ['true', 'false']);
             $table->timestamps();
         });
     }
