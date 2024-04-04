@@ -42,7 +42,7 @@
                                     <div>
                                         <label class="form-label">Object Image</label>
 
-                                        <input id="file-upload" class="form-control" type="file" name="object_image" accept="image/*" onchange="readURL(this);" />
+                                        <input id="file-upload" class="form-control" type="file" name="object_image_edit" accept="image/*" onchange="readURL(this);" />
                                     </div>
                                 </div>
                                 <div class="col-xxl-4">

@@ -30,6 +30,12 @@
                     filesize: 1048576, // max file size in bytes (1MB)
                 },
 
+                object_image_edit: {
+
+                    extension: "jpg|jpeg|png|gif", // allowed image extensions
+                    filesize: 1048576, // max file size in bytes (1MB)
+                },
+
             },
             messages: {
                 object_type: {
@@ -38,6 +44,11 @@
                 },
                 object_image: {
                     required: "Please upload Object Image",
+                    extension: "Please upload a valid image file (jpg, jpeg, png, or gif)",
+                    filesize: "Maximum file size allowed is 1MB",
+                },
+                object_image_edit: {
+
                     extension: "Please upload a valid image file (jpg, jpeg, png, or gif)",
                     filesize: "Maximum file size allowed is 1MB",
                 },
