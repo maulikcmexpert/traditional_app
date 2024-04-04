@@ -78,7 +78,7 @@ class VerificationObjectDataTable extends DataTable
             Column::make('object_type'),
             Column::make('object_image'),
             Column::make('object_image')->title('Image')->render(function ($data) {
-                return Html::image(asset('storage/verification_object/', $data->object_image), 'Image', ['class' => 'img-thumbnail', 'style' => 'width:100px;height:100px']);
+                return '<img src="' . asset('storage/verification_object/' . $data->object_image) . '" class="img-thumbnail" style="width:100px;height:100px" alt="Image">';
             }),
             Column::make('action'),
         ];
