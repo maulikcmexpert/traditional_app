@@ -78,4 +78,45 @@ class ZodiacSignController extends Controller
     {
         //
     }
+
+    public function zodiacsignExist(Request $request)
+    {
+        try {
+
+            $eventType = ZodiacSign::where(['zodiac' => $request->zodiacsign])->get();
+
+            if (count($eventType) > 0) {
+
+                if (isset($request->id) && !empty($request->id)) {
+
+
+
+                    if ($eventType[0]->id == decrypt($request->id)) {
+
+
+
+                        $return =  true;
+
+                        echo json_encode($return);
+
+                        exit;
+                    }
+                }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
 }
