@@ -42,7 +42,7 @@ class ZodiacSignDataTable extends DataTable
      */
     public function query(ZodiacSign $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('id', 'desc');
     }
 
     /**
