@@ -2,8 +2,6 @@
     $(document).ready(function() {
         // Validate the form with ID 'interest_and_hobbies'
 
-
-
         $("#verificationobject").validate({
             rules: {
                 object_type: {
