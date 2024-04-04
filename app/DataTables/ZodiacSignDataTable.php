@@ -29,8 +29,8 @@ class ZodiacSignDataTable extends DataTable
                 $deleteRoute = route('zodiacsign.destroy', $id);
 
 
-                return '<div><a href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
-                <a href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a>
+                return '<div class="d-flex gap-2"><a class="editBtns" href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
+                <a class="deleteBtns" href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a>
            </div>
             ';
             })

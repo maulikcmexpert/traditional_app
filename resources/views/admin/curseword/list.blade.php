@@ -14,8 +14,8 @@
 
     <div class="container">
         <div class="card">
-            <div class="card-header">Curse Word
-
+            <div class="card-header">
+                <h4 class="card-title">Curse Word</h4>
                 <a href="{{route('curseword.create')}}" class="btn btn-primary text-right">Add</a>
             </div>
             <div class="card-body">

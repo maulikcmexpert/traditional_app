@@ -14,8 +14,8 @@
 
     <div class="container">
         <div class="card">
-            <div class="card-header">Zodiac Sign
-
+            <div class="card-header">
+                <h4 class="card-title">Zodiac Sign</h4>
                 <a href="{{route('zodiacsign.create')}}" class="btn btn-primary text-right">Add</a>
 
             </div>
