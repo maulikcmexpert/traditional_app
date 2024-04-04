@@ -79,7 +79,7 @@ class VerificationObjectDataTable extends DataTable
 
             Column::computed('object_image')->title('Image')->render(function ($row) {
                 // Assuming 'object_image' is the attribute name for the image path in your model
-                $imageUrl = asset('storage/verification_object/' . $row->object_image);
+                $imageUrl = asset('storage/verification_object/' . $row['object_image']);
                 return '<img src="' . $imageUrl . '" class="img-thumbnail" style="width:100px;height:100px" alt="Image">';
             }),
             Column::make('action'),
