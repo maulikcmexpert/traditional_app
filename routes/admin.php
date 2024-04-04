@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\{
+    CurseWordController,
     DashboardController,
     UserController,
     InterestAndHobbiesController,
@@ -17,8 +18,10 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'interest_and_hobby' => InterestAndHobbiesController::class,
         'lifestyle' => LifeStyleController::class,
         'zodiacsign' => ZodiacSignController::class,
+        'curseword' => CurseWordController::class
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('lifestyle/lifestyle_exist', [LifeStyleController::class, 'lifestyleExist'])->name('lifestyle.exist');
     Route::post('zodiacsign/zodiacsign_exist', [ZodiacSignController::class, 'zodiacsignExist'])->name('zodiacsign.exist');
+    Route::post('curseword/curseword_exist', [CurseWordController::class, 'CursewordExist'])->name('curseword.exist');
 });

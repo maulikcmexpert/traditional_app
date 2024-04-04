@@ -5,13 +5,15 @@
 
 
         $(document).on('click', '#addMore', function() {
+
+            $("#parentAddBtn").hide();
             var addMoreData = $("#addMoreData").html();
-            $("#life_style").append(addMoreData);
+            $("#interest").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().remove();
         });
-        $("#life_style .lifestyle").each(function() {
+        $("#interest .interest_and_hobby").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -21,12 +23,12 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#life_style .lifestyle').each(function() {
+            $('#interest .interest_and_hobby').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter lifestyle');
+                    that.next('.text-danger').text('Please enter interest and hobby');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -35,13 +37,13 @@
                             },
                             dataType: 'Json',
                             type: "POST",
-                            url: "{{route('lifestyle.exist')}}",
+                            url: "{{route('interest_and_hobby.exist')}}",
                             data: {
-                                lifestyle: thatVal
+                                interest_and_hobby: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('Lifestyle already exist');
+                                    that.next('.text-danger').text('interest and hobby already exist');
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
@@ -60,11 +62,11 @@
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
-                    console.log("Duplicate lifestyle found");
+                    console.log("Duplicate interest and hobby found");
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
-                    console.log("No duplicate lifestyle, submitting form");
-                    $("#lifestyle").submit();
+                    console.log("No duplicate interest and hobby, submitting form");
+                    $("#interest_and_hobby").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
@@ -75,9 +77,9 @@
 
 
 
-        $("#lifestyle").validate({
+        $("#interest_and_hobby").validate({
             rules: {
-                lifestyle: {
+                interest_and_hobby: {
                     required: true,
                     remote: {
                         headers: {
@@ -85,11 +87,11 @@
                                 "content"
                             ),
                         },
-                        url: "{{route('lifestyle.exist')}}",
+                        url: "{{route('interest_and_hobby.exist')}}",
                         method: "POST",
                         data: {
-                            lifestyle: function() {
-                                return $("input[name='lifestyle']").val();
+                            interest_and_hobby: function() {
+                                return $("input[name='interest_and_hobby']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -100,9 +102,9 @@
 
             },
             messages: {
-                lifestyle: {
-                    required: "Please enter lifestyle",
-                    remote: "Iifestyle already exist",
+                interest_and_hobby: {
+                    required: "Please enter interest and hobby",
+                    remote: "Interest and hobby already exist",
                 },
 
             },
@@ -113,8 +115,8 @@
 
 
         $(document).on('click', '#edit', function() {
-            if ($("#lifestyle").valid()) {
-                $("#lifestyle").submit();
+            if ($("#interest_and_hobby").valid()) {
+                $("#interest_and_hobby").submit();
             }
         })
 
@@ -131,7 +133,6 @@
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
-
                     $.ajax({
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -143,22 +144,23 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
+
                                 sessionStorage.setItem('showSuccessNotification', 'true');
                                 location.reload();
 
+
                             } else {
-                                sessionStorage.setItem('showErrorNotification', 'true');
-                                toastr.error("Lifestyle don't Deleted !");
+                                toastr.error("Interest and hobby don't Deleted !");
                             }
                         },
                     });
                 }
             });
         });
-
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
-            toastr.success("Lifestyle deleted successfully !");
+
+            toastr.success("Interest and hobby deleted successfully !");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }

@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Zodiac Sign</li>
+                <li class="breadcrumb-item active" aria-current="page">Curse Word</li>
             </ol>
         </nav>
     </div>
@@ -14,10 +14,9 @@
 
     <div class="container">
         <div class="card">
-            <div class="card-header">Zodiac Sign
-                <!-- @if($ZodiacCount < 12) -->
-                <a href="{{route('zodiacsign.create')}}" class="btn btn-primary text-right">Add</a>
-                <!-- @endif -->
+            <div class="card-header">Curse Word
+
+                <a href="{{route('curseword.create')}}" class="btn btn-primary text-right">Add</a>
             </div>
             <div class="card-body">
                 {{ $dataTable->table() }}

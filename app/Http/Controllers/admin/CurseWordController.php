@@ -4,27 +4,26 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\DataTables\ZodiacSignDataTable;
+use App\DataTables\CurseWordDataTable;
 use App\Http\Requests\{
-    PostZodiacSign
+    PostCurseWord
 };
 use App\Models\{
-    ZodiacSign
+    BadWord
 };
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
-class ZodiacSignController extends Controller
+class CurseWordController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(ZodiacSignDataTable $dataTable)
+    public function index(CurseWordDataTable $dataTable)
     {
-        $page = 'admin.zodiacsign.list';
-        $title = 'Zodiac Sign';
-        $ZodiacCount = ZodiacSign::count();
-        return $dataTable->render('layouts.layout', compact('page', 'title', 'ZodiacCount'));
+        $page = 'admin.curseword.list';
+        $title = 'Curse Word';
+        return $dataTable->render('layouts.layout', compact('page', 'title'));
     }
 
     /**
@@ -32,11 +31,7 @@ class ZodiacSignController extends Controller
      */
     public function create()
     {
-        $page = 'admin.zodiacsign.add';
-        $title = 'Add Zodiac Sign';
-        $js = 'admin.zodiacsign.scriptjs';
-
-        return view('layouts.layout', compact('page', 'title', 'js'));
+        //
     }
 
     /**
