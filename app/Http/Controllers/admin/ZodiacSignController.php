@@ -23,7 +23,8 @@ class ZodiacSignController extends Controller
     {
         $page = 'admin.zodiacsign.list';
         $title = 'Zodiac Sign';
-        return $dataTable->render('layouts.layout', compact('page', 'title'));
+        $ZodiacCount = ZodiacSign::count();
+        return $dataTable->render('layouts.layout', compact('page', 'title', 'ZodiacCount'));
     }
 
     /**
@@ -34,6 +35,7 @@ class ZodiacSignController extends Controller
         $page = 'admin.zodiacsign.add';
         $title = 'Add Zodiac Sign';
         $js = 'admin.zodiacsign.scriptjs';
+
         return view('layouts.layout', compact('page', 'title', 'js'));
     }
 

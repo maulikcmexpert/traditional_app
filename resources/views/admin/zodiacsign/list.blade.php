@@ -15,8 +15,8 @@
     <div class="container">
         <div class="card">
             <div class="card-header">Zodiac Sign
-
-                <a href="{{route('zodiacsign.create')}}" class="btn btn-primary text-right">Add</a>
+                @if($ZodiacCount <= 12) <a href="{{route('zodiacsign.create')}}" class="btn btn-primary text-right">Add</a>
+                    @endif
             </div>
             <div class="card-body">
                 {{ $dataTable->table() }}
