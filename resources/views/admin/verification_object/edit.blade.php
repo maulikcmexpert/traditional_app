@@ -47,7 +47,8 @@
                                 </div>
                                 <div class="col-xxl-4">
                                     <div class="preview-Img">
-                                        <img id="blah" src="http://placehold.it/180" alt="your image" />
+
+                                        <img id="blah" src="{{($getData->object_type != NULL || $getData->object_type != '')?asset('storage/verification_object/'.$getData->object_type)}}" alt="your image" />
                                     </div>
                                 </div>
                             </div>
