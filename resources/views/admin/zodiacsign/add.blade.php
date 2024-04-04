@@ -32,7 +32,7 @@
                                         <div class="w-100 d-flex align-items-end gap-2">
                                             <div class="w-100 mb-2 position-relative">
                                                 <label class="form-label">Zodiac Sign</label>
-                                                <input type="text" class="form-control zodiacsign" name="zodiacsign[]" />
+                                                <input type="text" class="form-control zodiac_sign" name="zodiac_sign[]" />
                                                 <span class="text-danger"> @if ($errors->has('zodiacsign*.')){{ $errors->first('zodiacsign*.') }} @endif</span>
                                             </div>
                                         </div>
@@ -65,7 +65,7 @@
         <div class="d-flex align-items-end gap-2 mt-2 mb-2">
             <div class="w-100 position-relative">
                 <label class="form-label">Zidiac Sign</label>
-                <input type="text" class="form-control zodiacsign" name="zodiacsign[]" />
+                <input type="text" class="form-control zodiac_sign" name="zodiac_sign[]" />
 
                 <span class="text-danger"> @if($errors->has('zodiacsign*.')){{ $errors->first('zodiacsign*.') }} @endif</span>
             </div>

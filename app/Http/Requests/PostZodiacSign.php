@@ -22,7 +22,7 @@ class PostZodiacSign extends FormRequest
     public function rules(): array
     {
         return [
-            'zodiacsign.*' => ['required', 'string', 'max:255', 'unique:zodiac_signs,zodiac_sign'],
+            'zodiac_sign.*' => ['required', 'string', 'max:255', 'unique:zodiac_signs,zodiac_sign'],
         ];
     }
 }

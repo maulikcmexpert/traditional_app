@@ -46,7 +46,7 @@ class ZodiacSignController extends Controller
     {
         try {
             DB::beginTransaction();
-            foreach ($request->zodiacsign as $val) {
+            foreach ($request->zodiac_sign as $val) {
 
                 $zodiacSign = new ZodiacSign();
                 $zodiacSign->zodiac_sign = $val;
@@ -96,7 +96,7 @@ class ZodiacSignController extends Controller
             DB::beginTransaction();
             $ids = decrypt($id);
             $update = ZodiacSign::Findorfail($ids);
-            $update->zodiac_sign = $request->zodiacsign;
+            $update->zodiac_sign = $request->zodiac_sign;
             $update->save();
             DB::commit();
             toastr()->success('Zodiac Sign updated successfully !');

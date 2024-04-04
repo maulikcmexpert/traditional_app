@@ -31,7 +31,7 @@
                                     <div class="col-xxl-6 col-md-6">
                                         <label class="form-label">Zodiac Sign</label>
                                         <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control zodiacsign_id" name="id" />
-                                        <input type="text" value="{{$getData->zodiac_sign}}" class="form-control zodiacsign" name="zodiacsign" />
+                                        <input type="text" value="{{$getData->zodiac_sign}}" class="form-control zodiacsign" name="zodiac_sign" />
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
