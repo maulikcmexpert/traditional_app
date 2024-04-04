@@ -23,6 +23,7 @@ class CurseWordController extends Controller
     {
         $page = 'admin.curseword.list';
         $title = 'Curse Word';
+        $js = 'admin.curseword.scriptjs';
         return $dataTable->render('layouts.layout', compact('page', 'title'));
     }
 
@@ -31,15 +32,37 @@ class CurseWordController extends Controller
      */
     public function create()
     {
-        //
+        $page = 'admin.curseword.add';
+        $title = 'Add Curse Word';
+        $js = 'admin.curseword.scriptjs';
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostCurseWord $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            foreach ($request->words as $val) {
+
+                $curseWord = new BadWord();
+                $curseWord->words = $val;
+                $curseWord->save();
+            }
+            DB::commit();
+            toastr()->success('Curse Word created successfully !');
+            return redirect()->route('curseword.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('curseword.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('curseword.create');
+        }
     }
 
     /**
@@ -55,7 +78,12 @@ class CurseWordController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.curseword.edit';
+        $title = 'Update Curse Word';
+        $js = 'admin.curseword.scriptjs';
+        $getData = BadWord::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
@@ -63,7 +91,24 @@ class CurseWordController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = BadWord::Findorfail($ids);
+            $update->words = $request->words;
+            $update->save();
+            DB::commit();
+            toastr()->success('Curse Word updated successfully !');
+            return redirect()->route('curseword.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('curseword.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('curseword.create');
+        }
     }
 
     /**
@@ -71,6 +116,56 @@ class CurseWordController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = BadWord::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
+    }
+
+    public function CursewordExist(Request $request)
+    {
+        try {
+
+            $eventType = BadWord::where(['words' => $request->words])->get();
+
+            if (count($eventType) > 0) {
+
+                if (isset($request->id) && !empty($request->id)) {
+
+
+
+                    if ($eventType[0]->id == decrypt($request->id)) {
+
+
+
+                        $return =  true;
+
+                        echo json_encode($return);
+
+                        exit;
+                    }
+                }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
     }
 }

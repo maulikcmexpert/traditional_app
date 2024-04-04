@@ -11,7 +11,7 @@
             $("#interest").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
-            $(this).parent().remove();
+            $(this).parent().parent().remove();
         });
         $("#interest .interest_and_hobby").each(function() {
             $(this).focus(function() {
