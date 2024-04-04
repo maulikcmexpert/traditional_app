@@ -45,6 +45,10 @@ select{
  input{
     border: 1px solid rgba(232, 233, 235, 1) !important;
  }
+
+ input[type="search"]{
+    border: 1px solid rgba(81, 82, 84) !important;
+ }
  
  label{
      color: #495057;
