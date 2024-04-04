@@ -46,23 +46,23 @@ class ZodiacSignController extends Controller
     {
         try {
             DB::beginTransaction();
-            foreach ($request->lifestyle as $val) {
+            foreach ($request->zodiacsign as $val) {
 
-                $lifestyle = new Lifestyle();
-                $lifestyle->life_style = $val;
-                $lifestyle->save();
+                $zodiacSign = new ZodiacSign();
+                $zodiacSign->zodiac_sign = $val;
+                $zodiacSign->save();
             }
             DB::commit();
-            toastr()->success('Lifestyle created successfully !');
-            return redirect()->route('lifestyle.index');
+            toastr()->success('Zodiac Sign created successfully !');
+            return redirect()->route('zodiacsign.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('lifestyle.create');
+            return redirect()->route('zodiacsign.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('lifestyle.create');
+            return redirect()->route('zodiacsign.create');
         }
     }
 
@@ -79,7 +79,12 @@ class ZodiacSignController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.zodiacsign.edit';
+        $title = 'Update Zodiac Sign';
+        $js = 'admin.zodiacsign.scriptjs';
+        $getData = ZodiacSign::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
@@ -87,7 +92,24 @@ class ZodiacSignController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = ZodiacSign::Findorfail($ids);
+            $update->zodiac_sign = $request->zodiacsign;
+            $update->save();
+            DB::commit();
+            toastr()->success('Zodiac Sign updated successfully !');
+            return redirect()->route('zodiacsign.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('zodiacsign.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('zodiacsign.create');
+        }
     }
 
     /**
