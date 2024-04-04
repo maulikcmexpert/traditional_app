@@ -66,7 +66,7 @@
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
                     console.log("No duplicate Block Reason, submitting form");
-                    $("#interest_and_hobby").submit();
+                    $("#blockreason").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
