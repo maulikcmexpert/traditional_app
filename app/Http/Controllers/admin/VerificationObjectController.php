@@ -60,15 +60,15 @@ class VerificationObjectController extends Controller
 
             DB::commit();
             toastr()->success('Verfication Object created successfully !');
-            return redirect()->route('lifestyle.index');
+            return redirect()->route('verificationobject.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('lifestyle.create');
+            return redirect()->route('verificationobject.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('lifestyle.create');
+            return redirect()->route('verificationobject.create');
         }
     }
 
