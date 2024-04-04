@@ -23,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('verification_objects', function (Blueprint $table) {
-            //
+            $table->renameColumn('object_type', 'question');
+            $table->renameColumn('object_image', 'post_image');
         });
     }
 };
