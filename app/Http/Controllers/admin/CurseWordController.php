@@ -24,7 +24,7 @@ class CurseWordController extends Controller
         $page = 'admin.curseword.list';
         $title = 'Curse Word';
         $js = 'admin.curseword.scriptjs';
-        return $dataTable->render('layouts.layout', compact('page', 'title'));
+        return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
