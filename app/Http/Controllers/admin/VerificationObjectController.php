@@ -31,7 +31,10 @@ class VerificationObjectController extends Controller
      */
     public function create()
     {
-        //
+        $page = 'admin.verification_object.add';
+        $title = 'Add Verification Object';
+        $js = 'admin.verification_object.scriptjs';
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
