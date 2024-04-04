@@ -33,7 +33,7 @@
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Object Type</label>
                                             <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control verificationobject_id" name="id" />
-                                            <input type="text" class="form-control object_type" name="object_type" />
+                                            <input type="text" class="form-control object_type" name="object_type" value="{{ $getData->object_type}}" />
                                             <span class="text-danger"> @if ($errors->has('object_type*.')){{ $errors->first('object_type*.') }} @endif</span>
                                         </div>
                                     </div>
@@ -41,6 +41,7 @@
                                 <div class="col-xxl-4">
                                     <div>
                                         <label class="form-label">Object Image</label>
+
                                         <input id="file-upload" class="form-control" type="file" name="object_image" accept="image/*" onchange="readURL(this);" />
                                     </div>
                                 </div>
