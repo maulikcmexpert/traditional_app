@@ -8,7 +8,6 @@
     margin-bottom: 20px;
 }
 
-
 table.dataTable.display tbody .sorting_1{
     background-color: #fff !important;
     color: #343A40;
@@ -16,7 +15,6 @@ table.dataTable.display tbody .sorting_1{
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-
 }
 
 table.dataTable.display tbody td{
@@ -26,7 +24,6 @@ table.dataTable.display tbody td{
     font-weight: 400;
     line-height: normal;
 }
-
 
 #example_wrapper input[type="search"]{
     border-radius: 10px;
@@ -100,7 +97,6 @@ div.dataTables_wrapper span.select-info,div.dataTables_wrapper span.select-item 
   padding: 0 !important;
 }
 
-
 element.style {
     border-top: none;
     border-color: #CED4DA;
@@ -115,6 +111,7 @@ element.style {
     border: 1px solid #008cff !important;
     background: #008cff !important;
     color: #fff !important;
+    border-radius: 3px;
 }
 
 /* table.dataTable thead .sorting_asc{
