@@ -11,7 +11,7 @@
             $("#curse_word").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
-            $(this).parent().remove();
+            $(this).parent().parent().remove();
         });
         $("#curse_word .words").each(function() {
             $(this).focus(function() {
