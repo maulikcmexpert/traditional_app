@@ -39,7 +39,7 @@
                             </div>
                             <div>
 
-                                <img id="blah" src="http://placehold.it/180" alt="your image" />
+                                <img id="blah" src="http://placehold.it/180" alt="your image" width="100px" />
                             </div>
 
 
