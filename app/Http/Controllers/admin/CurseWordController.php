@@ -41,9 +41,28 @@ class CurseWordController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostCurseWord $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            foreach ($request->words as $val) {
+
+                $curseWord = new BadWord();
+                $curseWord->words = $val;
+                $curseWord->save();
+            }
+            DB::commit();
+            toastr()->success('Curse Word created successfully !');
+            return redirect()->route('curseword.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('curseword.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('curseword.create');
+        }
     }
 
     /**

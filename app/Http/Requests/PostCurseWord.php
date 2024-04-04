@@ -22,7 +22,7 @@ class PostCurseWord extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'words.*' => ['required', 'string', 'max:255', 'unique:bad_words,words'],
         ];
     }
 }
