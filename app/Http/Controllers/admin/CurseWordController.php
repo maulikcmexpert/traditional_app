@@ -31,7 +31,10 @@ class CurseWordController extends Controller
      */
     public function create()
     {
-        //
+        $page = 'admin.curseword.add';
+        $title = 'Add Curse Word';
+        $js = 'admin.curseword.scriptjs';
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
