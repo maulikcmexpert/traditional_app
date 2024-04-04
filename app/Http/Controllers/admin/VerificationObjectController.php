@@ -85,7 +85,12 @@ class VerificationObjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.verification_object.edit';
+        $title = 'Update Object Verification';
+        $js = 'admin.verification_object.scriptjs';
+        $getData = VerificationObject::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**

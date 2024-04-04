@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('interest_and_hobby.index')}}">Interest and hobbies</a></li>
+                <li class="breadcrumb-item"><a href="{{route('verificationobject.index')}}">Verification Object</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit</li>
             </ol>
         </nav>
@@ -13,7 +13,7 @@
     <!-- -----header-breadcrumb-end-- -->
 
 
-    
+
     <div class="container">
         <div class="card">
             <div class="card-header align-items-center d-flex">
@@ -23,23 +23,35 @@
             <!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
-                    <form method="POST" id="interest_and_hobby" action="{{ route('interest_and_hobby.update',encrypt($getData->id))}}">
+                    <form method="POST" id="verificationobject" action="{{ route('verificationobject.update',encrypt($getData->id))}}">
                         @csrf
                         @method('PUT')
-                        <div class="form-group">
-                            <div class="row gy-4 align-items-end">
-                                <div class="col-xxl-6 col-md-6">
-                                    <label class="form-label">Interest and hobbies</label>
-                                    <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control interest_and_hobby_id" name="id" />
-                                    <input type="text" value="{{$getData->interest_and_hobby}}" class="form-control interest_and_hobby" name="interest_and_hobby" />
-                                    <span class="text-danger"></span>
+                        <div class="form-group AddMoreForm">
+                            <div class="row" id="interest">
+                                <div class="col-xxl-4 col-md-6 mb-2">
+                                    <div class="w-100 d-flex align-items-end gap-2">
+                                        <div class="w-100 position-relative">
+                                            <label class="form-label">Object Type</label>
+                                            <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control verificationobject_id" name="id" />
+                                            <input type="text" class="form-control object_type" name="object_type" />
+                                            <span class="text-danger"> @if ($errors->has('object_type*.')){{ $errors->first('object_type*.') }} @endif</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-xxl-2">
-                                    <input type="button"  id="edit" class="btn btn-primary" value="Update">
+                                <div class="col-xxl-4">
+                                    <div>
+                                        <label class="form-label">Object Image</label>
+                                        <input id="file-upload" class="form-control" type="file" name="object_image" accept="image/*" onchange="readURL(this);" />
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4">
+                                    <div class="preview-Img">
+                                        <img id="blah" src="http://placehold.it/180" alt="your image" />
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
+                        <div class="text-center"><input type="submit" id="add" class="btn btn-primary submitButton" value="Update"></div>
 
                     </form>
                     <!--end row-->
@@ -48,6 +60,6 @@
             </div>
         </div>
     </div>
-    
+
 
 </div>
