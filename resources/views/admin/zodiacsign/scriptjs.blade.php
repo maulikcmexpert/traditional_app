@@ -142,9 +142,10 @@
                         dataType: "json",
                         success: function(output) {
                             if (output == true) {
-
-                                sessionStorage.setItem('showSuccessNotification', 'true');
-                                location.reload();
+                                $('#zodiacsign-table').DataTable().ajax.reload();
+                                toastr.success("Zodiac Sign deleted successfully !");
+                                // sessionStorage.setItem('showSuccessNotification', 'true');
+                                //  location.reload();
 
 
                             } else {
