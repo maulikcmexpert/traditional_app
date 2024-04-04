@@ -96,4 +96,45 @@ class CurseWordController extends Controller
     {
         //
     }
+
+    public function CursewordExist(Request $request)
+    {
+        try {
+
+            $eventType = BadWord::where(['words' => $request->words])->get();
+
+            if (count($eventType) > 0) {
+
+                if (isset($request->id) && !empty($request->id)) {
+
+
+
+                    if ($eventType[0]->id == decrypt($request->id)) {
+
+
+
+                        $return =  true;
+
+                        echo json_encode($return);
+
+                        exit;
+                    }
+                }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
 }
