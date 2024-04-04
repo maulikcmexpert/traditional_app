@@ -76,9 +76,9 @@ class VerificationObjectDataTable extends DataTable
     {
         return [
             Column::make('object_type'),
-            Column::make('object_image'),
-            Column::make('object_image')->title('Image')->render(function ($data) {
-                return '<img src="' . asset('storage/verification_object/' . $data->object_image) . '" class="img-thumbnail" style="width:100px;height:100px" alt="Image">';
+
+            Column::computed('object_image')->title('Image')->render(function ($data) {
+                return '<img src="' . asset('storage/verification_object/' . $data['object_image']) . '" class="img-thumbnail" style="width:100px;height:100px" alt="Image">';
             }),
             Column::make('action'),
         ];
