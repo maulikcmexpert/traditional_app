@@ -36,6 +36,13 @@ class VerificationObjectDataTable extends DataTable
            </div>
             ';
             })
+
+            ->addColumn('image', function ($row) {
+
+
+                $img = asset('storage/verification_object/' . $row->object_image);
+                return '<img src="' . $img . '" height="100px">';
+            })
             ->setRowId('id');
     }
 
@@ -76,12 +83,9 @@ class VerificationObjectDataTable extends DataTable
     {
         return [
             Column::make('object_type'),
+            Column::make('image'),
 
-            Column::computed('object_image')->title('Image')->render(function ($row) {
-                // Assuming 'object_image' is the attribute name for the image path in your model
-                $imageUrl = asset('storage/verification_object/' . $row['object_image']);
-                return '<img src="' . $imageUrl . '" class="img-thumbnail" style="width:100px;height:100px" alt="Image">';
-            }),
+
             Column::make('action'),
         ];
     }
