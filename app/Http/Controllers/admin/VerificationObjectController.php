@@ -48,7 +48,7 @@ class VerificationObjectController extends Controller
 
             if (!empty($request->object_image)) {
                 $image = $request->object_image;
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $imageName = time() . '__.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/verification_object'), $imageName);
 
                 $verifyObj = new VerificationObject();
@@ -111,7 +111,7 @@ class VerificationObjectController extends Controller
                 }
 
                 $image = $request->object_image_edit;
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $imageName = time() . '_.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/verification_object'), $imageName);
                 $updateVerifyObj->object_image = $imageName;
             }
