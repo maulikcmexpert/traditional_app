@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\{
     UserController,
     InterestAndHobbiesController,
     LifeStyleController,
+    VerificationObjectController,
     ZodiacSignController
 };
 
@@ -20,11 +21,13 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'lifestyle' => LifeStyleController::class,
         'zodiacsign' => ZodiacSignController::class,
         'curseword' => CurseWordController::class,
-        'blockreason' => BlockReasonController::class
+        'blockreason' => BlockReasonController::class,
+        'verificationobject' => VerificationObjectController::class
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('lifestyle/lifestyle_exist', [LifeStyleController::class, 'lifestyleExist'])->name('lifestyle.exist');
     Route::post('zodiacsign/zodiacsign_exist', [ZodiacSignController::class, 'zodiacsignExist'])->name('zodiacsign.exist');
     Route::post('curseword/curseword_exist', [CurseWordController::class, 'CursewordExist'])->name('curseword.exist');
     Route::post('blockreason/blockreason_exist', [BlockReasonController::class, 'BlockReasonExist'])->name('blockreason.exist');
+    Route::post('verificationobject/verificationobject_exist', [VerificationObjectController::class, 'VerificationObjectExist'])->name('verificationobject.exist');
 });
