@@ -8,7 +8,7 @@
 
 
             var addMoreData = $("#addMoreData").html();
-            $("#blockreason").append(addMoreData);
+            $("#block_reason").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
