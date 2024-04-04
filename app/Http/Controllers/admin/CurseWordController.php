@@ -78,7 +78,12 @@ class CurseWordController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.curseword.edit';
+        $title = 'Update Curse Word';
+        $js = 'admin.curseword.scriptjs';
+        $getData = BadWord::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
