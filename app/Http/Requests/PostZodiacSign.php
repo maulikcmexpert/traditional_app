@@ -11,7 +11,7 @@ class PostZodiacSign extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class PostZodiacSign extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'zodiac_sign.*' => ['required', 'string', 'max:255', 'unique:zodiac_signs,zodiac_sign'],
         ];
     }
 }

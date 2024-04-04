@@ -23,8 +23,9 @@ class ZodiacSignController extends Controller
     {
         $page = 'admin.zodiacsign.list';
         $title = 'Zodiac Sign';
+        $js = 'admin.zodiacsign.scriptjs';
         $ZodiacCount = ZodiacSign::count();
-        return $dataTable->render('layouts.layout', compact('page', 'title', 'ZodiacCount'));
+        return $dataTable->render('layouts.layout', compact('page', 'title', 'js', 'ZodiacCount'));
     }
 
     /**
@@ -42,9 +43,28 @@ class ZodiacSignController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostZodiacSign $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            foreach ($request->zodiac_sign as $val) {
+
+                $zodiacSign = new ZodiacSign();
+                $zodiacSign->zodiac_sign = $val;
+                $zodiacSign->save();
+            }
+            DB::commit();
+            toastr()->success('Zodiac Sign created successfully !');
+            return redirect()->route('zodiacsign.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('zodiacsign.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('zodiacsign.create');
+        }
     }
 
     /**
@@ -60,7 +80,12 @@ class ZodiacSignController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.zodiacsign.edit';
+        $title = 'Update Zodiac Sign';
+        $js = 'admin.zodiacsign.scriptjs';
+        $getData = ZodiacSign::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
@@ -68,7 +93,24 @@ class ZodiacSignController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = ZodiacSign::Findorfail($ids);
+            $update->zodiac_sign = $request->zodiac_sign;
+            $update->save();
+            DB::commit();
+            toastr()->success('Zodiac Sign updated successfully !');
+            return redirect()->route('zodiacsign.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('zodiacsign.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('zodiacsign.create');
+        }
     }
 
     /**
@@ -76,6 +118,56 @@ class ZodiacSignController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = ZodiacSign::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
+    }
+
+    public function zodiacsignExist(Request $request)
+    {
+        try {
+
+            $eventType = ZodiacSign::where(['zodiac_sign' => $request->zodiacsign])->get();
+
+            if (count($eventType) > 0) {
+
+                if (isset($request->id) && !empty($request->id)) {
+
+
+
+                    if ($eventType[0]->id == decrypt($request->id)) {
+
+
+
+                        $return =  true;
+
+                        echo json_encode($return);
+
+                        exit;
+                    }
+                }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
     }
 }

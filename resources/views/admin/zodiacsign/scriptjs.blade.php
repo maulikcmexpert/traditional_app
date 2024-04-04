@@ -11,7 +11,7 @@
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#zodiacsign .zodiacsign").each(function() {
+        $("#zodiacsign .zodiac_sign").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -21,7 +21,7 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#zodiacsign .zodiacsign').each(function() {
+            $('#zodiacsign .zodiac_sign').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
@@ -77,7 +77,7 @@
 
         $("#zodiacsign").validate({
             rules: {
-                zodiacsign: {
+                zodiac_sign: {
                     required: true,
                     remote: {
                         headers: {
@@ -89,7 +89,7 @@
                         method: "POST",
                         data: {
                             zodiacsign: function() {
-                                return $("input[name='zodiacsign']").val();
+                                return $("input[name='zodiac_sign']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -100,7 +100,7 @@
 
             },
             messages: {
-                zodiacsign: {
+                zodiac_sign: {
                     required: "Please enter Zodiac Sign",
                     remote: "Zodiac Sign already exist",
                 },
