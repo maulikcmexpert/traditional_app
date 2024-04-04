@@ -42,9 +42,28 @@ class ZodiacSignController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostZodiacSign $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            foreach ($request->lifestyle as $val) {
+
+                $lifestyle = new Lifestyle();
+                $lifestyle->life_style = $val;
+                $lifestyle->save();
+            }
+            DB::commit();
+            toastr()->success('Lifestyle created successfully !');
+            return redirect()->route('lifestyle.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('lifestyle.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('lifestyle.create');
+        }
     }
 
     /**
