@@ -83,7 +83,7 @@ class ZodiacSignController extends Controller
     {
         try {
 
-            $eventType = ZodiacSign::where(['zodiac' => $request->zodiacsign])->get();
+            $eventType = ZodiacSign::where(['zodiac_sign' => $request->zodiacsign])->get();
 
             if (count($eventType) > 0) {
 
