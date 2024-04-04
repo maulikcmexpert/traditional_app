@@ -41,7 +41,7 @@ class LifeStyleDataTable extends DataTable
      */
     public function query(Lifestyle $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('id', 'desc');
     }
 
     /**

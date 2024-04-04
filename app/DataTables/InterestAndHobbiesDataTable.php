@@ -42,7 +42,7 @@ class InterestAndHobbiesDataTable extends DataTable
      */
     public function query(InterestAndHobby $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('id', 'desc');
     }
 
     /**

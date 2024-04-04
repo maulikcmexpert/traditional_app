@@ -43,7 +43,7 @@ class CurseWordDataTable extends DataTable
      */
     public function query(BadWord $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('id', 'desc');
     }
 
     /**
