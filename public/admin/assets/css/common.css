@@ -198,6 +198,10 @@ table.dataTable thead th{
     color: #fff !important;
 }
 
+.error {
+    color:red
+}
+
 @media only screen and (max-width:768px){
     p{
         font-size: 14px !important;
