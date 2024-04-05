@@ -2963,6 +2963,7 @@ class UsersController_v2 extends BaseController
                 $verifiedProfile = new ProfileVerify();
 
                 $verifiedProfile->user_id = $this->user->id;
+                $verifiedProfile->verification_object_id = $request->verification_object_id;
 
                 if (!empty($request->profile)) {
 
