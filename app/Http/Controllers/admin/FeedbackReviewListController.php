@@ -74,4 +74,47 @@ class FeedbackReviewListController extends Controller
     {
         //
     }
+
+
+
+    public function FeedbackReviewListExist(Request $request)
+    {
+        try {
+
+            $eventType = FeedbackReviewList::where(['feedback_review' => $request->feedback_review])->get();
+
+            if (count($eventType) > 0) {
+
+                if (isset($request->id) && !empty($request->id)) {
+
+
+
+                    if ($eventType[0]->id == decrypt($request->id)) {
+
+
+
+                        $return =  true;
+
+                        echo json_encode($return);
+
+                        exit;
+                    }
+                }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
 }
