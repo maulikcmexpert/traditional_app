@@ -2922,8 +2922,14 @@ class UsersController_v2 extends BaseController
     public function getVerifyObject()
     {
         $objectVerification =  VerificationObject::inRandomOrder()->first();
-        dd($objectVerification);
+        $verifyObj = null;
+        if ($objectVerification != null) {
+            $verifyObj['id'] = $objectVerification->id;
+            $verifyObj['object_type'] = $objectVerification->object_type;
+            $verifyObj['object_image'] = ($objectVerification->object_image != null || $objectVerification->object_image != "") ? asset('storage/verification_object/' . $objectVerification->object_image) : "";
+        }
 
-        return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $objectVerification]);
+
+        return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $verifyObj]);
     }
 }
