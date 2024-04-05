@@ -2929,9 +2929,11 @@ class UsersController_v2 extends BaseController
         $objectVerification =  VerificationObject::inRandomOrder()->first();
         $verifyObj = null;
         if ($objectVerification != null) {
+            $userProfile = UserProfile::where(['user_id' => $this->user->id, 'is_default' => '1'])->first();
             $verifyObj['id'] = $objectVerification->id;
             $verifyObj['object_type'] = $objectVerification->object_type;
             $verifyObj['object_image'] = ($objectVerification->object_image != null || $objectVerification->object_image != "") ? asset('storage/verification_object/' . $objectVerification->object_image) : "";
+            $verifyObj['profile'] = ($userProfile != null && ($userProfile->profile != null || $userProfile->profile != "")) ? asset('storage/profile/' . $userProfile->profile) : "";
         }
 
 
