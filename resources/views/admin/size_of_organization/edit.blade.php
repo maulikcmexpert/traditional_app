@@ -27,7 +27,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <div class="row gy-4 align-items-end">
+                            <div class="row gy-4 align-items-end" id="size_of_organization">
                                 <div class="col-xxl-6 col-md-6">
                                     <label class="form-label">Size Of Organization</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control sizeoforganization_id" name="id" />
