@@ -43,7 +43,26 @@ class SizeOfOrganizationController extends Controller
      */
     public function store(PostSizeOfOrganization $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            foreach ($request->size_range as $val) {
+
+                $sizeRange = new SizeOfOrganization();
+                $sizeRange->size_range = $val;
+                $sizeRange->save();
+            }
+            DB::commit();
+            toastr()->success('Size Of Organization created successfully !');
+            return redirect()->route('sizeoforganization.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('sizeoforganization.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('sizeoforganization.create');
+        }
     }
 
     /**
