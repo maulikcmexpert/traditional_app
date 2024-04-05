@@ -104,7 +104,7 @@
             messages: {
                 feedback_review: {
                     required: "Please enter Feedback Review",
-                    remote: "Interest and hobby already exist",
+                    remote: "Feedback Review already exist",
                 },
 
             },

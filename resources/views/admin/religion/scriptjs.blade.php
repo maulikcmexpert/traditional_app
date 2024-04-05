@@ -8,12 +8,12 @@
 
 
             var addMoreData = $("#addMoreData").html();
-            $("#reason").append(addMoreData);
+            $("#religions").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#reason .reason").each(function() {
+        $("#religions .religion").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -23,12 +23,12 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#reason .reason').each(function() {
+            $('#religions .religion').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter Leave Reason');
+                    that.next('.text-danger').text('Please enter Religion');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -37,13 +37,13 @@
                             },
                             dataType: 'Json',
                             type: "POST",
-                            url: "{{route('leavereason.exist')}}",
+                            url: "{{route('religion.exist')}}",
                             data: {
                                 reason: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('Leave Reason already exist');
+                                    that.next('.text-danger').text('Religion already exist');
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
@@ -62,11 +62,11 @@
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
-                    console.log("Duplicate Leave Reason found");
+                    console.log("Duplicate Religion found");
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
-                    console.log("No duplicate Leave Reason, submitting form");
-                    $("#leavereason").submit();
+                    console.log("No duplicate Religion, submitting form");
+                    $("#religion").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
@@ -77,9 +77,9 @@
 
 
 
-        $("#leavereason").validate({
+        $("#religion").validate({
             rules: {
-                reason: {
+                religion: {
                     required: true,
                     remote: {
                         headers: {
@@ -87,11 +87,11 @@
                                 "content"
                             ),
                         },
-                        url: "{{route('leavereason.exist')}}",
+                        url: "{{route('religion.exist')}}",
                         method: "POST",
                         data: {
-                            reason: function() {
-                                return $("input[name='reason']").val();
+                            religion: function() {
+                                return $("input[name='religion']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -103,8 +103,8 @@
             },
             messages: {
                 reason: {
-                    required: "Please enter Leave Reason",
-                    remote: "Leave Reason already exist",
+                    required: "Please enter Religion",
+                    remote: "Religion already exist",
                 },
 
             },
@@ -115,8 +115,8 @@
 
 
         $(document).on('click', '#edit', function() {
-            if ($("#leavereason").valid()) {
-                $("#leavereason").submit();
+            if ($("#religion").valid()) {
+                $("#religion").submit();
             }
         })
 
@@ -150,7 +150,7 @@
 
 
                             } else {
-                                toastr.error("Leave Reason don't Deleted !");
+                                toastr.error("Religion don't Deleted !");
                             }
                         },
                     });
@@ -160,7 +160,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Leave Reason deleted successfully !");
+            toastr.success("Religion deleted successfully !");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }

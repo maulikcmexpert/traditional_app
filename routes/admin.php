@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\{
     InterestAndHobbiesController,
     LeaveReasonController,
     LifeStyleController,
+    ReligionController,
     VerificationObjectController,
     ZodiacSignController
 };
@@ -25,7 +26,8 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'blockreason' => BlockReasonController::class,
         'verificationobject' => VerificationObjectController::class,
         'feedbackreviewlist' => FeedbackReviewListController::class,
-        'leavereason' => LeaveReasonController::class
+        'leavereason' => LeaveReasonController::class,
+        'religion' => ReligionController::class
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('lifestyle/lifestyle_exist', [LifeStyleController::class, 'lifestyleExist'])->name('lifestyle.exist');
@@ -35,4 +37,5 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
     Route::post('verificationobject/verificationobject_exist', [VerificationObjectController::class, 'VerificationObjectExist'])->name('verificationobject.exist');
     Route::post('feedbackreviewlist/feedbackreviewlist_exist', [FeedbackReviewListController::class, 'FeedbackReviewListExist'])->name('feedbackreviewlist.exist');
     Route::post('leavereason/leavereason_exist', [LeaveReasonController::class, 'LeaveReasonExist'])->name('leavereason.exist');
+    Route::post('religion/religion_exist', [ReligionController::class, 'ReligionExist'])->name('religion.exist');
 });
