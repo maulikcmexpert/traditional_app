@@ -85,6 +85,7 @@
             rules: {
                 size_range: {
                     required: true,
+                    pattern: /^(\d+\.?\d*) ?- ?(\d+\.?\d*)$/,
                     remote: {
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -108,6 +109,7 @@
             messages: {
                 size_range: {
                     required: "Please enter Size Of Organization",
+                    pattern: "The value must be in the format 0-50, and is a digit",
                     remote: "Size Of Organization already exist",
                 },
 
