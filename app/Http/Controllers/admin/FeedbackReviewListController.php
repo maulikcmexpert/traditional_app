@@ -32,15 +32,37 @@ class FeedbackReviewListController extends Controller
      */
     public function create()
     {
-        //
+        $page = 'admin.feedback_review_list.add';
+        $title = 'Add Feedback Review List';
+        $js = 'admin.feedback_review_list.scriptjs';
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostFeedbackReviewList $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            foreach ($request->feedback_review as $val) {
+
+                $feedbackrev = new FeedbackReviewList();
+                $feedbackrev->feedback_review = $val;
+                $feedbackrev->save();
+            }
+            DB::commit();
+            toastr()->success('Feedback Review created successfully !');
+            return redirect()->route('feedbackreviewlist.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('feedbackreviewlist.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('feedbackreviewlist.create');
+        }
     }
 
     /**

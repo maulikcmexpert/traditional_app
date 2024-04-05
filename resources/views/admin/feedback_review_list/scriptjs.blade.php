@@ -6,14 +6,14 @@
 
         $(document).on('click', '#addMore', function() {
 
-            $("#parentAddBtn").hide();
+
             var addMoreData = $("#addMoreData").html();
-            $("#interest").append(addMoreData);
+            $("#feedbackreview").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#interest .interest_and_hobby").each(function() {
+        $("#feedbackreview .feedback_review").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -23,12 +23,12 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#interest .interest_and_hobby').each(function() {
+            $('#feedbackreview .feedback_review').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter interest and hobby');
+                    that.next('.text-danger').text('Please enter Feedback Review');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -37,13 +37,13 @@
                             },
                             dataType: 'Json',
                             type: "POST",
-                            url: "{{route('interest_and_hobby.exist')}}",
+                            url: "{{route('feedbackreviewlist.exist')}}",
                             data: {
-                                interest_and_hobby: thatVal
+                                feedback_review: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('interest and hobby already exist');
+                                    that.next('.text-danger').text('Feedback Review already exist');
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
@@ -62,11 +62,11 @@
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
-                    console.log("Duplicate interest and hobby found");
+                    console.log("Duplicate Feedback Review found");
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
-                    console.log("No duplicate interest and hobby, submitting form");
-                    $("#interest_and_hobby").submit();
+                    console.log("No duplicate Feedback Review, submitting form");
+                    $("#feedbackreviewlist").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
@@ -77,9 +77,9 @@
 
 
 
-        $("#interest_and_hobby").validate({
+        $("#feedbackreviewlist").validate({
             rules: {
-                interest_and_hobby: {
+                feedback_review: {
                     required: true,
                     remote: {
                         headers: {
@@ -87,11 +87,11 @@
                                 "content"
                             ),
                         },
-                        url: "{{route('interest_and_hobby.exist')}}",
+                        url: "{{route('feedbackreviewlist.exist')}}",
                         method: "POST",
                         data: {
-                            interest_and_hobby: function() {
-                                return $("input[name='interest_and_hobby']").val();
+                            feedback_review: function() {
+                                return $("input[name='feedback_review']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -102,8 +102,8 @@
 
             },
             messages: {
-                interest_and_hobby: {
-                    required: "Please enter interest and hobby",
+                feedback_review: {
+                    required: "Please enter Feedback Review",
                     remote: "Interest and hobby already exist",
                 },
 
@@ -115,8 +115,8 @@
 
 
         $(document).on('click', '#edit', function() {
-            if ($("#interest_and_hobby").valid()) {
-                $("#interest_and_hobby").submit();
+            if ($("#feedbackreviewlist").valid()) {
+                $("#feedbackreviewlist").submit();
             }
         })
 
@@ -150,7 +150,7 @@
 
 
                             } else {
-                                toastr.error("Interest and hobby don't Deleted !");
+                                toastr.error("Feedback Review don't Deleted !");
                             }
                         },
                     });
@@ -160,7 +160,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Interest and hobby deleted successfully !");
+            toastr.success("Feedback Review deleted successfully !");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }
