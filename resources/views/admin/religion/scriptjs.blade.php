@@ -39,7 +39,7 @@
                             type: "POST",
                             url: "{{route('religion.exist')}}",
                             data: {
-                                reason: thatVal
+                                religion: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
