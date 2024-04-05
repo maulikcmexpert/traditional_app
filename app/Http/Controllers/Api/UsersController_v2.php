@@ -45,6 +45,7 @@ use App\Models\Device;
 use App\Models\FeedbackReview;
 use App\Models\FeedbackReviewList;
 use App\Models\Notification;
+use App\Models\ProfileVerify;
 use App\Models\Setting;
 use App\Rules\FullNameValidation;
 use App\Rules\OrganizationNameValidation;
@@ -305,12 +306,16 @@ class UsersController_v2 extends BaseController
                 $user_profile = UserProfile::where(['user_id' => $user->id, 'is_default' => '1'])->first();
                 $user_lifeStyle = UserLifestyle::where('user_id', $user->id)->exists();
                 $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
+                $profileVerify = ProfileVerify::where('user_id', $user->id)->exists();
 
                 if ($user_profile == null) {
                     $step = "Profile";
                 }
 
-                if ($user_lifeStyle == false && $user_profile != null) {
+                if ($profileVerify == false && $user_profile != null) {
+                    $step = "verify_user";
+                }
+                if ($user_lifeStyle == false && $profileVerify == true) {
                     $step = "Zodiac";
                 }
 
