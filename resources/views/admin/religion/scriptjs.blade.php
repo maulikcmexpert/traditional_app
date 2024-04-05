@@ -102,7 +102,7 @@
 
             },
             messages: {
-                reason: {
+                religion: {
                     required: "Please enter Religion",
                     remote: "Religion already exist",
                 },
