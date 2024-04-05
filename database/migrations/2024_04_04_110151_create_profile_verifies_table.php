@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('verification_object_id')->references('id')->on('verification_objects')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->enum('status', ['true', 'false']);
+            $table->enum('status', ['true', 'false'])->default('true');
             $table->timestamps();
         });
     }
