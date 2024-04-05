@@ -78,7 +78,12 @@ class FeedbackReviewListController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.feedback_review_list.edit';
+        $title = 'Update interest and hobby';
+        $js = 'admin.feedback_review_list.scriptjs';
+        $getData = FeedbackReviewList::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
@@ -86,7 +91,24 @@ class FeedbackReviewListController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = FeedbackReviewList::Findorfail($ids);
+            $update->feedback_review = $request->feedback_review;
+            $update->save();
+            DB::commit();
+            toastr()->success('Feedback Review successfully !');
+            return redirect()->route('feedbackreviewlist.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('feedbackreviewlist.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('feedbackreviewlist.create');
+        }
     }
 
     /**
@@ -94,7 +116,16 @@ class FeedbackReviewListController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = FeedbackReviewList::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
     }
 
 
