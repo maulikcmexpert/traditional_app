@@ -136,6 +136,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('update_approach_preference', [UsersController_v2::class, 'updateApproachPreference'])->middleware('check_user');
     Route::get('get_approach_preference', [UsersController_v2::class, 'getApproachPreference'])->middleware('check_user');
     Route::get('get_verify_object', [UsersController_v2::class, 'getVerifyObject'])->middleware('check_user');
+    Route::get('verified_user_profile', [UsersController_v2::class, 'verifiedUserProfile'])->middleware('check_user');
 
 
     // Route::middleware(['check_user'])->group( function () {

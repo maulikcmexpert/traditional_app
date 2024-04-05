@@ -2939,4 +2939,57 @@ class UsersController_v2 extends BaseController
 
         return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $verifyObj]);
     }
+
+    public function verifiedUserProfile(Request $request)
+    {
+
+        try {
+
+            $validator = Validator::make($request->all(), [
+
+                'verification_object_id' => ['required', 'integer', 'exists:verification_objects,id'],
+                'status' => ['required', 'in:true,false'],
+                'profile' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            $userVerifiedProfile =  ProfileVerify::where('user_id', $this->user->id)->first();
+
+            DB::beginTransaction();
+            if ($userVerifiedProfile == null) {
+                $verifiedProfile = new ProfileVerify();
+
+                $verifiedProfile->user_id = $this->user->id;
+
+                if (!empty($request->profile)) {
+
+
+                    $image = $request->profile;
+                    $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
+                    $image->move(public_path('storage/user_verified_profile'), $imageName);
+                    $verifiedProfile->profile = $imageName;
+                }
+                $verifiedProfile->status = $request->status;
+                $verifiedProfile->save();
+
+
+                DB::commit();
+
+                return response()->json(['status' => true, 'message' => "verified successfully"]);
+            }
+            return response()->json(['status' => true, 'message' => "try again"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
 }
