@@ -91,7 +91,24 @@ class SizeOfOrganizationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = SizeOfOrganization::Findorfail($ids);
+            $update->size_range = $request->size_range;
+            $update->save();
+            DB::commit();
+            toastr()->success('Size Of Organization updated successfully !');
+            return redirect()->route('sizeoforganization.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('sizeoforganization.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('sizeoforganization.create');
+        }
     }
 
     /**
@@ -99,7 +116,16 @@ class SizeOfOrganizationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = SizeOfOrganization::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
     }
 
     public function SizeOfOrganizationExist(Request $request)
