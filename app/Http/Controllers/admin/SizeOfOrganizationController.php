@@ -78,7 +78,12 @@ class SizeOfOrganizationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.sizeoforganization.edit';
+        $title = 'Update Size Of Organization';
+        $js = 'admin.sizeoforganization.scriptjs';
+        $getData = SizeOfOrganization::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
