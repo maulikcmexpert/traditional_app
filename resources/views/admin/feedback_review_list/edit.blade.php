@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('interest_and_hobby.index')}}">Interest and hobbies</a></li>
+                <li class="breadcrumb-item"><a href="{{route('feedbackreviewlist.index')}}">Interest and hobbies</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit</li>
             </ol>
         </nav>
@@ -13,7 +13,7 @@
     <!-- -----header-breadcrumb-end-- -->
 
 
-    
+
     <div class="container">
         <div class="card">
             <div class="card-header align-items-center d-flex">
@@ -23,19 +23,19 @@
             <!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
-                    <form method="POST" id="interest_and_hobby" action="{{ route('interest_and_hobby.update',encrypt($getData->id))}}">
+                    <form method="POST" id="feedbackreviewlist" action="{{ route('feedbackreviewlist.update',encrypt($getData->id))}}">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
                             <div class="row gy-4 align-items-end">
                                 <div class="col-xxl-6 col-md-6">
                                     <label class="form-label">Interest and hobbies</label>
-                                    <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control interest_and_hobby_id" name="id" />
-                                    <input type="text" value="{{$getData->interest_and_hobby}}" class="form-control interest_and_hobby" name="interest_and_hobby" />
+                                    <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control feedbackreviewlist_id" name="id" />
+                                    <input type="text" value="{{$getData->feedback_review}}" class="form-control feedback_review" name="feedback_review" />
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="col-xxl-2">
-                                    <input type="button"  id="edit" class="btn btn-primary" value="Update">
+                                    <input type="button" id="edit" class="btn btn-primary" value="Update">
                                 </div>
                             </div>
 
@@ -48,6 +48,6 @@
             </div>
         </div>
     </div>
-    
+
 
 </div>
