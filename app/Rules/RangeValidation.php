@@ -16,7 +16,8 @@ class RangeValidation implements ValidationRule
     {
 
         // Check if value matches the specified pattern
-        if (!preg_match('/^\d{2}-\d{2}$/', $value)) {
+
+        if (!preg_match('/^(\d+\.?\d*) ?- ?(\d+\.?\d*)$/', $value)) {
             $fail("The $attribute must be in the format 0-50, where is a digit.");
             return;
         }
