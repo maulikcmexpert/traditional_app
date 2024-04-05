@@ -32,7 +32,10 @@ class SizeOfOrganizationController extends Controller
      */
     public function create()
     {
-        //
+        $page = 'admin.size_of_organization.add';
+        $title = 'Add Size Of Organization';
+        $js = 'admin.size_of_organization.scriptjs';
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
