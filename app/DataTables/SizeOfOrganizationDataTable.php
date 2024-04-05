@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Religion;
+use App\Models\SizeOfOrganization;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ReligionDataTable extends DataTable
+class SizeOfOrganizationDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -21,12 +21,13 @@ class ReligionDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($row) {
 
                 $id = encrypt($row->id);
-                $editRoute = route('religion.edit', $id);
-                $deleteRoute = route('religion.destroy', $id);
+                $editRoute = route('sizeoforganization.edit', $id);
+                $deleteRoute = route('sizeoforganization.destroy', $id);
 
 
                 return '<div class="d-flex gap-2"><a class="editBtns" href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
@@ -39,7 +40,7 @@ class ReligionDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Religion $model): QueryBuilder
+    public function query(SizeOfOrganization $model): QueryBuilder
     {
         return $model->newQuery()->orderBy('id', 'desc');
     }
@@ -50,7 +51,7 @@ class ReligionDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('religion-table')
+            ->setTableId('sizeoforganization-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -72,11 +73,8 @@ class ReligionDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::make('religion'),
-
+            Column::make('size_range'),
             Column::make('action'),
-
         ];
     }
 
@@ -85,6 +83,6 @@ class ReligionDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Religion_' . date('YmdHis');
+        return 'SizeOfOrganization_' . date('YmdHis');
     }
 }
