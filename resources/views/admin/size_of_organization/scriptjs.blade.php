@@ -29,7 +29,7 @@
                 var pattern = /^\d{2}-\d{2}$/;
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Size Of Organization');
-                } else if (!pattern.test(value)) {
+                } else if (!pattern.test(thatVal)) {
 
                     that.next('.text-danger').text('The value must be in the format 0-50, and is a digit.');
                 } else {
