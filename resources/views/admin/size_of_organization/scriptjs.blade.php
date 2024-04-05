@@ -26,7 +26,7 @@
             $('#sizeoforganization .size_range').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
-                var pattern = /^\d{2}-\d{2}$/;
+                var pattern = /^(0|[1-9]\d?)-50$/;
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Size Of Organization');
                 } else if (!pattern.test(thatVal)) {
