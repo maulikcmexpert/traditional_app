@@ -2948,7 +2948,6 @@ class UsersController_v2 extends BaseController
             $validator = Validator::make($request->all(), [
 
                 'verification_object_id' => ['required', 'integer', 'exists:verification_objects,id'],
-                'status' => ['required', 'in:true,false'],
                 'profile' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
 
             ]);
@@ -2973,7 +2972,6 @@ class UsersController_v2 extends BaseController
                     $image->move(public_path('storage/user_verified_profile'), $imageName);
                     $verifiedProfile->profile = $imageName;
                 }
-                $verifiedProfile->status = $request->status;
                 $verifiedProfile->save();
 
 
