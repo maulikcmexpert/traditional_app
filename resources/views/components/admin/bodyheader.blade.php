@@ -576,9 +576,9 @@
                      </div>
                      <div class="user-info">
                          <?php
-                            $value = $this->session->get();
 
-                            dd($value);
+
+                            dd($session('key'));
                             ?>
                          <p class="user-name mb-0"></p>
                          <i class="fa-solid fa-angle-down"></i>
