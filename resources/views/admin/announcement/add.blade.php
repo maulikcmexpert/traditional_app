@@ -25,6 +25,18 @@
                                 <div class="col-xxl-4 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
+                                            <label class="form-label">Notification Type</label>
+                                            <select name="type" id="">
+                                                <option value="announcement">Announcement</option>
+                                                <option value="promotional">Promotional</option>
+                                            </select>
+                                            <span class="text-danger"> @if ($errors->has('message')){{ $errors->first('message') }} @endif</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4 col-md-6 mb-2">
+                                    <div class="w-100 d-flex align-items-end gap-2">
+                                        <div class="w-100 position-relative">
                                             <label class="form-label">Message</label>
                                             <input type="text" class="form-control message" id="message" name="message" value="" />
                                             <span class="text-danger"> @if ($errors->has('message')){{ $errors->first('message') }} @endif</span>

@@ -38,6 +38,7 @@ class AnnouncementController extends Controller
         $users = Device::pluck('device_token');
 
         $notificationData = [
+            "type" => $request->input('type'),
             "message" => $request->input('message')
         ];
 
