@@ -45,30 +45,35 @@ class GeneralSettingController extends Controller
         try {
 
             DB::beginTransaction();
+            $checkSetting = Setting::first();
+            if ($checkSetting == null) {
 
-            if (!empty($request->object_image)) {
-                $image = $request->object_image;
-                $imageName = time() . 'objverify.' . $image->getClientOriginalExtension();
-                $image->move(public_path('storage/verification_object'), $imageName);
-
-                $verifyObj = new VerificationObject();
-                $verifyObj->object_type = $request->object_type;
-                $verifyObj->object_image = $imageName;
-                $verifyObj->save();
+                $setting = new Setting();
+                $setting->min_age = $request->min_age;
+                $setting->max_age = $request->max_age;
+                $setting->ghost_count = $$request->ghost_count;
+                $setting->ghost_day = $request->ghost_day;
+                $setting->save();
+            } else {
+                $checkSetting->min_age = $request->min_age;
+                $checkSetting->max_age = $request->max_age;
+                $checkSetting->ghost_count = $$request->ghost_count;
+                $checkSetting->ghost_day = $request->ghost_day;
+                $checkSetting->save();
             }
 
 
             DB::commit();
-            toastr()->success('Verfication Object created successfully !');
-            return redirect()->route('verificationobject.index');
+            toastr()->success('General setting updated successfully !');
+            return redirect()->route('generalsetting.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('verificationobject.create');
+            return redirect()->route('generalsetting.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('verificationobject.create');
+            return redirect()->route('generalsetting.create');
         }
     }
 
