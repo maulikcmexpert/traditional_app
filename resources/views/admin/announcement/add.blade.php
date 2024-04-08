@@ -26,7 +26,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Notification Type</label>
-                                            <select name="type" id="">
+                                            <select class="form-control" name="type" id="">
                                                 <option value="announcement">Announcement</option>
                                                 <option value="promotional">Promotional</option>
                                             </select>
