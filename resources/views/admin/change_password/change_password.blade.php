@@ -4,7 +4,6 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('generalsetting.index')}}">General Setting</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Change Password</li>
             </ol>
         </nav>
