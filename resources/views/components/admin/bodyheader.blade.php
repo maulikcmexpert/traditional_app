@@ -583,7 +583,7 @@
                      </div>
                  </a>
                  <ul class="dropdown-menu dropdown-menu-end">
-                     <li><a class="dropdown-item d-flex align-items-center" href="{{ route('password.request')}}"><i class="fa-regular fa-user"></i><span>Change Password</span></a>
+                     <li><a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit')}}"><i class="fa-regular fa-user"></i><span>Profile</span></a>
                      </li>
 
                      <li>
