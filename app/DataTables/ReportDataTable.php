@@ -22,15 +22,14 @@ class ReportDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('report_by', function ($row) {
-                dd($row->reporter_user->full_name);
+            ->addColumn('report_user', function ($row) {
                 return $row->reporter_user->full_name;
             })
-            ->addColumn('to_be_report', function ($row) {
+            ->addColumn('to_be_report_user', function ($row) {
                 return $row->to_reporter_user->full_name;
             })
 
-            ->rawColumns(['report_by', 'to_be_report'])
+            ->rawColumns(['report_user', 'to_be_report_user'])
             ->setRowId('id');
     }
 
@@ -71,9 +70,9 @@ class ReportDataTable extends DataTable
     {
         return [
 
-            Column::make('report_by'),
+            Column::make('report_user'),
 
-            Column::make('to_be_report'),
+            Column::make('to_be_report_user'),
 
         ];
     }
