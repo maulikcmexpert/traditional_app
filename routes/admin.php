@@ -14,7 +14,8 @@ use App\Http\Controllers\admin\{
     ReligionController,
     SizeOfOrganizationController,
     VerificationObjectController,
-    ZodiacSignController
+    ZodiacSignController,
+    AnnouncementController
 };
 
 Route::middleware(['admin', 'web', 'auth'])->group(function () {
@@ -32,6 +33,7 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'religion' => ReligionController::class,
         'sizeoforganization' => SizeOfOrganizationController::class,
         'generalsetting' => GeneralSettingController::class,
+        'announcement' => AnnouncementController::class,
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('lifestyle/lifestyle_exist', [LifeStyleController::class, 'lifestyleExist'])->name('lifestyle.exist');
