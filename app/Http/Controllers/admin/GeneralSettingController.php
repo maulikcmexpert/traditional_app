@@ -15,7 +15,7 @@ class GeneralSettingController extends Controller
         $page = 'admin.general_setting.add';
         $title = 'Add Verification Object';
         //   $js = 'admin.verification_object.scriptjs';
-        return view('layouts.layout', compact('page', 'title', 'js'));
+        return view('layouts.layout', compact('page', 'title'));
     }
 
     /**
