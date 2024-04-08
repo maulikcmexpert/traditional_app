@@ -40,8 +40,9 @@ class ProfileController extends Controller
     }
     public function changePassword()
     {
-
-        return view('admin.change_password');
+        $page = 'admin.change_password';
+        $title = 'Change Password';
+        return view('layouts.layout', compact('page', 'title'));
     }
 
 
