@@ -154,6 +154,11 @@ class User extends Authenticatable
         return $this->hasOne(ApproachPreference::class);
     }
 
+    public function  reports()
+    {
+        return $this->hasOne(Report::class);
+    }
+
 
     // public function user_showstoppers_answers()
     // {
