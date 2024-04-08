@@ -26,7 +26,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Min age</label>
-                                            <input type="text" class="form-control min_age" name="min_age" value="{{($setting == null)? '':$setting->min_age }}" />
+                                            <input type="text" class="form-control min_age" id="min_age" name="min_age" value="{{($setting == null)? '':$setting->min_age }}" />
                                             <span class="text-danger"> @if ($errors->has('min_age')){{ $errors->first('min_age') }} @endif</span>
                                         </div>
                                     </div>
@@ -36,7 +36,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Max age</label>
-                                            <input type="text" class="form-control max_age" name="max_age" value="{{($setting == null)? '':$setting->max_age }}" />
+                                            <input type="text" class="form-control max_age" id="max_age" name="max_age" value="{{($setting == null)? '':$setting->max_age }}" />
                                             <span class="text-danger"> @if ($errors->has('max_age')){{ $errors->first('max_age') }} @endif</span>
                                         </div>
                                     </div>
