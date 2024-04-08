@@ -18,7 +18,7 @@ class PasswordController extends Controller
      */
     public function update(PostChangePassword $request): RedirectResponse
     {
-        dd($request->password);
+        dd($request->new_password);
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
