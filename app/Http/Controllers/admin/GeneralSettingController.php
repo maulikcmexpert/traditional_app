@@ -8,7 +8,8 @@ use App\Http\Requests\{
     PostGeneralSetting
 };
 use App\Models\{
-    FeedbackReviewList
+    FeedbackReviewList,
+    Setting
 };
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,8 @@ class GeneralSettingController extends Controller
         $page = 'admin.general_setting.add';
         $title = 'Add Verification Object';
         //   $js = 'admin.verification_object.scriptjs';
-        return view('layouts.layout', compact('page', 'title'));
+        $setting = Setting::first();
+        return view('layouts.layout', compact('page', 'title', 'setting'));
     }
 
     /**
