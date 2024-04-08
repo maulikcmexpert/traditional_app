@@ -22,7 +22,14 @@ class ReportDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'report.action')
+            ->addColumn('report_by', function ($row) {
+                return $row->reporter_user->full_name;
+            })
+            ->addColumn('to_be_report', function ($row) {
+                return $row->to_reporter_user->full_name;
+            })
+
+            ->rawColumns(['report_by', 'to_be_report'])
             ->setRowId('id');
     }
 
@@ -31,7 +38,7 @@ class ReportDataTable extends DataTable
      */
     public function query(Report $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['reporter_user', 'to_reporter_user'])->orderBy('id', 'DESC');
     }
 
     /**
@@ -63,9 +70,9 @@ class ReportDataTable extends DataTable
     {
         return [
 
-            Column::make('religion'),
+            Column::make('report_by'),
 
-            Column::make('action'),
+            Column::make('to_be_report'),
 
         ];
     }

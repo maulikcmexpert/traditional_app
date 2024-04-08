@@ -4,16 +4,24 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\DataTables\ReportDataTable;
+
+use App\Models\{
+    Report
+};
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+
 
 class UserReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ReportDataTable $dataTable)
     {
-        $page = 'admin.user.list';
-        $title = 'Users Management';
+        $page = 'admin.report.list';
+        $title = 'Report Management';
 
 
         return $dataTable->render('layouts.layout', compact('page', 'title'));
