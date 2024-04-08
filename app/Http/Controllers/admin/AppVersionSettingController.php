@@ -59,15 +59,15 @@ class AppVersionSettingController extends Controller
 
             DB::commit();
             toastr()->success('Version setting updated successfully !');
-            return redirect()->route('versionsetting.index');
+            return redirect()->route('version_setting.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('versionsetting.create');
+            return redirect()->route('version_setting.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('versionsetting.create');
+            return redirect()->route('version_setting.create');
         }
     }
 
