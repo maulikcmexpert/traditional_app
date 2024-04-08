@@ -4,6 +4,14 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\{
+    PostGeneralSetting
+};
+use App\Models\{
+    FeedbackReviewList
+};
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class GeneralSettingController extends Controller
 {
@@ -31,7 +39,7 @@ class GeneralSettingController extends Controller
      */
     public function store(PostGeneralSetting $request)
     {
-        //
+        dd($request);
     }
 
     /**
