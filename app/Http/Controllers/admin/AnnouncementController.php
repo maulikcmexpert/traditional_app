@@ -37,7 +37,9 @@ class AnnouncementController extends Controller
     {
         $users = Device::pluck('device_token');
 
-        $notificationData = $request->input('message');
+        $notificationData = [
+            "message" => $request->input('message')
+        ];
 
         foreach ($users as $token) {
             send_notification_FCM_and($token, $notificationData);
