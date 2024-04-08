@@ -576,7 +576,7 @@
                      </div>
                      <div class="user-info">
                          @if(Auth::guard('web')->check())
-                         <p class="user-name mb-0">Welcome back, {{ Auth::guard('web')->user()->email }}</p>
+                         <p class="user-name mb-0"> {{ Auth::guard('web')->user()->email }}</p>
                          @endif
 
                          <i class="fa-solid fa-angle-down"></i>
