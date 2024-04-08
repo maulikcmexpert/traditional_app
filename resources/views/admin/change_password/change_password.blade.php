@@ -27,7 +27,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Current Password</label>
-                                            <input type="text" class="form-control current_password" id="current_password" name="current_password" />
+                                            <input type="password" class="form-control current_password" id="current_password" name="current_password" />
                                             <span class="text-danger"> @if ($errors->has('current_password')){{ $errors->first('current_password') }} @endif</span>
                                         </div>
                                     </div>
@@ -37,7 +37,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">New Password</label>
-                                            <input type="text" class="form-control new_password" id="new_password" name="new_password" />
+                                            <input type="password" class="form-control new_password" id="new_password" name="new_password" />
                                             <span class="text-danger"> @if ($errors->has('new_password')){{ $errors->first('new_password') }} @endif</span>
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Confirm Password</label>
-                                            <input type="text" class="form-control confirm_password" name="confirm_password" />
+                                            <input type="password" class="form-control confirm_password" name="confirm_password" />
                                             <span class="text-danger"> @if ($errors->has('confirm_password')){{ $errors->first('confirm_password') }} @endif</span>
                                         </div>
                                     </div>
