@@ -36,9 +36,14 @@ class AnnouncementController extends Controller
     public function store(Request $request)
     {
         $users = Device::pluck('device_token');
-        dd($users);
 
-        // send_notification_FCM_and($deviceToken->device_token, $notificationData);
+        $notificationData = $request->input('message');
+
+        foreach ($users as $token) {
+            send_notification_FCM_and($token, $notificationData);
+        }
+        toastr()->success('Notify successfully !');
+        return redirect()->route('announcement.index');
     }
 
     /**
