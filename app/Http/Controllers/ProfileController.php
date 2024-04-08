@@ -41,9 +41,9 @@ class ProfileController extends Controller
     public function changePassword()
     {
         $page = 'admin.change_password.change_password';
-        $page = 'admin.change_password.scriptjs';
+        $js = 'admin.change_password.scriptjs';
         $title = 'Change Password';
-        return view('layouts.layout', compact('page', 'title'));
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
 
