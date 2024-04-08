@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\{
     CurseWordController,
     DashboardController,
     FeedbackReviewListController,
+    GeneralSettingController,
     UserController,
     InterestAndHobbiesController,
     LeaveReasonController,
@@ -29,7 +30,8 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'feedbackreviewlist' => FeedbackReviewListController::class,
         'leavereason' => LeaveReasonController::class,
         'religion' => ReligionController::class,
-        'sizeoforganization' => SizeOfOrganizationController::class
+        'sizeoforganization' => SizeOfOrganizationController::class,
+        'generalsetting' => GeneralSettingController::class,
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('lifestyle/lifestyle_exist', [LifeStyleController::class, 'lifestyleExist'])->name('lifestyle.exist');
