@@ -20,6 +20,7 @@
                 <div class="live-preview">
                     <form method="POST" id="generalsetting" action="{{ route('password.update') }}">
                         @csrf
+                        @method('put')
                         <div class=" form-group AddMoreForm">
                             <div class="row" id="general_setting">
                                 <div class="col-xxl-4 col-md-6 mb-2">
