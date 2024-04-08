@@ -63,11 +63,11 @@ class AppVersionSettingController extends Controller
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('version_setting.create');
+            return redirect()->route('version_setting.index');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('version_setting.create');
+            return redirect()->route('version_setting.index');
         }
     }
 
