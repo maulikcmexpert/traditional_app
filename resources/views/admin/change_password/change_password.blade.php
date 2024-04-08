@@ -18,7 +18,7 @@
             <!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
-                    <form method="POST" id="generalsetting" action="{{ route('password.update') }}">
+                    <form method="POST" id="changePasswordForm" action="{{ route('password.update') }}">
                         @csrf
                         @method('put')
                         <div class=" form-group AddMoreForm">
