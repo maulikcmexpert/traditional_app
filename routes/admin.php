@@ -25,6 +25,7 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/change_password', [ProfileController::class, 'changePassword'])->name('changePassword');;
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    Route::post('check_current_pass', [PasswordController::class, 'checkCurrentPass'])->name('checkCurrentPass.exist');
     Route::resources([
         'user' => UserController::class,
         'interest_and_hobby' => InterestAndHobbiesController::class,

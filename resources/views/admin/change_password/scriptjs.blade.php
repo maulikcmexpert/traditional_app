@@ -2,10 +2,16 @@
     $(document).ready(function() {
         $("#changePasswordForm").validate({
             rules: {
+
                 current_password: {
                     required: true,
                     remote: {
-                        url: "/check-current-password",
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        url: "{{route('checkCurrentPass.exist')}}",
                         type: "post",
                         data: {
                             current_password: function() {
