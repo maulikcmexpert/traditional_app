@@ -578,7 +578,7 @@
                          <?php
 
 
-                            dd($session('key'));
+                            dd(session('key'));
                             ?>
                          <p class="user-name mb-0"></p>
                          <i class="fa-solid fa-angle-down"></i>
