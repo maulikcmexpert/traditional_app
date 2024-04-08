@@ -25,7 +25,7 @@ class PasswordController extends Controller
         ]);
 
         toastr()->success('Password updated successfully !');
-        return redirect()->route('changePassword.index');;
+        return redirect()->route('changePassword');;
     }
 
     public function checkCurrentPass(Request $request)
