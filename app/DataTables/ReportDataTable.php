@@ -23,7 +23,7 @@ class ReportDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('report_by', function ($row) {
-                dd($row);
+                dd($row->reporter_user->full_name);
                 return $row->reporter_user->full_name;
             })
             ->addColumn('to_be_report', function ($row) {
