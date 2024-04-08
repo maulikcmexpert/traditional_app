@@ -19,10 +19,12 @@ use App\Http\Controllers\admin\{
     AppVersionSettingController
 };
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\PasswordController;
 
 Route::middleware(['admin', 'web', 'auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/change_password', [ProfileController::class, 'changePassword'])->name('changePassword');;
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
     Route::resources([
         'user' => UserController::class,
         'interest_and_hobby' => InterestAndHobbiesController::class,
