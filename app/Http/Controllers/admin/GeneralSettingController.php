@@ -22,7 +22,7 @@ class GeneralSettingController extends Controller
     public function index()
     {
         $page = 'admin.general_setting.add';
-        $title = 'Add Verification Object';
+        $title = 'General Setting';
         $js = 'admin.general_setting.scriptjs';
         $setting = Setting::first();
         return view('layouts.layout', compact('page', 'title', 'js', 'setting'));
