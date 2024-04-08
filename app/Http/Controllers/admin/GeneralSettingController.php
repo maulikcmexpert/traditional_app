@@ -41,7 +41,7 @@ class GeneralSettingController extends Controller
      */
     public function store(PostGeneralSetting $request)
     {
-        dd($request->min_age);
+
         try {
 
             DB::beginTransaction();
