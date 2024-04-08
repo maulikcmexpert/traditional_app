@@ -63,7 +63,7 @@
 
                             </div>
                         </div>
-                        <div class="text-center"><input type="submit" id="add" class="btn btn-primary submitButton" value="Add"></div>
+                        <div class="text-center"><input type="submit" id="add" class="btn btn-primary submitButton" value="{{($setting == null)? 'Add' : 'Update' }}"></div>
 
                     </form>
                     <!--end row-->
