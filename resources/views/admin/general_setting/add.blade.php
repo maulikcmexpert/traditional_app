@@ -5,7 +5,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="{{route('generalsetting.index')}}">General Setting</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{($setting == null) Add ?Update }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{($setting == null)? Add : Update }}</li>
             </ol>
         </nav>
     </div>
@@ -13,7 +13,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">{{($setting == null) Add ?Update }}</h4>
+                <h4 class="card-title mb-0 flex-grow-1">{{($setting == null)? Add : Update }}</h4>
             </div>
             <!-- end card header -->
             <div class="card-body">
@@ -26,7 +26,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Min age</label>
-                                            <input type="text" class="form-control min_age" name="min_age" value="{{($setting == null) '' ?$setting->min_age }}" />
+                                            <input type="text" class="form-control min_age" name="min_age" value="{{($setting == null)? '':$setting->min_age }}" />
                                             <span class="text-danger"> @if ($errors->has('min_age')){{ $errors->first('min_age') }} @endif</span>
                                         </div>
                                     </div>
@@ -36,7 +36,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Max age</label>
-                                            <input type="text" class="form-control max_age" name="max_age" value="{{($setting == null) '' ?$setting->max_age }}" />
+                                            <input type="text" class="form-control max_age" name="max_age" value="{{($setting == null)? '':$setting->max_age }}" />
                                             <span class="text-danger"> @if ($errors->has('max_age')){{ $errors->first('max_age') }} @endif</span>
                                         </div>
                                     </div>
@@ -46,7 +46,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Ghost Count</label>
-                                            <input type="text" class="form-control ghost_count" name="ghost_count" value="{{($setting == null) '' ?$setting->ghost_count }}" />
+                                            <input type="text" class="form-control ghost_count" name="ghost_count" value="{{($setting == null)? '':$setting->ghost_count }}" />
                                             <span class="text-danger"> @if ($errors->has('ghost_count')){{ $errors->first('ghost_count') }} @endif</span>
                                         </div>
                                     </div>
@@ -55,7 +55,7 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Ghost Day</label>
-                                            <input type="text" class="form-control ghost_day" name="ghost_day" value="{{($setting == null) '' ?$setting->ghost_day }}" />
+                                            <input type="text" class="form-control ghost_day" name="ghost_day" value="{{($setting == null)? '':$setting->ghost_day }}" />
                                             <span class="text-danger"> @if ($errors->has('ghost_day')){{ $errors->first('ghost_day') }} @endif</span>
                                         </div>
                                     </div>
