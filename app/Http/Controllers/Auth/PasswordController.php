@@ -18,13 +18,14 @@ class PasswordController extends Controller
      */
     public function update(PostChangePassword $request): RedirectResponse
     {
-        dd($request->new_password);
+
 
         $request->user()->update([
             'password' => Hash::make($request->new_password),
         ]);
 
-        return back()->with('status', 'password-updated');
+        toastr()->success('Password updated successfully !');
+        return redirect()->route('changePassword.index');;
     }
 
     public function checkCurrentPass(Request $request)

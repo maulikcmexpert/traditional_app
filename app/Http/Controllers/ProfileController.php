@@ -35,8 +35,6 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
-        toastr()->success('Password updated successfully !');
-        return redirect()->route('curseword.index');;
     }
     public function changePassword()
     {
