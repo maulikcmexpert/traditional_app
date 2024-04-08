@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class PostChangePassword extends FormRequest
 {
@@ -23,8 +25,14 @@ class PostChangePassword extends FormRequest
     public function rules(): array
     {
         return [
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
+            'current_password' => ['required', function ($attribute, $value, $fail) {
+                if (!Hash::check($value, Auth::user()->password)) {
+                    return $fail(__('The current password is incorrect.'));
+                }
+            }],
+            'new_password' => ['required', 'string', 'min:8', 'different:current_password'],
+            'confirm_password' => ['required', 'same:new_password'],
+
         ];
     }
 }

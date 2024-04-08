@@ -14,7 +14,7 @@ class PasswordController extends Controller
     /**
      * Update the user's password.
      */
-    public function update(PostChangePassword $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
         dd($request->password);
 
