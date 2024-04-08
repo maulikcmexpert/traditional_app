@@ -1,60 +1,48 @@
 <script>
-    $.validator.addMethod("minMaxAgeComparison", function(value, element) {
-        var minAge = parseInt($("#min_age").val());
-        var maxAge = parseInt($("#max_age").val());
-        return minAge < maxAge;
-    }, function(params, element) {
-
-        var minAge = parseInt($("#min_age").val());
-        var maxAge = parseInt($("#max_age").val());
-        if (minAge >= maxAge) {
-            return "Minimum age must be less than maximum age";
-        } else {
-            return "Maximum age must be greater than minimum age";
-        }
-    });
     $(document).ready(function() {
 
 
-        $("#generalsetting").validate({
+        $("#version_setting").validate({
             rules: {
-                min_age: {
+                android_version: {
                     required: true,
-                    minMaxAgeComparison: true
+                    numeric: true
                 },
-                max_age: {
+                android_in_force: {
                     required: true,
-                    minMaxAgeComparison: true
-                },
 
-                ghost_count: {
-
-                    required: true,
                 },
 
-                ghost_day: {
+                ios_version: {
+
+                    required: true,
+                    numeric: true
+                },
+
+                ios_in_force: {
 
                     required: true,
                 },
             },
             messages: {
-                min_age: {
-                    required: "Please enter minimum age",
+                android_version: {
+                    required: "Please enter android version",
+                    numeric: "Please enter in digit"
+                },
+                android_in_force: {
+                    required: "Please select android in force",
 
                 },
-                max_age: {
-                    required: "Please enter maximum age",
 
+                ios_version: {
+
+                    required: "Please enter Ios version",
+                    numeric: "Please enter in digit"
                 },
 
-                ghost_count: {
+                ios_in_force: {
 
-                    required: "Please enter ghost count",
-                },
-
-                ghost_day: {
-
-                    required: "Please enter ghost day",
+                    required: "Please select Ios in force",
                 },
             },
         });
