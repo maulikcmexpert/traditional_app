@@ -575,7 +575,12 @@
                          <img src="assets/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
                      </div>
                      <div class="user-info">
-                         <p class="user-name mb-0">Marcus</p>
+                         <?php
+                            $value = $this->session->get();
+
+                            dd($value);
+                            ?>
+                         <p class="user-name mb-0">{{ }}</p>
                          <i class="fa-solid fa-angle-down"></i>
                      </div>
                  </a>
