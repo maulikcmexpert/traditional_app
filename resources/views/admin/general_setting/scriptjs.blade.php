@@ -3,7 +3,16 @@
         var minAge = parseInt($("#min_age").val());
         var maxAge = parseInt($("#max_age").val());
         return minAge < maxAge;
-    }, "Minimum age must be less than maximum age");
+    }, function(params, element) {
+
+        var minAge = parseInt($("#min_age").val());
+        var maxAge = parseInt($("#max_age").val());
+        if (minAge >= maxAge) {
+            return "Minimum age must be less than maximum age";
+        } else {
+            return "Maximum age must be greater than minimum age";
+        }
+    });
     $(document).ready(function() {
 
 
