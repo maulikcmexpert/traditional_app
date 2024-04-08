@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\VersionSetting;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class AppVersionSettingController extends Controller
 {
