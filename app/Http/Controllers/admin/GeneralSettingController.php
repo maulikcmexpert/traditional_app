@@ -23,9 +23,9 @@ class GeneralSettingController extends Controller
     {
         $page = 'admin.general_setting.add';
         $title = 'Add Verification Object';
-        //   $js = 'admin.verification_object.scriptjs';
+        $js = 'admin.general_setting.scriptjs';
         $setting = Setting::first();
-        return view('layouts.layout', compact('page', 'title', 'setting'));
+        return view('layouts.layout', compact('page', 'title', 'js', 'setting'));
     }
 
     /**
