@@ -27,7 +27,7 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request)
     {
 
-        dd($request);
+
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
@@ -38,6 +38,12 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+    public function changePassword()
+    {
+
+        return view('admin.change_password');
+    }
+
 
     /**
      * Delete the user's account.
