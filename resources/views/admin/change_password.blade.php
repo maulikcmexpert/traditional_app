@@ -5,7 +5,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="{{route('generalsetting.index')}}">General Setting</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{($setting == null)? 'Add' : 'Update' }}</li>
+                <li class="breadcrumb-item active" aria-current="page">Change Password</li>
             </ol>
         </nav>
     </div>
@@ -13,7 +13,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">{{($setting == null)? 'Add' : 'Update' }}</h4>
+                <h4 class="card-title mb-0 flex-grow-1">Change Password</h4>
             </div>
             <!-- end card header -->
             <div class="card-body">
