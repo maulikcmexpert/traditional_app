@@ -28,4 +28,15 @@ class PostGeneralSetting extends FormRequest
             'ghost_day' => ['required', 'numeric'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'min_age.required' => 'Please enter minimum age.',
+            'max_age.required' => 'Please enter maximum age.',
+            'ghost_count.required' => 'Please enter ghost count.',
+            'ghost_day.required' => 'Please enter ghost day.',
+            '*.numeric' => ':attribute must be a number.',
+        ];
+    }
 }
