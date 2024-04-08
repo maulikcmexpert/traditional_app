@@ -580,7 +580,7 @@
 
                             dd($value);
                             ?>
-                         <p class="user-name mb-0">{{ }}</p>
+                         <p class="user-name mb-0"></p>
                          <i class="fa-solid fa-angle-down"></i>
                      </div>
                  </a>
