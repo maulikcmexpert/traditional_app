@@ -30,9 +30,11 @@ class ReportDataTable extends DataTable
                 return $row->to_reporter_user->full_name;
             })
             ->addColumn('report_media', function ($row) {
+                $img = "-";
+                if ($row->report_image != null || $row->report_image != "") {
 
-
-                $img = asset('storage/report_media/' . $row->report_image);
+                    $img = asset('storage/report_media/' . $row->report_image);
+                }
                 return '<img src="' . $img . '" height="100px">';
             })
             ->rawColumns(['report_user', 'to_be_reporter_user', 'report_media'])
