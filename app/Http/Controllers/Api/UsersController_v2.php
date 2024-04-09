@@ -577,7 +577,7 @@ class UsersController_v2 extends BaseController
         ];
 
         if ($user_id) {
-
+            dd($user_id);
             $country = Country::where('id', $this->user->country_id)->first();
             // dd($country);
             $count = UserDetail::where('organization_id', $user_id)->get();
