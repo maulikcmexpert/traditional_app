@@ -29,8 +29,13 @@ class ReportDataTable extends DataTable
 
                 return $row->to_reporter_user->full_name;
             })
+            ->addColumn('report_media', function ($row) {
 
-            ->rawColumns(['report_user', 'to_be_reporter_user'])
+
+                $img = asset('storage/report_media/' . $row->report_image);
+                return '<img src="' . $img . '" height="100px">';
+            })
+            ->rawColumns(['report_user', 'to_be_reporter_user', 'report_media'])
             ->setRowId('id');
     }
 
@@ -75,6 +80,7 @@ class ReportDataTable extends DataTable
 
             Column::make('to_be_reporter_user'),
             Column::make('report_message'),
+            Column::make('report_media'),
 
         ];
     }
