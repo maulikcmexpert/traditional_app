@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\DataTables\ReportDataTable;
 
 use App\Models\{
-    Report
+    Report,
+    UserReportChat
 };
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -48,9 +49,13 @@ class UserReportController extends Controller
      */
     public function show(string $id)
     {
+
+        $report_id =  decrypt($id);
         $page = 'admin.report.chatview';
         $title = 'View Chat Message';
-        return $dataTable->render('layouts.layout', compact('page', 'title'));
+        $userchat =  UserReportChat::where('report_id', $report_id)->get();
+
+        return view('layouts.layout', compact('page', 'title', 'userchat'));
     }
 
     /**
