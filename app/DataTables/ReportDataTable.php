@@ -74,6 +74,7 @@ class ReportDataTable extends DataTable
             Column::make('report_user'),
 
             Column::make('to_be_reporter_user'),
+            Column::make('report_message'),
 
         ];
     }
