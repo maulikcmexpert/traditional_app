@@ -40,7 +40,7 @@ class ReportDataTable extends DataTable
             ->addColumn('action', function ($row) {
 
                 $id = encrypt($row->id);
-                $view = route('religion.show', $id);
+                $view = route('report_management.show', $id);
 
                 return '<div class="d-flex gap-2"><a class="editBtns" href="' . $view . '"><i class="fas fa-comment"></i></a></div>
             ';
