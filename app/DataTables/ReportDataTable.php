@@ -42,7 +42,6 @@ class ReportDataTable extends DataTable
                 $id = encrypt($row->id);
                 $view = route('religion.show', $id);
 
-
                 return '<div class="d-flex gap-2"><a class="editBtns" href="' . $view . '"><i class="fas fa-comment"></i></a></div>
             ';
             })
