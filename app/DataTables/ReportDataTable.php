@@ -37,6 +37,15 @@ class ReportDataTable extends DataTable
                 }
                 return '<img src="' . $img . '" height="100px">';
             })
+            ->addColumn('action', function ($row) {
+
+                $id = encrypt($row->id);
+                $view = route('religion.show', $id);
+
+
+                return '<div class="d-flex gap-2"><a class="editBtns" href="' . $view . '"><i class="fas fa-eye"></i></a></div>
+            ';
+            })
             ->rawColumns(['report_user', 'to_be_reporter_user', 'report_media'])
             ->setRowId('id');
     }
