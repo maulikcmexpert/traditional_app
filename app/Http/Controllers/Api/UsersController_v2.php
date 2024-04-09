@@ -562,69 +562,69 @@ class UsersController_v2 extends BaseController
 
     public function organizationProfile(Request $request)
     {
-        try {
-            DB::beginTransaction();
-            $user_id = $this->user->id;
-            $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
-            $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
-            $email = ($this->user->email != "") ? $this->user->email : "";
-            // dd($this->user);
-            $data = [];
-            $data = [
-                'name' => $full_name,
-                'mobile_number' => $mobile_number,
-                'email' => $email,
-            ];
+        // try {
+        DB::beginTransaction();
+        $user_id = $this->user->id;
+        $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
+        $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
+        $email = ($this->user->email != "") ? $this->user->email : "";
+        // dd($this->user);
+        $data = [];
+        $data = [
+            'name' => $full_name,
+            'mobile_number' => $mobile_number,
+            'email' => $email,
+        ];
 
-            if ($user_id) {
+        if ($user_id) {
 
-                $country = Country::where('id', $this->user->country_id)->first();
-                // dd($country);
-                $count = UserDetail::where('organization_id', $user_id)->get();
-                $data['member_count'] = (count($count) != "") ? count($count) : "";
-                $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
-                $data['established_year'] = $organization_detail[0]->established_year;
-                $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
-                $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
-                $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
-                $data['country_code'] = ($country->iso != "") ? $country->iso : "";
-                $data['country_dial_code'] = ($this->user->country_code != "") ? $this->user->country_code : "";
-                $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
-                $data['state_name'] = "";
-                if (count($stateVal)) {
-                    $data['state_name'] = $stateVal[0]->state;
-                }
-                $data['city'] = ($organization_detail[0]->city != "") ? $organization_detail[0]->city : "";
-                $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
-                $data['size_of_church'] = "";
-                $data['size_of_church_id'] = "";
-                if (count($sizeofchurch)) {
-                    $data['size_of_church'] = $sizeofchurch[0]->size_range;
-                    $data['size_of_church_id'] = $sizeofchurch[0]->id;
-                }
-                $user_profile = UserProfile::where('user_id', $user_id)->get();
-                $data['profile_image'] = [];
-                if (!empty($user_profile[0])) {
-                    foreach ($user_profile as $key => $val) {
+            $country = Country::where('id', $this->user->country_id)->first();
+            // dd($country);
+            $count = UserDetail::where('organization_id', $user_id)->get();
+            $data['member_count'] = (count($count) != "") ? count($count) : "";
+            $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
+            $data['established_year'] = $organization_detail[0]->established_year;
+            $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
+            $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
+            $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
+            $data['country_code'] = ($country->iso != "") ? $country->iso : "";
+            $data['country_dial_code'] = ($this->user->country_code != "") ? $this->user->country_code : "";
+            $stateVal = State::where('id', $organization_detail[0]->state)->select('state')->get();
+            $data['state_name'] = "";
+            if (count($stateVal)) {
+                $data['state_name'] = $stateVal[0]->state;
+            }
+            $data['city'] = ($organization_detail[0]->city != "") ? $organization_detail[0]->city : "";
+            $sizeofchurch = SizeOfOrganization::where('id', $organization_detail[0]->size_of_organization_id)->get();
+            $data['size_of_church'] = "";
+            $data['size_of_church_id'] = "";
+            if (count($sizeofchurch)) {
+                $data['size_of_church'] = $sizeofchurch[0]->size_range;
+                $data['size_of_church_id'] = $sizeofchurch[0]->id;
+            }
+            $user_profile = UserProfile::where('user_id', $user_id)->get();
+            $data['profile_image'] = [];
+            if (!empty($user_profile[0])) {
+                foreach ($user_profile as $key => $val) {
 
-                        $image['profile_id'] = $val->id;
-                        $image['profile'] = asset('storage/profile/' . $val->profile);
-                        $image['is_default'] = $val->is_default;
-                        $data['profile_image'][] = $image;
-                    }
+                    $image['profile_id'] = $val->id;
+                    $image['profile'] = asset('storage/profile/' . $val->profile);
+                    $image['is_default'] = $val->is_default;
+                    $data['profile_image'][] = $image;
                 }
             }
-            DB::commit();
-            return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+        DB::commit();
+        return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
