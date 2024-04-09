@@ -73,7 +73,7 @@ class ReportDataTable extends DataTable
 
             Column::make('report_user'),
 
-            Column::make('to_be_report_user'),
+            Column::make('to_reporter_user'),
 
         ];
     }
