@@ -48,7 +48,9 @@ class UserReportController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $page = 'admin.report.chatview';
+        $title = 'View Chat Message';
+        return $dataTable->render('layouts.layout', compact('page', 'title'));
     }
 
     /**
