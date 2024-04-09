@@ -52,7 +52,7 @@ class UserReportController extends Controller
 
         $report_id =  decrypt($id);
 
-        dd($report_id);
+
         $page = 'admin.report.chatview';
         $title = 'View Chat Message';
         $userchat =  UserReportChat::where('report_id', $report_id)->get();
