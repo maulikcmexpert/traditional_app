@@ -25,11 +25,12 @@ class ReportDataTable extends DataTable
             ->addColumn('report_user', function ($row) {
                 return $row->reporter_user->full_name;
             })
-            ->addColumn('to_be_report_user', function ($row) {
+            ->addColumn('to_reporter_user', function ($row) {
+                dd($row->to_reporter_user->full_name);
                 return $row->to_reporter_user->full_name;
             })
 
-            ->rawColumns(['report_user', 'to_be_report_user'])
+            ->rawColumns(['report_user', 'to_reporter_user'])
             ->setRowId('id');
     }
 
