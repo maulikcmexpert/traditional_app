@@ -1366,8 +1366,8 @@
 .view-notifications-btn{
 	font-size: 16px;
 	font-family: 'IBM Plex Sans';
-	background-color: var(--commonBtn) !important;
-	border-color: var(--commonBtn) !important;
+	/* background-color: var(--commonBtn) !important;
+	border-color: var(--commonBtn) !important; */
 }
 .sidebar-wrapper .metismenu ul a .fa-circle{
 	font-size: 8px;
