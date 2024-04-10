@@ -178,8 +178,8 @@ class InterestAndHobbiesController extends Controller
     {
         try {
 
-            dd($request->id);
-            // $ids = decrypt($request->id);
+
+            $ids = decrypt($request->id);
             $eventType = UserInterestAndHobby::where(['interest_and_hobby_id' => $ids])->get();
 
             if (count($eventType) > 0) {
