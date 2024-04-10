@@ -12,6 +12,6 @@ class UserReportChat extends Model
 
     public function sender_user()
     {
-        $this->belongsTo(User::class, 'sender_id');
+        return  $this->belongsTo(User::class, 'sender_id');
     }
 }
