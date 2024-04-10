@@ -141,8 +141,13 @@
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        toastr.error("Interest and hobby can't delete");
-                        return false;
+                        swal({
+                            title: `Error`,
+                            text: "User(s) belongs to deleted Interest And Hobby. can not delete Interest And Hobby",
+                            icon: "error",
+
+                        })
+
                     } else {
                         swal({
                             title: `Are you sure you want to delete this record?`,
