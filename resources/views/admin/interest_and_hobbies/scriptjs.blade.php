@@ -143,43 +143,45 @@
                     if (output == false) {
                         toastr.error("Interest and hobby can't delete");
                         return false;
+                    } else {
+                        swal({
+                            title: `Are you sure you want to delete this record?`,
+                            text: "If you delete this, it will be gone forever.",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+                            if (willDelete) {
+
+
+                                $.ajax({
+                                    headers: {
+                                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                            "content"
+                                        ),
+                                    },
+                                    method: "DELETE",
+                                    url: userURL,
+                                    dataType: "json",
+                                    success: function(output) {
+                                        if (output == true) {
+
+                                            sessionStorage.setItem('showSuccessNotification', 'true');
+                                            location.reload();
+
+
+                                        } else {
+                                            toastr.error("Interest and hobby don't Deleted !");
+                                        }
+                                    },
+                                });
+                            }
+                        });
                     }
                 }
             });
 
-            swal({
-                title: `Are you sure you want to delete this record?`,
-                text: "If you delete this, it will be gone forever.",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
 
-
-                    $.ajax({
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                                "content"
-                            ),
-                        },
-                        method: "DELETE",
-                        url: userURL,
-                        dataType: "json",
-                        success: function(output) {
-                            if (output == true) {
-
-                                sessionStorage.setItem('showSuccessNotification', 'true');
-                                location.reload();
-
-
-                            } else {
-                                toastr.error("Interest and hobby don't Deleted !");
-                            }
-                        },
-                    });
-                }
-            });
         });
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
