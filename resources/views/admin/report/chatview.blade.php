@@ -22,14 +22,13 @@
 
                 @foreach($collection as $val)
                 <ul>
-
                     <li>{{$val->message}}</li>
                 </ul>
-            </div>
-            @endforeach
 
-            @endforeach
+                @endforeach
+
+                @endforeach
+            </div>
         </div>
     </div>
-</div>
 </div>
