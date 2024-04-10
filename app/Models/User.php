@@ -139,7 +139,7 @@ class User extends Authenticatable
 
     public function  profile_verify()
     {
-        return $this->hasMany(ProfileVerify::class, 'user_id', 'id');
+        return $this->hasOne(ProfileVerify::class, 'user_id', 'id');
     }
     public function  country()
     {
@@ -147,7 +147,7 @@ class User extends Authenticatable
     }
     public function  user_report_chat()
     {
-        return $this->belongsTo(UserReportChat::class, 'sender_id', 'id');
+        return $this->hasMany(UserReportChat::class, 'sender_id', 'id');
     }
     public function  approach_preference()
     {
