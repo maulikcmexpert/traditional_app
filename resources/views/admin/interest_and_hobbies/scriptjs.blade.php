@@ -123,7 +123,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-            var hobbyId = $(this).data("hobbyId");
+            var hobbyId = $(this).data("id");
             alert(hobbyId);
             event.preventDefault();
             $.ajax({
