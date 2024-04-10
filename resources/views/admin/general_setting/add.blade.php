@@ -18,11 +18,11 @@
             <!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
-                    <form method="POST" id="generalsetting" action="{{ route('generalsetting.store')}}" enctype="multipart/form-data">
+                    <form  method="POST" id="generalsetting" action="{{ route('generalsetting.store')}}" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group AddMoreForm">
+                        <div class="form-group mb-3 AddMoreForm">
                             <div class="row" id="general_setting">
-                                <div class="col-xxl-4 col-md-6 mb-2">
+                                <div class="col-xxl-2 col-md-3 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Min age</label>
@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xxl-4 col-md-6 mb-2">
+                                <div class="col-xxl-2 col-md-3 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Max age</label>
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xxl-4 col-md-6 mb-2">
+                                <div class="col-xxl-2 col-md-3 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Ghost Count</label>
@@ -51,7 +51,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xxl-4 col-md-6 mb-2">
+                                <div class="col-xxl-2 col-md-3 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Ghost Day</label>
@@ -60,7 +60,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="text-center"><input type="submit" id="add" class="btn btn-primary submitButton" value="{{($setting == null)? 'Add' : 'Update' }}"></div>
