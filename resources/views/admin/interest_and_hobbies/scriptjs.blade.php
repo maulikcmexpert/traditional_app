@@ -141,12 +141,13 @@
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
+                        swal({
+                            title: `Error`,
                             text: "User(s) belongs to deleted Interest And Hobby. can not delete Interest And Hobby",
+                            icon: "error",
 
-                        });
+                        })
+
                         return false;
                     } else {
                         swal({
