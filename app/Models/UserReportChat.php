@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class UserReportChat extends Model
 {
@@ -11,6 +12,6 @@ class UserReportChat extends Model
 
     public function sender()
     {
-        $this->belongsTo(User::class, 'sender_id', 'id');
+        $this->belongsTo(User::class, 'sender_id');
     }
 }
