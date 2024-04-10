@@ -144,7 +144,7 @@ class VerificationObjectController extends Controller
         try {
 
             $eventType = VerificationObject::where(['object_type' => $request->object_type])->get();
-
+           
             if (count($eventType) > 0) {
 
                 if (isset($request->id) && !empty($request->id)) {
