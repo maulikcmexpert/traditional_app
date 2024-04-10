@@ -225,8 +225,16 @@ table.dataTable thead th{
     object-fit: contain;
 }
 
+.swal-text{
+    text-align: center !important;
+    font-size: 14px !important;
+    line-height: 22px !important;
+}
 
-
+.swal-footer{
+    margin-top: 0 !important;
+    background-color: #008cff !important;
+}
 
 @media only screen and (max-width:768px){
     p{
