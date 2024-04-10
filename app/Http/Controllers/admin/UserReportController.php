@@ -56,7 +56,7 @@ class UserReportController extends Controller
         $page = 'admin.report.chatview';
         $title = 'View Chat Message';
         $userchat =  UserReportChat::with('sender_user')->where('report_id', $report_id)->get()->groupBy('sender_user.full_name');
-
+        dd($userchat);
 
         $firstUser = [];
         $secondUser = [];
