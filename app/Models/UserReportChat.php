@@ -10,7 +10,7 @@ class UserReportChat extends Model
 {
     use HasFactory;
 
-    public function sender()
+    public function sender_user()
     {
         $this->belongsTo(User::class, 'sender_id');
     }
