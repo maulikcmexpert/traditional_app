@@ -18,6 +18,8 @@
             </div>
             <div class="card-body">
 
+                <h1>{{ $userchat[0]->sender_user->full_name}}</h1>
+
             </div>
         </div>
     </div>
