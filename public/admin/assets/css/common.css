@@ -164,9 +164,9 @@ table.dataTable thead th{
 }
 
 .submitButton:hover{
-   background-color: transparent;
-   border: 1px solid #037DE2 !important;
-   color: #037DE2;
+   background-color: transparent !important;
+   border: 1px solid #6366f1 !important;
+   color: #6366f1;
 }
 
 .editBtns{
@@ -174,7 +174,7 @@ table.dataTable thead th{
     height: 25px;
     display: block;
     text-align: center;
-    background-color: #008cff;
+    background-color: #6366f1;
     color: #fff;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -229,11 +229,34 @@ table.dataTable thead th{
     text-align: center !important;
     font-size: 14px !important;
     line-height: 22px !important;
+    color: #6c6969 !important;
+}
+
+.swal-title{
+    font-size: 23px !important;
 }
 
 .swal-footer{
+    text-align: center !important;
     margin-top: 0 !important;
-    background-color: #008cff !important;
+}
+
+.swal-footer .swal-button--confirm{
+    font-weight: 700 !important;
+    background-color: #6366f1 !important;
+    font-size: 16px !important;
+}
+
+.swal-footer .swal-button--cancel{
+   background-color: red !important;
+   color: #fff !important;
+   font-weight: 700 !important;
+   font-size: 16px !important;
+}
+
+.btn-primary{
+    background-color: #6366f1 !important;
+    border-color: #6366f1 !important;
 }
 
 @media only screen and (max-width:768px){
