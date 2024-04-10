@@ -34,6 +34,7 @@ use App\Models\SizeOfOrganization;
 use App\Models\ProfileBlock;
 use App\Models\UserInterestAndHobby;
 use App\Models\UserLifestyle;
+use App\Models\FileSizeMaster;
 use App\Models\UserShwstpprQue;
 
 use App\Models\User;
@@ -2990,5 +2991,11 @@ class UsersController_v2 extends BaseController
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+    }
+
+    public function getFileSize()
+    {
+        $fileSize =  FileSizeMaster::get();
+        return response()->json(["status" => true, 'message' => 'File size', 'data' => $fileSize]);
     }
 }
