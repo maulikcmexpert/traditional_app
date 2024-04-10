@@ -19,7 +19,11 @@
             <div class="card-body">
                 @foreach($userchat as $username=> $collection)
                 <h1>{{ $username }}</h1>
-                {{dd($collection);}}
+
+                @foreach($collection as $val)
+                <span>{{$val}}</span>
+                @endforeach
+
                 @endforeach
             </div>
         </div>
