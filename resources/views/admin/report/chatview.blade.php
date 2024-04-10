@@ -17,9 +17,10 @@
                 <h4 class="card-title">User Chat View</h4>
             </div>
             <div class="card-body">
-
-                <h1>{{ $userchat[0]->sender_user->full_name}}</h1>
-
+                @foreach($userchat as $username=> $collection)
+                <h1>{{ $username }}</h1>
+                dd($collection);
+                @endforeach
             </div>
         </div>
     </div>
