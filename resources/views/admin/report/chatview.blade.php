@@ -21,11 +21,15 @@
                 <h1>{{ $username }}</h1>
 
                 @foreach($collection as $val)
-                <span>{{$val->message}}</span>
-                @endforeach
+                <ul>
 
-                @endforeach
+                    <li>{{$val->message}}</li>
+                </ul>
             </div>
+            @endforeach
+
+            @endforeach
         </div>
     </div>
+</div>
 </div>
