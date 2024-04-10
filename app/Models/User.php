@@ -147,7 +147,7 @@ class User extends Authenticatable
     }
     public function  user_report_chat()
     {
-        return $this->belongsTo(UserReportChat::class, 'sender_id');
+        return $this->belongsTo(UserReportChat::class, 'sender_id', 'id');
     }
     public function  approach_preference()
     {
