@@ -2995,7 +2995,7 @@ class UsersController_v2 extends BaseController
 
     public function getFileSize()
     {
-        $fileSize =  FileSizeMaster::get();
+        $fileSize =  FileSizeMaster::first();
         return response()->json(["status" => true, 'message' => 'File size', 'data' => $fileSize]);
     }
 }
