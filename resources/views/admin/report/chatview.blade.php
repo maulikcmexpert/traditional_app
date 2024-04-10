@@ -21,7 +21,7 @@
                 <h1>{{ $username }}</h1>
 
                 @foreach($collection as $val)
-                <span>{{$val}}</span>
+                <span>{{$val->message}}</span>
                 @endforeach
 
                 @endforeach
