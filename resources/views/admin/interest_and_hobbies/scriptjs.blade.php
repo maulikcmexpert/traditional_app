@@ -123,8 +123,29 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-
+            var hobbyId = $(this).data("hobbyId");
             event.preventDefault();
+            $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                method: "post",
+                url: "{{route('interest_and_hobby.selectedbyuser')}}",
+                data: {
+
+                    id: hobbyId
+                },
+                dataType: "json",
+                success: function(output) {
+                    if (output == false) {
+                        toastr.error("Interest and hobby can't delete");
+                        return false;
+                    }
+                }
+            });
+
             swal({
                 title: `Are you sure you want to delete this record?`,
                 text: "If you delete this, it will be gone forever.",
@@ -133,6 +154,8 @@
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
+
+
                     $.ajax({
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(

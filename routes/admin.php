@@ -45,6 +45,7 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'report_management' => UserReportController::class,
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
+    Route::post('interest_and_hobby/selected_by_user', [InterestAndHobbiesController::class, 'selectedbyuser'])->name('interest_and_hobby.selectedbyuser');
     Route::post('lifestyle/lifestyle_exist', [LifeStyleController::class, 'lifestyleExist'])->name('lifestyle.exist');
     Route::post('zodiacsign/zodiacsign_exist', [ZodiacSignController::class, 'zodiacsignExist'])->name('zodiacsign.exist');
     Route::post('curseword/curseword_exist', [CurseWordController::class, 'CursewordExist'])->name('curseword.exist');

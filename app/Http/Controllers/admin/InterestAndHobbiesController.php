@@ -9,7 +9,8 @@ use App\Http\Requests\{
     PostInterestAndHobbies
 };
 use App\Models\{
-    InterestAndHobby
+    InterestAndHobby,
+    UserInterestAndHobby
 };
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -156,6 +157,32 @@ class InterestAndHobbiesController extends Controller
                         exit;
                     }
                 }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
+    public function selectedbyuser(Request $request)
+    {
+        try {
+
+
+            $ids = decrypt($request->id);
+            $eventType = UserInterestAndHobby::where(['interest_and_hobby_id' => $ids])->get();
+
+            if (count($eventType) > 0) {
 
                 $return =  false;
             } else {
