@@ -20,9 +20,9 @@
                 @foreach($userchat as $username=> $collection)
                 <h1>{{ $username }}</h1>
 
-                @foreach($collection as $val)
+                <!-- @foreach($collection as $val)
                 <span>{{$val->message}}</span>
-                @endforeach
+                @endforeach -->
 
                 @endforeach
             </div>
