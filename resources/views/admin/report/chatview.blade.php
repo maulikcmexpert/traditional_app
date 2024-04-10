@@ -19,7 +19,7 @@
             <div class="card-body">
                 @foreach($userchat as $username=> $collection)
                 <h1>{{ $username }}</h1>
-                dd($collection);
+                {{dd($collection);}}
                 @endforeach
             </div>
         </div>
