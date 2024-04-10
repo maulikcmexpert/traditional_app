@@ -31,7 +31,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xxl-4">
+                                <div class="col-xxl-3">
                                     <div>
                                         <label class="form-label">Object Image</label>
                                         <input id="file-upload" class="form-control" type="file" name="object_image" accept="image/*" onchange="readURL(this);" />
@@ -45,7 +45,6 @@
                             </div>
                         </div>
                         <div class="text-center"><input type="submit" id="add" class="btn btn-primary submitButton" value="Add"></div>
-
                     </form>
                     <!--end row-->
                 </div>

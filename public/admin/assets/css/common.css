@@ -212,7 +212,7 @@ table.dataTable thead th{
 }
 
 .preview-Img img{
-    border: 1px solid #ccc;
+    border: 1px dashed #ccc;
     border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
