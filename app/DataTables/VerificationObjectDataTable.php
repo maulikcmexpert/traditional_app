@@ -41,7 +41,7 @@ class VerificationObjectDataTable extends DataTable
 
 
                 $img = asset('storage/verification_object/' . $row->object_image);
-                return '<img src="' . $img . '" height="100px">';
+                return '<img src="' . $img . '" height="100px" class="variation-img">';
             })
             ->rawColumns(['action', 'image'])
             ->setRowId('id');
