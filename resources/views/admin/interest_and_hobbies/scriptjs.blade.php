@@ -124,6 +124,7 @@
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
             var hobbyId = $(this).data("hobbyId");
+            alert(hobbyId);
             event.preventDefault();
             $.ajax({
                 headers: {
