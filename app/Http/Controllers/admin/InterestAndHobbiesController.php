@@ -121,8 +121,14 @@ class InterestAndHobbiesController extends Controller
     {
         try {
             $ids = decrypt($id);
-            $delete = InterestAndHobby::Findorfail($ids)->delete();
-            return response()->json(true);
+            $checkSelected = UserInterestAndHobby::where(['interest_and_hobby_id' => $ids])->count();
+            if ($checkSelected == 0) {
+
+                $delete = InterestAndHobby::Findorfail($ids)->delete();
+                return response()->json(true);
+            } else {
+                return response()->json(false);
+            }
         } catch (Exception $e) {
             return response()->json(false);
         } catch (QueryException $e) {
