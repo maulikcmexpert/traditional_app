@@ -55,7 +55,7 @@ class UserReportController extends Controller
 
         $page = 'admin.report.chatview';
         $title = 'View Chat Message';
-        $userchat =  UserReportChat::with('sender_user')->where('report_id', $report_id)->get()->groupBy('sender_user.full_name');
+        $userchat =  UserReportChat::select('message')->with('sender_user')->where('report_id', $report_id)->get()->groupBy('sender_user.full_name');
 
 
         return view('layouts.layout', compact('page', 'title', 'userchat'));
