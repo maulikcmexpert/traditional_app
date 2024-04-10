@@ -23,7 +23,7 @@
             <!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
-                    <form method="POST" id="verificationobject" action="{{ route('verificationobject.update',encrypt($getData->id))}}">
+                    <form method="POST" id="verificationobject" action="{{ route('verificationobject.update',encrypt($getData->id))}}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group AddMoreForm">

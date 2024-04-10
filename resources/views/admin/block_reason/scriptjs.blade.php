@@ -103,8 +103,8 @@
             },
             messages: {
                 reason: {
-                    required: "Please enter interest and hobby",
-                    remote: "Interest and hobby already exist",
+                    required: "Please enter Block Reason",
+                    remote: "Block Reason already exist",
                 },
 
             },

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('version_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('android_version');
+            $table->string('android_version')->nullable();
             $table->enum('android_in_force', ['0', '1'])->default('0');
-            $table->string('ios_version');
+            $table->string('ios_version')->nullable();
             $table->enum('ios_in_force', ['0', '1'])->default('0');
             $table->timestamps();
         });

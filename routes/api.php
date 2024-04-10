@@ -135,6 +135,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::post('disconnect_to_user', [UsersController_v2::class, 'DisconnectToUser'])->middleware('check_user');
     Route::post('update_approach_preference', [UsersController_v2::class, 'updateApproachPreference'])->middleware('check_user');
     Route::get('get_approach_preference', [UsersController_v2::class, 'getApproachPreference'])->middleware('check_user');
+    Route::get('get_verify_object', [UsersController_v2::class, 'getVerifyObject'])->middleware('check_user');
+    Route::post('verified_user_profile', [UsersController_v2::class, 'verifiedUserProfile'])->middleware('check_user');
+    Route::get('get_file_size', [UsersController_v2::class, 'getFileSize']);
 
 
     // Route::middleware(['check_user'])->group( function () {

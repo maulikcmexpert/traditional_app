@@ -35,6 +35,7 @@ class User extends Authenticatable
     protected $fillable = [
         'username',
         'email',
+        'password'
     ];
 
     /**
@@ -151,6 +152,11 @@ class User extends Authenticatable
     public function  approach_preference()
     {
         return $this->hasOne(ApproachPreference::class);
+    }
+
+    public function  reports()
+    {
+        return $this->hasOne(Report::class);
     }
 
 

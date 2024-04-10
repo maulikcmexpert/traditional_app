@@ -34,6 +34,7 @@ use App\Models\SizeOfOrganization;
 use App\Models\ProfileBlock;
 use App\Models\UserInterestAndHobby;
 use App\Models\UserLifestyle;
+use App\Models\FileSizeMaster;
 use App\Models\UserShwstpprQue;
 
 use App\Models\User;
@@ -45,6 +46,7 @@ use App\Models\Device;
 use App\Models\FeedbackReview;
 use App\Models\FeedbackReviewList;
 use App\Models\Notification;
+use App\Models\ProfileVerify;
 use App\Models\Setting;
 use App\Rules\FullNameValidation;
 use App\Rules\OrganizationNameValidation;
@@ -56,6 +58,7 @@ use Illuminate\Validation\Rule;
 
 use App\Models\UserLoveLang;
 use App\Models\UserShwstpperAnswr;
+use App\Models\VerificationObject;
 use App\Models\VersionSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -304,12 +307,16 @@ class UsersController_v2 extends BaseController
                 $user_profile = UserProfile::where(['user_id' => $user->id, 'is_default' => '1'])->first();
                 $user_lifeStyle = UserLifestyle::where('user_id', $user->id)->exists();
                 $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
+                $profileVerify = ProfileVerify::where('user_id', $user->id)->exists();
 
                 if ($user_profile == null) {
                     $step = "Profile";
                 }
 
-                if ($user_lifeStyle == false && $user_profile != null) {
+                if ($profileVerify == false && $user_profile != null) {
+                    $step = "verify_user";
+                }
+                if ($user_lifeStyle == false && $profileVerify == true) {
                     $step = "Zodiac";
                 }
 
@@ -425,57 +432,57 @@ class UsersController_v2 extends BaseController
 
     public function userPersonalities(UserPersonalityRequest $request)
     {
-        try {
-            DB::beginTransaction();
+        // try {
+        DB::beginTransaction();
 
 
 
-            $lifeStyles = $request->life_styles;
-            $interest_and_hobby = $request->interest_and_hobby;
-            $zodiac_sign_id = $request->zodiac_sign_id;
+        $lifeStyles = $request->life_styles;
+        $interest_and_hobby = $request->interest_and_hobby;
+        $zodiac_sign_id = $request->zodiac_sign_id;
 
-            if (isset($lifeStyles) && is_array($lifeStyles)) {
-                // if exists then delete prev data //
+        if (isset($lifeStyles) && is_array($lifeStyles)) {
+            // if exists then delete prev data //
 
-                UserLifestyle::where('user_id', $this->user->id)->delete();
+            UserLifestyle::where('user_id', $this->user->id)->delete();
 
-                foreach ($lifeStyles as $val) {
-                    $life_style = new UserLifestyle();
-                    $life_style->user_id = $this->user->id;
-                    $life_style->lifestyle_id = $val;
-                    $life_style->save();
-                }
+            foreach ($lifeStyles as $val) {
+                $life_style = new UserLifestyle();
+                $life_style->user_id = $this->user->id;
+                $life_style->lifestyle_id = $val;
+                $life_style->save();
             }
-
-            if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
-                // if exists then delete prev data //
-                UserInterestAndHobby::where('user_id', $this->user->id)->delete();
-                foreach ($interest_and_hobby as $val) {
-                    $interest_and_hobby = new UserInterestAndHobby();
-                    $interest_and_hobby->user_id = $this->user->id;
-                    $interest_and_hobby->interest_and_hobby_id = $val;
-                    $interest_and_hobby->save();
-                }
-            }
-
-            if (isset($zodiac_sign_id) && !empty($zodiac_sign_id)) {
-                $user_zodiac = UserDetail::where('user_id', $this->user->id)->first();
-                $user_zodiac->zodiac_sign_id = $zodiac_sign_id;
-                $user_zodiac->save();
-            }
-            DB::commit();
-
-            return response()->json(["status" => true, 'message' => 'Personality are updated']);
-        } catch (QueryException $e) {
-
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+
+        if (isset($interest_and_hobby) && is_array($interest_and_hobby)) {
+            // if exists then delete prev data //
+            UserInterestAndHobby::where('user_id', $this->user->id)->delete();
+            foreach ($interest_and_hobby as $val) {
+                $interest_and_hobby = new UserInterestAndHobby();
+                $interest_and_hobby->user_id = $this->user->id;
+                $interest_and_hobby->interest_and_hobby_id = $val;
+                $interest_and_hobby->save();
+            }
+        }
+
+        if (isset($zodiac_sign_id) && !empty($zodiac_sign_id)) {
+            $user_zodiac = UserDetail::where('user_id', $this->user->id)->first();
+            $user_zodiac->zodiac_sign_id = $zodiac_sign_id;
+            $user_zodiac->save();
+        }
+        DB::commit();
+
+        return response()->json(["status" => true, 'message' => 'Personality are updated']);
+        // } catch (QueryException $e) {
+
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function userLoveLangRate(Request $request)
@@ -1807,10 +1814,19 @@ class UsersController_v2 extends BaseController
             $user = Auth::guard('api')->user();
             $receiver_id = $request->user_id;
 
+            $approch_check_is_block = ProfileBlock::where(function ($query) use ($receiver_id) {
+                $query->where('blocker_user_id', $this->user->id)
+                    ->where('to_be_blocked_user_id', $receiver_id);
+            })->orderBy('id', 'DESC')->count();
+
+            if ($approch_check_is_block != 0) {
+                return response()->json(["status" => false, 'message' => 'You have blocked this person']);
+            }
+
             DB::beginTransaction();
 
             $approch_request = new ApproachRequest();
-            $approch_request->sender_id = $user->id;
+            $approch_request->sender_id = $this->user->id;
             $approch_request->receiver_id = $receiver_id;
             $approch_request->status = 'pending';
             $approch_request->type = 'approach';
@@ -1864,7 +1880,14 @@ class UsersController_v2 extends BaseController
             //     }
             // }
 
+            $approch_check_is_block = ProfileBlock::where(function ($query) use ($request) {
+                $query->where('blocker_user_id', $this->user->id)
+                    ->where('to_be_blocked_user_id', $request->user_id);
+            })->orderBy('id', 'DESC')->count();
 
+            if ($approch_check_is_block != 0) {
+                return response()->json(["status" => false, 'message' => 'You have blocked this person']);
+            }
             $checkIsApproched = ApproachRequest::where(function ($query) use ($request) {
                 $query->where('sender_id', $this->user->id)
                     ->where('receiver_id', $request->user_id)
@@ -2845,60 +2868,134 @@ class UsersController_v2 extends BaseController
     {
 
 
-        // try {
+        try {
 
-        $validator = Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
 
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'disconnect_reason_id' => ['required'],
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+                'disconnect_reason_id' => ['required'],
 
-        ]);
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-        }
-
-
-        $approch_check = ApproachRequest::where(function ($query) use ($request) {
-            $query->where('sender_id', $this->user->id)
-                ->where('receiver_id', $request->user_id)
-                ->orWhere(function ($query) use ($request) {
-                    $query->where('sender_id', $request->user_id)
-                        ->where('receiver_id', $this->user->id);
-                });
-        })
-            ->where('status', 'accepted')
-            ->orderBy('id', 'DESC')
-            ->first();
-        if ($approch_check != null) {
-            DB::beginTransaction();
-            $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
-
-
-            $approch_check->status  = 'leave';
-            $approch_check->leave_reason_id   = $request->disconnect_reason_id;
-            $approch_check->message = $checkReason->message;
-            if ($checkReason != null && $checkReason->reason == 'Others') {
-                $approch_check->message = $request->message;
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
-            $approch_check->save();
-            $approch_check->delete();
 
-            DB::commit();
 
-            return response()->json(['status' => true, 'message' => "Leave successfully"]);
+            $approch_check = ApproachRequest::where(function ($query) use ($request) {
+                $query->where('sender_id', $this->user->id)
+                    ->where('receiver_id', $request->user_id)
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('sender_id', $request->user_id)
+                            ->where('receiver_id', $this->user->id);
+                    });
+            })
+                ->where('status', 'accepted')
+                ->orderBy('id', 'DESC')
+                ->first();
+            if ($approch_check != null) {
+                DB::beginTransaction();
+                $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
+
+
+                $approch_check->status  = 'leave';
+                $approch_check->leave_reason_id   = $request->disconnect_reason_id;
+                $approch_check->message = $checkReason->message;
+                if ($checkReason != null && $checkReason->reason == 'Others') {
+                    $approch_check->message = $request->message;
+                }
+                $approch_check->save();
+                $approch_check->delete();
+
+                DB::commit();
+
+                return response()->json(['status' => true, 'message' => "Leave successfully"]);
+            }
+            return response()->json(['status' => true, 'message' => "Already leave"]);
+
+            return response()->json(['status' => true, 'message' => "try again"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        return response()->json(['status' => true, 'message' => "Already leave"]);
+    }
 
-        return response()->json(['status' => true, 'message' => "try again"]);
-        // } catch (QueryException $e) {
-        //     DB::rollBack();
+    public function getVerifyObject()
+    {
+        $objectVerification =  VerificationObject::inRandomOrder()->first();
+        $verifyObj = null;
+        if ($objectVerification != null) {
+            $userProfile = UserProfile::where(['user_id' => $this->user->id, 'is_default' => '1'])->first();
+            $verifyObj['id'] = $objectVerification->id;
+            $verifyObj['object_type'] = $objectVerification->object_type;
+            $verifyObj['object_image'] = ($objectVerification->object_image != null || $objectVerification->object_image != "") ? asset('storage/verification_object/' . $objectVerification->object_image) : "";
+            $verifyObj['profile'] = ($userProfile != null && ($userProfile->profile != null || $userProfile->profile != "")) ? asset('storage/profile/' . $userProfile->profile) : "";
+        }
 
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
+
+        return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $verifyObj]);
+    }
+
+    public function verifiedUserProfile(Request $request)
+    {
+
+        try {
+
+            $validator = Validator::make($request->all(), [
+
+                'verification_object_id' => ['required', 'integer', 'exists:verification_objects,id'],
+                'profile' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+            }
+
+            $userVerifiedProfile =  ProfileVerify::where('user_id', $this->user->id)->first();
+
+            DB::beginTransaction();
+            if ($userVerifiedProfile == null) {
+                $verifiedProfile = new ProfileVerify();
+
+                $verifiedProfile->user_id = $this->user->id;
+                $verifiedProfile->verification_object_id = $request->verification_object_id;
+
+                if (!empty($request->profile)) {
 
 
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
+                    $image = $request->profile;
+                    $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
+                    $image->move(public_path('storage/user_verified_profile'), $imageName);
+                    $verifiedProfile->profile = $imageName;
+                }
+                $verifiedProfile->save();
+
+
+                DB::commit();
+
+                return response()->json(['status' => true, 'message' => "verified successfully"]);
+            }
+            return response()->json(['status' => true, 'message' => "try again"]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
+    }
+
+    public function getFileSize()
+    {
+        $fileSize =  FileSizeMaster::first();
+        return response()->json(["status" => true, 'message' => 'File size', 'data' => $fileSize]);
     }
 }

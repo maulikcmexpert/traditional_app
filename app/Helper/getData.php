@@ -7,7 +7,8 @@ use App\Models\{
     Setting,
     User,
     UserProfile,
-    ProfileSeenUser
+    ProfileSeenUser,
+    ProfileBlock
 };
 use Carbon\Carbon;
 
@@ -394,20 +395,20 @@ function getSearchUser($filter, $page, $user_id)
         }
     });
 
-    // Exclude blocked users
-    $query->whereNotIn('id', function ($q) use ($user_id) {
-        $q->select('to_be_blocked_user_id')
-            ->from('profile_blocks')
-            ->where('to_be_blocked_user_id', $user_id)
-            ->whereNull('deleted_at');
-    });
+    // // Exclude blocked users
+    // $query->whereNotIn('id', function ($q) use ($user_id) {
+    //     $q->select('to_be_blocked_user_id')
+    //         ->from('profile_blocks')
+    //         ->where('to_be_blocked_user_id', $user_id)
+    //         ->whereNull('deleted_at');
+    // });
 
-    $query->whereNotIn('id', function ($q) use ($user_id) {
-        $q->select('blocker_user_id')
-            ->from('profile_blocks')
-            ->where('blocker_user_id', $user_id)
-            ->whereNull('deleted_at');
-    });
+    // $query->whereNotIn('id', function ($q) use ($user_id) {
+    //     $q->select('blocker_user_id')
+    //         ->from('profile_blocks')
+    //         ->where('blocker_user_id', $user_id)
+    //         ->whereNull('deleted_at');
+    // });
 
 
     $query->where('id', '!=', $user_id);
@@ -418,6 +419,13 @@ function getSearchUser($filter, $page, $user_id)
     // Format results
     foreach ($result as $val) {
 
+        $approch_check_is_block = ProfileBlock::where(function ($query) use ($val, $user_id) {
+            $query->where('blocker_user_id', $val->id)
+                ->where('to_be_blocked_user_id', $user_id);
+        })->orderBy('id', 'DESC')->count();
+        if ($approch_check_is_block != 0) {
+            continue;
+        }
         if ($val->userdetail->gender == 'female') {
 
             $approachPreferences = ApproachPreference::where('user_id', $val->id)->first();

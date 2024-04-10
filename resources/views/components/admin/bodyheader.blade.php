@@ -575,12 +575,15 @@
                          <img src="assets/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
                      </div>
                      <div class="user-info">
-                         <p class="user-name mb-0">Marcus</p>
+                         @if(Auth::guard('web')->check())
+                         <p class="user-name mb-0"> {{ Auth::guard('web')->user()->email }}</p>
+                         @endif
+
                          <i class="fa-solid fa-angle-down"></i>
                      </div>
                  </a>
                  <ul class="dropdown-menu dropdown-menu-end">
-                     <li><a class="dropdown-item d-flex align-items-center" href="userprofile.php"><i class="fa-regular fa-user"></i><span>Profile</span></a>
+                     <li><a class="dropdown-item d-flex align-items-center" href="{{ route('changePassword')}}"><i class="fa-regular fa-user"></i><span>Change Password</span></a>
                      </li>
 
                      <li>
