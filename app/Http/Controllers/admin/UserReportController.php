@@ -58,6 +58,10 @@ class UserReportController extends Controller
         $userchat =  UserReportChat::select('message')->with('sender_user')->where('report_id', $report_id)->get()->groupBy('sender_user.full_name');
 
 
+        foreach ($userchat as $name => $val) {
+            echo $name;
+        }
+        exit;
         return view('layouts.layout', compact('page', 'title', 'userchat'));
     }
 

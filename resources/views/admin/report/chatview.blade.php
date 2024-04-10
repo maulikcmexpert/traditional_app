@@ -17,14 +17,7 @@
                 <h4 class="card-title">User Chat View</h4>
             </div>
             <div class="card-body">
-                @foreach($userchat as $username => $collection)
-                <h1>{{ $username }}</h1>
 
-                <!-- @foreach($collection as $val)
-                <span>{{$val->message}}</span>
-                @endforeach -->
-
-                @endforeach
             </div>
         </div>
     </div>
