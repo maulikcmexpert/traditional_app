@@ -692,6 +692,8 @@ class UsersController_v2 extends BaseController
             $data['culture'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
             $data['exercise_id'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise_id : 0;
             $data['exercise_name'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise->exercise : "";
+            $data['eating_habit_id'] = ($user->userdetail->eating_habit_id != "") ? $user->userdetail->eating_habit_id : 0;
+            $data['eating_habit_name'] = ($user->userdetail->eating_habit_id != "") ? $user->userdetail->eating_habit->eating_habit : "";
             $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
             $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
             $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : 0;
