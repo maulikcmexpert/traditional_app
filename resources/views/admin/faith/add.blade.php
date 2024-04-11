@@ -27,7 +27,7 @@
                                 <div class="col-xxl-6 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 mb-2 position-relative">
-                                            <label class="form-label">Zodiac Sign</label>
+                                            <label class="form-label">Faith</label>
                                             <input type="text" class="form-control faith" name="faith[]" />
                                             <span class="text-danger"> @if ($errors->has('faith*.')){{ $errors->first('faith*.') }} @endif</span>
                                         </div>
