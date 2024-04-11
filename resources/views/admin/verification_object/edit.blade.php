@@ -26,7 +26,7 @@
                     <form method="POST" id="verificationobject" action="{{ route('verificationobject.update',encrypt($getData->id))}}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <div class="form-group AddMoreForm">
+                        <div class="form-group mb-3 AddMoreForm">
                             <div class="row" id="interest">
                                 <div class="col-xxl-4 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">

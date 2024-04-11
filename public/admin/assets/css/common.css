@@ -174,8 +174,8 @@ table.dataTable thead th{
     height: 25px;
     display: block;
     text-align: center;
-    background-color: #6366f1;
-    color: #fff;
+    background-color: rgba(99, 102, 241, 0.2);
+    color: #6366f1;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -189,7 +189,8 @@ table.dataTable thead th{
     height: 25px;
     display: block;
     text-align: center;
-    background-color: red;
+    background-color: rgba(230, 83, 60, 0.2);
+    color: rgb(230, 83, 60);
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -199,7 +200,7 @@ table.dataTable thead th{
 }
 
 .deleteBtns i{
-    color: #fff !important;
+    color: rgb(230, 83, 60);
 }
 
 .error {
@@ -317,6 +318,15 @@ table.dataTable thead th{
 /* .userChat ul li::marker{
     color: #000!important;
 } */
+
+tr{
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+}
+
 
 @media only screen and (max-width:768px){
     p{
