@@ -1204,7 +1204,16 @@ class UsersController_v2 extends BaseController
             $user_detail->height = $request->height;
             $user_detail->weight = $request->weight;
             $user_detail->education = $request->education;
-            $user_detail->zodiac_sign_id = $request->zodiac_sign_id;
+            // $user_detail->zodiac_sign_id = $request->zodiac_sign_id;
+            $user_detail->faith_id  = $request->faith_id;
+            $user_detail->body_type_id  = $request->body_type_id;
+            $user_detail->culture_id  = $request->culture_id;
+            $user_detail->daily_activity_id  = $request->daily_activity_id;
+            $user_detail->exercise_id   = $request->exercise_id;
+            $user_detail->eating_habit_id   = $request->eating_habit_id;
+            $user_detail->vaccination_status   = $request->vaccination_status;
+            $user_detail->alcohol_status   = $request->alcohol_status;
+            $user_detail->smoke_status   = $request->smoke_status;
             $user_detail->organization_id = ($request->organization_id == "" || $request->organization_id == 0) ? NULL : $request->organization_id;
             $user_detail->religion_id = ($request->religion_id == "" ||  $request->religion_id == 0) ? NULL : $request->religion_id;
             $user_detail->about_me = $request->about_me;
