@@ -141,12 +141,7 @@
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        swal({
-                            title: `Error`,
-                            text: "User(s) belongs to deleted Interest And Hobby. can not delete Interest And Hobby",
-                            icon: "error",
-
-                        })
+                        errorAlert("Inerest And Hobby");
 
                     } else {
                         swal({
@@ -176,12 +171,8 @@
 
 
                                         } else {
-                                            swal({
-                                                title: `Error`,
-                                                text: "User(s) belongs to deleted Interest And Hobby. can not delete Interest And Hobby",
-                                                icon: "error",
+                                            errorAlert("Inerest And Hobby");
 
-                                            });
                                         }
                                     },
                                 });
