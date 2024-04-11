@@ -648,7 +648,24 @@ class UsersController_v2 extends BaseController
             'mobile_number' => $mobile_number,
             'email' => $email,
         ];
-        $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.faith', 'userdetail.bodytype', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
+
+        $relationArray = [
+            'userdetail',
+            'user_profile',
+            'user_lifestyle',
+            'user_lifestyle.lifestyle',
+            'user_interest_and_hobby',
+            'user_interest_and_hobby.interest_and_hobby',
+            'userdetail.religon',
+            'userdetail.faith',
+            'userdetail.culture',
+            'userdetail.bodytype',
+            'userdetail.state',
+            'country',
+            'userdetail.organization',
+            'user_love_lang'
+        ];
+        $user = User::with($relationArray)->where(['id' => $user_id, 'status' => 'active'])->first();
 
         if ($user_id) {
             $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
@@ -666,6 +683,8 @@ class UsersController_v2 extends BaseController
             $data['faith'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith->faith : "";
             $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : 0;
             $data['body_type'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
+            $data['culture_id'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture_id : 0;
+            $data['culture'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
             $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
             $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
             $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : 0;
