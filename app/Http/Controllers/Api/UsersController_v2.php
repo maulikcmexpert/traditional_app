@@ -471,7 +471,7 @@ class UsersController_v2 extends BaseController
 
         if (isset($faith_id) && !empty($faith_id)) {
             $faithId = UserDetail::where('user_id', $this->user->id)->first();
-            dd($faithId);
+
             $faithId->faith_id = $faith_id;
             $faithId->save();
         }
