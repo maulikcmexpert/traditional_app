@@ -23,6 +23,7 @@ use App\Models\ApproachRequest;
 use App\Models\BadWord;
 use App\Models\BlockReason;
 use App\Models\Country;
+use App\Models\Culture;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use Kreait\Laravel\Firebase\Facades\Firebase;
@@ -2871,7 +2872,15 @@ class UsersController_v2 extends BaseController
         $faithList =  Faith::select('id', 'faith')->get();
 
 
-        return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $faithList]);
+        return response()->json(["status" => true, 'message' => 'Faith', 'data' => $faithList]);
+    }
+
+    public function CultureList()
+    {
+        $cultureList =  Culture::select('id', 'culture')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Culture', 'data' => $cultureList]);
     }
 
     public function DisconnectToUser(Request $request)
