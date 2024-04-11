@@ -9,7 +9,7 @@ class Faith extends Model
 {
     use HasFactory;
 
-    public function user()
+    public function userdetail()
     {
         return $this->hasOne(UserDetail::class);
     }

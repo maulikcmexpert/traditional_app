@@ -64,6 +64,6 @@ class UserDetail extends Model
 
     public function faith()
     {
-        return $this->belongsTo(Faith::class);
+        return $this->belongsTo(Faith::class, 'faith_id');
     }
 }
