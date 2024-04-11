@@ -2910,12 +2910,12 @@ class UsersController_v2 extends BaseController
         return response()->json(["status" => true, 'message' => 'Faith', 'data' => $faithList]);
     }
 
-    public function ExersiceList()
+    public function ExerciseList()
     {
-        $exersiceList =  Exercise::select('id', 'exersice as name')->get();
+        $exerciseList =  Exercise::select('id', 'exercise as name')->get();
 
 
-        return response()->json(["status" => true, 'message' => 'Faith', 'data' => $exersiceList]);
+        return response()->json(["status" => true, 'message' => 'Faith', 'data' => $exerciseList]);
     }
 
     public function EatingHabitList()
