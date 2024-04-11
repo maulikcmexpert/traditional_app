@@ -662,8 +662,7 @@ class UsersController_v2 extends BaseController
                 $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
                 $data['religion_id'] = ($user->userdetail->religion_id != "") ? $user->userdetail->religion_id : "";
                 $data['religion_name'] = ($user->userdetail['religon'] != "") ? $user->userdetail['religon']->religion : "";
-                $data['zodiac_sign_id'] = ($user->userdetail->zodiac_sign_id != "") ? $user->userdetail->zodiac_sign_id : "";
-                $data['zodiac_signs_name'] = ($user->userdetail['zodiac_sign']->zodiac_sign != "") ? $user->userdetail['zodiac_sign']->zodiac_sign : "";
+                $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : "";
                 $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
                 $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
                 $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
