@@ -8,7 +8,8 @@ use App\Models\{
     User,
     City,
     State,
-    ZodiacSign
+    ZodiacSign,
+    Faith
 };
 
 class UserDetail extends Model
