@@ -676,6 +676,7 @@ class UsersController_v2 extends BaseController
             $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
             $data['vaccination_status'] = ($user->userdetail->vaccination_status != "") ? $user->userdetail->vaccination_status : "";
             $data['smoke_status'] = ($user->userdetail->smoke_status != "") ? $user->userdetail->smoke_status : "";
+            $data['alcohol_status'] = ($user->userdetail->alcohol_status != "") ? $user->userdetail->alcohol_status : "";
             $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
             $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
             $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
