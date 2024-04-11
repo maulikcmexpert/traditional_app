@@ -14,6 +14,8 @@ use App\Models\{
 };
 
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class FaithController extends Controller
 {
