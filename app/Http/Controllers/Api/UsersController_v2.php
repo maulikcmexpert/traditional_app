@@ -672,6 +672,7 @@ class UsersController_v2 extends BaseController
             $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
             $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
             $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
+            $data['vaccination_status'] = ($user->userdetail->vaccination_status != "") ? $user->userdetail->vaccination_status : "";
             $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
             $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
             $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
