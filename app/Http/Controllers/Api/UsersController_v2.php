@@ -662,6 +662,7 @@ class UsersController_v2 extends BaseController
             'userdetail.culture',
             'userdetail.bodytype',
             'userdetail.exercise',
+            'userdetail.eating_habit',
             'userdetail.state',
             'country',
             'userdetail.organization',
