@@ -179,7 +179,7 @@ class ZodiacSignController extends Controller
 
             $ids = decrypt($request->id);
             $eventType = UserDetail::where(['zodiac_sign_id' => $ids])->get();
-            dd($eventType);
+
             if (count($eventType) > 0) {
 
                 $return =  false;
