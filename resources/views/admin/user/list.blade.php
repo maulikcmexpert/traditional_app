@@ -10,7 +10,7 @@
         </nav>
     </div>
     <!-- -----header-breadcrumb-end-- -->
-    <div class="container">
+    <div class="">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Manage Users</h4>

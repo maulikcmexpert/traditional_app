@@ -443,3 +443,8 @@
     -webkit-transition: background-position 0.15s ease-in-out;
     transition: background-position 0.15s ease-in-out;
 } */
+
+
+input, select, textarea{
+  border: 1px solid #6366f1 !important;
+}

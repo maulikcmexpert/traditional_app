@@ -46,9 +46,7 @@ select{
     border: 1px solid rgba(232, 233, 235, 1) !important;
  }
 
- input[type="search"]{
-    border: 1px solid rgba(81, 82, 84) !important;
- }
+
  
  label{
      color: #495057;
@@ -62,10 +60,15 @@ select{
     background-color: #F5F6F8;
 }
 
+.dataTables_wrapper .dataTables_filter{
+    margin-bottom: 20px !important;
+}
+
 table.dataTable{
     border-collapse: collapse !important;
     margin-bottom: 15px !important;
     border-bottom: 0 !important;
+    width: 100% !important;
 }
 
 
@@ -89,10 +92,11 @@ table.dataTable td{
 }
 
 table.dataTable thead th{
-    color: #707479 !important;
     font-size: 15px !important;
     padding: 13px 10px !important;
     font-size: 15px !important;
+    background-color: #6366f1 !important;
+    color: #fff !important;
 }
 
 .dataTables_paginate{
@@ -112,6 +116,7 @@ table.dataTable thead th{
     display: flex !important;
     align-items: center !important;
     border-bottom: 1px solid #d5d5d5;
+    padding-left: 25px;
 }
 
 .card-header a{
