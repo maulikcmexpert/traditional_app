@@ -88,7 +88,13 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::get('interest_hobby_list', [ListController::class, 'interestAndHobbyList'])->name('interest_hobby_list');
     Route::get('life_style_list', [ListController::class, 'lifieStyleList'])->name('life_style_list');
     Route::get('religion_list', [ListController::class, 'religionList']);
+    Route::get('faith_list', [UsersController_v2::class, 'FaithList']);
+    Route::get('culture_list', [UsersController_v2::class, 'CultureList']);
+    Route::get('Body_type_list', [UsersController_v2::class, 'BodyTypeList']);
+    Route::get('daily_activity_list', [UsersController_v2::class, 'DailyActivityList']);
     Route::post('otp_verify', [UsersController_v2::class, 'otpVerify'])->name('otp_verify');
+
+
 
 
 

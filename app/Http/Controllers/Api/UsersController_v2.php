@@ -22,7 +22,10 @@ use App\Models\ZodiacSign;
 use App\Models\ApproachRequest;
 use App\Models\BadWord;
 use App\Models\BlockReason;
+use App\Models\BodyType;
 use App\Models\Country;
+use App\Models\Culture;
+use App\Models\DailyActivity;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use Kreait\Laravel\Firebase\Facades\Firebase;
@@ -43,6 +46,7 @@ use App\Models\UserReportChat;
 
 use App\Models\UserDetail;
 use App\Models\Device;
+use App\Models\Faith;
 use App\Models\FeedbackReview;
 use App\Models\FeedbackReviewList;
 use App\Models\Notification;
@@ -2862,6 +2866,39 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $certainWordList]);
+    }
+
+
+    public function FaithList()
+    {
+        $faithList =  Faith::select('id', 'faith as name')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Faith', 'data' => $faithList]);
+    }
+
+    public function CultureList()
+    {
+        $cultureList =  Culture::select('id', 'culture as name')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Culture', 'data' => $cultureList]);
+    }
+
+    public function BodyTypeList()
+    {
+        $bodyTypeList =  BodyType::select('id', 'body_type as name')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Body type', 'data' => $bodyTypeList]);
+    }
+
+    public function DailyActivityList()
+    {
+        $dailyActivityList =  DailyActivity::select('id', 'daily_activity as name')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Daily activity', 'data' => $dailyActivityList]);
     }
 
     public function DisconnectToUser(Request $request)
