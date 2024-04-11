@@ -443,7 +443,7 @@ class UsersController_v2 extends BaseController
 
         $lifeStyles = $request->life_styles;
         $interest_and_hobby = $request->interest_and_hobby;
-        $zodiac_sign_id = $request->zodiac_sign_id;
+        $faith_id = $request->faith_id;
 
         if (isset($lifeStyles) && is_array($lifeStyles)) {
             // if exists then delete prev data //
@@ -470,9 +470,10 @@ class UsersController_v2 extends BaseController
         }
 
         if (isset($faith_id) && !empty($faith_id)) {
-            $faith_id = UserDetail::where('user_id', $this->user->id)->first();
-            $faith_id->faith_id = $faith_id;
-            $faith_id->save();
+            $faithId = UserDetail::where('user_id', $this->user->id)->first();
+
+            $faithId->faith_id = $faith_id;
+            $faithId->save();
         }
         DB::commit();
 
@@ -635,97 +636,120 @@ class UsersController_v2 extends BaseController
 
     public function userProfile(Request $request)
     {
-        try {
-            DB::beginTransaction();
-            $user_id = $this->user->id;
-            $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
-            $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
-            $email = ($this->user->email != "") ? $this->user->email : "";
-            $data = [];
-            $data = [
-                'name' => $full_name,
-                'mobile_number' => $mobile_number,
-                'email' => $email,
-            ];
-            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
+        // try {
+        DB::beginTransaction();
+        $user_id = $this->user->id;
+        $full_name = ($this->user->full_name != "") ? $this->user->full_name : "";
+        $mobile_number = ($this->user->mobile_number != "") ? $this->user->mobile_number : "";
+        $email = ($this->user->email != "") ? $this->user->email : "";
+        $data = [];
+        $data = [
+            'name' => $full_name,
+            'mobile_number' => $mobile_number,
+            'email' => $email,
+        ];
 
-            if ($user_id) {
-                $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
-                $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
-                $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
-                $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
-                $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
-                $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
-                $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
-                $data['weight'] = ($user->userdetail->weight != "") ? $user->userdetail->weight : "";
-                $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
-                $data['religion_id'] = ($user->userdetail->religion_id != "") ? $user->userdetail->religion_id : "";
-                $data['religion_name'] = ($user->userdetail['religon'] != "") ? $user->userdetail['religon']->religion : "";
-                $data['zodiac_sign_id'] = ($user->userdetail->zodiac_sign_id != "") ? $user->userdetail->zodiac_sign_id : "";
-                $data['zodiac_signs_name'] = ($user->userdetail['zodiac_sign']->zodiac_sign != "") ? $user->userdetail['zodiac_sign']->zodiac_sign : "";
-                $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
-                $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
-                $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
-                $data['organization_name'] = ($user->userdetail->organization_id != NULL) ? $user->userdetail['organization']->full_name : "";
+        $relationArray = [
+            'userdetail',
+            'user_profile',
+            'user_lifestyle',
+            'user_lifestyle.lifestyle',
+            'user_interest_and_hobby',
+            'user_interest_and_hobby.interest_and_hobby',
+            'userdetail.religon',
+            'userdetail.faith',
+            'userdetail.culture',
+            'userdetail.bodytype',
+            'userdetail.state',
+            'country',
+            'userdetail.organization',
+            'user_love_lang'
+        ];
+        $user = User::with($relationArray)->where(['id' => $user_id, 'status' => 'active'])->first();
 
-                $data['life_style'] = [];
-                if (!empty($user->user_lifestyle)) {
-                    foreach ($user->user_lifestyle as $key => $val) {
-                        $lifestyle['id'] = $val->lifestyle_id;
+        if ($user_id) {
+            $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
+            $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
+            $data['height_type'] = ($user->userdetail->height_type != "") ? $user->userdetail->height_type : "";
+            $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
+            $data['vaccination_status'] = ($user->userdetail->vaccination_status != "") ? $user->userdetail->vaccination_status : "";
+            $data['smoke_status'] = ($user->userdetail->smoke_status != "") ? $user->userdetail->smoke_status : "";
+            $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
+            $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
+            $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
+            $data['weight'] = ($user->userdetail->weight != "") ? $user->userdetail->weight : "";
+            $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
+            $data['religion_id'] = ($user->userdetail->religion_id != "") ? $user->userdetail->religion_id : 0;
+            $data['religion_name'] = ($user->userdetail['religon'] != "") ? $user->userdetail['religon']->religion : "";
+            $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : 0;
+            $data['faith_name'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith->faith : "";
+            $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : 0;
+            $data['body_type'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
+            $data['culture_id'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture_id : 0;
+            $data['culture'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
+            $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
+            $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
+            $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : 0;
+            $data['organization_name'] = ($user->userdetail->organization_id != NULL) ? $user->userdetail['organization']->full_name : "";
 
-                        $lifestyle['name'] = $val->lifestyle->life_style;
-                        $data['life_style'][] = $lifestyle;
-                    }
-                }
+            $data['life_style'] = [];
+            if (!empty($user->user_lifestyle)) {
+                foreach ($user->user_lifestyle as $key => $val) {
+                    $lifestyle['id'] = $val->lifestyle_id;
 
-                $data['intrest_and_hobby'] = [];
-                if (!empty($user->user_interest_and_hobby)) {
-
-                    foreach ($user->user_interest_and_hobby as $key => $val) {
-                        $intrest_hobby['id'] = $val->interest_and_hobby_id;
-
-                        $intrest_hobby['name'] = $val->interest_and_hobby->interest_and_hobby;
-                        $data['intrest_and_hobby'][] = $intrest_hobby;
-                    }
-                }
-
-                $data['profile_image'] = [];
-                if (!empty($user->user_profile)) {
-                    foreach ($user->user_profile as $key => $val) {
-                        $image['profile_id'] = $val->id;
-                        $image['profile'] = asset('storage/profile/' . $val->profile);
-                        $image['is_default'] = $val->is_default;
-                        $data['profile_image'][] = $image;
-                    }
-                }
-
-                $data['user_love_lang'] = [];
-                if (!empty($user->user_love_lang)) {
-                    foreach ($user->user_love_lang as $key => $val) {
-                        $loveLang['id'] = $val->id;
-                        $loveLang['love_lang'] = $val->love_lang;
-                        $loveLang['rate'] = $val->rate;
-                        $data['user_love_lang'][] = $loveLang;
-                    }
-                }
-
-
-                $data['show_stopper_ques'] = [];
-                if ($user->userdetail->gender == 'female') {
-                    $getQuestions = UserShwstpprQue::select('id', 'user_id', 'question', 'option_1', 'option_2', 'prefered_option')->where('user_id', $user->id)->get();
-                    $data['show_stopper_ques']  = $getQuestions;
+                    $lifestyle['name'] = $val->lifestyle->life_style;
+                    $data['life_style'][] = $lifestyle;
                 }
             }
-            DB::commit();
-            return response()->json(['status' => true, 'message' => "Success", 'data' => $data]);
-        } catch (QueryException $e) {
-            DB::rollBack();
 
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
+            $data['intrest_and_hobby'] = [];
+            if (!empty($user->user_interest_and_hobby)) {
 
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+                foreach ($user->user_interest_and_hobby as $key => $val) {
+                    $intrest_hobby['id'] = $val->interest_and_hobby_id;
+
+                    $intrest_hobby['name'] = $val->interest_and_hobby->interest_and_hobby;
+                    $data['intrest_and_hobby'][] = $intrest_hobby;
+                }
+            }
+
+            $data['profile_image'] = [];
+            if (!empty($user->user_profile)) {
+                foreach ($user->user_profile as $key => $val) {
+                    $image['profile_id'] = $val->id;
+                    $image['profile'] = asset('storage/profile/' . $val->profile);
+                    $image['is_default'] = $val->is_default;
+                    $data['profile_image'][] = $image;
+                }
+            }
+
+            $data['user_love_lang'] = [];
+            if (!empty($user->user_love_lang)) {
+                foreach ($user->user_love_lang as $key => $val) {
+                    $loveLang['id'] = $val->id;
+                    $loveLang['love_lang'] = $val->love_lang;
+                    $loveLang['rate'] = $val->rate;
+                    $data['user_love_lang'][] = $loveLang;
+                }
+            }
+
+
+            $data['show_stopper_ques'] = [];
+            if ($user->userdetail->gender == 'female') {
+                $getQuestions = UserShwstpprQue::select('id', 'user_id', 'question', 'option_1', 'option_2', 'prefered_option')->where('user_id', $user->id)->get();
+                $data['show_stopper_ques']  = $getQuestions;
+            }
         }
+        DB::commit();
+        return response()->json(['status' => true, 'message' => "Success", 'data' => $data]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function showUserProfile(Request $request)

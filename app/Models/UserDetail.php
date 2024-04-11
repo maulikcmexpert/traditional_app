@@ -8,7 +8,8 @@ use App\Models\{
     User,
     City,
     State,
-    ZodiacSign
+    ZodiacSign,
+    Faith
 };
 
 class UserDetail extends Model
@@ -59,5 +60,21 @@ class UserDetail extends Model
     public function religon()
     {
         return $this->belongsTo(Religion::class, 'religion_id');
+    }
+
+
+    public function faith()
+    {
+        return $this->belongsTo(Faith::class, 'faith_id');
+    }
+
+    public function bodytype()
+    {
+        return $this->belongsTo(BodyType::class, 'body_type_id');
+    }
+
+    public function culture()
+    {
+        return $this->belongsTo(Culture::class, 'culture_id');
     }
 }

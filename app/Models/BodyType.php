@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class BodyType extends Model
 {
     use HasFactory;
+
+    public function userdetail()
+    {
+        return $this->hasOne(UserDetail::class, 'id', 'body_type_id');
+    }
 }
