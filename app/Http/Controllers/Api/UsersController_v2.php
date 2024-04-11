@@ -43,6 +43,7 @@ use App\Models\UserReportChat;
 
 use App\Models\UserDetail;
 use App\Models\Device;
+use App\Models\Faith;
 use App\Models\FeedbackReview;
 use App\Models\FeedbackReviewList;
 use App\Models\Notification;
@@ -2862,6 +2863,15 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $certainWordList]);
+    }
+
+
+    public function FaithList()
+    {
+        $faithList =  Faith::select('id', 'faith')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $faithList]);
     }
 
     public function DisconnectToUser(Request $request)

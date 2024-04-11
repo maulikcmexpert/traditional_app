@@ -88,6 +88,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::get('interest_hobby_list', [ListController::class, 'interestAndHobbyList'])->name('interest_hobby_list');
     Route::get('life_style_list', [ListController::class, 'lifieStyleList'])->name('life_style_list');
     Route::get('religion_list', [ListController::class, 'religionList']);
+    Route::get('faith_list', [UsersController_v2::class, 'FaithList']);
     Route::post('otp_verify', [UsersController_v2::class, 'otpVerify'])->name('otp_verify');
 
 
