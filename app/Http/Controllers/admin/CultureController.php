@@ -3,30 +3,29 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\DataTables\FaithDataTable;
-use App\Http\Requests\{
-    PostFaith
-};
-
-use App\Models\{
-    Faith,
-    UserDetail
-};
-
 use Illuminate\Http\Request;
+use App\DataTables\CultureDataTable;
+use App\Http\Requests\{
+    PostCulture
+};
+use App\Models\{
+    UserDetail,
+    Culture
+};
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
-class FaithController extends Controller
+class CultureController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(FaithDataTable $dataTable)
+    public function index(CultureDataTable $dataTable)
     {
-        $page = 'admin.faith.list';
-        $title = 'Faith';
-        $js = 'admin.faith.scriptjs';
+        $page = 'admin.culute.list';
+        $title = 'Culture';
+        $js = 'admin.culute.scriptjs';
+
         return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
 
@@ -35,9 +34,9 @@ class FaithController extends Controller
      */
     public function create()
     {
-        $page = 'admin.faith.add';
-        $title = 'Add Faith';
-        $js = 'admin.faith.scriptjs';
+        $page = 'admin.culture.add';
+        $title = 'Add Culture';
+        $js = 'admin.culture.scriptjs';
 
         return view('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -45,27 +44,27 @@ class FaithController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostFaith $request)
+    public function store(Request $request)
     {
         try {
             DB::beginTransaction();
-            foreach ($request->faith as $val) {
+            foreach ($request->culture as $val) {
 
-                $faith = new Faith();
-                $faith->faith = $val;
-                $faith->save();
+                $culture = new Culture();
+                $culture->culture = $val;
+                $culture->save();
             }
             DB::commit();
-            toastr()->success('Faith created successfully !');
-            return redirect()->route('faith.index');
+            toastr()->success('Culture created successfully !');
+            return redirect()->route('culture.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('faith.create');
+            return redirect()->route('culture.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('faith.create');
+            return redirect()->route('culture.create');
         }
     }
 
@@ -83,10 +82,10 @@ class FaithController extends Controller
     public function edit(string $id)
     {
         $ids = decrypt($id);
-        $page = 'admin.faith.edit';
-        $title = 'Update Faith';
-        $js = 'admin.faith.scriptjs';
-        $getData = Faith::Findorfail($ids);
+        $page = 'admin.culture.edit';
+        $title = 'Update Culture';
+        $js = 'admin.culture.scriptjs';
+        $getData = Culture::Findorfail($ids);
         return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
@@ -98,20 +97,20 @@ class FaithController extends Controller
         try {
             DB::beginTransaction();
             $ids = decrypt($id);
-            $update = Faith::Findorfail($ids);
-            $update->faith = $request->faith;
+            $update = Culture::Findorfail($ids);
+            $update->culture = $request->culture;
             $update->save();
             DB::commit();
-            toastr()->success('Faith updated successfully !');
-            return redirect()->route('faith.index');
+            toastr()->success('Culture updated successfully !');
+            return redirect()->route('culture.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('faith.create');
+            return redirect()->route('culture.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('faith.create');
+            return redirect()->route('culture.create');
         }
     }
 
@@ -122,7 +121,7 @@ class FaithController extends Controller
     {
         try {
             $ids = decrypt($id);
-            $delete = Faith::Findorfail($ids)->delete();
+            $delete = Culture::Findorfail($ids)->delete();
             return response()->json(true);
         } catch (Exception $e) {
             return response()->json(false);
@@ -132,12 +131,11 @@ class FaithController extends Controller
         }
     }
 
-
-    public function FaithExist(Request $request)
+    public function CultureExist(Request $request)
     {
         try {
 
-            $eventType = Faith::where(['faith' => $request->faith])->get();
+            $eventType = Culture::where(['culture' => $request->culture])->get();
 
             if (count($eventType) > 0) {
 
@@ -180,8 +178,7 @@ class FaithController extends Controller
 
 
             $ids = decrypt($request->id);
-
-            $eventType = UserDetail::where(['faith_id' => $ids])->get();
+            $eventType = UserDetail::where(['culture_id' => $ids])->get();
 
             if (count($eventType) > 0) {
 
