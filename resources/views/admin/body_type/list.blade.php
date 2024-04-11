@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Body Type</h4>
-                <a href="{{route('culture.create')}}" class="btn btn-primary text-right">Add</a>
+                <a href="{{route('body_type.create')}}" class="btn btn-primary text-right">Add</a>
 
             </div>
             <div class="card-body">
