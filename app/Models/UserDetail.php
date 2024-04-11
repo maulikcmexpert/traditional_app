@@ -81,6 +81,10 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Exercise::class, 'exercise_id');
     }
+    public function daily_activity()
+    {
+        return $this->belongsTo(DailyActivity::class, 'daily_activity_id');
+    }
 
     public function eating_habit()
     {
