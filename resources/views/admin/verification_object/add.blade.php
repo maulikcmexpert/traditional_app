@@ -20,7 +20,7 @@
                 <div class="live-preview">
                     <form method="POST" id="verificationobject" action="{{ route('verificationobject.store')}}" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group AddMoreForm">
+                        <div class="mb-3 form-group AddMoreForm">
                             <div class="row" id="interest">
                                 <div class="col-xxl-4 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">

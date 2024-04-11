@@ -259,6 +259,65 @@ table.dataTable thead th{
     border-color: #6366f1 !important;
 }
 
+.userChat{
+    /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    padding: 20px;
+    margin-top: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+    min-height: 400px;
+}
+
+.userChat::-webkit-scrollbar-track
+{
+	/* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+	background-color: transparent;
+}
+
+.userChat::-webkit-scrollbar
+{
+	width: 5px;
+	/* background-color: #F5F5F5; */
+}
+
+.userChat::-webkit-scrollbar-thumb
+{
+	background-color: #FFF;
+	background-image: -webkit-linear-gradient(90deg,
+	                                          rgba(0, 0, 0, 1) 0%,
+											  rgba(0, 0, 0, 1) 25%,
+											  transparent 100%,
+											  rgba(0, 0, 0, 1) 20%,
+											  transparent)
+}
+
+.userChat h1{
+    font-size: 20px;
+    color: #3f3e3e;
+    text-transform: capitalize;
+}
+
+.userChat ul li{
+    list-style-type: circle;
+    list-style-position: inside !important;
+}
+
+.repor-img{
+    height: 100px !important;
+    width: 100px !important;
+    object-fit: contain;
+}
+
+/* .userChat ul li::marker{
+    color: #000!important;
+} */
+
 @media only screen and (max-width:768px){
     p{
         font-size: 14px !important;
