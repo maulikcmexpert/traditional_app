@@ -444,7 +444,7 @@ class UsersController_v2 extends BaseController
         $lifeStyles = $request->life_styles;
         $interest_and_hobby = $request->interest_and_hobby;
         $faith_id = $request->faith_id;
-        dd($faith_id);
+
         if (isset($lifeStyles) && is_array($lifeStyles)) {
             // if exists then delete prev data //
 
@@ -470,9 +470,10 @@ class UsersController_v2 extends BaseController
         }
 
         if (isset($faith_id) && !empty($faith_id)) {
-            $faith_id = UserDetail::where('user_id', $this->user->id)->first();
-            $faith_id->faith_id = $faith_id;
-            $faith_id->save();
+            $faithId = UserDetail::where('user_id', $this->user->id)->first();
+            dd($faithId);
+            $faithId->faith_id = $faith_id;
+            $faithId->save();
         }
         DB::commit();
 
