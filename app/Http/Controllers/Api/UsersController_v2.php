@@ -469,10 +469,10 @@ class UsersController_v2 extends BaseController
             }
         }
 
-        if (isset($zodiac_sign_id) && !empty($zodiac_sign_id)) {
-            $user_zodiac = UserDetail::where('user_id', $this->user->id)->first();
-            $user_zodiac->zodiac_sign_id = $zodiac_sign_id;
-            $user_zodiac->save();
+        if (isset($faith_id) && !empty($faith_id)) {
+            $faith_id = UserDetail::where('user_id', $this->user->id)->first();
+            $faith_id->faith_id = $faith_id;
+            $faith_id->save();
         }
         DB::commit();
 
