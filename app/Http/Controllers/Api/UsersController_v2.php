@@ -648,7 +648,7 @@ class UsersController_v2 extends BaseController
             'mobile_number' => $mobile_number,
             'email' => $email,
         ];
-        $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.faith', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang', 'faith'])->where(['id' => $user_id, 'status' => 'active'])->first();
+        $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.faith', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
         dd($user);
         if ($user_id) {
             $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
