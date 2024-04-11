@@ -116,7 +116,7 @@ table.dataTable thead th{
     display: flex !important;
     align-items: center !important;
     border-bottom: 1px solid #d5d5d5;
-    padding-left: 25px;
+    padding-left: 25px !important;
 }
 
 .card-header a{
