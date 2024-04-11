@@ -126,7 +126,7 @@ class FaithController extends Controller
             $ids = decrypt($request->id);
 
             $eventType = UserDetail::where(['faith_id' => $ids])->get();
-            dd($eventType);
+
             if (count($eventType) > 0) {
 
                 $return =  false;
