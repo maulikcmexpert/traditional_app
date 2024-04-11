@@ -33,7 +33,11 @@ class FaithController extends Controller
      */
     public function create()
     {
-        //
+        $page = 'admin.faith.add';
+        $title = 'Add Faith';
+        $js = 'admin.faith.scriptjs';
+
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
@@ -41,7 +45,26 @@ class FaithController extends Controller
      */
     public function store(PostFaith $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            foreach ($request->zodiac_sign as $val) {
+
+                $faith = new Faith();
+                $faith->zodiac_sign = $val;
+                $faith->save();
+            }
+            DB::commit();
+            toastr()->success('Faith created successfully !');
+            return redirect()->route('faith.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('faith.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('faith.create');
+        }
     }
 
     /**
@@ -57,7 +80,12 @@ class FaithController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.faith.edit';
+        $title = 'Update Faith';
+        $js = 'admin.faith.scriptjs';
+        $getData = Faith::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
@@ -65,7 +93,24 @@ class FaithController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = Faith::Findorfail($ids);
+            $update->faith = $request->faith;
+            $update->save();
+            DB::commit();
+            toastr()->success('Faith updated successfully !');
+            return redirect()->route('faith.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('faith.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('faith.create');
+        }
     }
 
     /**
@@ -73,7 +118,16 @@ class FaithController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = Faith::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
     }
 
 
