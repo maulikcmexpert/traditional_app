@@ -664,6 +664,7 @@ class UsersController_v2 extends BaseController
             'userdetail.bodytype',
             'userdetail.exercise',
             'userdetail.eating_habit',
+            'userdetail.daily_activity',
             'userdetail.state',
             'country',
             'userdetail.organization',
@@ -688,6 +689,8 @@ class UsersController_v2 extends BaseController
             $data['religion_name'] = ($user->userdetail['religon'] != "") ? $user->userdetail['religon']->religion : "";
             $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : 0;
             $data['faith_name'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith->faith : "";
+            $data['daily_activity_id'] = ($user->userdetail->daily_activity_id != "") ? $user->userdetail->daily_activity_id : 0;
+            $data['daily_activity_name'] = ($user->userdetail->daily_activity_id != "") ? $user->userdetail->daily_activity->daily_activity : "";
             $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : 0;
             $data['body_type_name'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
             $data['culture_id'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture_id : 0;
