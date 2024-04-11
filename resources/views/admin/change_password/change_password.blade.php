@@ -20,7 +20,7 @@
                     <form method="POST" id="changePasswordForm" action="{{ route('password.update') }}">
                         @csrf
                         @method('put')
-                        <div class=" form-group AddMoreForm">
+                        <div class=" form-group mb-3 AddMoreForm">
                             <div class="row" id="general_setting">
                                 <div class="col-xxl-4 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
