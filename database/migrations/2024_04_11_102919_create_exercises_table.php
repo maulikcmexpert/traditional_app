@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_details', function (Blueprint $table) {
-            $table->unsignedBigInteger('body_type_id')->nullable();
-            $table->foreign('body_type_id')->references('id')->on('body_types')->onDelete('cascade');
+        Schema::create('exercises', function (Blueprint $table) {
+            $table->id();
+            $table->string('exercise')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_details', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('exercises');
     }
 };

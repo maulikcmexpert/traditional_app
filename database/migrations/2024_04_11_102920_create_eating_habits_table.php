@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_details', function (Blueprint $table) {
-            $table->string('vaccination_status')->nullable();
+        Schema::create('eating_habits', function (Blueprint $table) {
+            $table->id();
+            $table->string('eating_habit')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_details', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('eating_habits');
     }
 };
