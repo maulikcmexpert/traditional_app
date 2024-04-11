@@ -11,6 +11,6 @@ class Faith extends Model
 
     public function userdetail()
     {
-        return $this->hasOne(UserDetail::class);
+        return $this->hasOne(UserDetail::class, 'id', 'faith_id');
     }
 }
