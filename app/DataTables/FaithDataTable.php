@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\ZodiacSign;
+use App\Models\Faith;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ZodiacSignDataTable extends DataTable
+class FaithDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,11 +22,12 @@ class ZodiacSignDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
             ->addColumn('action', function ($row) {
 
                 $id = encrypt($row->id);
-                $editRoute = route('zodiacsign.edit', $id);
-                $deleteRoute = route('zodiacsign.destroy', $id);
+                $editRoute = route('faith.edit', $id);
+                $deleteRoute = route('faith.destroy', $id);
 
 
                 return '<div class="d-flex gap-2"><a class="editBtns" href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
@@ -40,7 +41,7 @@ class ZodiacSignDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(ZodiacSign $model): QueryBuilder
+    public function query(Faith $model): QueryBuilder
     {
         return $model->newQuery()->orderBy('id', 'desc');
     }
@@ -51,7 +52,7 @@ class ZodiacSignDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('zodiacsign-table')
+            ->setTableId('faith-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -74,7 +75,7 @@ class ZodiacSignDataTable extends DataTable
     {
         return [
 
-            Column::make('zodiac_sign'),
+            Column::make('faith'),
 
             Column::make('action'),
 
@@ -86,6 +87,6 @@ class ZodiacSignDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'ZodiacSign_' . date('YmdHis');
+        return 'Faith_' . date('YmdHis');
     }
 }

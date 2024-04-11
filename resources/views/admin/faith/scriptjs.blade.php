@@ -6,12 +6,12 @@
 
         $(document).on('click', '#addMore', function() {
             var addMoreData = $("#addMoreData").html();
-            $("#zodiac_sign").append(addMoreData);
+            $("#faiths").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#zodiacsign .zodiac_sign").each(function() {
+        $("#faiths .faith").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -21,12 +21,12 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            $('#zodiacsign .zodiac_sign').each(function() {
+            $('#faiths .faith').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter Zodiac Sign');
+                    that.next('.text-danger').text('Please enter Faith');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -35,13 +35,13 @@
                             },
                             dataType: 'Json',
                             type: "POST",
-                            url: "{{route('zodiacsign.exist')}}",
+                            url: "{{route('faith.exist')}}",
                             data: {
-                                zodiacsign: thatVal
+                                faith: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('Zodiac Sign already exist');
+                                    that.next('.text-danger').text('Faith already exist');
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
@@ -60,11 +60,11 @@
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
-                    console.log("Duplicate Zodiac Sign found");
+                    console.log("Duplicate Faith found");
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
-                    console.log("No duplicate Zodiac Sign, submitting form");
-                    $("#zodiacsign").submit();
+                    console.log("No duplicate Faith, submitting form");
+                    $("#faith").submit();
                 }
             }).catch(function(error) {
                 console.error("Error occurred during AJAX request:", error);
@@ -75,7 +75,7 @@
 
 
 
-        $("#zodiacsign").validate({
+        $("#faith").validate({
             rules: {
                 zodiac_sign: {
                     required: true,
@@ -85,11 +85,11 @@
                                 "content"
                             ),
                         },
-                        url: "{{route('zodiacsign.exist')}}",
+                        url: "{{route('faith.exist')}}",
                         method: "POST",
                         data: {
-                            zodiacsign: function() {
-                                return $("input[name='zodiac_sign']").val();
+                            faith: function() {
+                                return $("input[name='faith']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -100,9 +100,9 @@
 
             },
             messages: {
-                zodiac_sign: {
-                    required: "Please enter Zodiac Sign",
-                    remote: "Zodiac Sign already exist",
+                faith: {
+                    required: "Please enter Faith",
+                    remote: "Faith already exist",
                 },
 
             },
@@ -113,8 +113,8 @@
 
 
         $(document).on('click', '#edit', function() {
-            if ($("#zodiacsign").valid()) {
-                $("#zodiacsign").submit();
+            if ($("#faith").valid()) {
+                $("#faith").submit();
             }
         })
 
@@ -132,7 +132,7 @@
                     ),
                 },
                 method: "post",
-                url: "{{route('zodiacsign.selectedbyuser')}}",
+                url: "{{route('faith.selectedbyuser')}}",
                 data: {
 
                     id: id
@@ -140,7 +140,7 @@
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        errorAlert('Zodiac Sign');
+                        errorAlert('Faith');
 
                     } else {
                         swal({
@@ -168,7 +168,7 @@
 
 
                                         } else {
-                                            errorAlert('Zodiac Sign');
+                                            errorAlert('Faith');
                                         }
                                     },
                                 });
@@ -182,7 +182,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Zodiac Sign deleted successfully !");
+            toastr.success("Faith deleted successfully !");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }

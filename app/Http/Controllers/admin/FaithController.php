@@ -3,30 +3,31 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\DataTables\ZodiacSignDataTable;
+use App\DataTables\FaithDataTable;
 use App\Http\Requests\{
-    PostZodiacSign
+    PostFaith
 };
+
 use App\Models\{
-    UserDetail,
-    ZodiacSign
+    Faith,
+    UserDetail
 };
+
+use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
-class ZodiacSignController extends Controller
+class FaithController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(ZodiacSignDataTable $dataTable)
+    public function index(FaithDataTable $dataTable)
     {
-        $page = 'admin.zodiacsign.list';
-        $title = 'Zodiac Sign';
-        $js = 'admin.zodiacsign.scriptjs';
-        $ZodiacCount = ZodiacSign::count();
-        return $dataTable->render('layouts.layout', compact('page', 'title', 'js', 'ZodiacCount'));
+        $page = 'admin.faith.list';
+        $title = 'Faith';
+        $js = 'admin.faith.scriptjs';
+        return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
@@ -34,9 +35,9 @@ class ZodiacSignController extends Controller
      */
     public function create()
     {
-        $page = 'admin.zodiacsign.add';
-        $title = 'Add Zodiac Sign';
-        $js = 'admin.zodiacsign.scriptjs';
+        $page = 'admin.faith.add';
+        $title = 'Add Faith';
+        $js = 'admin.faith.scriptjs';
 
         return view('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -44,27 +45,27 @@ class ZodiacSignController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostZodiacSign $request)
+    public function store(PostFaith $request)
     {
         try {
             DB::beginTransaction();
             foreach ($request->zodiac_sign as $val) {
 
-                $zodiacSign = new ZodiacSign();
-                $zodiacSign->zodiac_sign = $val;
-                $zodiacSign->save();
+                $faith = new Faith();
+                $faith->zodiac_sign = $val;
+                $faith->save();
             }
             DB::commit();
-            toastr()->success('Zodiac Sign created successfully !');
-            return redirect()->route('zodiacsign.index');
+            toastr()->success('Faith created successfully !');
+            return redirect()->route('faith.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('zodiacsign.create');
+            return redirect()->route('faith.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('zodiacsign.create');
+            return redirect()->route('faith.create');
         }
     }
 
@@ -82,10 +83,10 @@ class ZodiacSignController extends Controller
     public function edit(string $id)
     {
         $ids = decrypt($id);
-        $page = 'admin.zodiacsign.edit';
-        $title = 'Update Zodiac Sign';
-        $js = 'admin.zodiacsign.scriptjs';
-        $getData = ZodiacSign::Findorfail($ids);
+        $page = 'admin.faith.edit';
+        $title = 'Update Faith';
+        $js = 'admin.faith.scriptjs';
+        $getData = Faith::Findorfail($ids);
         return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
@@ -97,20 +98,20 @@ class ZodiacSignController extends Controller
         try {
             DB::beginTransaction();
             $ids = decrypt($id);
-            $update = ZodiacSign::Findorfail($ids);
-            $update->zodiac_sign = $request->zodiac_sign;
+            $update = Faith::Findorfail($ids);
+            $update->faith = $request->faith;
             $update->save();
             DB::commit();
-            toastr()->success('Zodiac Sign updated successfully !');
-            return redirect()->route('zodiacsign.index');
+            toastr()->success('Faith updated successfully !');
+            return redirect()->route('faith.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('zodiacsign.create');
+            return redirect()->route('faith.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('zodiacsign.create');
+            return redirect()->route('faith.create');
         }
     }
 
@@ -121,7 +122,7 @@ class ZodiacSignController extends Controller
     {
         try {
             $ids = decrypt($id);
-            $delete = ZodiacSign::Findorfail($ids)->delete();
+            $delete = Faith::Findorfail($ids)->delete();
             return response()->json(true);
         } catch (Exception $e) {
             return response()->json(false);
@@ -131,11 +132,12 @@ class ZodiacSignController extends Controller
         }
     }
 
-    public function zodiacsignExist(Request $request)
+
+    public function FaithExist(Request $request)
     {
         try {
 
-            $eventType = ZodiacSign::where(['zodiac_sign' => $request->zodiacsign])->get();
+            $eventType = Faith::where(['faith' => $request->faith])->get();
 
             if (count($eventType) > 0) {
 
@@ -178,7 +180,8 @@ class ZodiacSignController extends Controller
 
 
             $ids = decrypt($request->id);
-            $eventType = UserDetail::where(['zodiac_sign_id' => $ids])->get();
+
+            $eventType = UserDetail::where(['faith_id' => $ids])->get();
 
             if (count($eventType) > 0) {
 
