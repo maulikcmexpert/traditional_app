@@ -67,4 +67,9 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Faith::class, 'faith_id');
     }
+
+    public function bodytype()
+    {
+        return $this->belongsTo(BodyType::class, 'body_type_id');
+    }
 }
