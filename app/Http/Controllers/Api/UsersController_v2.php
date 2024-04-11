@@ -2871,7 +2871,7 @@ class UsersController_v2 extends BaseController
 
     public function FaithList()
     {
-        $faithList =  Faith::select('id', 'faith')->get();
+        $faithList =  Faith::select('id', 'faith as name')->get();
 
 
         return response()->json(["status" => true, 'message' => 'Faith', 'data' => $faithList]);
@@ -2879,7 +2879,7 @@ class UsersController_v2 extends BaseController
 
     public function CultureList()
     {
-        $cultureList =  Culture::select('id', 'culture')->get();
+        $cultureList =  Culture::select('id', 'culture as name')->get();
 
 
         return response()->json(["status" => true, 'message' => 'Culture', 'data' => $cultureList]);
@@ -2887,18 +2887,18 @@ class UsersController_v2 extends BaseController
 
     public function BodyTypeList()
     {
-        $bodyTypeList =  BodyType::select('id', 'body_type')->get();
+        $bodyTypeList =  BodyType::select('id', 'body_type as name')->get();
 
 
-        return response()->json(["status" => true, 'message' => 'Culture', 'data' => $bodyTypeList]);
+        return response()->json(["status" => true, 'message' => 'Body type', 'data' => $bodyTypeList]);
     }
 
     public function DailyActivityList()
     {
-        $dailyActivityList =  DailyActivity::select('id', 'daily_activity')->get();
+        $dailyActivityList =  DailyActivity::select('id', 'daily_activity as name')->get();
 
 
-        return response()->json(["status" => true, 'message' => 'Culture', 'data' => $dailyActivityList]);
+        return response()->json(["status" => true, 'message' => 'Daily activity', 'data' => $dailyActivityList]);
     }
 
     public function DisconnectToUser(Request $request)
