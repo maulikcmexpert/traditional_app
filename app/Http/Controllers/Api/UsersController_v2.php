@@ -22,8 +22,10 @@ use App\Models\ZodiacSign;
 use App\Models\ApproachRequest;
 use App\Models\BadWord;
 use App\Models\BlockReason;
+use App\Models\BodyType;
 use App\Models\Country;
 use App\Models\Culture;
+use App\Models\DailyActivity;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use Kreait\Laravel\Firebase\Facades\Firebase;
@@ -2881,6 +2883,22 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Culture', 'data' => $cultureList]);
+    }
+
+    public function BodyTypeList()
+    {
+        $bodyTypeList =  BodyType::select('id', 'body_type')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Culture', 'data' => $bodyTypeList]);
+    }
+
+    public function DailyActivityList()
+    {
+        $dailyActivityList =  DailyActivity::select('id', 'daily_activity')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Culture', 'data' => $dailyActivityList]);
     }
 
     public function DisconnectToUser(Request $request)
