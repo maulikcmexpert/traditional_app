@@ -332,6 +332,13 @@ tr{
     -o-transition: 0.5s;
 }
 
+table.dataTable thead > tr > th.sorting:after,
+table.dataTable thead > tr > th.sorting_asc:before,
+table.dataTable thead > tr > th.sorting:before
+{
+    right: 4px !important;
+}
+
 
 @media only screen and (max-width:768px){
     p{
