@@ -123,7 +123,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-            var hobbyId = $(this).data("id");
+            var id = $(this).data("id");
 
             event.preventDefault();
             $.ajax({
@@ -136,17 +136,12 @@
                 url: "{{route('interest_and_hobby.selectedbyuser')}}",
                 data: {
 
-                    id: hobbyId
+                    id: id
                 },
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        swal({
-                            title: `Error`,
-                            text: "User(s) belongs to deleted Interest And Hobby. can not delete Interest And Hobby",
-                            icon: "error",
-
-                        })
+                        errorAlert("Inerest And Hobby");
 
                     } else {
                         swal({
@@ -176,12 +171,8 @@
 
 
                                         } else {
-                                            swal({
-                                                title: `Error`,
-                                                text: "User(s) belongs to deleted Interest And Hobby. can not delete Interest And Hobby",
-                                                icon: "error",
+                                            errorAlert("Inerest And Hobby");
 
-                                            });
                                         }
                                     },
                                 });
