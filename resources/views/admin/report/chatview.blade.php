@@ -18,15 +18,16 @@
             </div>
             <div class="card-body">
                 @foreach($userchat as $username => $collection)
+
                 <h1>{{ $username }}</h1>
-
-                @foreach($collection as $val)
                 <ul>
+                    @foreach($collection as $val)
+
                     <li>{{$val->message}}</li>
+
+
+                    @endforeach
                 </ul>
-
-                @endforeach
-
                 @endforeach
             </div>
         </div>
