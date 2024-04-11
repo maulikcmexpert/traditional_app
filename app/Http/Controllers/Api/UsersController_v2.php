@@ -663,6 +663,7 @@ class UsersController_v2 extends BaseController
                 $data['religion_id'] = ($user->userdetail->religion_id != "") ? $user->userdetail->religion_id : "";
                 $data['religion_name'] = ($user->userdetail['religon'] != "") ? $user->userdetail['religon']->religion : "";
                 $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : "";
+                $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : "";
                 $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
                 $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
                 $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";

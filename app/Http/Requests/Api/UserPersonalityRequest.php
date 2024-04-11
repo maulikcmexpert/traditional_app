@@ -31,7 +31,7 @@ class UserPersonalityRequest extends FormRequest
             'life_styles.*' => ['integer'],
             'interest_and_hobby' => ['required', 'array'],
             'interest_and_hobby.*' => ['integer'],
-            'faith_id' => ['required', 'integer']
+            'faith_id' => ['required', 'integer'],
 
         ];
     }
