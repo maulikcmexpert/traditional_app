@@ -17,6 +17,7 @@ use App\Http\Controllers\admin\{
     ZodiacSignController,
     AnnouncementController,
     AppVersionSettingController,
+    BodyTypeController,
     CultureController,
     FaithController,
     UserReportController
@@ -46,7 +47,8 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'version_setting' => AppVersionSettingController::class,
         'report_management' => UserReportController::class,
         'faith' => FaithController::class,
-        'culture' => CultureController::class
+        'culture' => CultureController::class,
+        'body_type' => BodyTypeController::class,
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('interest_and_hobby/selected_by_user', [InterestAndHobbiesController::class, 'selectedbyuser'])->name('interest_and_hobby.selectedbyuser');
@@ -61,6 +63,9 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
 
     Route::post('culture/culture_exist', [CultureController::class, 'CultureExist'])->name('culture.exist');
     Route::post('culture/selected_by_user', [CultureController::class, 'selectedbyuser'])->name('culture.selectedbyuser');
+
+    Route::post('body_type/body_type_exist', [BodyTypeController::class, 'BodyTypeExist'])->name('body_type.exist');
+    Route::post('body_type/selected_by_user', [BodyTypeController::class, 'selectedbyuser'])->name('body_type.selectedbyuser');
 
     Route::post('curseword/curseword_exist', [CurseWordController::class, 'CursewordExist'])->name('curseword.exist');
     Route::post('blockreason/blockreason_exist', [BlockReasonController::class, 'BlockReasonExist'])->name('blockreason.exist');

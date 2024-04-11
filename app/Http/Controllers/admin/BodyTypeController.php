@@ -4,27 +4,27 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\DataTables\CultureDataTable;
+use App\DataTables\BodyTypeDataTable;
 use App\Http\Requests\{
-    PostCulture
+    PostBodyType
 };
 use App\Models\{
     UserDetail,
-    Culture
+    BodyType
 };
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
-class CultureController extends Controller
+class BodyTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(CultureDataTable $dataTable)
+    public function index(BodyTypeDataTable $dataTable)
     {
-        $page = 'admin.culture.list';
-        $title = 'Culture';
-        $js = 'admin.culture.scriptjs';
+        $page = 'admin.body_type.list';
+        $title = 'Body Type';
+        $js = 'admin.body_type.scriptjs';
 
         return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -34,9 +34,9 @@ class CultureController extends Controller
      */
     public function create()
     {
-        $page = 'admin.culture.add';
-        $title = 'Add Culture';
-        $js = 'admin.culture.scriptjs';
+        $page = 'admin.body_type.add';
+        $title = 'Add Body Type';
+        $js = 'admin.body_type.scriptjs';
 
         return view('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -44,27 +44,27 @@ class CultureController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostCulture $request)
+    public function store(PostBodyType $request)
     {
         try {
             DB::beginTransaction();
-            foreach ($request->culture as $val) {
+            foreach ($request->body_type as $val) {
 
-                $culture = new Culture();
-                $culture->culture = $val;
-                $culture->save();
+                $body_type = new BodyType();
+                $body_type->body_type = $val;
+                $body_type->save();
             }
             DB::commit();
-            toastr()->success('Culture created successfully !');
-            return redirect()->route('culture.index');
+            toastr()->success('Body Type created successfully !');
+            return redirect()->route('body_type.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('culture.create');
+            return redirect()->route('body_type.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('culture.create');
+            return redirect()->route('body_type.create');
         }
     }
 
@@ -82,10 +82,10 @@ class CultureController extends Controller
     public function edit(string $id)
     {
         $ids = decrypt($id);
-        $page = 'admin.culture.edit';
-        $title = 'Update Culture';
-        $js = 'admin.culture.scriptjs';
-        $getData = Culture::Findorfail($ids);
+        $page = 'admin.body_type.edit';
+        $title = 'Update Body Type';
+        $js = 'admin.body_type.scriptjs';
+        $getData = BodyType::Findorfail($ids);
         return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
@@ -97,20 +97,20 @@ class CultureController extends Controller
         try {
             DB::beginTransaction();
             $ids = decrypt($id);
-            $update = Culture::Findorfail($ids);
-            $update->culture = $request->culture;
+            $update = BodyType::Findorfail($ids);
+            $update->body_type = $request->body_type;
             $update->save();
             DB::commit();
-            toastr()->success('Culture updated successfully !');
-            return redirect()->route('culture.index');
+            toastr()->success('Body Type updated successfully !');
+            return redirect()->route('body_type.index');
         } catch (Exception $e) {
 
             toastr()->error("something went wrong");
-            return redirect()->route('culture.create');
+            return redirect()->route('body_type.create');
         } catch (QueryException $e) {
             DB::rollBack();
             toastr()->error($e->getMessage());
-            return redirect()->route('culture.create');
+            return redirect()->route('body_type.create');
         }
     }
 
@@ -121,7 +121,7 @@ class CultureController extends Controller
     {
         try {
             $ids = decrypt($id);
-            $delete = Culture::Findorfail($ids)->delete();
+            $delete = BodyType::Findorfail($ids)->delete();
             return response()->json(true);
         } catch (Exception $e) {
             return response()->json(false);
@@ -131,11 +131,11 @@ class CultureController extends Controller
         }
     }
 
-    public function CultureExist(Request $request)
+    public function BodyTypeExist(Request $request)
     {
         try {
 
-            $eventType = Culture::where(['culture' => $request->culture])->get();
+            $eventType = BodyType::where(['body_type' => $request->body_type])->get();
 
             if (count($eventType) > 0) {
 
@@ -178,7 +178,7 @@ class CultureController extends Controller
 
 
             $ids = decrypt($request->id);
-            $eventType = UserDetail::where(['culture_id' => $ids])->get();
+            $eventType = UserDetail::where(['body_type_id' => $ids])->get();
 
             if (count($eventType) > 0) {
 
