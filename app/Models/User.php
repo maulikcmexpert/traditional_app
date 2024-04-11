@@ -160,6 +160,8 @@ class User extends Authenticatable
     }
 
 
+
+
     // public function user_showstoppers_answers()
     // {
     //     return $this->hasMany(UserShowstoppersAnswer::class, 'user_id', 'id');

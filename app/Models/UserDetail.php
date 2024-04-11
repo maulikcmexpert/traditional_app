@@ -60,4 +60,10 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Religion::class, 'religion_id');
     }
+
+
+    public function faith()
+    {
+        return $this->belongsTo(Faith::class);
+    }
 }

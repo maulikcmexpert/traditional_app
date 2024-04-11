@@ -648,7 +648,7 @@ class UsersController_v2 extends BaseController
                 'mobile_number' => $mobile_number,
                 'email' => $email,
             ];
-            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.zodiac_sign', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang'])->where(['id' => $user_id, 'status' => 'active'])->first();
+            $user = User::with(['userdetail', 'user_profile', 'user_lifestyle', 'user_lifestyle.lifestyle', 'user_interest_and_hobby', 'user_interest_and_hobby.interest_and_hobby', 'userdetail.religon', 'userdetail.faith', 'userdetail.state', 'country', 'userdetail.organization', 'user_love_lang', 'faith'])->where(['id' => $user_id, 'status' => 'active'])->first();
 
             if ($user_id) {
                 $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
@@ -660,13 +660,14 @@ class UsersController_v2 extends BaseController
                 $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
                 $data['weight'] = ($user->userdetail->weight != "") ? $user->userdetail->weight : "";
                 $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
-                $data['religion_id'] = ($user->userdetail->religion_id != "") ? $user->userdetail->religion_id : "";
+                $data['religion_id'] = ($user->userdetail->religion_id != "") ? $user->userdetail->religion_id : 0;
                 $data['religion_name'] = ($user->userdetail['religon'] != "") ? $user->userdetail['religon']->religion : "";
-                $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : "";
-                $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : "";
+                $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : 0;
+                $data['faith_name'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith->faith : "";
+                $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : 0;
                 $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
                 $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
-                $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : "";
+                $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : 0;
                 $data['organization_name'] = ($user->userdetail->organization_id != NULL) ? $user->userdetail['organization']->full_name : "";
 
                 $data['life_style'] = [];
