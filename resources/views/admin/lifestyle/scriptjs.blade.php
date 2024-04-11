@@ -121,6 +121,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
+            var id = $(this).data("id");
 
             event.preventDefault();
 
@@ -134,7 +135,7 @@
                 url: "{{route('lifestyle.selectedbyuser')}}",
                 data: {
 
-                    id: hobbyId
+                    id: id
                 },
                 dataType: "json",
                 success: function(output) {
