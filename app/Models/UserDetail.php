@@ -72,4 +72,9 @@ class UserDetail extends Model
     {
         return $this->belongsTo(BodyType::class, 'body_type_id');
     }
+
+    public function culture()
+    {
+        return $this->belongsTo(Culture::class, 'culture_id');
+    }
 }
