@@ -22,9 +22,9 @@ class CultureController extends Controller
      */
     public function index(CultureDataTable $dataTable)
     {
-        $page = 'admin.culute.list';
+        $page = 'admin.cultute.list';
         $title = 'Culture';
-        $js = 'admin.culute.scriptjs';
+        $js = 'admin.cultute.scriptjs';
 
         return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
