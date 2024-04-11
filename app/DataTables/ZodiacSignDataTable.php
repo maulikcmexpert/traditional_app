@@ -30,7 +30,7 @@ class ZodiacSignDataTable extends DataTable
 
 
                 return '<div class="d-flex gap-2"><a class="editBtns" href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
-                <a class="deleteBtns" href="javascript:" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a>
+                <a class="deleteBtns" href="javascript:" data-id="' . $id . '" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a>
            </div>
             ';
             })

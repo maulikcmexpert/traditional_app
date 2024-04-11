@@ -9,6 +9,7 @@ use App\Http\Requests\{
     PostZodiacSign
 };
 use App\Models\{
+    UserDetail,
     ZodiacSign
 };
 use Illuminate\Database\QueryException;
@@ -153,6 +154,33 @@ class ZodiacSignController extends Controller
                         exit;
                     }
                 }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
+
+    public function selectedbyuser(Request $request)
+    {
+        try {
+
+
+            $ids = decrypt($request->id);
+            $eventType = UserDetail::where(['zodiac_sign_id' => $ids])->get();
+
+            if (count($eventType) > 0) {
 
                 $return =  false;
             } else {
