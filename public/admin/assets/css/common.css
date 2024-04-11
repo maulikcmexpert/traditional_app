@@ -311,7 +311,7 @@ table.dataTable thead th{
 .repor-img{
     height: 100px !important;
     width: 100px !important;
-    object-fit: contain;
+    /* object-fit: contain; */
 }
 
 /* .userChat ul li::marker{
