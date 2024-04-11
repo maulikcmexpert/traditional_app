@@ -46,6 +46,7 @@ use App\Models\UserReportChat;
 
 use App\Models\UserDetail;
 use App\Models\Device;
+use App\Models\EatingHabit;
 use App\Models\Exercise;
 use App\Models\Faith;
 use App\Models\FeedbackReview;
@@ -2915,6 +2916,14 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Faith', 'data' => $exersiceList]);
+    }
+
+    public function EatingHabitList()
+    {
+        $eatingHabitList =  EatingHabit::select('id', 'eating_habit as name')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Faith', 'data' => $eatingHabitList]);
     }
 
     public function CultureList()
