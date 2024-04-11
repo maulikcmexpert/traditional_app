@@ -46,6 +46,8 @@ use App\Models\UserReportChat;
 
 use App\Models\UserDetail;
 use App\Models\Device;
+use App\Models\EatingHabit;
+use App\Models\Exercise;
 use App\Models\Faith;
 use App\Models\FeedbackReview;
 use App\Models\FeedbackReviewList;
@@ -660,6 +662,8 @@ class UsersController_v2 extends BaseController
             'userdetail.faith',
             'userdetail.culture',
             'userdetail.bodytype',
+            'userdetail.exercise',
+            'userdetail.eating_habit',
             'userdetail.state',
             'country',
             'userdetail.organization',
@@ -674,6 +678,7 @@ class UsersController_v2 extends BaseController
             $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
             $data['vaccination_status'] = ($user->userdetail->vaccination_status != "") ? $user->userdetail->vaccination_status : "";
             $data['smoke_status'] = ($user->userdetail->smoke_status != "") ? $user->userdetail->smoke_status : "";
+            $data['alcohol_status'] = ($user->userdetail->alcohol_status != "") ? $user->userdetail->alcohol_status : "";
             $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
             $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
             $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
@@ -684,9 +689,13 @@ class UsersController_v2 extends BaseController
             $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : 0;
             $data['faith_name'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith->faith : "";
             $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : 0;
-            $data['body_type'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
+            $data['body_type_name'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
             $data['culture_id'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture_id : 0;
-            $data['culture'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
+            $data['culture_name'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
+            $data['exercise_id'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise_id : 0;
+            $data['exercise_name'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise->exercise : "";
+            $data['eating_habit_id'] = ($user->userdetail->eating_habit_id != "") ? $user->userdetail->eating_habit_id : 0;
+            $data['eating_habit_name'] = ($user->userdetail->eating_habit_id != "") ? $user->userdetail->eating_habit->eating_habit : "";
             $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
             $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
             $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : 0;
@@ -1146,7 +1155,7 @@ class UsersController_v2 extends BaseController
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
                     'date_of_birth' => ['required'],
-                    'zodiac_sign_id' => 'required',
+                    // 'zodiac_sign_id' => 'required',
                     // 'about_me' => 'required',
                     // 'height' => 'numeric',
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
@@ -1164,7 +1173,7 @@ class UsersController_v2 extends BaseController
 
                     'city.required' => 'Please Enter city',
                     'date_of_birth.required' => 'Please select Date Of Birth',
-                    'zodiac_sign_id.required' => 'Please select Zodiac Sign',
+                    // 'zodiac_sign_id.required' => 'Please select Zodiac Sign',
                     //'religion_id.required' => 'Please select Religion',
                     // 'about_me.required' => 'Please enter some information about yourself',
                     // 'height.required' => 'Please enter your Height',
@@ -1195,7 +1204,16 @@ class UsersController_v2 extends BaseController
             $user_detail->height = $request->height;
             $user_detail->weight = $request->weight;
             $user_detail->education = $request->education;
-            $user_detail->zodiac_sign_id = $request->zodiac_sign_id;
+            // $user_detail->zodiac_sign_id = $request->zodiac_sign_id;
+            $user_detail->faith_id  = ($request->faith_id == "" || $request->faith_id == 0) ? NULL : $request->faith_id;
+            $user_detail->body_type_id  =   ($request->body_type_id == "" || $request->body_type_id == 0) ? NULL : $request->body_type_id;
+            $user_detail->culture_id  =   ($request->culture_id == "" || $request->culture_id == 0) ? NULL : $request->culture_id;
+            $user_detail->daily_activity_id  =   ($request->daily_activity_id == "" || $request->daily_activity_id == 0) ? NULL : $request->daily_activity_id;
+            $user_detail->exercise_id   =   ($request->exercise_id == "" || $request->exercise_id == 0) ? NULL : $request->exercise_id;
+            $user_detail->eating_habit_id   =   ($request->eating_habit_id == "" || $request->eating_habit_id == 0) ? NULL : $request->eating_habit_id;
+            $user_detail->vaccination_status   = $request->vaccination_status;
+            $user_detail->alcohol_status   = $request->alcohol_status;
+            $user_detail->smoke_status   = $request->smoke_status;
             $user_detail->organization_id = ($request->organization_id == "" || $request->organization_id == 0) ? NULL : $request->organization_id;
             $user_detail->religion_id = ($request->religion_id == "" ||  $request->religion_id == 0) ? NULL : $request->religion_id;
             $user_detail->about_me = $request->about_me;
@@ -2899,6 +2917,22 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Faith', 'data' => $faithList]);
+    }
+
+    public function ExerciseList()
+    {
+        $exerciseList =  Exercise::select('id', 'exercise as name')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Exercise', 'data' => $exerciseList]);
+    }
+
+    public function EatingHabitList()
+    {
+        $eatingHabitList =  EatingHabit::select('id', 'eating_habit as name')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Eating habit', 'data' => $eatingHabitList]);
     }
 
     public function CultureList()

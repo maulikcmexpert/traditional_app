@@ -77,4 +77,13 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Culture::class, 'culture_id');
     }
+    public function exercise()
+    {
+        return $this->belongsTo(Exercise::class, 'exercise_id');
+    }
+
+    public function eating_habit()
+    {
+        return $this->belongsTo(EatingHabit::class, 'eating_habit_id');
+    }
 }

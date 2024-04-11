@@ -176,7 +176,12 @@
 
 
                                         } else {
-                                            toastr.error("Interest and hobby don't Deleted !");
+                                            swal({
+                                                title: `Error`,
+                                                text: "User(s) belongs to deleted Interest And Hobby. can not delete Interest And Hobby",
+                                                icon: "error",
+
+                                            });
                                         }
                                     },
                                 });

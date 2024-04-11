@@ -92,6 +92,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::get('culture_list', [UsersController_v2::class, 'CultureList']);
     Route::get('Body_type_list', [UsersController_v2::class, 'BodyTypeList']);
     Route::get('daily_activity_list', [UsersController_v2::class, 'DailyActivityList']);
+    Route::get('exercise_list', [UsersController_v2::class, 'ExerciseList']);
+    Route::get('eating_habit_list', [UsersController_v2::class, 'EatingHabitList']);
     Route::post('otp_verify', [UsersController_v2::class, 'otpVerify'])->name('otp_verify');
 
 
