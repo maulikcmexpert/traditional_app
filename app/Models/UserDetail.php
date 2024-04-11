@@ -77,4 +77,8 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Culture::class, 'culture_id');
     }
+    public function exercise()
+    {
+        return $this->belongsTo(Exercise::class, 'exercise_id');
+    }
 }

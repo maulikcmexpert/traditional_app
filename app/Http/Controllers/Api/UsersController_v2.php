@@ -46,6 +46,7 @@ use App\Models\UserReportChat;
 
 use App\Models\UserDetail;
 use App\Models\Device;
+use App\Models\Exercise;
 use App\Models\Faith;
 use App\Models\FeedbackReview;
 use App\Models\FeedbackReviewList;
@@ -660,6 +661,7 @@ class UsersController_v2 extends BaseController
             'userdetail.faith',
             'userdetail.culture',
             'userdetail.bodytype',
+            'userdetail.exercise',
             'userdetail.state',
             'country',
             'userdetail.organization',
@@ -687,6 +689,8 @@ class UsersController_v2 extends BaseController
             $data['body_type'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
             $data['culture_id'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture_id : 0;
             $data['culture'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
+            $data['exercise_id'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise_id : 0;
+            $data['exercise_name'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise->exercise : "";
             $data['state_name'] = ($user->userdetail['state']->state != "") ? $user->userdetail['state']->state : "";
             $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
             $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : 0;
@@ -2899,6 +2903,14 @@ class UsersController_v2 extends BaseController
 
 
         return response()->json(["status" => true, 'message' => 'Faith', 'data' => $faithList]);
+    }
+
+    public function ExersiceList()
+    {
+        $exersiceList =  Exercise::select('id', 'exersice as name')->get();
+
+
+        return response()->json(["status" => true, 'message' => 'Faith', 'data' => $exersiceList]);
     }
 
     public function CultureList()
