@@ -443,7 +443,7 @@ class UsersController_v2 extends BaseController
 
         $lifeStyles = $request->life_styles;
         $interest_and_hobby = $request->interest_and_hobby;
-        $zodiac_sign_id = $request->zodiac_sign_id;
+        $faith_id = $request->faith_id;
 
         if (isset($lifeStyles) && is_array($lifeStyles)) {
             // if exists then delete prev data //
