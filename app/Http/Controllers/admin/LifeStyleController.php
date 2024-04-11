@@ -9,7 +9,8 @@ use App\Http\Requests\{
     PostLifestyle
 };
 use App\Models\{
-    Lifestyle
+    Lifestyle,
+    UserLifestyle
 };
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -153,6 +154,33 @@ class LifeStyleController extends Controller
                         exit;
                     }
                 }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
+
+    public function selectedbyuser(Request $request)
+    {
+        try {
+
+
+            $ids = decrypt($request->id);
+            $eventType = UserLifestyle::where(['lifestyle_id' => $ids])->get();
+
+            if (count($eventType) > 0) {
 
                 $return =  false;
             } else {
