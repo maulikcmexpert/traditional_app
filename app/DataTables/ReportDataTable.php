@@ -35,7 +35,7 @@ class ReportDataTable extends DataTable
 
                     $img = asset('storage/report_media/' . $row->report_image);
                 }
-                return '<img src="' . $img . '" height="100px">';
+                return '<img src="' . $img . '" height="100px" class="repor-img" >';
             })
             ->addColumn('action', function ($row) {
 
