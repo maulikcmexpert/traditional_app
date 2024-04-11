@@ -11,7 +11,7 @@
         </nav>
     </div>
     <!-- -----header-breadcrumb-end-- -->
-    <div class="container">
+    <div class="">
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Add</h4>

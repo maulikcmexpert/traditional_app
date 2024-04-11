@@ -12,7 +12,7 @@
     <!-- -----header-breadcrumb-end-- -->
 
 
-    <div class="container">
+    <div class="">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Block Reason</h4>
