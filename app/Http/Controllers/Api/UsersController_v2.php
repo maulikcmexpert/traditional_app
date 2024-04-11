@@ -689,9 +689,9 @@ class UsersController_v2 extends BaseController
             $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : 0;
             $data['faith_name'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith->faith : "";
             $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : 0;
-            $data['body_type'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
+            $data['body_type_name'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
             $data['culture_id'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture_id : 0;
-            $data['culture'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
+            $data['culture_name'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
             $data['exercise_id'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise_id : 0;
             $data['exercise_name'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise->exercise : "";
             $data['eating_habit_id'] = ($user->userdetail->eating_habit_id != "") ? $user->userdetail->eating_habit_id : 0;
@@ -1155,7 +1155,7 @@ class UsersController_v2 extends BaseController
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
                     'date_of_birth' => ['required'],
-                    'zodiac_sign_id' => 'required',
+                    // 'zodiac_sign_id' => 'required',
                     // 'about_me' => 'required',
                     // 'height' => 'numeric',
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
@@ -1173,7 +1173,7 @@ class UsersController_v2 extends BaseController
 
                     'city.required' => 'Please Enter city',
                     'date_of_birth.required' => 'Please select Date Of Birth',
-                    'zodiac_sign_id.required' => 'Please select Zodiac Sign',
+                    // 'zodiac_sign_id.required' => 'Please select Zodiac Sign',
                     //'religion_id.required' => 'Please select Religion',
                     // 'about_me.required' => 'Please enter some information about yourself',
                     // 'height.required' => 'Please enter your Height',
