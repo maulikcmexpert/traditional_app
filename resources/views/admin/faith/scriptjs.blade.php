@@ -77,7 +77,7 @@
 
         $("#faith").validate({
             rules: {
-                zodiac_sign: {
+                faith: {
                     required: true,
                     remote: {
                         headers: {
