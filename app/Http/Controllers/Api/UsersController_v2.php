@@ -2915,7 +2915,7 @@ class UsersController_v2 extends BaseController
         $exerciseList =  Exercise::select('id', 'exercise as name')->get();
 
 
-        return response()->json(["status" => true, 'message' => 'Faith', 'data' => $exerciseList]);
+        return response()->json(["status" => true, 'message' => 'Exercise', 'data' => $exerciseList]);
     }
 
     public function EatingHabitList()
@@ -2923,7 +2923,7 @@ class UsersController_v2 extends BaseController
         $eatingHabitList =  EatingHabit::select('id', 'eating_habit as name')->get();
 
 
-        return response()->json(["status" => true, 'message' => 'Faith', 'data' => $eatingHabitList]);
+        return response()->json(["status" => true, 'message' => 'Eating habit', 'data' => $eatingHabitList]);
     }
 
     public function CultureList()
