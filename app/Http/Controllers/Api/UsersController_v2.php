@@ -797,10 +797,11 @@ class UsersController_v2 extends BaseController
             $already_friend = ApproachRequest::where(function ($query) use ($Id1, $Id2) {
                 $query->where(function ($query) use ($Id1, $Id2) {
                     $query->where('sender_id', $Id1)
-                        ->where('receiver_id', $Id2);
-                })->orWhere(function ($query) use ($Id1, $Id2) {
-                    $query->where('sender_id', $Id1)
-                        ->where('receiver_id', $Id2);
+                        ->where('receiver_id', $Id2)
+                        ->orWhere(function ($query) use ($Id1, $Id2) {
+                            $query->where('sender_id', $Id1)
+                                ->where('receiver_id', $Id2);
+                        });
                 });
             })
                 ->where('status', 'accepted')
