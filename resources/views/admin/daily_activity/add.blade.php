@@ -57,7 +57,7 @@
     <div class="col-xl-6 mb-2">
         <div class="d-flex align-items-end gap-2">
             <div class="w-100 position-relative">
-                <label class="form-label">Body Type</label>
+                <label class="form-label">Daily Activity</label>
                 <input type="text" class="form-control daily_activity" name="daily_activity[]" />
 
                 <span class="text-danger"> @if($errors->has('daily_activity*.')){{ $errors->first('daily_activity*.') }} @endif</span>
