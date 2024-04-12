@@ -121,8 +121,14 @@ class CultureController extends Controller
     {
         try {
             $ids = decrypt($id);
-            $delete = Culture::Findorfail($ids)->delete();
-            return response()->json(true);
+            $checkSelected = UserDetail::where(['culture_id' => $ids])->count();
+            if ($checkSelected == 0) {
+
+                $delete = Culture::Findorfail($ids)->delete();
+                return response()->json(true);
+            } else {
+                return response()->json(false);
+            }
         } catch (Exception $e) {
             return response()->json(false);
         } catch (QueryException $e) {
