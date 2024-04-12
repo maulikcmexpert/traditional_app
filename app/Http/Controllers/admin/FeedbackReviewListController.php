@@ -178,7 +178,7 @@ class FeedbackReviewListController extends Controller
 
 
             $ids = decrypt($request->id);
-
+            dd($ids);
             $eventType = FeedbackReview::pluck('feedback_review_id')->toArray();
 
             $mergedArray = [];
