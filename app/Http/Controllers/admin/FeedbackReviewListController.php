@@ -188,19 +188,10 @@ class FeedbackReviewListController extends Controller
             }
 
             $uniqueValues = array_unique($mergedArray);
+            $finalVal = array_values($uniqueValues);
 
 
-            dd($uniqueValues);
-            // Remove digits that occur only once
-            $uniqueDigits = array_filter($occurrences, function ($value) {
-                return $value > 1;
-            });
-
-            // Extract the keys (digits)
-            $uniqueDigits = array_keys($uniqueDigits);
-
-
-            if (count($eventType) > 0) {
+            if (in_array($ids, $finalVal)) {
 
                 $return =  false;
             } else {
