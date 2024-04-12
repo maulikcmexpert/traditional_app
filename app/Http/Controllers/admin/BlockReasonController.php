@@ -9,7 +9,8 @@ use App\Http\Requests\{
     PostBlockReason
 };
 use App\Models\{
-    BlockReason
+    BlockReason,
+    ProfileBlock
 };
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -150,6 +151,34 @@ class BlockReasonController extends Controller
                         exit;
                     }
                 }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
+
+
+    public function selectedbyuser(Request $request)
+    {
+        try {
+
+
+            $ids = decrypt($request->id);
+            $eventType = ProfileBlock::where(['block_reason_id' => $ids])->get();
+
+            if (count($eventType) > 0) {
 
                 $return =  false;
             } else {
