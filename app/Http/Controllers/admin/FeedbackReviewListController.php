@@ -180,7 +180,7 @@ class FeedbackReviewListController extends Controller
             $ids = decrypt($request->id);
 
             $eventType = FeedbackReview::pluck('feedback_review_id')->toArray();
-            dd($eventType);
+            dd(json_decode($eventType));
             if (count($eventType) > 0) {
 
                 $return =  false;
