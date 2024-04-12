@@ -805,8 +805,8 @@ class UsersController_v2 extends BaseController
                 ->where('status', 'accepted')
                 ->orderBy('id', 'DESC')
                 ->first();
-            dd($already_friend);
-            if ($already_friend == 0) {
+
+            if ($already_friend == null) {
 
                 $ProfileSeenUser = new ProfileSeenUser();
                 $ProfileSeenUser->profile_id = $user_id;
