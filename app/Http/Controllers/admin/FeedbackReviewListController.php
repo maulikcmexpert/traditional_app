@@ -190,7 +190,8 @@ class FeedbackReviewListController extends Controller
             $uniqueValues = array_unique($mergedArray);
             $finalVal = array_values($uniqueValues);
 
-            dd($ids, ' =', $finalVal);
+            echo  $ids;
+            dd($finalVal);
             if (in_array($ids, $finalVal)) {
 
                 $return =  false;
