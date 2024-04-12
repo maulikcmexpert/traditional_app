@@ -51,12 +51,9 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                         <div class="text-center"><input type="submit" id="add" class="btn btn-primary submitButton" value="Change Password"></div>
-
                     </form>
                     <!--end row-->
                 </div>

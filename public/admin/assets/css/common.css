@@ -235,7 +235,7 @@ table.dataTable thead th{
     text-align: center !important;
     font-size: 14px !important;
     line-height: 22px !important;
-    color: #6c6969 !important;
+    color: #000000 !important;
 }
 
 .swal-title{
@@ -267,7 +267,7 @@ table.dataTable thead th{
 
 .userChat{
     /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -278,6 +278,7 @@ table.dataTable thead th{
     max-height: 400px;
     overflow-y: scroll;
     min-height: 400px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .userChat::-webkit-scrollbar-track
@@ -307,11 +308,17 @@ table.dataTable thead th{
     font-size: 20px;
     color: #3f3e3e;
     text-transform: capitalize;
+    padding: 9px;
+    margin-bottom: 14px;
+    border: 1px solid #9b9999 !important;
 }
 
 .userChat ul li{
-    list-style-type: circle;
+    background-color: #3c67d90f;
     list-style-position: inside !important;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 2px;
 }
 
 .repor-img{
@@ -339,6 +346,10 @@ table.dataTable thead > tr > th.sorting:before
     right: 4px !important;
 }
 
+.position-relative .text-danger{
+    position: absolute;
+    bottom: 0;
+}
 
 @media only screen and (max-width:768px){
     p{

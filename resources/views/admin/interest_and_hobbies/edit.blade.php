@@ -28,10 +28,10 @@
                         @method('PUT')
                         <div class="form-group">
                             <div class="row gy-4 align-items-end">
-                                <div class="col-xxl-6 col-md-6">
+                                <div class="col-xxl-6 col-md-6 position-relative">
                                     <label class="form-label">Interest and hobbies</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control interest_and_hobby_id" name="id" />
-                                    <input type="text" value="{{$getData->interest_and_hobby}}" class="form-control interest_and_hobby" name="interest_and_hobby" />
+                                    <input type="text" value="{{$getData->interest_and_hobby}}" class="form-control interest_and_hobby " name="interest_and_hobby" />
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="col-xxl-2">
