@@ -322,7 +322,7 @@ class UsersController_v2 extends BaseController
                 // if ($profileVerify == false && $user_profile != null) {
                 //     $step = "verify_user";
                 // }
-                if ($user_lifeStyle == false && $profileVerify == true) {
+                if ($user_lifeStyle == false) {
                     $step = "Zodiac";
                 }
 
