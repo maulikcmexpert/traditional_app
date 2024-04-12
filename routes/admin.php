@@ -19,6 +19,7 @@ use App\Http\Controllers\admin\{
     AppVersionSettingController,
     BodyTypeController,
     CultureController,
+    DailyActivityController,
     FaithController,
     UserReportController
 };
@@ -49,6 +50,7 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'faith' => FaithController::class,
         'culture' => CultureController::class,
         'body_type' => BodyTypeController::class,
+        'daily_activity' => DailyActivityController::class
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('interest_and_hobby/selected_by_user', [InterestAndHobbiesController::class, 'selectedbyuser'])->name('interest_and_hobby.selectedbyuser');
@@ -66,6 +68,9 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
 
     Route::post('body_type/body_type_exist', [BodyTypeController::class, 'BodyTypeExist'])->name('body_type.exist');
     Route::post('body_type/selected_by_user', [BodyTypeController::class, 'selectedbyuser'])->name('body_type.selectedbyuser');
+
+    Route::post('daily_activity/daily_activity_exist', [DailyActivityController::class, 'BodyTypeExist'])->name('daily_activity.exist');
+    Route::post('daily_activity/selected_by_user', [DailyActivityController::class, 'selectedbyuser'])->name('daily_activity.selectedbyuser');
 
     Route::post('curseword/curseword_exist', [CurseWordController::class, 'CursewordExist'])->name('curseword.exist');
     Route::post('blockreason/blockreason_exist', [BlockReasonController::class, 'BlockReasonExist'])->name('blockreason.exist');

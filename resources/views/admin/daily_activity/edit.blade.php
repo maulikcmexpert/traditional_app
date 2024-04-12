@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('body_type.index')}}">Body Type</a></li>
+                <li class="breadcrumb-item"><a href="{{route('daily_activity.index')}}">Daily Activity</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit</li>
             </ol>
         </nav>
@@ -22,15 +22,15 @@
             <!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
-                    <form method="POST" id="body_type" action="{{ route('body_type.update',encrypt($getData->id))}}">
+                    <form method="POST" id="daily_activity" action="{{ route('daily_activity.update',encrypt($getData->id))}}">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
                             <div class="row gy-4 align-items-end">
                                 <div class="col-xxl-6 col-md-6">
-                                    <label class="form-label">Body Type</label>
+                                    <label class="form-label">Daily Activity</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control zodiacsign_id" name="id" />
-                                    <input type="text" value="{{$getData->body_type}}" class="form-control body_type" name="body_type" />
+                                    <input type="text" value="{{$getData->daily_activity}}" class="form-control daily_activity" name="daily_activity" />
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="col-xxl-2 col-md-2">
