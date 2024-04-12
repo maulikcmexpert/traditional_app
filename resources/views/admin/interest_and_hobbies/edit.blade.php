@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('interest_and_hobby.index')}}">Interest and hobbies</a></li>
+                <li class="breadcrumb-item"><a href="{{route('interest_and_hobby.index')}}">Interest And Hobby</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit</li>
             </ol>
         </nav>
@@ -13,7 +13,7 @@
     <!-- -----header-breadcrumb-end-- -->
 
 
-    
+
     <div class="">
         <div class="card">
             <div class="card-header align-items-center d-flex">
@@ -29,13 +29,13 @@
                         <div class="form-group">
                             <div class="row gy-4 align-items-end">
                                 <div class="col-xxl-6 col-md-6">
-                                    <label class="form-label">Interest and hobbies</label>
+                                    <label class="form-label">Interest And Hobby</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control interest_and_hobby_id" name="id" />
                                     <input type="text" value="{{$getData->interest_and_hobby}}" class="form-control interest_and_hobby" name="interest_and_hobby" />
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="col-xxl-2">
-                                    <input type="button"  id="edit" class="btn btn-primary" value="Update">
+                                    <input type="button" id="edit" class="btn btn-primary" value="Update">
                                 </div>
                             </div>
 
@@ -48,6 +48,6 @@
             </div>
         </div>
     </div>
-    
+
 
 </div>
