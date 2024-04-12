@@ -22,7 +22,7 @@ class PostEatingHabit extends FormRequest
     public function rules(): array
     {
         return [
-            'eating_habit.*' => ['required', 'string', 'max:255', 'unique:	eating_habits,eating_habit'],
+            'eating_habit.*' => ['required', 'string', 'max:255', 'unique:eating_habits,eating_habit'],
         ];
     }
 }
