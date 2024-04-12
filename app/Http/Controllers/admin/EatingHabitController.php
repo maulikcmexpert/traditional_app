@@ -46,7 +46,26 @@ class EatingHabitController extends Controller
      */
     public function store(PostEatingHabit $request)
     {
-        dd($request);
+        try {
+            DB::beginTransaction();
+            foreach ($request->eating_habit as $val) {
+
+                $eating_habit = new EatingHabit();
+                $eating_habit->eating_habit = $val;
+                $eating_habit->save();
+            }
+            DB::commit();
+            toastr()->success('Eating Habit created successfully !');
+            return redirect()->route('eating_habit.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('eating_habit.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('eating_habit.create');
+        }
     }
 
     /**
@@ -62,7 +81,12 @@ class EatingHabitController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ids = decrypt($id);
+        $page = 'admin.eating_habit.edit';
+        $title = 'Update Eating Habit';
+        $js = 'admin.eating_habit.scriptjs';
+        $getData = EatingHabit::Findorfail($ids);
+        return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
 
     /**
@@ -70,7 +94,24 @@ class EatingHabitController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $ids = decrypt($id);
+            $update = EatingHabit::Findorfail($ids);
+            $update->eating_habit = $request->eating_habit;
+            $update->save();
+            DB::commit();
+            toastr()->success('Eating Habit updated successfully !');
+            return redirect()->route('eating_habit.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('eating_habit.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('eating_habit.create');
+        }
     }
 
     /**
@@ -78,7 +119,16 @@ class EatingHabitController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = EatingHabit::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
     }
 
     public function EatingHabitExist(Request $request)
