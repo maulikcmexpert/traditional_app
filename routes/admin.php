@@ -69,7 +69,7 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
     Route::post('body_type/body_type_exist', [BodyTypeController::class, 'BodyTypeExist'])->name('body_type.exist');
     Route::post('body_type/selected_by_user', [BodyTypeController::class, 'selectedbyuser'])->name('body_type.selectedbyuser');
 
-    Route::post('daily_activity/daily_activity_exist', [DailyActivityController::class, 'BodyTypeExist'])->name('daily_activity.exist');
+    Route::post('daily_activity/daily_activity_exist', [DailyActivityController::class, 'DailyActivityExist'])->name('daily_activity.exist');
     Route::post('daily_activity/selected_by_user', [DailyActivityController::class, 'selectedbyuser'])->name('daily_activity.selectedbyuser');
 
     Route::post('curseword/curseword_exist', [CurseWordController::class, 'CursewordExist'])->name('curseword.exist');
