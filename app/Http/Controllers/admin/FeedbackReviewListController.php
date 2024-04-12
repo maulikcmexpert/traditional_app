@@ -9,6 +9,7 @@ use App\Http\Requests\{
     PostFeedbackReviewList
 };
 use App\Models\{
+    FeedbackReview,
     FeedbackReviewList
 };
 use Illuminate\Database\QueryException;
@@ -153,6 +154,34 @@ class FeedbackReviewListController extends Controller
                         exit;
                     }
                 }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
+
+    public function selectedbyuser(Request $request)
+    {
+        try {
+
+
+            $ids = decrypt($request->id);
+
+            $eventType = FeedbackReview::where(['faith_id' => $ids])->get();
+
+            if (count($eventType) > 0) {
 
                 $return =  false;
             } else {

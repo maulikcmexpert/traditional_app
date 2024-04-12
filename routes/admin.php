@@ -88,7 +88,10 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
     Route::post('blockreason/selected_by_user', [BlockReasonController::class, 'selectedbyuser'])->name('blockreason.selectedbyuser');
 
     Route::post('verificationobject/verificationobject_exist', [VerificationObjectController::class, 'VerificationObjectExist'])->name('verificationobject.exist');
+
     Route::post('feedbackreviewlist/feedbackreviewlist_exist', [FeedbackReviewListController::class, 'FeedbackReviewListExist'])->name('feedbackreviewlist.exist');
+    Route::post('feedbackreviewlist/selected_by_user', [FeedbackReviewListController::class, 'selectedbyuser'])->name('feedbackreviewlist.selectedbyuser');
+
     Route::post('leavereason/leavereason_exist', [LeaveReasonController::class, 'LeaveReasonExist'])->name('leavereason.exist');
     Route::post('religion/religion_exist', [ReligionController::class, 'ReligionExist'])->name('religion.exist');
     Route::post('sizeoforganization/sizeoforganization_exist', [SizeOfOrganizationController::class, 'SizeOfOrganizationExist'])->name('sizeoforganization.exist');

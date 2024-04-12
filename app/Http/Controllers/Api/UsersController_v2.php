@@ -814,8 +814,8 @@ class UsersController_v2 extends BaseController
                 $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
                 $data['weight'] = ($user->userdetail->weight != "") ? $user->userdetail->weight : "";
                 $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
-                $data['religion'] = ($user->userdetail->religon != "") ? $user->userdetail->religon->religion : "";
-                $data['zodiac_sign'] = ($user->userdetail->zodiac_sign->zodiac_sign != "") ? $user->userdetail->zodiac_sign->zodiac_sign : "";
+                // $data['religion'] = ($user->userdetail->religon != "") ? $user->userdetail->religon->religion : "";
+                // $data['zodiac_sign'] = ($user->userdetail->zodiac_sign->zodiac_sign != "") ? $user->userdetail->zodiac_sign->zodiac_sign : "";
                 $data['state'] = ($user->userdetail->state->state != "") ? $user->userdetail->state->state : "";
                 $data['city'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
                 $data['country'] = ($user->country->country != null) ? $user->country->country : "";
