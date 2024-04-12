@@ -793,6 +793,7 @@ class UsersController_v2 extends BaseController
         if ($isRefresh == false) {
             $Id1 = $this->user->id;
             $Id2 = $user_id;
+            dd($Id1, $Id2);
             $already_friend = ApproachRequest::where(function ($query) use ($Id1, $Id2) {
                 $query->where(function ($query) use ($Id1, $Id2) {
                     $query->where('sender_id', $Id1)
