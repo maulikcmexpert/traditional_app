@@ -21,6 +21,7 @@ use App\Http\Controllers\admin\{
     CultureController,
     DailyActivityController,
     EatingHabitController,
+    ExerciseController,
     FaithController,
     UserReportController
 };
@@ -53,6 +54,7 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'body_type' => BodyTypeController::class,
         'daily_activity' => DailyActivityController::class,
         'eating_habit' => EatingHabitController::class,
+        'exercise' => ExerciseController::class,
     ]);
     Route::post('interest_and_hobby/interest_and_hobby_exist', [InterestAndHobbiesController::class, 'interestAndHobbyExist'])->name('interest_and_hobby.exist');
     Route::post('interest_and_hobby/selected_by_user', [InterestAndHobbiesController::class, 'selectedbyuser'])->name('interest_and_hobby.selectedbyuser');
@@ -76,6 +78,9 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
 
     Route::post('eating_habit/eating_habit_exist', [EatingHabitController::class, 'EatingHabitExist'])->name('eating_habit.exist');
     Route::post('eating_habit/selected_by_user', [EatingHabitController::class, 'selectedbyuser'])->name('eating_habit.selectedbyuser');
+
+    Route::post('exercise/exercise_exist', [ExerciseController::class, 'ExerciseExist'])->name('exercise.exist');
+    Route::post('exercise/selected_by_user', [ExerciseController::class, 'selectedbyuser'])->name('exercise.selectedbyuser');
 
     Route::post('curseword/curseword_exist', [CurseWordController::class, 'CursewordExist'])->name('curseword.exist');
     Route::post('blockreason/blockreason_exist', [BlockReasonController::class, 'BlockReasonExist'])->name('blockreason.exist');
