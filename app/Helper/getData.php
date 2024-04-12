@@ -563,7 +563,7 @@ function is_ghost($userId)
 
 function isVerify($userId)
 {
-    $checkIsVerify = ProfileVerify::where('user_id', $userId)->exist();
+    $checkIsVerify = ProfileVerify::where('user_id', $userId)->exists();
     dd($checkIsVerify);
 }
 
