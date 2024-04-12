@@ -186,8 +186,10 @@ class FeedbackReviewListController extends Controller
                 $ids = json_decode($element, true); // Decode to array
                 $mergedArray = array_merge($mergedArray, $ids); // Merge arrays
             }
-            dd($mergedArray);
-            $occurrences = array_count_values($mergedArray);
+
+            $uniqueValues = array_unique($mergedArray);
+
+            $occurrences = array_count_values($uniqueValues);
             dd($occurrences);
             // Remove digits that occur only once
             $uniqueDigits = array_filter($occurrences, function ($value) {
