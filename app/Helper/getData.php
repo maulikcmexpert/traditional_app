@@ -548,7 +548,7 @@ function is_ghost($userId)
     $collection = collect($getData);
     $ghost_count = $ghostSetting->ghost_count;
     // Check if there's any element greater than 10
-    dd($collection);
+    dd($ghost_count);
     $isBigDigitAvailable = $collection->contains(function ($value, $key) use ($ghost_count) {
         return $value > $ghost_count;
     });
