@@ -176,7 +176,7 @@ class SizeOfOrganizationController extends Controller
 
 
             $ids = decrypt($request->id);
-            $eventType = OrganizationDetail::where(['organization_id' => $ids])->get();
+            $eventType = OrganizationDetail::where(['size_of_organization_id' => $ids])->get();
 
             if (count($eventType) > 0) {
 
