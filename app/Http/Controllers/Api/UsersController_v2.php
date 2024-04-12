@@ -273,99 +273,100 @@ class UsersController_v2 extends BaseController
         $otp = $request->otp;
         $mobile_number = $request->mobile_number;
 
-        // try {
-        DB::beginTransaction();
-        $user = User::with('user_profile')->where('mobile_number', $mobile_number)
-            ->where('otp', $otp)
-            ->first();
+        try {
+            DB::beginTransaction();
+            $user = User::with('user_profile')->where('mobile_number', $mobile_number)
+                ->where('otp', $otp)
+                ->first();
 
-        if (!$user) {
-            return response()->json(['status' => false, 'message' => 'Invalid OTP']);
-        }
-        $givenDatetime = $user->updated_at;
+            if (!$user) {
+                return response()->json(['status' => false, 'message' => 'Invalid OTP']);
+            }
+            $givenDatetime = $user->updated_at;
 
-        $expirationDatetime = Carbon::parse($givenDatetime);
+            $expirationDatetime = Carbon::parse($givenDatetime);
 
 
-        $expirationDatetime->addSeconds(30);
+            $expirationDatetime->addSeconds(30);
 
-        $currentDatetime = Carbon::now();
-        if ($currentDatetime->gt($expirationDatetime)) {
-            $user->otp = '';
+            $currentDatetime = Carbon::now();
+            if ($currentDatetime->gt($expirationDatetime)) {
+                $user->otp = '';
+                $user->save();
+                return response()->json(["status" => false, 'message' => 'OTP has expired']);
+            }
+            $user->is_verified = '1';
             $user->save();
-            return response()->json(["status" => false, 'message' => 'OTP has expired']);
-        }
-        $user->is_verified = '1';
-        $user->save();
-        $this->userDevice($user->id, $request);
-        $token = Token::where('user_id', $user->id)->first();
+            $this->userDevice($user->id, $request);
+            $token = Token::where('user_id', $user->id)->first();
 
-        if ($token) {
-            $token->delete();
-        }
-
-        Auth::login($user);
-
-        $token = Auth::user()->createToken('API Token')->accessToken;
-        $step = "Home";
-
-        if ($user->user_type == 'user') {
-            $user_profile = UserProfile::where(['user_id' => $user->id, 'is_default' => '1'])->first();
-            $user_lifeStyle = UserLifestyle::where('user_id', $user->id)->exists();
-            $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
-            $profileVerify = ProfileVerify::where('user_id', $user->id)->exists();
-
-            if ($user_profile == null) {
-                $step = "Profile";
+            if ($token) {
+                $token->delete();
             }
 
-            // if ($profileVerify == false && $user_profile != null) {
-            //     $step = "verify_user";
-            // }
-            if ($user_lifeStyle == false && $profileVerify == true) {
-                $step = "Zodiac";
-            }
+            Auth::login($user);
 
-            if ($userLoveLangrate == false && $user_lifeStyle == true && $user_profile != null) {
-                $step = "Rate";
-            }
+            $token = Auth::user()->createToken('API Token')->accessToken;
+            $step = "Home";
 
-            $response = [
-                'status' => true,
-                'message' => __('messages.otp_verify'),
-                'access_token' => $token,
-                'name' => $user->full_name,
-                'profile' => ($user_profile != null) ? asset('public/storage/profile/' . $user_profile->profile) : "",
-                'gender' => $user->userdetail->gender,
-                'user_type' => $user->user_type,
-                'user_id' => $user->id,
-                'step' => $step,
-            ];
-        } elseif ($user->user_type == 'organization') {
-            $user_profile = UserProfile::where(['user_id' => $user->id, 'is_default' => '1'])->first();
-            $response = [
-                'status' => true,
-                'message' => __('messages.otp_verify'),
-                'access_token' => $token,
-                'name' => $user->full_name,
-                'profile' => ($user_profile != null) ? asset('public/storage/profile/' . $user_profile->profile) : "",
-                'user_type' => $user->user_type,
-                'user_id' => $user->id,
-                'step' => $step,
-            ];
+            if ($user->user_type == 'user') {
+                $user_profile = UserProfile::where(['user_id' => $user->id, 'is_default' => '1'])->first();
+                $user_lifeStyle = UserLifestyle::where('user_id', $user->id)->exists();
+                $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
+                $profileVerify = ProfileVerify::where('user_id', $user->id)->exists();
+
+                if ($user_profile == null) {
+                    $step = "Profile";
+                }
+
+                // if ($profileVerify == false && $user_profile != null) {
+                //     $step = "verify_user";
+                // }
+                if ($user_lifeStyle == false && $profileVerify == true) {
+                    $step = "Zodiac";
+                }
+
+                if ($userLoveLangrate == false && $user_lifeStyle == true && $user_profile != null) {
+                    $step = "Rate";
+                }
+
+                $response = [
+                    'status' => true,
+                    'message' => __('messages.otp_verify'),
+                    'access_token' => $token,
+                    'name' => $user->full_name,
+                    'profile' => ($user_profile != null) ? asset('public/storage/profile/' . $user_profile->profile) : "",
+                    'gender' => $user->userdetail->gender,
+                    'user_type' => $user->user_type,
+                    'user_id' => $user->id,
+                    'is_verify' => isVerify($user->id),
+                    'step' => $step,
+                ];
+            } elseif ($user->user_type == 'organization') {
+                $user_profile = UserProfile::where(['user_id' => $user->id, 'is_default' => '1'])->first();
+                $response = [
+                    'status' => true,
+                    'message' => __('messages.otp_verify'),
+                    'access_token' => $token,
+                    'name' => $user->full_name,
+                    'profile' => ($user_profile != null) ? asset('public/storage/profile/' . $user_profile->profile) : "",
+                    'user_type' => $user->user_type,
+                    'user_id' => $user->id,
+                    'step' => $step,
+                ];
+            }
+            DB::commit();
+            return response()->json($response);
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+
+
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
-        DB::commit();
-        return response()->json($response);
-        // } catch (QueryException $e) {
-
-        //     DB::rollBack();
-
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-
-
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
     }
 
     public function storeProfile(StoreProfileRequest $request)
@@ -523,7 +524,7 @@ class UsersController_v2 extends BaseController
             DB::commit();
 
 
-            return response()->json(["status" => true, 'message' => 'Love language rates are updated', 'profile' => getProfile($this->user->id)]);
+            return response()->json(["status" => true, 'message' => 'Love language rates are updated', 'profile' => getProfile($this->user->id), 'is_verify' => isVerify($this->user->id)]);
         } catch (QueryException $e) {
 
             DB::rollBack();
