@@ -183,8 +183,8 @@ class FeedbackReviewListController extends Controller
 
             $mergedArray = [];
             foreach ($eventType as $element) {
-                $ids = json_decode($element, true); // Decode to array
-                $mergedArray = array_merge($mergedArray, $ids); // Merge arrays
+                $reviewids = json_decode($element, true); // Decode to array
+                $mergedArray = array_merge($mergedArray, $reviewids); // Merge arrays
             }
 
             $uniqueValues = array_unique($mergedArray);
