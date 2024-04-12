@@ -314,7 +314,7 @@ class UsersController_v2 extends BaseController
                 $user_lifeStyle = UserLifestyle::where('user_id', $user->id)->exists();
                 $userLoveLangrate = UserLoveLang::where('user_id', $user->id)->exists();
                 $profileVerify = ProfileVerify::where('user_id', $user->id)->exists();
-                dd($user_profile);
+                // dd($user_profile);
                 if ($user_profile == null) {
                     $step = "Profile";
                 }
@@ -322,7 +322,7 @@ class UsersController_v2 extends BaseController
                 // if ($profileVerify == false && $user_profile != null) {
                 //     $step = "verify_user";
                 // }
-                if ($user_lifeStyle == false) {
+                if ($user_lifeStyle == false && $user_profile != null) {
                     $step = "Zodiac";
                 }
 
