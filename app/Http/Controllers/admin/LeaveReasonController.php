@@ -9,6 +9,7 @@ use App\Http\Requests\{
     PostLeaveReason
 };
 use App\Models\{
+    ApproachRequest,
     LeaveReason
 };
 use Illuminate\Database\QueryException;
@@ -151,6 +152,33 @@ class LeaveReasonController extends Controller
                         exit;
                     }
                 }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
+
+    public function selectedbyuser(Request $request)
+    {
+        try {
+
+
+            $ids = decrypt($request->id);
+            $eventType = ApproachRequest::where(['leave_reason_id' => $ids])->get();
+
+            if (count($eventType) > 0) {
 
                 $return =  false;
             } else {

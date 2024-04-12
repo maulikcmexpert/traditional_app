@@ -93,6 +93,8 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
     Route::post('feedbackreviewlist/selected_by_user', [FeedbackReviewListController::class, 'selectedbyuser'])->name('feedbackreviewlist.selectedbyuser');
 
     Route::post('leavereason/leavereason_exist', [LeaveReasonController::class, 'LeaveReasonExist'])->name('leavereason.exist');
+    Route::post('leavereason/selected_by_user', [LeaveReasonController::class, 'selectedbyuser'])->name('leavereason.selectedbyuser');
+
     Route::post('religion/religion_exist', [ReligionController::class, 'ReligionExist'])->name('religion.exist');
     Route::post('sizeoforganization/sizeoforganization_exist', [SizeOfOrganizationController::class, 'SizeOfOrganizationExist'])->name('sizeoforganization.exist');
 });
