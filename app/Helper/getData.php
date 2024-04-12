@@ -437,6 +437,10 @@ function getSearchUser($filter, $page, $user_id)
                     $getLoginUser = User::with('userdetail')->where('id', $user_id)->first();
                     $LoginUserAge = calculateAge($getLoginUser->userdetail->date_of_birth, date('Y-m-d'));
                     $LoginUserHeight = $getLoginUser->userdetail->height;
+                    if ($getLoginUser->userdetail->height_type == 'feet') {
+                        $LoginUserHeight = $LoginUserHeight * 30.48;
+                    }
+
                     $LoginUserWeight = $getLoginUser->userdetail->weight;
                     $LoginUser_religion_id = (isNotNullOrBlank($getLoginUser->userdetail->religion_id)) ? $getLoginUser->userdetail->religion_id : 0;
 

@@ -1654,6 +1654,9 @@ class UsersController_v2 extends BaseController
 
                 $maleAge = calculateAge($this->user->userdetail->date_of_birth, date('Y-m-d'));
                 $maleHeight = $this->user->userdetail->height;
+                if ($this->user->userdetail->height_type == 'feet') {
+                    $maleHeight = $maleHeight * 30.48;
+                }
                 $maleWeight = $this->user->userdetail->weight;
                 $male_religion_id = (isNotNullOrBlank($this->user->userdetail->religion_id)) ? $this->user->userdetail->religion_id : 0;
                 if ($approachPreferences != null) {
