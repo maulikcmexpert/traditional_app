@@ -791,6 +791,27 @@ class UsersController_v2 extends BaseController
         // check user blocked //
         $isRefresh = (!isset($request->refresh)) ? false : $request->refresh;
         if ($isRefresh == false) {
+            $Id1 = $this->user->id;
+            $Id2 = $user_id;
+            $already_friend = ApproachRequest::where(function ($query) use ($Id1, $Id2) {
+                $query->where(function ($query) use ($Id1, $Id2) {
+                    $query->where('sender_id', $Id1)
+                        ->where('receiver_id', $Id2);
+                })->orWhere(function ($query) use ($Id1, $Id2) {
+                    $query->where('sender_id', $Id1)
+                        ->where('receiver_id', $Id2);
+                });
+            })
+                ->where('status', 'accepted')
+                ->orderBy('id', 'DESC')
+                ->count();
+            if ($already_friend == 0) {
+
+                $ProfileSeenUser = new ProfileSeenUser();
+                $ProfileSeenUser->profile_id = $user_id;
+                $ProfileSeenUser->profile_viewer_id = $this->user->id;
+                $ProfileSeenUser->save();
+            }
         }
 
 
