@@ -176,7 +176,7 @@ class LeaveReasonController extends Controller
 
 
             $ids = decrypt($request->id);
-            $eventType = ApproachRequest::where(['leave_reason_id' => $ids])->withTrashed->get();
+            $eventType = ApproachRequest::where(['leave_reason_id' => $ids])->onlyTrashed->get();
             dd($eventType);
             if (count($eventType) > 0) {
 
