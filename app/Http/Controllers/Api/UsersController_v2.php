@@ -1594,14 +1594,16 @@ class UsersController_v2 extends BaseController
             $longitude = $userLog;
         }
 
-
         $femaleDataArray = [];
-        foreach ($data['female'] as $keyId => $val) {
+        if (isset($data['female'])) {
 
-            $distance = distanceCalculation($latitude, $longitude, $val['latitude'], $val['longitude']);
+            foreach ($data['female'] as $keyId => $val) {
 
-            if ($distance <= 5) {
-                $femaleDataArray[] = $keyId;
+                $distance = distanceCalculation($latitude, $longitude, $val['latitude'], $val['longitude']);
+
+                if ($distance <= 5) {
+                    $femaleDataArray[] = $keyId;
+                }
             }
         }
 
