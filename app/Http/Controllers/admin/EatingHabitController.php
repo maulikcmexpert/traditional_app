@@ -36,7 +36,7 @@ class EatingHabitController extends Controller
     {
         $page = 'admin.eating_habit.add';
         $title = 'Add Eating Habit';
-        // $js = 'admin.daily_activity.scriptjs';
+        $js = 'admin.daily_activity.scriptjs';
 
         return view('layouts.layout', compact('page', 'title'));
     }
