@@ -178,7 +178,7 @@ class FeedbackReviewListController extends Controller
 
 
             $ids = decrypt($request->id);
-            dd($ids);
+
             $eventType = FeedbackReview::pluck('feedback_review_id')->toArray();
 
             $mergedArray = [];
@@ -190,7 +190,7 @@ class FeedbackReviewListController extends Controller
             $uniqueValues = array_unique($mergedArray);
             $finalVal = array_values($uniqueValues);
 
-
+            dd($ids, ' =', $finalVal);
             if (in_array($ids, $finalVal)) {
 
                 $return =  false;
