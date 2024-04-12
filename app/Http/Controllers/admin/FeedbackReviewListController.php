@@ -189,8 +189,8 @@ class FeedbackReviewListController extends Controller
 
             $uniqueValues = array_unique($mergedArray);
 
-            $occurrences = array_count_values($uniqueValues);
-            dd($occurrences);
+
+            dd($uniqueValues);
             // Remove digits that occur only once
             $uniqueDigits = array_filter($occurrences, function ($value) {
                 return $value > 1;
