@@ -9,7 +9,8 @@ use App\Http\Requests\{
     PostReligion
 };
 use App\Models\{
-    Religion
+    Religion,
+    UserDetail
 };
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -151,6 +152,34 @@ class ReligionController extends Controller
                         exit;
                     }
                 }
+
+                $return =  false;
+            } else {
+
+                $return = true;
+            }
+
+            echo json_encode($return);
+
+            exit;
+        } catch (QueryException $e) {
+
+            DB::rollBack();
+
+            return response()->json(false);
+        }
+    }
+
+
+    public function selectedbyuser(Request $request)
+    {
+        try {
+
+
+            $ids = decrypt($request->id);
+            $eventType = UserDetail::where(['religion_id' => $ids])->get();
+
+            if (count($eventType) > 0) {
 
                 $return =  false;
             } else {

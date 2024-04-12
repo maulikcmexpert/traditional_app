@@ -96,5 +96,8 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
     Route::post('leavereason/selected_by_user', [LeaveReasonController::class, 'selectedbyuser'])->name('leavereason.selectedbyuser');
 
     Route::post('religion/religion_exist', [ReligionController::class, 'ReligionExist'])->name('religion.exist');
+    Route::post('religion/selected_by_user', [ReligionController::class, 'selectedbyuser'])->name('religion.selectedbyuser');
+
     Route::post('sizeoforganization/sizeoforganization_exist', [SizeOfOrganizationController::class, 'SizeOfOrganizationExist'])->name('sizeoforganization.exist');
+    Route::post('sizeoforganization/selected_by_user', [SizeOfOrganizationController::class, 'selectedbyuser'])->name('sizeoforganization.selectedbyuser');
 });
