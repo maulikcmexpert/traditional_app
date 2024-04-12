@@ -8,7 +8,8 @@ use App\Models\{
     User,
     UserProfile,
     ProfileSeenUser,
-    ProfileBlock
+    ProfileBlock,
+    ProfileVerify
 };
 use Carbon\Carbon;
 
@@ -560,6 +561,11 @@ function is_ghost($userId)
     }
 }
 
+function isVerify($userId)
+{
+    $checkIsVerify = ProfileVerify::where('user_id', $userId)->exist();
+    dd($checkIsVerify);
+}
 
 function showProfile($user_id, $login_user)
 {
