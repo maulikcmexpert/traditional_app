@@ -123,7 +123,7 @@
 
         $(document).on("click", "#delete", function(event) {
             var userURL = $(this).data("url");
-            var id = $(this).data("id   ");
+            var id = $(this).data("id");
 
             event.preventDefault();
 
