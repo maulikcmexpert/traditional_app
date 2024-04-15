@@ -309,12 +309,11 @@ table.dataTable thead th{
 }
 
 .userChat h1{
-    font-size: 20px;
+    font-size: 22px;
     color: #3f3e3e;
     text-transform: capitalize;
-    padding: 9px;
     margin-bottom: 14px;
-    border: 1px solid #e8e0e0 !important;
+    /* border: 1px solid #e8e0e0 !important; */
 }
 
 .userChat ul li{

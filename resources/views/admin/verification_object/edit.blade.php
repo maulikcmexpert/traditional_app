@@ -15,7 +15,7 @@
 
 
     <div class="">
-        <div class="card">
+        <div class="card pb-3">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Edit</h4>
 

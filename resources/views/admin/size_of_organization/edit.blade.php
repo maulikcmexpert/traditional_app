@@ -15,7 +15,7 @@
 
 
     <div class="">
-        <div class="card">
+        <div class="card pb-3">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Edit</h4>
 
@@ -28,7 +28,7 @@
                         @method('PUT')
                         <div class="form-group">
                             <div class="row gy-4 align-items-end" id="size_of_organization">
-                                <div class="col-xxl-6 col-md-6">
+                                <div class="col-xxl-6 col-md-6 position-relative">
                                     <label class="form-label">Size Of Organization</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control sizeoforganization_id" name="id" />
                                     <input type="text" value="{{$getData->size_range}}" class="form-control size_range" name="size_range" />
