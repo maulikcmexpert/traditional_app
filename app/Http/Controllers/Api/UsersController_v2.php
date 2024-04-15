@@ -113,6 +113,11 @@ class UsersController_v2 extends BaseController
                         if ($getDay != null) {
                             // if ($daysDifference > $getDay->no_chat_day_duration) {
                             $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
+
+                            // leave relation by admin //
+
+                            $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
+                            dd($leaverealtion);
                             // }
                         }
                     }
