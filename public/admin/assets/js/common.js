@@ -516,3 +516,15 @@ function errorAlert(moduleName) {
         icon: "error",
     });
 }
+
+function OrganizationerrorAlert(moduleName) {
+    swal({
+        title: `Error`,
+        text:
+            "church/organization (s) belongs to deleted " +
+            moduleName +
+            ". can not delete " +
+            moduleName,
+        icon: "error",
+    });
+}
