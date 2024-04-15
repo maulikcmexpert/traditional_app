@@ -101,13 +101,10 @@ class UsersController_v2 extends BaseController
 
         foreach ($allUsers as $value) {
             if (isset($data[$value])) {
-
+                $currentTimestamp = Carbon::now();
                 foreach ($data[$value] as $val) {
-                    $start = str(Carbon::now());
-                    $end =  $val['timeStamp'];
-                    $days_between = ceil(abs($end - $start) / 86400);
 
-                    dd($days_between);
+
                     $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp'] / 1000);
                     $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
                     dd($daysDifference);
