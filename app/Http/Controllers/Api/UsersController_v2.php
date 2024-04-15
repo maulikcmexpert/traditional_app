@@ -104,13 +104,20 @@ class UsersController_v2 extends BaseController
                 $currentTimestamp = Carbon::now();
                 foreach ($data[$value] as $val) {
 
+                    if ($val == 14) {
 
-                    $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
-                    $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
+                        $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
+                        $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
 
-                    $getDay = Setting::select('no_chat_day_duration')->first();
-                    dd($getDay->no_chat_day_duration);
-                    // if($daysDifference > )
+                        $getDay = Setting::select('no_chat_day_duration')->first();
+                        if ($getDay != null) {
+
+
+                            // if ($daysDifference > $getDay->no_chat_day_duration) {
+                            $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
+                            // }
+                        }
+                    }
                 }
             }
         }
