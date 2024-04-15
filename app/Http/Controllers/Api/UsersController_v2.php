@@ -1686,7 +1686,7 @@ class UsersController_v2 extends BaseController
 
                     $imageName =  $profile->profile;
 
-                    $image->move(public_path('storage/profile'), $imageName);
+                    $image->move(public_path('storage/profile/' . $imageName));
                 };
                 $profile_img = UserProfile::where('id', $request->profile_id)->first();
                 $profile_img->profile = $imageName;
