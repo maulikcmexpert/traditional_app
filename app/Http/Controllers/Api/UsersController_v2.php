@@ -1635,12 +1635,12 @@ class UsersController_v2 extends BaseController
 
             if (!empty($request->profile_image)) {
                 $image = $request->profile_image;
-                $resizedImage = Image::make($image)
-                    ->resize(500, 667, function ($constraint) {
-                        $constraint->aspectRatio(); // Maintain aspect ratio
-                        $constraint->upsize(); // Prevent upsizing
-                    })
-                    ->encode($image->getClientOriginalExtension(), 80);
+                // $resizedImage = Image::make($image)
+                //     ->resize(500, 667, function ($constraint) {
+                //         $constraint->aspectRatio(); // Maintain aspect ratio
+                //         $constraint->upsize(); // Prevent upsizing
+                //     })
+                //     ->encode($image->getClientOriginalExtension(), 80);
                 // $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
                 $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
                 if ($checkImageExist != 0) {
@@ -1648,7 +1648,7 @@ class UsersController_v2 extends BaseController
                     $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                 }
 
-                $resizedImage->save(public_path('storage/profile/' . $imageName));
+                $image->move(public_path('storage/profile/' . $imageName));
             }
             $profile_add = new UserProfile();
             $profile_add->user_id = $this->user->id;
