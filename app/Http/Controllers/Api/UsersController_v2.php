@@ -2320,15 +2320,18 @@ class UsersController_v2 extends BaseController
                         }
                     }
                 }
-                $notificationData = [
-                    'sender_id' => $this->user->id,
-                    'receiver_id' => $request->user_id,
-                    'status' => 'accepted',
-                    'type' =>  $cancelRequest->type,
-                    'notify_for' => 'accept_or_reject'
-                ];
 
-                notification($notificationData);
+                if ($request->type == 'accepted') {
+                    $notificationData = [
+                        'sender_id' => $this->user->id,
+                        'receiver_id' => $request->user_id,
+                        'status' => 'accepted',
+                        'type' =>  $cancelRequest->type,
+                        'notify_for' => 'accept_or_reject'
+                    ];
+
+                    notification($notificationData);
+                }
 
                 // add notification //
 
