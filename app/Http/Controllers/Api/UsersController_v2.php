@@ -103,7 +103,7 @@ class UsersController_v2 extends BaseController
             if (isset($data[$value])) {
 
                 foreach ($data[$value] as $val) {
-                    $start = Carbon::now();
+                    $start = str(Carbon::now());
                     $end =  $val['timeStamp'];
                     $days_between = ceil(abs($end - $start) / 86400);
 
