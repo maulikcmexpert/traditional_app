@@ -80,9 +80,9 @@ class LeaveReasonController extends Controller
     public function edit(string $id)
     {
         $ids = decrypt($id);
-        $page = 'admin.leavereason.edit';
+        $page = 'admin.leave_reason.edit';
         $title = 'Update Leave Reason';
-        $js = 'admin.leavereason.scriptjs';
+        $js = 'admin.leave_reason.scriptjs';
         $getData = LeaveReason::Findorfail($ids);
         return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
     }
