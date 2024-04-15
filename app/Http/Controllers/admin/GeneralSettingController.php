@@ -53,12 +53,14 @@ class GeneralSettingController extends Controller
                 $setting->max_age = $request->max_age;
                 $setting->ghost_count = $request->ghost_count;
                 $setting->ghost_day = $request->ghost_day;
+                $setting->no_chat_day_duration = $request->no_chat_day_duration;
                 $setting->save();
             } else {
                 $checkSetting->min_age = $request->min_age;
                 $checkSetting->max_age = $request->max_age;
                 $checkSetting->ghost_count = $request->ghost_count;
                 $checkSetting->ghost_day = $request->ghost_day;
+                $checkSetting->no_chat_day_duration = $request->no_chat_day_duration;
                 $checkSetting->save();
             }
 
