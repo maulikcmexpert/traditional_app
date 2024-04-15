@@ -3101,52 +3101,52 @@ class UsersController_v2 extends BaseController
     public function verifiedUserProfile(Request $request)
     {
 
-        try {
+        // try {
 
-            $validator = Validator::make($request->all(), [
-                'verification_object_id' => ['required', 'integer', 'exists:verification_objects,id'],
-                'profile' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            ]);
+        $validator = Validator::make($request->all(), [
+            'verification_object_id' => ['required', 'integer', 'exists:verification_objects,id'],
+            'profile' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            $userVerifiedProfile = ProfileVerify::where('user_id', $this->user->id)->first();
-
-            DB::beginTransaction();
-            if ($userVerifiedProfile == null) {
-                $verifiedProfile = new ProfileVerify();
-
-                $verifiedProfile->user_id = $this->user->id;
-                $verifiedProfile->verification_object_id = $request->verification_object_id;
-
-                if (!empty($request->profile)) {
-                    $image = $request->file('profile');
-
-                    // Resize the image
-                    $resizedImage = Image::make($image)->resize(130, 150)->encode($image->getClientOriginalExtension());
-
-                    $imageName = time() . 'verified.' . $resizedImage->getClientOriginalExtension();
-
-                    // Save the resized image
-                    $resizedImage->save(public_path('storage/user_verified_profile/' . $imageName));
-
-                    $verifiedProfile->profile = $imageName;
-                }
-                $verifiedProfile->save();
-                DB::commit();
-
-                return response()->json(['status' => true, 'message' => "verified successfully"]);
-            }
-            return response()->json(['status' => true, 'message' => "try again"]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
+
+        $userVerifiedProfile = ProfileVerify::where('user_id', $this->user->id)->first();
+
+        DB::beginTransaction();
+        if ($userVerifiedProfile == null) {
+            $verifiedProfile = new ProfileVerify();
+
+            $verifiedProfile->user_id = $this->user->id;
+            $verifiedProfile->verification_object_id = $request->verification_object_id;
+
+            if (!empty($request->profile)) {
+                $image = $request->file('profile');
+
+                // Resize the image
+                $resizedImage = Image::make($image)->resize(130, 150)->encode($image->getClientOriginalExtension());
+
+                $imageName = time() . 'verified.' . $resizedImage->getClientOriginalExtension();
+
+                // Save the resized image
+                $resizedImage->save(public_path('storage/user_verified_profile/' . $imageName));
+
+                $verifiedProfile->profile = $imageName;
+            }
+            $verifiedProfile->save();
+            DB::commit();
+
+            return response()->json(['status' => true, 'message' => "verified successfully"]);
+        }
+        return response()->json(['status' => true, 'message' => "try again"]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
