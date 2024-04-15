@@ -1678,9 +1678,7 @@ class UsersController_v2 extends BaseController
                     unlink($filePath);
                 }
                 $image = $request->profile_image;
-                $previmage = explode('.', $profile->profile);
-                // $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
-                $imageName = $previmage[0] . '.' . $image->getClientOriginalExtension();
+                $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                 // if ($checkImageExist != 0) {
                 //     $giveNum = $checkImageExist + 1;
                 //     $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
