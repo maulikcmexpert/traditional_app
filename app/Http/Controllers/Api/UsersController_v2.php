@@ -1642,7 +1642,7 @@ class UsersController_v2 extends BaseController
                     $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                 }
 
-                $resizedImage->save(public_path('storage/profile'), $imageName);
+                $resizedImage->save(public_path('storage/profile'), $imageName, 90);
             }
             $profile_add = new UserProfile();
             $profile_add->user_id = $this->user->id;
@@ -1680,7 +1680,7 @@ class UsersController_v2 extends BaseController
                 $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
 
 
-                $resizedImage->save(public_path('storage/profile'), $profile->profile);
+                $resizedImage->save(public_path('storage/profile'), $profile->profile, 90);
             };
             $profile_img = UserProfile::where('id', $request->profile_id)->first();
             $profile_img->profile = $profile->profile;
@@ -3245,7 +3245,7 @@ class UsersController_v2 extends BaseController
                 $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
 
                 // Save the resized image
-                $resizedImage->save(public_path('storage/user_verified_profile/' . $imageName));
+                $resizedImage->save(public_path('storage/user_verified_profile/' . $imageName), 90);
 
                 $verifiedProfile->profile = $imageName;
             }
