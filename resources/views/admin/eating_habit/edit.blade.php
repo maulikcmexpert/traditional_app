@@ -15,7 +15,7 @@
 
 
     <div class="">
-        <div class="card">
+        <div class="card pb-3">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Edit</h4>
             </div>
@@ -27,7 +27,7 @@
                         @method('PUT')
                         <div class="form-group">
                             <div class="row gy-4 align-items-end">
-                                <div class="col-xxl-6 col-md-6">
+                                <div class="col-xxl-6 col-md-6 position-relative">
                                     <label class="form-label">Eating Habit</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control zodiacsign_id" name="id" />
                                     <input type="text" value="{{$getData->eating_habit}}" class="form-control eating_habit" name="eating_habit" />

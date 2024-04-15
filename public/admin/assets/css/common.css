@@ -136,8 +136,8 @@ table.dataTable thead th{
 
 .AddMoreForm .w-100.position-relative .text-danger{
     position: absolute;
-    bottom: -15px;
-    font-size: 11px;
+    bottom: -18px;
+    font-size: 13px;
 }
 
 .AddMoreForm .btn.remove{
@@ -275,25 +275,29 @@ table.dataTable thead th{
     -o-border-radius: 5px;
     padding: 20px;
     margin-top: 10px;
-    max-height: 400px;
-    overflow-y: scroll;
+    
     min-height: 400px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-.userChat::-webkit-scrollbar-track
+.userChat ul{
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+.userChat ul::-webkit-scrollbar-track
 {
 	/* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
 	background-color: transparent;
 }
 
-.userChat::-webkit-scrollbar
+.userChat ul::-webkit-scrollbar
 {
 	width: 5px;
 	/* background-color: #F5F5F5; */
 }
 
-.userChat::-webkit-scrollbar-thumb
+.userChat ul::-webkit-scrollbar-thumb
 {
 	background-color: #FFF;
 	background-image: -webkit-linear-gradient(90deg,
@@ -310,7 +314,7 @@ table.dataTable thead th{
     text-transform: capitalize;
     padding: 9px;
     margin-bottom: 14px;
-    border: 1px solid #9b9999 !important;
+    border: 1px solid #e8e0e0 !important;
 }
 
 .userChat ul li{
@@ -346,9 +350,10 @@ table.dataTable thead > tr > th.sorting:before
     right: 4px !important;
 }
 
-.position-relative .text-danger{
+.form-group .position-relative .error ~ .error{
     position: absolute;
-    bottom: 0;
+    bottom: -20px;
+    font-size: 13px;
 }
 
 @media only screen and (max-width:768px){
