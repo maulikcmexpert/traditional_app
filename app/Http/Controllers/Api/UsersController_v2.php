@@ -522,7 +522,8 @@ class UsersController_v2 extends BaseController
                 $image = $value;
                 $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
                 $imageName = $this->user->id . '_' . time() . $key . '.' . $image->getClientOriginalExtension();
-                $resizedImage->save(public_path('storage/profile'), $imageName);
+
+                $resizedImage->save(public_path('storage/profile') . '/' . $imageName, 90); // Adjust 90 as needed
 
                 UserProfile::create([
 
