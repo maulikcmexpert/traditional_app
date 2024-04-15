@@ -1564,13 +1564,14 @@ class UsersController_v2 extends BaseController
 
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
+                    $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
                     $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
                     if ($checkImageExist != 0) {
 
                         $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                     }
 
-                    $image->move(public_path('storage/profile'), $imageName);
+                    $resizedImage->move(public_path('storage/profile'), $imageName);
                 }
                 $profile_add = new UserProfile();
                 $profile_add->user_id = $this->user->id;
@@ -1605,14 +1606,14 @@ class UsersController_v2 extends BaseController
                 }
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
-
+                    $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
                     $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
                     if ($checkImageExist != 0) {
                         $giveNum = $checkImageExist + 1;
                         $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                     }
 
-                    $image->move(public_path('storage/profile'), $imageName);
+                    $resizedImage->move(public_path('storage/profile'), $imageName);
                 };
                 $profile_img = UserProfile::where('id', $request->profile_id)->first();
                 $profile_img->profile = $imageName;
@@ -3169,7 +3170,7 @@ class UsersController_v2 extends BaseController
                 $image = $request->file('profile');
 
                 // Resize the image
-                $resizedImage = Image::make($image)->resize(500, 700)->encode($image->getClientOriginalExtension());
+                $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
 
                 $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
 
