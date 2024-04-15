@@ -88,7 +88,14 @@ class UsersController_v2 extends BaseController
         $this->user = Auth::guard('api')->user();
     }
 
-
+    public function deletemessage()
+    {
+        $now = Carbon::now();
+        $twentyFourHoursAgo = $now->subHours(24)->timestamp;
+        $database = Firebase::database();
+        $data = $database->getReference('/Overview')->getValue();
+        dd($data);
+    }
 
     public function userSignup(UserValidate $request)
     {
