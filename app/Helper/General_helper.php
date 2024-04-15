@@ -78,6 +78,16 @@ function addNotificationCount($userId)
         $data = $database->getReference('/users/' . $userId)->update($fieldsToUpdate);
     }
 }
+
+function updateProfileOnFirebase($userId, $profileUrl)
+{
+    $database = Firebase::database();
+    $data = $database->getReference('/users/' . $userId . '/userProfile/')->getValue();
+    if ($data == null) {
+        $profileUpdate = ['userProfile' => $profileUrl];
+        $data = $database->getReference('/users/' . $userId)->update($profileUpdate);
+    }
+}
 function notification($notificationData)
 {
 

@@ -111,20 +111,20 @@ class UsersController_v2 extends BaseController
                         $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
                         $getDay = Setting::select('no_chat_day_duration')->first();
                         if ($getDay != null) {
-                            // if ($daysDifference > $getDay->no_chat_day_duration) {
-                            $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
+                            if ($daysDifference > $getDay->no_chat_day_duration) {
+                                $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
 
-                            // leave relation by admin //
+                                // leave relation by admin //
 
-                            $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
-                            if ($leaverealtion != null) {
-                                $leaverealtion->status = 'leave';
-                                $leaverealtion->message = 'by admin';
-                                $leaverealtion->save();
-                                $leaverealtion->delete();
+                                $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
+                                if ($leaverealtion != null) {
+                                    $leaverealtion->status = 'leave';
+                                    $leaverealtion->message = 'by admin';
+                                    $leaverealtion->save();
+                                    $leaverealtion->delete();
+                                    $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
+                                }
                             }
-                            $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
-                            // }
                         }
                     }
                 }
@@ -1563,7 +1563,11 @@ class UsersController_v2 extends BaseController
                 $user_profile = UserProfile::where('id', $profile_add->id)->select('is_default')->first();
 
                 $profile_img = asset('storage/profile/' . $profile_add->profile);
+
                 DB::commit();
+
+
+
                 return response()->json(['status' => true, 'message' => "Profile add", 'profile_id' => $profile_add->id, 'profile' => $profile_img, 'is_default' => $user_profile->is_default]);
             } else if ($request->type == "delete_img") {
                 $profile_name = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
@@ -1598,6 +1602,9 @@ class UsersController_v2 extends BaseController
                 $profile_img->profile = $imageName;
                 $profile_img->save();
                 $profile_photo = asset('storage/profile/' . $profile_img->profile);
+                // update profile in firebase //
+                updateProfileOnFirebase($this->user->id, $profile_photo);
+                // update profile in firebase //
                 DB::commit();
                 return response()->json(['status' => true, 'message' => "Profile  update", 'profile_id' => $profile_img->id, 'profile' => $profile_photo, 'is_default' => $profile_img->is_default]);
             }
