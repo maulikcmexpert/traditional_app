@@ -1678,7 +1678,6 @@ class UsersController_v2 extends BaseController
             $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
             $filePath = public_path('storage/profile/' . $profile->profile);
             if (file_exists($filePath)) {
-
                 unlink($filePath);
             }
             if (!empty($request->profile_image)) {
