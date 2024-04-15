@@ -1642,7 +1642,7 @@ class UsersController_v2 extends BaseController
                     $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                 }
 
-                $resizedImage->save(public_path('storage/profile'), $imageName);
+                $resizedImage->save(public_path('storage/profile/'), $imageName);
             }
             $profile_add = new UserProfile();
             $profile_add->user_id = $this->user->id;
