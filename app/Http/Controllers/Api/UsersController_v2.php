@@ -1628,83 +1628,80 @@ class UsersController_v2 extends BaseController
 
     public function updateProfilePhoto(Request $request)
     {
-        // try {
-        DB::beginTransaction();
-        $checkImageExist = UserProfile::where('user_id', $this->user->id)->count();
-        if ($request->type == "add_img") {
+        try {
+            DB::beginTransaction();
+            $checkImageExist = UserProfile::where('user_id', $this->user->id)->count();
+            if ($request->type == "add_img") {
 
-            if (!empty($request->profile_image)) {
-                $image = $request->profile_image;
-                $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
-                $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
-                if ($checkImageExist != 0) {
+                if (!empty($request->profile_image)) {
+                    $image = $request->profile_image;
 
-                    $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+                    $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
+                    if ($checkImageExist != 0) {
+
+                        $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+                    }
+
+                    $image->move(public_path('storage/profile/'), $imageName);
                 }
+                $profile_add = new UserProfile();
+                $profile_add->user_id = $this->user->id;
+                $profile_add->profile = $imageName;
+                $profile_add->save();
+                $user_profile = UserProfile::where('id', $profile_add->id)->select('is_default')->first();
 
-                $resizedImage->save(public_path('storage/profile/'), $imageName);
-            }
-            $profile_add = new UserProfile();
-            $profile_add->user_id = $this->user->id;
-            $profile_add->profile = $imageName;
-            $profile_add->save();
-            $user_profile = UserProfile::where('id', $profile_add->id)->select('is_default')->first();
+                $profile_img = asset('storage/profile/' . $profile_add->profile);
 
-            $profile_img = asset('storage/profile/' . $profile_add->profile);
-
-            DB::commit();
+                DB::commit();
 
 
 
-            return response()->json(['status' => true, 'message' => "Profile add", 'profile_id' => $profile_add->id, 'profile' => $profile_img, 'is_default' => $user_profile->is_default]);
-        } else if ($request->type == "delete_img") {
-            $profile_name = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
-            $filePath = public_path('storage/profile/' . $profile_name->profile);
-            if (file_exists($filePath)) {
-
-                unlink($filePath);
-            }
-            $profile_delete = UserProfile::where('id', $request->profile_id)->delete();
-            DB::commit();
-            return response()->json(['status' => true, 'message' => "Profile delete"]);
-        } else if ($request->type == "edit_img") {
-
-
-            if (!empty($request->profile_image)) {
-                $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
-                $filePath = public_path('storage/profile/' . $profile->profile);
+                return response()->json(['status' => true, 'message' => "Profile add", 'profile_id' => $profile_add->id, 'profile' => $profile_img, 'is_default' => $user_profile->is_default]);
+            } else if ($request->type == "delete_img") {
+                $profile_name = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
+                $filePath = public_path('storage/profile/' . $profile_name->profile);
                 if (file_exists($filePath)) {
 
                     unlink($filePath);
                 }
-                $image = $request->profile_image;
-                $previmage = explode('.', $profile->profile);
-                // $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
-                $imageName = $previmage[0] . '.' . $image->getClientOriginalExtension();
-                // if ($checkImageExist != 0) {
-                //     $giveNum = $checkImageExist + 1;
-                //     $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-                // }
-                $image->move(public_path('storage/profile/'),  $imageName);
-            };
-            $profile_img = UserProfile::where('id', $request->profile_id)->first();
-            $profile_img->profile = $imageName;
-            $profile_img->save();
-            $profile_photo = asset('storage/profile/' . $profile_img->profile);
-            // update profile in firebase //
-            updateProfileOnFirebase($this->user->id, $profile_photo);
-            // update profile in firebase //
-            DB::commit();
-            return response()->json(['status' => true, 'message' => "Profile  update", 'profile_id' => $profile_img->id, 'profile' => $profile_photo, 'is_default' => $profile_img->is_default]);
-        }
-        DB::commit();
-        // } catch (QueryException $e) {
-        //     DB::rollBack();
+                $profile_delete = UserProfile::where('id', $request->profile_id)->delete();
+                DB::commit();
+                return response()->json(['status' => true, 'message' => "Profile delete"]);
+            } else if ($request->type == "edit_img") {
 
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
+
+                if (!empty($request->profile_image)) {
+                    $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
+                    $filePath = public_path('storage/profile/' . $profile->profile);
+                    if (file_exists($filePath)) {
+
+                        unlink($filePath);
+                    }
+                    $image = $request->profile_image;
+                    $previmage = explode('.', $profile->profile);
+
+                    $imageName = $previmage[0] . '.' . $image->getClientOriginalExtension();
+
+                    $image->move(public_path('storage/profile/'),  $imageName);
+                };
+                $profile_img = UserProfile::where('id', $request->profile_id)->first();
+                $profile_img->profile = $imageName;
+                $profile_img->save();
+                $profile_photo = asset('storage/profile/' . $profile_img->profile);
+                // update profile in firebase //
+                updateProfileOnFirebase($this->user->id, $profile_photo);
+                // update profile in firebase //
+                DB::commit();
+                return response()->json(['status' => true, 'message' => "Profile  update", 'profile_id' => $profile_img->id, 'profile' => $profile_photo, 'is_default' => $profile_img->is_default]);
+            }
+            DB::commit();
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
     }
 
 
