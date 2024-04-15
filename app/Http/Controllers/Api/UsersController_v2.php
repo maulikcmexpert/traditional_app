@@ -88,7 +88,7 @@ class UsersController_v2 extends BaseController
         $this->user = Auth::guard('api')->user();
     }
 
-    public function deletemessage()
+    public function deleteMessage()
     {
         $now = Carbon::now();
         $twentyFourHoursAgo = $now->subHours(24)->timestamp;
