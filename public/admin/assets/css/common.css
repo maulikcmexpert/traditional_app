@@ -355,6 +355,18 @@ table.dataTable thead > tr > th.sorting:before
     font-size: 13px;
 }
 
+.loginForm > .bg-white{
+    background-color: red !important;
+}
+
+.bg-white:has(+ .loginForm){
+    background-color: red !important;
+}
+
+.sm\:rounded-lg{
+    padding: 40px !important;
+}
+
 @media only screen and (max-width:768px){
     p{
         font-size: 14px !important;
