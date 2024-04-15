@@ -90,8 +90,8 @@ class UsersController_v2 extends BaseController
 
     public function deleteMessage()
     {
-        $now = Carbon::now();
-        $twentyFourHoursAgo = $now->subHours(24)->timestamp;
+        $currentTimestamp = Carbon::now();
+
         $database = Firebase::database();
         $data = $database->getReference('/Overview')->getValue();
         $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id');
@@ -101,7 +101,10 @@ class UsersController_v2 extends BaseController
             if (isset($data[$value])) {
 
                 foreach ($data[$value] as $val) {
-                    dd($val['timeStamp']);
+
+                    $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp'] / 1000);
+                    $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
+                    dd($daysDifference);
                 }
             }
         }
