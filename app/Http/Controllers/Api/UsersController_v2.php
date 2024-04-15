@@ -117,7 +117,13 @@ class UsersController_v2 extends BaseController
                             // leave relation by admin //
 
                             $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
-                            dd($leaverealtion);
+                            if ($leaverealtion != null) {
+                                $leaverealtion->status = 'leave';
+                                $leaverealtion->message = 'by admin';
+                                $leaverealtion->save();
+                                $leaverealtion->delete();
+                                $data = $database->getReference('/Overview/' .  $val['conversationId'])->remove();
+                            }
                             // }
                         }
                     }
