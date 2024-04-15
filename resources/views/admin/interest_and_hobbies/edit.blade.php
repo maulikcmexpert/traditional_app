@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('interest_and_hobby.index')}}">Interest and hobbies</a></li>
+                <li class="breadcrumb-item"><a href="{{route('interest_and_hobby.index')}}">Interest And Hobby</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit</li>
             </ol>
         </nav>
@@ -13,7 +13,7 @@
     <!-- -----header-breadcrumb-end-- -->
 
 
-    
+
     <div class="">
         <div class="card">
             <div class="card-header align-items-center d-flex">
@@ -35,7 +35,7 @@
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="col-xxl-2">
-                                    <input type="button"  id="edit" class="btn btn-primary" value="Update">
+                                    <input type="button" id="edit" class="btn btn-primary" value="Update">
                                 </div>
                             </div>
 
@@ -48,6 +48,6 @@
             </div>
         </div>
     </div>
-    
+
 
 </div>

@@ -8,7 +8,8 @@ use App\Models\{
     User,
     UserProfile,
     ProfileSeenUser,
-    ProfileBlock
+    ProfileBlock,
+    ProfileVerify
 };
 use Carbon\Carbon;
 
@@ -436,6 +437,10 @@ function getSearchUser($filter, $page, $user_id)
                     $getLoginUser = User::with('userdetail')->where('id', $user_id)->first();
                     $LoginUserAge = calculateAge($getLoginUser->userdetail->date_of_birth, date('Y-m-d'));
                     $LoginUserHeight = $getLoginUser->userdetail->height;
+                    if ($getLoginUser->userdetail->height_type == 'feet') {
+                        $LoginUserHeight = $LoginUserHeight * 30.48;
+                    }
+
                     $LoginUserWeight = $getLoginUser->userdetail->weight;
                     $LoginUser_religion_id = (isNotNullOrBlank($getLoginUser->userdetail->religion_id)) ? $getLoginUser->userdetail->religion_id : 0;
 
@@ -546,10 +551,11 @@ function is_ghost($userId)
 
     $getData = ProfileSeenUser::select('profile_id', DB::raw('count(*) as view_count'))->where('profile_viewer_id', $userId)->whereDate('created_at', '>=', $targetDate)->groupBy('profile_id')->pluck('view_count');
     $collection = collect($getData);
-
+    $ghost_count = $ghostSetting->ghost_count;
     // Check if there's any element greater than 10
-    $isBigDigitAvailable = $collection->contains(function ($value, $key) {
-        return $value > 10;
+
+    $isBigDigitAvailable = $collection->contains(function ($value, $key) use ($ghost_count) {
+        return $value > $ghost_count;
     });
 
     if ($isBigDigitAvailable) {
@@ -559,6 +565,11 @@ function is_ghost($userId)
     }
 }
 
+function isVerify($userId)
+{
+
+    return ProfileVerify::where('user_id', $userId)->exists();
+}
 
 function showProfile($user_id, $login_user)
 {

@@ -122,8 +122,13 @@ class FaithController extends Controller
     {
         try {
             $ids = decrypt($id);
-            $delete = Faith::Findorfail($ids)->delete();
-            return response()->json(true);
+            $checkSelected = UserDetail::where(['faith_id' => $ids])->count();
+            if ($checkSelected == 0) {
+                $delete = Faith::Findorfail($ids)->delete();
+                return response()->json(true);
+            } else {
+                return response()->json(false);
+            }
         } catch (Exception $e) {
             return response()->json(false);
         } catch (QueryException $e) {

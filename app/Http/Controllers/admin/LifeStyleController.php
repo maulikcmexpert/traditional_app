@@ -121,8 +121,14 @@ class LifeStyleController extends Controller
     {
         try {
             $ids = decrypt($id);
-            $delete = Lifestyle::Findorfail($ids)->delete();
-            return response()->json(true);
+            $checkSelected = UserLifestyle::where(['lifestyle_id' => $ids])->count();
+            if ($checkSelected == 0) {
+
+                $delete = Lifestyle::Findorfail($ids)->delete();
+                return response()->json(true);
+            } else {
+                return response()->json(false);
+            }
         } catch (Exception $e) {
             return response()->json(false);
         } catch (QueryException $e) {
