@@ -1679,8 +1679,8 @@ class UsersController_v2 extends BaseController
                 $image = $request->profile_image;
                 $resizedImage = Image::make($image)->resize(500, 667);
 
-                dd($profile->profile);
-                $resizedImage->save(public_path('storage/profile'), $profile->profile, 90);
+                $imageName = $profile->profile;
+                $resizedImage->save(public_path('storage/profile'), $imageName, 90);
             };
             $profile_img = UserProfile::where('id', $request->profile_id)->first();
             $profile_img->profile = $profile->profile;
