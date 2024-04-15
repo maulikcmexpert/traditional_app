@@ -8,9 +8,9 @@
         var minAge = parseInt($("#min_age").val());
         var maxAge = parseInt($("#max_age").val());
         if (minAge >= maxAge) {
-            return "Minimum age must be less than maximum age";
+            return "Minimum age must be less than max age";
         } else {
-            return "Maximum age must be greater than minimum age";
+            return "Maximum age must be greater than min age";
         }
     });
     $(document).ready(function() {
@@ -39,11 +39,11 @@
             },
             messages: {
                 min_age: {
-                    required: "Please enter minimum age",
+                    required: "Please enter min age",
 
                 },
                 max_age: {
-                    required: "Please enter maximum age",
+                    required: "Please enter max age",
 
                 },
 
