@@ -59,6 +59,7 @@ use App\Rules\OrganizationNameValidation;
 use App\Rules\AddressValidation;
 use App\Rules\AlphaNumericCity;
 use App\Rules\CustomEmailValidation;
+use Intervention\Image\Facades\Image as InterventionImage;
 
 use Illuminate\Validation\Rule;
 
@@ -3123,13 +3124,13 @@ class UsersController_v2 extends BaseController
 
 
                     $image = $request->profile;
+                    $img = InterventionImage::make($image->getRealPath());
+                    $img->fit(130, 150);
                     $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
                     $image->move(public_path('storage/user_verified_profile'), $imageName);
                     $verifiedProfile->profile = $imageName;
                 }
                 $verifiedProfile->save();
-
-
                 DB::commit();
 
                 return response()->json(['status' => true, 'message' => "verified successfully"]);
