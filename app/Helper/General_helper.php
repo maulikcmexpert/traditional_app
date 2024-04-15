@@ -171,6 +171,7 @@ function notification($notificationData)
         $notification->notification_type = $notificationData['type'];
         $user = User::where('id', $notificationData['sender_id'])->first();
         if ($notificationData['status'] == 'rejected') {
+            addNotificationCount($notificationData['receiver_id']);
             if ($notificationData['type'] == 'friend') {
                 $notification->message = "\$NAME rejected your friend request";
                 $notificationData['notification_message'] = $user->full_name . " rejected your friend request";
