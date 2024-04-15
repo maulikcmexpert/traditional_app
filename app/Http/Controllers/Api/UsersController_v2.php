@@ -98,10 +98,12 @@ class UsersController_v2 extends BaseController
 
 
         foreach ($allUsers as $value) {
-            dd($value);
-            // foreach ($data[$value] as $val) {
-            //     dd($val);
-            // }
+            if (isset($data[$value])) {
+
+                foreach ($data[$value] as $val) {
+                    dd($val);
+                }
+            }
         }
 
         dd($data);
