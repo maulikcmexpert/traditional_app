@@ -109,7 +109,7 @@ class UsersController_v2 extends BaseController
                     $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
 
                     $getDay = Setting::select('no_chat_day_duration')->first();
-                    dd($getDay);
+                    dd($getDay->no_chat_day_duration);
                     // if($daysDifference > )
                 }
             }
