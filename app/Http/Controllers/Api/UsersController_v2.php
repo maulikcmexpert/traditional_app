@@ -1677,7 +1677,7 @@ class UsersController_v2 extends BaseController
             }
             if (!empty($request->profile_image)) {
                 $image = $request->profile_image;
-                $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
+                $resizedImage = Image::make($image)->resize(500, 667);
 
 
                 $resizedImage->save(public_path('storage/profile'), $profile->profile, 90);
