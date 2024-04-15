@@ -1678,16 +1678,12 @@ class UsersController_v2 extends BaseController
                 if (!empty($request->profile_image)) {
                     $image = $request->profile_image;
                     $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
-                    $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
-                    if ($checkImageExist != 0) {
-                        $giveNum = $checkImageExist + 1;
-                        $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-                    }
 
-                    $resizedImage->save(public_path('storage/profile'), $imageName);
+
+                    $resizedImage->save(public_path('storage/profile'), $profile->profile);
                 };
                 $profile_img = UserProfile::where('id', $request->profile_id)->first();
-                $profile_img->profile = $imageName;
+                $profile_img->profile = $profile->profile;
                 $profile_img->save();
                 $profile_photo = asset('storage/profile/' . $profile_img->profile);
                 // update profile in firebase //
