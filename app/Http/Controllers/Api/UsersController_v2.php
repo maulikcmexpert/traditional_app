@@ -59,7 +59,8 @@ use App\Rules\OrganizationNameValidation;
 use App\Rules\AddressValidation;
 use App\Rules\AlphaNumericCity;
 use App\Rules\CustomEmailValidation;
-use Intervention\Image\Facades\Image as InterventionImage;
+
+use Intervention\Image\ImageManagerStatic as Image;
 
 use Illuminate\Validation\Rule;
 
@@ -3095,23 +3096,23 @@ class UsersController_v2 extends BaseController
         return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $verifyObj]);
     }
 
+
+
     public function verifiedUserProfile(Request $request)
     {
 
         try {
 
             $validator = Validator::make($request->all(), [
-
                 'verification_object_id' => ['required', 'integer', 'exists:verification_objects,id'],
                 'profile' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-
             ]);
 
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
             }
 
-            $userVerifiedProfile =  ProfileVerify::where('user_id', $this->user->id)->first();
+            $userVerifiedProfile = ProfileVerify::where('user_id', $this->user->id)->first();
 
             DB::beginTransaction();
             if ($userVerifiedProfile == null) {
@@ -3121,13 +3122,16 @@ class UsersController_v2 extends BaseController
                 $verifiedProfile->verification_object_id = $request->verification_object_id;
 
                 if (!empty($request->profile)) {
+                    $image = $request->file('profile');
 
+                    // Resize the image
+                    $resizedImage = Image::make($image)->resize(130, 150)->encode($image->getClientOriginalExtension());
 
-                    $image = $request->profile;
-                    $img = InterventionImage::make($image->getRealPath());
-                    $img->fit(130, 150);
                     $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('storage/user_verified_profile'), $imageName);
+
+                    // Save the resized image
+                    $resizedImage->save(public_path('storage/user_verified_profile/' . $imageName));
+
                     $verifiedProfile->profile = $imageName;
                 }
                 $verifiedProfile->save();
@@ -3141,11 +3145,10 @@ class UsersController_v2 extends BaseController
 
             return response()->json(['status' => false, 'message' => "db error"]);
         } catch (\Exception $e) {
-
-
             return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
     }
+
 
     public function getFileSize()
     {
