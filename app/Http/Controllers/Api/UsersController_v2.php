@@ -1683,9 +1683,9 @@ class UsersController_v2 extends BaseController
             }
             if (!empty($request->profile_image)) {
                 $image = $request->profile_image;
-                $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
+                // $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
                 $imageName = $profile->profile;
-                $resizedImage->save(public_path('storage/profile') . '/' . $imageName, 90);
+                $image->move(public_path('storage/profile/' . $imageName));
             };
             $profile_img = UserProfile::where('id', $request->profile_id)->first();
             $profile_img->profile = $profile->profile;
