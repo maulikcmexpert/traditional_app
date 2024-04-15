@@ -96,7 +96,7 @@ class UsersController_v2 extends BaseController
 
         $database = Firebase::database();
         $data = $database->getReference('/Overview')->getValue();
-        $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id');
+        $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id')->toArray();
 
 
         foreach ($allUsers as $value) {
