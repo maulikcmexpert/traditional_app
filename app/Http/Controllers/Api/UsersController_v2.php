@@ -1669,30 +1669,23 @@ class UsersController_v2 extends BaseController
             return response()->json(['status' => true, 'message' => "Profile delete"]);
         } else if ($request->type == "edit_img") {
 
-            $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
-            $filePath = public_path('storage/profile/' . $profile->profile);
-            if (file_exists($filePath)) {
 
-                unlink($filePath);
-            }
             if (!empty($request->profile_image)) {
-                $image = explode('.', $request->profile_image);
+                $profile = UserProfile::where('id', $request->profile_id)->select('profile')->get()->first();
+                $filePath = public_path('storage/profile/' . $profile->profile);
+                if (file_exists($filePath)) {
+
+                    unlink($filePath);
+                }
+                $image = $request->profile_image;
+                $previmage = explode('.', $profile->profile);
                 // $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
-                // $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
+                $imageName = $previmage[0] . '.' . $image->getClientOriginalExtension();
                 // if ($checkImageExist != 0) {
                 //     $giveNum = $checkImageExist + 1;
                 //     $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                 // }
-
-                $uploadedImagePath =
-                    public_path('storage/profile/' . $image);
-                $img = Image::make($uploadedImagePath);
-
-                // Convert the image to the desired format (e.g., JPG)
-                $img->encode('jpg');
-
-                // Save the converted image
-                $img->save(public_path('storage/profile/' . $image[0] . '.jpg'));
+                $image->move(public_path('storage/profile/' . $imageName));
             };
             $profile_img = UserProfile::where('id', $request->profile_id)->first();
             $profile_img->profile = $image[0] . '. jpg';
