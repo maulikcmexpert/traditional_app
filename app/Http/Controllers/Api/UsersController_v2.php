@@ -451,9 +451,9 @@ class UsersController_v2 extends BaseController
                         $is_default = "1";
                     }
                     $image = $value;
-                    $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
+
                     $imageName = $this->user->id . '_' . time() . $key . '.' . $image->getClientOriginalExtension();
-                    $resizedImage->save(public_path('storage/profile'), $imageName);
+                    $image->move(public_path('storage/profile'), $imageName);
 
                     UserProfile::create([
 
@@ -483,7 +483,73 @@ class UsersController_v2 extends BaseController
     }
 
 
+    public function storeProfilere(StoreProfileRequest $request)
+    {
+        // try {
 
+
+
+
+        if (!empty($request->profile)) {
+
+
+
+            $images = $request->profile;
+
+
+
+            $profileOldImages = UserProfile::where('user_id', $this->user->id)->get();
+            if (!empty($profileOldImages)) {
+
+
+                foreach ($profileOldImages as $oldImages) {
+                    if (file_exists(public_path('public/storage/profile/') . $oldImages->profile)) {
+
+                        $imagePath = public_path('public/storage/profile/') . $oldImages->profile;
+                        unlink($imagePath);
+                    }
+                    UserProfile::where('id', $oldImages->id)->delete();
+                }
+            }
+
+            DB::beginTransaction();
+
+            foreach ($images as $key => $value) {
+                $is_default = "0";
+                if ($key == 0) {
+                    $is_default = "1";
+                }
+                $image = $value;
+                $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
+                $imageName = $this->user->id . '_' . time() . $key . '.' . $image->getClientOriginalExtension();
+                $resizedImage->save(public_path('storage/profile'), $imageName);
+
+                UserProfile::create([
+
+                    'user_id' => $this->user->id,
+
+                    'profile' => $imageName,
+
+                    'is_default' => $is_default
+                ]);
+            }
+
+            DB::commit();
+
+
+            return response()->json(['status' => true, 'message' => "Profile images stored successfully"]);
+        }
+        // } catch (QueryException $e) {
+
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
+    }
 
     public function userPersonalities(UserPersonalityRequest $request)
     {
