@@ -92,32 +92,27 @@ class UsersController_v2 extends BaseController
 
     public function deleteMessage()
     {
-
-
         $database = Firebase::database();
-        $data = $database->getReference('/Overview')->getValue();
+        $snapshot = $database->getReference('/Overview')->getSnapshot();
+        $data = $snapshot->getValue();
+
+        // Convert Firebase snapshot data to array
+        $dataArray = json_decode(json_encode($data), true);
+
         $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id')->toArray();
 
-
         foreach ($allUsers as $value) {
-
-
-            if (isset($data[$value])) {
+            if (isset($dataArray[$value])) {
                 $currentTimestamp = Carbon::now();
-                foreach ($data[$value] as  $val) {
-
+                foreach ($dataArray[$value] as $val) {
                     if ($value == 14 && $val['contactId'] == 15) {
-
                         $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
                         $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
-
                         $getDay = Setting::select('no_chat_day_duration')->first();
                         if ($getDay != null) {
-
-
-                            //   if ($daysDifference > $getDay->no_chat_day_duration) {
+                            // if ($daysDifference > $getDay->no_chat_day_duration) {
                             $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
-                            //     }
+                            // }
                         }
                     }
                 }
@@ -126,6 +121,7 @@ class UsersController_v2 extends BaseController
 
         dd($data);
     }
+
 
     public function userSignup(UserValidate $request)
     {
