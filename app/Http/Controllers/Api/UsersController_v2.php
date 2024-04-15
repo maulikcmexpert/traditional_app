@@ -520,10 +520,11 @@ class UsersController_v2 extends BaseController
                     $is_default = "1";
                 }
                 $image = $value;
-                $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
+                $resizedImage = Image::make($image)->resize(500, 667); // Removed quality parameter
+
                 $imageName = $this->user->id . '_' . time() . $key . '.' . $image->getClientOriginalExtension();
 
-                $resizedImage->save(public_path('storage/profile') . '/' . $imageName, 90); // Adjust 90 as needed
+                $resizedImage->save(public_path('storage/profile') . '/' . $imageName, 99); // Adjust 90 as needed
 
                 UserProfile::create([
 
