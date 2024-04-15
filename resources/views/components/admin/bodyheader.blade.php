@@ -572,7 +572,7 @@
              <div class="user-box dropdown">
                  <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                      <div class="user-img-wrp">
-                         <img src="{{asset('assets/images/avatars/avatar-2.png')}}" class="user-img" alt="user avatar">
+                         <img src="{{asset('admin/assets/images/avatars/avatar-2.png')}}" class="user-img" alt="user avatar">
                      </div>
                      <div class="user-info">
                          @if(Auth::guard('web')->check())
