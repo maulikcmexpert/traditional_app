@@ -1676,7 +1676,7 @@ class UsersController_v2 extends BaseController
                     unlink($filePath);
                 }
                 if (!empty($request->profile_image)) {
-                    $image = $request->profile_image;
+                    $image = explode('.', $request->profile_image);
                     // $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
                     // $imageName = $this->user->id . '.' . $image->getClientOriginalExtension();
                     // if ($checkImageExist != 0) {
@@ -1684,12 +1684,18 @@ class UsersController_v2 extends BaseController
                     //     $imageName = $this->user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
                     // }
 
-                    $imageName =  $profile->profile;
+                    $uploadedImagePath =
+                        public_path('storage/profile/' . $image);
+                    $img = Image::make($uploadedImagePath);
 
-                    $image->move(public_path('storage/profile/' . $imageName));
+                    // Convert the image to the desired format (e.g., JPG)
+                    $img->encode('jpg');
+
+                    // Save the converted image
+                    $img->save(public_path('storage/profile/' . $image[0] . '.jpg'));
                 };
                 $profile_img = UserProfile::where('id', $request->profile_id)->first();
-                $profile_img->profile = $imageName;
+                $profile_img->profile = $image[0] . '. jpg';
                 $profile_img->save();
                 $profile_photo = asset('storage/profile/' . $profile_img->profile);
                 // update profile in firebase //
