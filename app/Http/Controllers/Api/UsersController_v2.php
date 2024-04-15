@@ -94,7 +94,7 @@ class UsersController_v2 extends BaseController
         $twentyFourHoursAgo = $now->subHours(24)->timestamp;
         $database = Firebase::database();
         $data = $database->getReference('/Overview')->getValue();
-        dd($data['3']['timeStamp']);
+        dd($data[3]);
     }
 
     public function userSignup(UserValidate $request)
