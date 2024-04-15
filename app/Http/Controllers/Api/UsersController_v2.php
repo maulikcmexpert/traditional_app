@@ -60,6 +60,8 @@ use App\Rules\AddressValidation;
 use App\Rules\AlphaNumericCity;
 use App\Rules\CustomEmailValidation;
 
+use Intervention\Image\ImageManagerStatic as Image;
+
 use Illuminate\Validation\Rule;
 
 use App\Models\UserLoveLang;
@@ -101,9 +103,9 @@ class UsersController_v2 extends BaseController
             if (isset($data[$value])) {
 
                 foreach ($data[$value] as $val) {
-                    dd($currentTimestamp);
+                    dd($currentTimestamp, ' ' . $val['timeStamp']);
                     $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp'] / 1000);
-                    $daysDifference = $messageTimestamp->diffInDays($currentTimestamp);
+                    $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
                     dd($daysDifference);
                 }
             }
@@ -2320,15 +2322,18 @@ class UsersController_v2 extends BaseController
                         }
                     }
                 }
-                $notificationData = [
-                    'sender_id' => $this->user->id,
-                    'receiver_id' => $request->user_id,
-                    'status' => 'accepted',
-                    'type' =>  $cancelRequest->type,
-                    'notify_for' => 'accept_or_reject'
-                ];
 
-                notification($notificationData);
+                if ($request->type == 'accepted') {
+                    $notificationData = [
+                        'sender_id' => $this->user->id,
+                        'receiver_id' => $request->user_id,
+                        'status' => 'accepted',
+                        'type' =>  $cancelRequest->type,
+                        'notify_for' => 'accept_or_reject'
+                    ];
+
+                    notification($notificationData);
+                }
 
                 // add notification //
 
@@ -3091,57 +3096,59 @@ class UsersController_v2 extends BaseController
         return response()->json(["status" => true, 'message' => 'Bad words', 'data' => $verifyObj]);
     }
 
+
+
     public function verifiedUserProfile(Request $request)
     {
 
-        try {
+        // try {
 
-            $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
+            'verification_object_id' => ['required', 'integer', 'exists:verification_objects,id'],
+            'profile' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+        ]);
 
-                'verification_object_id' => ['required', 'integer', 'exists:verification_objects,id'],
-                'profile' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
-            }
-
-            $userVerifiedProfile =  ProfileVerify::where('user_id', $this->user->id)->first();
-
-            DB::beginTransaction();
-            if ($userVerifiedProfile == null) {
-                $verifiedProfile = new ProfileVerify();
-
-                $verifiedProfile->user_id = $this->user->id;
-                $verifiedProfile->verification_object_id = $request->verification_object_id;
-
-                if (!empty($request->profile)) {
-
-
-                    $image = $request->profile;
-                    $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('storage/user_verified_profile'), $imageName);
-                    $verifiedProfile->profile = $imageName;
-                }
-                $verifiedProfile->save();
-
-
-                DB::commit();
-
-                return response()->json(['status' => true, 'message' => "verified successfully"]);
-            }
-            return response()->json(['status' => true, 'message' => "try again"]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
         }
+
+        $userVerifiedProfile = ProfileVerify::where('user_id', $this->user->id)->first();
+
+        DB::beginTransaction();
+        if ($userVerifiedProfile == null) {
+            $verifiedProfile = new ProfileVerify();
+
+            $verifiedProfile->user_id = $this->user->id;
+            $verifiedProfile->verification_object_id = $request->verification_object_id;
+
+            if (!empty($request->profile)) {
+                $image = $request->file('profile');
+
+                // Resize the image
+                $resizedImage = Image::make($image)->resize(500, 700)->encode($image->getClientOriginalExtension());
+
+                $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
+
+                // Save the resized image
+                $resizedImage->save(public_path('storage/user_verified_profile/' . $imageName));
+
+                $verifiedProfile->profile = $imageName;
+            }
+            $verifiedProfile->save();
+            DB::commit();
+
+            return response()->json(['status' => true, 'message' => "verified successfully"]);
+        }
+        return response()->json(['status' => true, 'message' => "try again"]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
+
 
     public function getFileSize()
     {
