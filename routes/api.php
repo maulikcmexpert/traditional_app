@@ -38,6 +38,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
 
     Route::post('store_profile', [UsersController::class, 'storeProfile'])->middleware('check_user');
+    Route::post('store_profilere', [UsersController::class, 'storeProfilere'])->middleware('check_user');
     Route::post('user_personalities', [UsersController::class, 'userPersonalities'])->middleware('check_user');
     Route::post('user_love_lang_rate', [UsersController::class, 'userLoveLangRate'])->middleware('check_user');
     Route::post('add_shows_stoper_ques', [UsersController::class, 'addShowsStoperQues'])->middleware('check_user');
