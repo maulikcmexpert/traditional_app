@@ -18,7 +18,7 @@
             <!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
-                    <form  method="POST" id="generalsetting" action="{{ route('generalsetting.store')}}" enctype="multipart/form-data">
+                    <form method="POST" id="generalsetting" action="{{ route('generalsetting.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-3 AddMoreForm">
                             <div class="row" id="general_setting">
@@ -57,6 +57,15 @@
                                             <label class="form-label">Ghost Day</label>
                                             <input type="text" class="form-control ghost_day" name="ghost_day" value="{{($setting == null)? '':$setting->ghost_day }}" />
                                             <span class="text-danger"> @if ($errors->has('ghost_day')){{ $errors->first('ghost_day') }} @endif</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-2 col-md-3 mb-2">
+                                    <div class="w-100 d-flex align-items-end gap-2">
+                                        <div class="w-100 position-relative">
+                                            <label class="form-label">No Chat Day duration</label>
+                                            <input type="text" class="form-control no_chat_day_duration" name="no_chat_day_duration" value="{{($setting == null)? '':$setting->no_chat_day_duration }}" />
+                                            <span class="text-danger"> @if ($errors->has('no_chat_day_duration')){{ $errors->first('no_chat_day_duration') }} @endif</span>
                                         </div>
                                     </div>
                                 </div>

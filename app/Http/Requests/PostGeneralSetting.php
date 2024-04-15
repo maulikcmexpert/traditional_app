@@ -26,6 +26,7 @@ class PostGeneralSetting extends FormRequest
             'max_age' => ['required', 'numeric'],
             'ghost_count' => ['required', 'numeric'],
             'ghost_day' => ['required', 'numeric'],
+            'no_chat_day_duration' => ['required', 'numeric'],
         ];
     }
 
@@ -36,6 +37,7 @@ class PostGeneralSetting extends FormRequest
             'max_age.required' => 'Please enter maximum age.',
             'ghost_count.required' => 'Please enter ghost count.',
             'ghost_day.required' => 'Please enter ghost day.',
+            'no_chat_day_duration.required' => 'Please enter No Chat Day Duration.',
             '*.numeric' => ':attribute must be a number.',
         ];
     }
