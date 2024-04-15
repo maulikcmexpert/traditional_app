@@ -103,7 +103,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
 
 
     Route::post('store_profile', [UsersController_v2::class, 'storeProfile'])->middleware('check_user');
-    Route::post('store_profilere', [UsersController::class, 'storeProfilere'])->middleware('check_user');
+    Route::post('store_profilere', [UsersControllerV2::class, 'storeProfilere'])->middleware('check_user');
     Route::post('user_personalities', [UsersController_v2::class, 'userPersonalities'])->middleware('check_user');
     Route::post('user_love_lang_rate', [UsersController_v2::class, 'userLoveLangRate'])->middleware('check_user');
     Route::post('add_shows_stoper_ques', [UsersController_v2::class, 'addShowsStoperQues'])->middleware('check_user');
