@@ -98,8 +98,9 @@ class UsersController_v2 extends BaseController
         $data = $database->getReference('/Overview')->getValue();
         $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id');
 
-        dd($data[$value]);
+
         foreach ($allUsers as $value) {
+            dd($data[$value]);
             if (isset($data[$value])) {
                 $currentTimestamp = Carbon::now();
                 foreach ($data[$value] as  $val) {
