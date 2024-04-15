@@ -94,9 +94,14 @@ class UsersController_v2 extends BaseController
         $twentyFourHoursAgo = $now->subHours(24)->timestamp;
         $database = Firebase::database();
         $data = $database->getReference('/Overview')->getValue();
-        $allUsers = User::select('id')->where('id', '!=', 1)->get();
-        dd($allUsers);
+        $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id');
+
+
         foreach ($allUsers as $value) {
+
+            foreach ($data[$value] as $val) {
+                dd($val);
+            }
         }
 
         dd($data);
