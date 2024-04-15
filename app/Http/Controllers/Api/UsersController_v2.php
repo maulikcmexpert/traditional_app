@@ -100,7 +100,7 @@ class UsersController_v2 extends BaseController
 
 
         foreach ($allUsers as $value) {
-            dd($value);
+
             dd($data[$value]);
             if (isset($data[$value])) {
                 $currentTimestamp = Carbon::now();
