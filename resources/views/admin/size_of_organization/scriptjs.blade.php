@@ -148,7 +148,7 @@
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        errorAlert("Size Of Organization");
+                        OrganizationerrorAlert("Size Of Organization");
 
                     } else {
                         swal({
@@ -175,7 +175,7 @@
                                             location.reload();
 
                                         } else {
-                                            errorAlert("Size Of Organization");
+                                            OrganizationerrorAlert("Size Of Organization");
                                         }
                                     },
                                 });
