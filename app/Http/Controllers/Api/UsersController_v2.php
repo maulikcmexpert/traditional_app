@@ -884,6 +884,22 @@ class UsersController_v2 extends BaseController
             $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
             $data['religion'] = ($user->userdetail->religon != "") ? $user->userdetail->religon->religion : "";
             // $data['zodiac_sign'] = ($user->userdetail->zodiac_sign->zodiac_sign != "") ? $user->userdetail->zodiac_sign->zodiac_sign : "";
+            $data['vaccination_status'] = ($user->userdetail->vaccination_status != "") ? $user->userdetail->vaccination_status : "";
+            $data['smoke_status'] = ($user->userdetail->smoke_status != "") ? $user->userdetail->smoke_status : "";
+            $data['alcohol_status'] = ($user->userdetail->alcohol_status != "") ? $user->userdetail->alcohol_status : "";
+            $data['faith_id'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith_id : 0;
+            $data['faith_name'] = ($user->userdetail->faith_id != "") ? $user->userdetail->faith->faith : "";
+            $data['daily_activity_id'] = ($user->userdetail->daily_activity_id != "") ? $user->userdetail->daily_activity_id : 0;
+            $data['daily_activity_name'] = ($user->userdetail->daily_activity_id != "") ? $user->userdetail->daily_activity->daily_activity : "";
+            $data['body_type_id'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->body_type_id : 0;
+            $data['body_type_name'] = ($user->userdetail->body_type_id != "") ? $user->userdetail->bodytype->body_type : "";
+            $data['culture_id'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture_id : 0;
+            $data['culture_name'] = ($user->userdetail->culture_id != "") ? $user->userdetail->culture->culture : "";
+            $data['exercise_id'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise_id : 0;
+            $data['exercise_name'] = ($user->userdetail->exercise_id != "") ? $user->userdetail->exercise->exercise : "";
+            $data['eating_habit_id'] = ($user->userdetail->eating_habit_id != "") ? $user->userdetail->eating_habit_id : 0;
+            $data['eating_habit_name'] = ($user->userdetail->eating_habit_id != "") ? $user->userdetail->eating_habit->eating_habit : "";
+
             $data['state'] = ($user->userdetail->state->state != "") ? $user->userdetail->state->state : "";
             $data['city'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
             $data['country'] = ($user->country->country != null) ? $user->country->country : "";
