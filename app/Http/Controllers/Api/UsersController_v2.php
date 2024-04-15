@@ -122,8 +122,8 @@ class UsersController_v2 extends BaseController
                                 $leaverealtion->message = 'by admin';
                                 $leaverealtion->save();
                                 $leaverealtion->delete();
-                                $data = $database->getReference('/Overview/' .  $val['conversationId'])->remove();
                             }
+                            $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
                             // }
                         }
                     }
