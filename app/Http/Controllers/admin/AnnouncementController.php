@@ -54,7 +54,7 @@ class AnnouncementController extends Controller
 
             $generateConversationId = "";
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
-            $dataToOverview[$generateConversationId] = [];
+            $dataToOverview = [];
             if ($data == null) {
                 $dataToOverview[$generateConversationId] = [
                     'contactId' => $adminId,
