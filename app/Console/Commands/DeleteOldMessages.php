@@ -59,12 +59,12 @@ class DeleteOldMessages extends Command
                             // leave relation by admin //
 
                             $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
+                            $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
                             if ($leaverealtion != null) {
                                 $leaverealtion->status = 'leave';
                                 $leaverealtion->message = 'by admin';
                                 $leaverealtion->save();
                                 $leaverealtion->delete();
-                                $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
                             }
                         }
                     }
