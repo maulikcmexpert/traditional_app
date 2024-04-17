@@ -72,12 +72,29 @@ class AnnouncementController extends Controller
                 $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
             } else {
                 // Update existing overview entry if it exists
-                $dataToOverview = $data;
-                $dataToOverview[$generateConversationId]['lastMessage'] = $request->input('message');
-                $dataToOverview[$generateConversationId]['timeStamp'] = Carbon::now()->timestamp * 1000;
-                $dataToOverview[$generateConversationId]["unRead"] = true;
-                $dataToOverview[$generateConversationId]["unReadCount"] += 1;
-                $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+                $getExistConversationId = array_keys($data);
+                if (!in_array($generateConversationId, $getExistConversationId)) {
+                    $dataToOverview[$generateConversationId] = [
+                        'contactId' => $adminId,
+                        'contactName' =>  'Team Traditional Chat',
+                        'conversationId' => $generateConversationId,
+                        'lastMessage' => $request->input('message'),
+                        'lastSenderId' => $adminId,
+                        'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
+                        'timeStamp' => Carbon::now()->timestamp * 1000,
+                        "unRead" => true,
+                        "unReadCount" => 1
+                    ];
+                    $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+                } else {
+
+                    $dataToOverview = $data;
+                    $dataToOverview[$generateConversationId]['lastMessage'] = $request->input('message');
+                    $dataToOverview[$generateConversationId]['timeStamp'] = Carbon::now()->timestamp * 1000;
+                    $dataToOverview[$generateConversationId]["unRead"] = true;
+                    $dataToOverview[$generateConversationId]["unReadCount"] += 1;
+                    $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+                }
             }
 
             // Check if the conversation ID already exists in Messages
