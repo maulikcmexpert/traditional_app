@@ -44,6 +44,7 @@ class AnnouncementController extends Controller
         ];
 
         $adminId = "1";
+        $notgetUSer = [];
         foreach ($users as $token) {
 
             send_notification_FCM_and($token->device_token, $notificationData);
@@ -51,7 +52,7 @@ class AnnouncementController extends Controller
             $database = Firebase::database();
             $data = $database->getReference('/Overview/' . $token->user_id)->getValue();
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
-            $notgetUSer = [];
+
             if ($data == null) {
 
 
