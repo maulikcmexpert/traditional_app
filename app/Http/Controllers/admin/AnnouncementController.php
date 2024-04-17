@@ -127,10 +127,7 @@ class AnnouncementController extends Controller
 
             ];
 
-            $database
-                ->getReference('Messages')
-                ->getChild($generateConversationId)
-                ->set($setUser);
+
 
 
             $database
@@ -138,7 +135,13 @@ class AnnouncementController extends Controller
                 ->getChild($generateConversationId)
                 ->getChild('message')
                 ->getChild($messageKey)
-                ->set($messageData);
+                ->update($messageData);
+
+
+            $database
+                ->getReference('Messages')
+                ->getChild($generateConversationId)
+                ->set($setUser);
         }
 
         toastr()->success('Notify successfully !');
