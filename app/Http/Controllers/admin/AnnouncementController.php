@@ -74,7 +74,7 @@ class AnnouncementController extends Controller
                 $notgetUSer[] = $token->user_id;
 
                 $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
-                dd($generateConversationId, $checkConversationId);
+                dd($token->user_id, $generateConversationId, $checkConversationId);
                 // if (!in_array($generateConversationId, $checkConversationId)) {
                 //     if ($generateConversationId)
                 //         $dataToOverview[$generateConversationId] = [
