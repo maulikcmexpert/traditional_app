@@ -117,6 +117,7 @@ class AnnouncementController extends Controller
 
                     $messageData = $database->getReference('/Messages/')->getValue();
                     $getExistMessageConversationId = array_keys($messageData);
+                    $setUser['users'] = [];
                     if (!in_array($generateConversationId, $getExistMessageConversationId)) {
                         $messageKey  = $database
                             ->getReference('Messages')
@@ -135,14 +136,18 @@ class AnnouncementController extends Controller
                                 $adminId => 'read',
                             ],
                             'timeStamp' => Carbon::now()->timestamp * 1000,
-                            'users' => [
-                                str($token->user_id),
-                                $adminId
-                            ]
+
+                        ];
+                        $setUser['users'] = [
+
+                            str($token->user_id),
+                            $adminId
+
                         ];
                         $database
                             ->getReference('Messages')
                             ->getChild($generateConversationId)
+                            ->set($setUser)
                             ->getChild('message')
                             ->getChild($messageKey)
                             ->set($messageData);
@@ -166,14 +171,18 @@ class AnnouncementController extends Controller
                             $adminId => 'read',
                         ],
                         'timeStamp' => Carbon::now()->timestamp * 1000,
-                        'users' => [
-                            str($token->user_id),
-                            $adminId
-                        ]
+
+                    ];
+                    $setUser['users'] = [
+
+                        str($token->user_id),
+                        $adminId
+
                     ];
                     $database
                         ->getReference('Messages')
                         ->getChild($generateConversationId)
+                        ->set($setUser)
                         ->getChild('message')
                         ->getChild($messageKey)
                         ->set($messageData);
