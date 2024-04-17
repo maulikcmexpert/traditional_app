@@ -63,7 +63,7 @@ class AnnouncementController extends Controller
                     'lastMessage' => $request->input('message'),
                     'lastSenderId' => $adminId,
                     'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
-                    "timeStamp" => str(Carbon::now()->timestamp),
+                    'timeStamp' => Carbon::now()->timestamp * 1000,
                     "unRead" => true,
                     "unReadCount" => 1
                 ];
@@ -89,7 +89,7 @@ class AnnouncementController extends Controller
                             $token->user_id => 'unread',
                             $adminId => 'read',
                         ],
-                        'timeStamp' => str(Carbon::now()->timestamp),
+                        'timeStamp' => Carbon::now()->timestamp * 1000
                     ];
                     $database
                         ->getReference('Messages')
@@ -109,7 +109,7 @@ class AnnouncementController extends Controller
                         'lastMessage' => $request->input('message'),
                         'lastSenderId' => $adminId,
                         'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
-                        "timeStamp" => str(Carbon::now()->timestamp),
+                        'timeStamp' => Carbon::now()->timestamp * 1000,
                         "unRead" => true,
                         "unReadCount" => 1
                     ];
@@ -134,7 +134,7 @@ class AnnouncementController extends Controller
                                 $token->user_id => 'unread',
                                 $adminId => 'read',
                             ],
-                            'timeStamp' => str(Carbon::now()->timestamp),
+                            'timeStamp' => Carbon::now()->timestamp * 1000,
                         ];
                         $database
                             ->getReference('Messages')
@@ -161,7 +161,7 @@ class AnnouncementController extends Controller
                             $token->user_id => 'unread',
                             $adminId => 'read',
                         ],
-                        'timeStamp' => str(Carbon::now()->timestamp),
+                        'timeStamp' => Carbon::now()->timestamp * 1000,
                     ];
                     $database
                         ->getReference('Messages')
