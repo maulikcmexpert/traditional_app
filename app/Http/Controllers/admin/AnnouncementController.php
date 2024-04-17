@@ -76,9 +76,7 @@ class AnnouncementController extends Controller
                 $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
 
                 if (!in_array($generateConversationId, $checkConversationId)) {
-                    echo "yes";
-                    dd($token->user_id, $generateConversationId, $checkConversationId);
-                    exit;
+
 
                     $dataToOverview[$generateConversationId] = [
                         'contactId' => $adminId,
@@ -96,6 +94,7 @@ class AnnouncementController extends Controller
                     $datas = $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId . '/unReadCount/')->getValue();
                     $fieldsToUpdate = ['unReadCount' => $datas + 1];
                     $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
+                }
             }
         }
         dd($notgetUSer);
