@@ -47,28 +47,28 @@ class DeleteOldMessages extends Command
             if (isset($dataArray[$value])) {
                 $currentTimestamp = Carbon::now();
                 foreach ($dataArray[$value] as $val) {
-                    if ($value == 14 && $val['contactId'] == 15) {
+                    // if ($value == 14 && $val['contactId'] == 15) {
 
-                        $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
-                        $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
-                        $getDay = Setting::select('no_chat_day_duration')->first();
-                        if ($getDay != null) {
-                            if ($daysDifference > $getDay->no_chat_day_duration) {
-                                $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
+                    $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
+                    $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
+                    $getDay = Setting::select('no_chat_day_duration')->first();
+                    if ($getDay != null) {
+                        if ($daysDifference > $getDay->no_chat_day_duration) {
+                            $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
 
-                                // leave relation by admin //
+                            // leave relation by admin //
 
-                                $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
-                                if ($leaverealtion != null) {
-                                    $leaverealtion->status = 'leave';
-                                    $leaverealtion->message = 'by admin';
-                                    $leaverealtion->save();
-                                    $leaverealtion->delete();
-                                    $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
-                                }
+                            $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
+                            if ($leaverealtion != null) {
+                                $leaverealtion->status = 'leave';
+                                $leaverealtion->message = 'by admin';
+                                $leaverealtion->save();
+                                $leaverealtion->delete();
+                                $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
                             }
                         }
                     }
+                    // }
                 }
             }
         }
