@@ -120,7 +120,7 @@ class AnnouncementController extends Controller
                 ],
                 'timeStamp' => Carbon::now()->timestamp * 1000
             ];
-            $setUser['users'] = [
+            $setUser = [
 
                 str($token->user_id),
                 $adminId
@@ -128,10 +128,11 @@ class AnnouncementController extends Controller
             ];
 
 
-            // $database
-            // ->getReference('Messages')
-            // ->getChild($generateConversationId)
-            // ->set($setUser);
+            $database
+                ->getReference('Messages')
+                ->getChild($generateConversationId)
+                ->getChild('users')
+                ->set($setUser);
 
             $database
                 ->getReference('Messages')
