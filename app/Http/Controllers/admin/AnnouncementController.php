@@ -51,7 +51,7 @@ class AnnouncementController extends Controller
             $database = Firebase::database();
             $data = $database->getReference('/Overview/' . $token->user_id)->getValue();
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
-            dd($data);
+
             if ($data == null) {
 
 
@@ -68,8 +68,9 @@ class AnnouncementController extends Controller
                 ];
                 $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
-            } else {
-
+            } else if ($data != null) {
+                echo "stop";
+                exit;
                 $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
 
                 if (!in_array($generateConversationId, $checkConversationId)) {
@@ -92,7 +93,9 @@ class AnnouncementController extends Controller
                     $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
                 }
             }
+            echo "success";
         }
+
         toastr()->success('Notify successfully !');
         return redirect()->route('announcement.index');
     }
