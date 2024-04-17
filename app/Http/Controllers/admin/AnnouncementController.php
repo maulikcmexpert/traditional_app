@@ -98,7 +98,7 @@ class AnnouncementController extends Controller
                 }
             }
         }
-        dd($notgetUSer);
+
         toastr()->success('Notify successfully !');
         return redirect()->route('announcement.index');
     }
