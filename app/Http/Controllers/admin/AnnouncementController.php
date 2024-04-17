@@ -128,20 +128,17 @@ class AnnouncementController extends Controller
             ];
 
 
+            // $database
+            // ->getReference('Messages')
+            // ->getChild($generateConversationId)
+            // ->set($setUser);
 
-
-            $database
-                ->getReference('Messages')
-                ->getChild($generateConversationId)
-                ->getChild('message')
-                ->getChild($messageKey)
-                ->update($messageData);
-
-
-            $database
-                ->getReference('Messages')
-                ->getChild($generateConversationId)
-                ->set($setUser);
+            // $database
+            //     ->getReference('Messages')
+            //     ->getChild($generateConversationId)
+            //     ->getChild('message')
+            //     ->getChild($messageKey)
+            //     ->update($messageData);
         }
 
         toastr()->success('Notify successfully !');
