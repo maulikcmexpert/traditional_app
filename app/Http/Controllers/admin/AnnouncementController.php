@@ -42,7 +42,7 @@ class AnnouncementController extends Controller
             "type" => $request->input('type'),
             "message" => $request->input('message')
         ];
-        dd($users);
+
         $adminId = "1";
         foreach ($users as $token) {
 
@@ -68,7 +68,7 @@ class AnnouncementController extends Controller
                 ];
                 $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
-            } else if ($data != null) {
+            } else {
 
                 $notgetUSer[] = $token->user_id;
 
