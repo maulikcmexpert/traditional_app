@@ -97,6 +97,31 @@ class AnnouncementController extends Controller
                         ->getChild('message')
                         ->getChild($messageKey)
                         ->set($messageData);
+                } else {
+                    $messageKey  = $database
+                        ->getReference('Messages')
+                        ->getChild($generateConversationId)
+                        ->getChild('message')
+                        ->push()
+                        ->getKey();
+
+                    $messageData = [
+                        'data' => $request->input('message'),
+                        'isSeen' => false,
+                        'receiverId' => $token->user_id,
+                        'senderId' => $adminId,
+                        'status' => [
+                            $token->user_id => 'unread',
+                            $adminId => 'read',
+                        ],
+                        'timeStamp' => Carbon::now()->timestamp * 1000
+                    ];
+                    $database
+                        ->getReference('Messages')
+                        ->getChild($generateConversationId)
+                        ->getChild('message')
+                        ->getChild($messageKey)
+                        ->set($messageData);
                 }
             } else {
                 $getExistConversationId = array_keys($data);
@@ -119,6 +144,39 @@ class AnnouncementController extends Controller
                     $getExistMessageConversationId = array_keys($messageData);
                     $setUser['users'] = [];
                     if (!in_array($generateConversationId, $getExistMessageConversationId)) {
+                        $messageKey  = $database
+                            ->getReference('Messages')
+                            ->getChild($generateConversationId)
+                            ->getChild('message')
+                            ->push()
+                            ->getKey();
+
+                        $messageData = [
+                            'data' => $request->input('message'),
+                            'isSeen' => false,
+                            'receiverId' => str($token->user_id),
+                            'senderId' => $adminId,
+                            'status' => [
+                                $token->user_id => 'unread',
+                                $adminId => 'read',
+                            ],
+                            'timeStamp' => Carbon::now()->timestamp * 1000,
+
+                        ];
+                        $setUser['users'] = [
+
+                            str($token->user_id),
+                            $adminId
+
+                        ];
+                        $database
+                            ->getReference('Messages')
+                            ->getChild($generateConversationId)
+                            ->set($setUser)
+                            ->getChild('message')
+                            ->getChild($messageKey)
+                            ->set($messageData);
+                    } else {
                         $messageKey  = $database
                             ->getReference('Messages')
                             ->getChild($generateConversationId)
