@@ -67,7 +67,7 @@ class AnnouncementController extends Controller
                     "unRead" => true,
                     "unReadCount" => 0
                 ];
-
+                $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
             } else {
                 $getExistConversationId = array_keys($data);
