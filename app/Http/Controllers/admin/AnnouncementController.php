@@ -138,6 +138,7 @@ class AnnouncementController extends Controller
                 ->getReference('Messages')
                 ->getChild($generateConversationId)
                 ->getChild('message')
+                ->set($setUser)
                 ->getChild($messageKey)
                 ->set($messageData);
         }
