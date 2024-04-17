@@ -94,9 +94,8 @@ class AnnouncementController extends Controller
                 //     $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
                 // }
             }
-            echo $notgetUSer;
         }
-
+        dd($notgetUSer);
         toastr()->success('Notify successfully !');
         return redirect()->route('announcement.index');
     }
