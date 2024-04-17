@@ -128,13 +128,17 @@ class AnnouncementController extends Controller
                         $messageData = [
                             'data' => $request->input('message'),
                             'isSeen' => false,
-                            'receiverId' => $token->user_id,
+                            'receiverId' => str($token->user_id),
                             'senderId' => $adminId,
                             'status' => [
                                 $token->user_id => 'unread',
                                 $adminId => 'read',
                             ],
                             'timeStamp' => Carbon::now()->timestamp * 1000,
+                            'users' => [
+                                str($token->user_id),
+                                $adminId
+                            ]
                         ];
                         $database
                             ->getReference('Messages')
@@ -155,13 +159,17 @@ class AnnouncementController extends Controller
                     $messageData = [
                         'data' => $request->input('message'),
                         'isSeen' => false,
-                        'receiverId' => $token->user_id,
+                        'receiverId' => str($token->user_id),
                         'senderId' => $adminId,
                         'status' => [
                             $token->user_id => 'unread',
                             $adminId => 'read',
                         ],
                         'timeStamp' => Carbon::now()->timestamp * 1000,
+                        'users' => [
+                            str($token->user_id),
+                            $adminId
+                        ]
                     ];
                     $database
                         ->getReference('Messages')
