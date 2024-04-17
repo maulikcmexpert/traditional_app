@@ -78,6 +78,7 @@ class AnnouncementController extends Controller
                 if (in_array($generateConversationId, $checkConversationId)) {
 
                     $datas = $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId . '/unReadCount/')->getValue();
+                    dd($datas);
                     $fieldsToUpdate = ['unReadCount' => $datas + 1];
                     $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
 
