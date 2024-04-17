@@ -70,7 +70,7 @@ class AnnouncementController extends Controller
             } else {
 
                 $checkConversationId = $database->getReference('/users/' . $token->user_id)->getValue();
-                dd($checkConversationId);
+                dd($token->user_id, $checkConversationId);
                 if ($generateConversationId)
                     $dataToOverview[$generateConversationId] = [
                         'contactId' => $adminId,
