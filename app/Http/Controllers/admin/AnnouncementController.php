@@ -49,7 +49,7 @@ class AnnouncementController extends Controller
             send_notification_FCM_and($token->device_token, $notificationData);
 
             $database = Firebase::database();
-            $data = $database->getReference('/users/' . $token->user_id)->getValue();
+            $data = $database->getReference('/Overview/' . $token->user_id)->getValue();
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
             if ($data == null) {
 
@@ -65,11 +65,11 @@ class AnnouncementController extends Controller
                     "unRead" => true,
                     "unReadCount" => 0
                 ];
-                $data = $database->getReference('/users/' . $token->user_id)->update($dataToOverview);
+                $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
             } else {
 
-                $checkConversationId = $database->getReference('/users/' . $token->user_id)->getValue();
+                $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
                 dd($token->user_id, $checkConversationId);
                 if ($generateConversationId)
                     $dataToOverview[$generateConversationId] = [
@@ -83,7 +83,7 @@ class AnnouncementController extends Controller
                         "unRead" => true,
                         "unReadCount" => 0
                     ];
-                $data = $database->getReference('/users/' . $token->user_id)->update($dataToOverview);
+                $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
             }
         }
         toastr()->success('Notify successfully !');
