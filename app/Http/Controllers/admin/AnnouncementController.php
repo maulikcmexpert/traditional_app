@@ -45,7 +45,7 @@ class AnnouncementController extends Controller
 
         $adminId = "1";
         $notgetUSer = [];
-        foreach ($users as $token) {
+        foreach ($users as  $key => $token) {
 
             send_notification_FCM_and($token->device_token, $notificationData);
 
@@ -68,6 +68,8 @@ class AnnouncementController extends Controller
                 ];
                 $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
+            } else {
+                dd($data);
             }
         }
         DD($notgetUSer);
