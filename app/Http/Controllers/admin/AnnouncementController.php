@@ -62,7 +62,7 @@ class AnnouncementController extends Controller
                     'lastMessage' => $request->input('message'),
                     'lastSenderId' => $adminId,
                     'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
-                    "timeStamp" => Carbon::now()->timestamp,
+                    "timeStamp" => str(Carbon::now()->timestamp),
                     "unRead" => true,
                     "unReadCount" => 0
                 ];
