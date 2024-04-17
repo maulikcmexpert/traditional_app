@@ -72,6 +72,18 @@ class AnnouncementController extends Controller
                 $getExistConversationId = array_keys($data);
                 if (!in_array($generateConversationId, $getExistConversationId)) {
                     dd($generateConversationId);
+                    $dataToOverview[$generateConversationId] = [
+                        'contactId' => $adminId,
+                        'contactName' =>  'Team Traditional Chat',
+                        'conversationId' => $generateConversationId,
+                        'lastMessage' => $request->input('message'),
+                        'lastSenderId' => $adminId,
+                        'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
+                        "timeStamp" => str(Carbon::now()->timestamp),
+                        "unRead" => true,
+                        "unReadCount" => 0
+                    ];
+                    $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 }
             }
         }
