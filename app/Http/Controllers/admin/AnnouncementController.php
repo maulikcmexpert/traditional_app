@@ -65,10 +65,39 @@ class AnnouncementController extends Controller
                     'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
                     "timeStamp" => str(Carbon::now()->timestamp),
                     "unRead" => true,
-                    "unReadCount" => 0
+                    "unReadCount" => 1
                 ];
                 $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
+
+                $messageData = $database->getReference('/Messages/')->getValue();
+                $getExistMessageConversationId = array_keys($messageData);
+                if (!in_array($generateConversationId, $getExistMessageConversationId)) {
+                    $messageKey  = $database
+                        ->getReference('Messages')
+                        ->getChild($generateConversationId)
+                        ->getChild('message')
+                        ->push()
+                        ->getKey();
+
+                    $messageData = [
+                        'data' => $request->input('message'),
+                        'isSeen' => false,
+                        'receiverId' => $token->user_id,
+                        'senderId' => $adminId,
+                        'status' => [
+                            $token->user_id => 'unread',
+                            $adminId => 'read',
+                        ],
+                        'timeStamp' => str(Carbon::now()->timestamp),
+                    ];
+                    $database
+                        ->getReference('Messages')
+                        ->getChild($generateConversationId)
+                        ->getChild('message')
+                        ->getChild($messageKey)
+                        ->set($messageData);
+                }
             } else {
                 $getExistConversationId = array_keys($data);
                 if (!in_array($generateConversationId, $getExistConversationId)) {
@@ -82,9 +111,64 @@ class AnnouncementController extends Controller
                         'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
                         "timeStamp" => str(Carbon::now()->timestamp),
                         "unRead" => true,
-                        "unReadCount" => 0
+                        "unReadCount" => 1
                     ];
                     $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+
+                    $messageData = $database->getReference('/Messages/')->getValue();
+                    $getExistMessageConversationId = array_keys($messageData);
+                    if (!in_array($generateConversationId, $getExistMessageConversationId)) {
+                        $messageKey  = $database
+                            ->getReference('Messages')
+                            ->getChild($generateConversationId)
+                            ->getChild('message')
+                            ->push()
+                            ->getKey();
+
+                        $messageData = [
+                            'data' => $request->input('message'),
+                            'isSeen' => false,
+                            'receiverId' => $token->user_id,
+                            'senderId' => $adminId,
+                            'status' => [
+                                $token->user_id => 'unread',
+                                $adminId => 'read',
+                            ],
+                            'timeStamp' => str(Carbon::now()->timestamp),
+                        ];
+                        $database
+                            ->getReference('Messages')
+                            ->getChild($generateConversationId)
+                            ->getChild('message')
+                            ->getChild($messageKey)
+                            ->set($messageData);
+                    }
+                } else {
+
+                    $messageKey  = $database
+                        ->getReference('Messages')
+                        ->getChild($generateConversationId)
+                        ->getChild('message')
+                        ->push()
+                        ->getKey();
+
+                    $messageData = [
+                        'data' => $request->input('message'),
+                        'isSeen' => false,
+                        'receiverId' => $token->user_id,
+                        'senderId' => $adminId,
+                        'status' => [
+                            $token->user_id => 'unread',
+                            $adminId => 'read',
+                        ],
+                        'timeStamp' => str(Carbon::now()->timestamp),
+                    ];
+                    $database
+                        ->getReference('Messages')
+                        ->getChild($generateConversationId)
+                        ->getChild('message')
+                        ->getChild($messageKey)
+                        ->set($messageData);
                 }
             }
         }
