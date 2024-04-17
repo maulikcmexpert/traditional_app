@@ -50,7 +50,7 @@ class AnnouncementController extends Controller
 
             $database = Firebase::database();
             $data = $database->getReference('/users/' . $token->user_id)->getValue();
-            $generateConversationId =   generateConversationId($token->user_id, $adminId);
+            $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
             if ($data == null) {
 
 
