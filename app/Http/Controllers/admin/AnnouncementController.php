@@ -42,7 +42,7 @@ class AnnouncementController extends Controller
             "type" => $request->input('type'),
             "message" => $request->input('message')
         ];
-
+        dd($users);
         $adminId = "1";
         foreach ($users as $token) {
 
