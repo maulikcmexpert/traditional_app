@@ -71,7 +71,7 @@ class AnnouncementController extends Controller
             } else if ($data != null) {
                 $getExistConversationId = array_keys($data);
                 if (!in_array($generateConversationId, $getExistConversationId)) {
-                    dd($generateConversationId);
+
                     $dataToOverview[$generateConversationId] = [
                         'contactId' => $adminId,
                         'contactName' =>  'Team Traditional Chat',
@@ -87,7 +87,7 @@ class AnnouncementController extends Controller
                 }
             }
         }
-        DD($notgetUSer);
+
         toastr()->success('Notify successfully !');
         return redirect()->route('announcement.index');
     }
