@@ -54,8 +54,6 @@ class AnnouncementController extends Controller
             $generateConversationId = "";
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
             if ($data == null) {
-
-
                 $dataToOverview[$generateConversationId] = [
                     'contactId' => $adminId,
                     'contactName' =>  'Team Traditional Chat',
@@ -69,33 +67,6 @@ class AnnouncementController extends Controller
                 ];
                 $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
-            } else {
-
-                $notgetUSer[] = $token->user_id;
-
-                $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
-
-                if (in_array($generateConversationId, $checkConversationId)) {
-
-                    $datas = $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId . '/unReadCount/')->getValue();
-
-                    $fieldsToUpdate = ['unReadCount' => $datas + 1];
-                    $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
-                } else {
-
-                    $dataToOverview[$generateConversationId] = [
-                        'contactId' => $adminId,
-                        'contactName' =>  'Team Traditional Chat',
-                        'conversationId' => $generateConversationId,
-                        'lastMessage' => $request->input('message'),
-                        'lastSenderId' => $adminId,
-                        'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
-                        "timeStamp" => str(Carbon::now()->timestamp),
-                        "unRead" => true,
-                        "unReadCount" => 0
-                    ];
-                    $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
-                }
             }
         }
 
