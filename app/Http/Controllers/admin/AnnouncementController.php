@@ -68,8 +68,9 @@ class AnnouncementController extends Controller
                 ];
                 $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
-            } else {
-                dd($data);
+            } else if ($data != null) {
+                $getExistConversationId = array_keys($data);
+                dd($getExistConversationId);
             }
         }
         DD($notgetUSer);
