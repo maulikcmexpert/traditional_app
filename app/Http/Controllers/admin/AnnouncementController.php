@@ -44,7 +44,7 @@ class AnnouncementController extends Controller
         ];
 
         $adminId = "1";
-        $notgetUSer = [];
+
         foreach ($users as  $key => $token) {
 
             send_notification_FCM_and($token->device_token, $notificationData);
@@ -67,9 +67,9 @@ class AnnouncementController extends Controller
                     "unRead" => true,
                     "unReadCount" => 0
                 ];
-                $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+
                 // $update = $data->update($fieldsToUpdate);
-            } else if ($data != null) {
+            } else {
                 $getExistConversationId = array_keys($data);
                 if (!in_array($generateConversationId, $getExistConversationId)) {
 
