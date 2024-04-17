@@ -51,8 +51,8 @@ class AnnouncementController extends Controller
 
             $database = Firebase::database();
             $data = $database->getReference('/Overview/' . $token->user_id)->getValue();
+            $generateConversationId = "";
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
-
             if ($data == null) {
 
 
@@ -74,11 +74,11 @@ class AnnouncementController extends Controller
                 $notgetUSer[] = $token->user_id;
 
                 $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
-                dd($token->user_id, $generateConversationId, $checkConversationId);
+
                 if (in_array($generateConversationId, $checkConversationId)) {
 
                     $datas = $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId . '/unReadCount/')->getValue();
-                    dd($datas);
+
                     $fieldsToUpdate = ['unReadCount' => $datas + 1];
                     $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
 
