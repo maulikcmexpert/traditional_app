@@ -51,7 +51,7 @@ class AnnouncementController extends Controller
             $database = Firebase::database();
             $data = $database->getReference('/Overview/' . $token->user_id)->getValue();
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
-
+            $notgetUSer = [];
             if ($data == null) {
 
 
@@ -69,31 +69,32 @@ class AnnouncementController extends Controller
                 $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
             } else if ($data != null) {
-                echo "stop";
-                exit;
-                $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
 
-                if (!in_array($generateConversationId, $checkConversationId)) {
-                    if ($generateConversationId)
-                        $dataToOverview[$generateConversationId] = [
-                            'contactId' => $adminId,
-                            'contactName' =>  'Team Traditional Chat',
-                            'conversationId' => $generateConversationId,
-                            'lastMessage' => $request->input('message'),
-                            'lastSenderId' => $adminId,
-                            'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
-                            "timeStamp" => Carbon::now(),
-                            "unRead" => true,
-                            "unReadCount" => 0
-                        ];
-                    $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
-                } else {
-                    $datas = $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId . '/unReadCount/')->getValue();
-                    $fieldsToUpdate = ['unReadCount' => $datas + 1];
-                    $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
-                }
+                $notgetUSer[] = $token->user_id;
+
+                // $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
+
+                // if (!in_array($generateConversationId, $checkConversationId)) {
+                //     if ($generateConversationId)
+                //         $dataToOverview[$generateConversationId] = [
+                //             'contactId' => $adminId,
+                //             'contactName' =>  'Team Traditional Chat',
+                //             'conversationId' => $generateConversationId,
+                //             'lastMessage' => $request->input('message'),
+                //             'lastSenderId' => $adminId,
+                //             'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
+                //             "timeStamp" => Carbon::now(),
+                //             "unRead" => true,
+                //             "unReadCount" => 0
+                //         ];
+                //     $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+                // } else {
+                //     $datas = $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId . '/unReadCount/')->getValue();
+                //     $fieldsToUpdate = ['unReadCount' => $datas + 1];
+                //     $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
+                // }
             }
-            echo "success";
+            echo $notgetUSer;
         }
 
         toastr()->success('Notify successfully !');
