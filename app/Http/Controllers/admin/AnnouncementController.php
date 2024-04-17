@@ -70,7 +70,9 @@ class AnnouncementController extends Controller
                 // $update = $data->update($fieldsToUpdate);
             } else if ($data != null) {
                 $getExistConversationId = array_keys($data);
-                dd($getExistConversationId);
+                if (in_array($generateConversationId, $getExistConversationId)) {
+                    dd($generateConversationId);
+                }
             }
         }
         DD($notgetUSer);
