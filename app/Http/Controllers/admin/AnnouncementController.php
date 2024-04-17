@@ -51,9 +51,10 @@ class AnnouncementController extends Controller
 
             $database = Firebase::database();
             $data = $database->getReference('/Overview/' . $token->user_id)->getValue();
-            $notgetUSer[]  = $data;
+
             $generateConversationId = "";
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
+            $dataToOverview[$generateConversationId] = [];
             if ($data == null) {
                 $dataToOverview[$generateConversationId] = [
                     'contactId' => $adminId,
@@ -66,7 +67,7 @@ class AnnouncementController extends Controller
                     "unRead" => true,
                     "unReadCount" => 0
                 ];
-                $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+                $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 // $update = $data->update($fieldsToUpdate);
             } else if ($data != null) {
                 $getExistConversationId = array_keys($data);
@@ -83,7 +84,7 @@ class AnnouncementController extends Controller
                         "unRead" => true,
                         "unReadCount" => 0
                     ];
-                    $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+                    $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
                 }
             }
         }
