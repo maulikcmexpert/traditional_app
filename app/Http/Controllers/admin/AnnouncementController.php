@@ -75,25 +75,26 @@ class AnnouncementController extends Controller
 
                 $checkConversationId = $database->getReference('/Overview/' . $token->user_id)->getValue();
 
-                if (!in_array($generateConversationId, $checkConversationId)) {
+                if (in_array($generateConversationId, $checkConversationId)) {
 
-
-                    $dataToOverview[$generateConversationId] = [
-                        'contactId' => $adminId,
-                        'contactName' =>  'Team Traditional Chat',
-                        'conversationId' => $generateConversationId,
-                        'lastMessage' => $request->input('message'),
-                        'lastSenderId' => $adminId,
-                        'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
-                        "timeStamp" => Carbon::now(),
-                        "unRead" => true,
-                        "unReadCount" => 0
-                    ];
-                    $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
-                } else {
                     $datas = $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId . '/unReadCount/')->getValue();
                     $fieldsToUpdate = ['unReadCount' => $datas + 1];
                     $database->getReference('/Overview/' . $token->user_id . '/' . $generateConversationId)->update($fieldsToUpdate);
+
+
+                    // $dataToOverview[$generateConversationId] = [
+                    //     'contactId' => $adminId,
+                    //     'contactName' =>  'Team Traditional Chat',
+                    //     'conversationId' => $generateConversationId,
+                    //     'lastMessage' => $request->input('message'),
+                    //     'lastSenderId' => $adminId,
+                    //     'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
+                    //     "timeStamp" => Carbon::now(),
+                    //     "unRead" => true,
+                    //     "unReadCount" => 0
+                    // ];
+                    // $data = $database->getReference('/Overview/' . $token->user_id)->update($dataToOverview);
+                } else {
                 }
             }
         }
