@@ -47,7 +47,7 @@ class DeleteOldMessages extends Command
             if (isset($dataArray[$value])) {
                 $currentTimestamp = Carbon::now();
                 foreach ($dataArray[$value] as $val) {
-                    // if ($value == 14 && $val['contactId'] == 15) {
+
 
                     $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
                     $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
@@ -68,7 +68,6 @@ class DeleteOldMessages extends Command
                             }
                         }
                     }
-                    // }
                 }
             }
         }
