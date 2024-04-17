@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('delete:old-messages')->hourly(); // Run the command daily
+        $schedule->command('delete:old-messages')->everyMinute(); // Run the command daily
 
     }
 
