@@ -97,25 +97,17 @@ class AnnouncementController extends Controller
                 }
             }
 
-            // Check if the conversation ID already exists in Messages
-            $messageData = $database->getReference('/Messages/' . $generateConversationId)->getValue();
-            if ($messageData == null) {
-                // Create new entry if it doesn't exist
-                $messageKey = $database
-                    ->getReference('Messages')
-                    ->getChild($generateConversationId)
-                    ->getChild('message')
-                    ->push()
-                    ->getKey();
-            } else {
-                // Append to existing messages
-                $messageKey = $database
-                    ->getReference('Messages')
-                    ->getChild($generateConversationId)
-                    ->getChild('message')
-                    ->push()
-                    ->getKey();
-            }
+
+
+
+            // Append to existing messages
+            $messageKey = $database
+                ->getReference('Messages')
+                ->getChild($generateConversationId)
+                ->getChild('message')
+                ->push()
+                ->getKey();
+
 
             $messageData = [
                 'data' => $request->input('message'),
@@ -134,10 +126,16 @@ class AnnouncementController extends Controller
                 $adminId
 
             ];
+
             $database
                 ->getReference('Messages')
                 ->getChild($generateConversationId)
-                ->set($setUser)
+                ->set($setUser);
+
+
+            $database
+                ->getReference('Messages')
+                ->getChild($generateConversationId)
                 ->getChild('message')
                 ->getChild($messageKey)
                 ->set($messageData);
