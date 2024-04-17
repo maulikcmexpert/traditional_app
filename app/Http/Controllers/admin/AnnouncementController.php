@@ -18,7 +18,7 @@ class AnnouncementController extends Controller
     public function index()
     {
         $page = 'admin.announcement.add';
-        $title = 'General Setting';
+        $title = 'General Announcement';
         $js = 'admin.announcement.scriptjs';
         return view('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -43,7 +43,7 @@ class AnnouncementController extends Controller
             "message" => $request->input('message')
         ];
 
-        $adminId = 1;
+        $adminId = "1";
         foreach ($users as $token) {
 
             send_notification_FCM_and($token->device_token, $notificationData);
@@ -61,7 +61,7 @@ class AnnouncementController extends Controller
                     'lastMessage' => $request->input('message'),
                     'lastSenderId' => $adminId,
                     'receiverProfile' => asset('public/admin/assets/logo/logo.png'),
-                    "timeStamp" => Carbon::now(),
+                    "timeStamp" => Carbon::now()->timestamp,
                     "unRead" => true,
                     "unReadCount" => 0
                 ];
