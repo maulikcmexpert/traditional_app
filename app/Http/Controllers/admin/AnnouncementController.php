@@ -51,6 +51,7 @@ class AnnouncementController extends Controller
 
             $database = Firebase::database();
             $data = $database->getReference('/Overview/' . $token->user_id)->getValue();
+            $notgetUSer[]  = $data;
             $generateConversationId = "";
             $generateConversationId =   generateConversationId([$token->user_id, $adminId]);
             if ($data == null) {
@@ -69,7 +70,7 @@ class AnnouncementController extends Controller
                 // $update = $data->update($fieldsToUpdate);
             }
         }
-
+        DD($notgetUSer);
         toastr()->success('Notify successfully !');
         return redirect()->route('announcement.index');
     }
