@@ -38,7 +38,7 @@
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Term And Condition</label>
 
-                                            <textarea class="ckeditor form-control privacy_policy" id="term_and_condition" name="term_and_condition">{{($legalAgreement == null)? '':$legalAgreement->term_and_condition }}</textarea>
+                                            <textarea class="ckeditor form-control term_and_condition" id="term_and_condition" name="term_and_condition">{{($legalAgreement == null)? '':$legalAgreement->term_and_condition }}</textarea>
                                             <span class="text-danger"> @if ($errors->has('term_and_condition')){{ $errors->first('term_and_condition') }} @endif</span>
                                         </div>
                                     </div>

@@ -2,48 +2,27 @@
     $(document).ready(function() {
 
 
-        $("#version_setting").validate({
+        $("#legal_agreement").validate({
             rules: {
-                android_version: {
+                privacy_policy: {
                     required: true,
 
                 },
-                android_in_force: {
-                    required: true,
-
-                },
-
-                ios_version: {
-
+                term_and_condition: {
                     required: true,
 
                 },
 
-                ios_in_force: {
-
-                    required: true,
-                },
             },
             messages: {
-                android_version: {
-                    required: "Please enter android version",
+                privacy_policy: {
+                    required: "Please enter Privacy Policy",
 
                 },
-                android_in_force: {
-                    required: "Please select android in force",
+                term_and_condition: {
+                    required: "Please select Term And Condition",
 
-                },
-
-                ios_version: {
-
-                    required: "Please enter Ios version",
-
-                },
-
-                ios_in_force: {
-
-                    required: "Please select Ios in force",
-                },
+                }
             },
         });
 
