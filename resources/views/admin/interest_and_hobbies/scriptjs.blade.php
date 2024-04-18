@@ -34,17 +34,17 @@
 
                 // Validation checks
                 if (thatVal === '') {
-                    that.next('.text-danger').text('Please enter interest and hobby');
+                    that.next('.text-danger').text('Please enter Interest And Hobby');
                     isValid = false;
                 } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid interest and hobby');
+                    that.next('.text-danger').text('Please enter valid Interest And Hobby');
                     isValid = false;
 
                 } else if (/^\d+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid interest and hobby');
+                    that.next('.text-danger').text('Please enter valid Interest And Hobby');
                     isValid = false;
                 } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid interest and hobby');
+                    that.next('.text-danger').text('Please enter valid Interest And Hobby');
                     isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
@@ -60,7 +60,7 @@
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('Interest and hobby already exist');
+                                    that.next('.text-danger').text('Interest And Hobby already exist');
                                     isValid = false;
                                     resolve(false);
                                 } else {
@@ -100,7 +100,14 @@
 
 
 
-
+        $.validator.addMethod("customValidation", function(value, element) {
+            var isValid = true;
+            var thatVal = value.trim();
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                isValid = false;
+            }
+            return isValid;
+        });
 
         $("#interest_and_hobby").validate({
             rules: {
@@ -123,13 +130,15 @@
                             },
                         },
                     },
+                    customValidation: true
                 },
 
             },
             messages: {
                 interest_and_hobby: {
-                    required: "Please enter interest and hobby",
-                    remote: "Interest and hobby already exist",
+                    required: "Please enter Interest And Hobby",
+                    remote: "Interest And Hobby already exist",
+                    customValidation: "Please enter valid Interest And Hobby "
                 },
 
             },
@@ -166,7 +175,7 @@
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        errorAlert("Inerest And Hobby");
+                        errorAlert("Interest And Hobby");
 
                     } else {
                         swal({
@@ -196,7 +205,7 @@
 
 
                                         } else {
-                                            errorAlert("Inerest And Hobby");
+                                            errorAlert("Interest And Hobby");
 
                                         }
                                     },
@@ -212,7 +221,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Interest and hobby deleted successfully !");
+            toastr.success("Interest And Hobby deleted successfully !");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }
