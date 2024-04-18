@@ -6,7 +6,6 @@
         // Form Validation
         $("#legal_agreement").validate({
             ignore: [],
-            debug: false,
             rules: {
 
                 privacy_policy: {
