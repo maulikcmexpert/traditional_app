@@ -28,8 +28,9 @@
                 var that = $(this);
                 var thatVal = that.val().trim();
 
-                if (thatVal == '') {
+                if (thatVal === '') {
                     that.next('.text-danger').text('Please enter Leave Reason');
+                    isValid = false;
                 } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
                     that.next('.text-danger').text('Please enter valid Leave Reason');
                     isValid = false;
