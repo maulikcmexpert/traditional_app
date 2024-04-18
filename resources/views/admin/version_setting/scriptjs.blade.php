@@ -6,7 +6,7 @@
             rules: {
                 android_version: {
                     required: true,
-                    numeric: true
+
                 },
                 android_in_force: {
                     required: true,
@@ -16,7 +16,7 @@
                 ios_version: {
 
                     required: true,
-                    number: true
+
                 },
 
                 ios_in_force: {
@@ -27,7 +27,7 @@
             messages: {
                 android_version: {
                     required: "Please enter android version",
-                    number: "Please enter in digit"
+
                 },
                 android_in_force: {
                     required: "Please select android in force",
@@ -37,7 +37,7 @@
                 ios_version: {
 
                     required: "Please enter Ios version",
-                    number: "Please enter in digit"
+
                 },
 
                 ios_in_force: {
