@@ -1453,7 +1453,7 @@ class UsersController_v2 extends BaseController
                     // 'about_us' => 'required',
                     'size_of_organization_id' => 'required',
                     'established_year' => ['required', 'numeric', 'digits:4', 'lte:' . date('Y')],
-                    'address' => ['required', new AddressValidation]
+                    'address' => ['required', new AddressValidation, 'between:5,500']
                 ],
                 [
                     'full_name.required' => 'Please enter Name of Church/Organization',

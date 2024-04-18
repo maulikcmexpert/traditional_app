@@ -41,7 +41,7 @@ class OrgranizationValid extends FormRequest
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],
             'city' => ['required', new AlphaNumericCity],
-            'address' => ['required', new AddressValidation],
+            'address' => ['required', new AddressValidation, 'between:5,500'],
 
         ];
     }
