@@ -29,14 +29,14 @@
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Body Type');
                 } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid Culture');
+                    that.next('.text-danger').text('Please enter valid Body Type');
                     isValid = false;
 
                 } else if (/^\d+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid Culture');
+                    that.next('.text-danger').text('Please enter valid Body Type');
                     isValid = false;
                 } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid Culture');
+                    that.next('.text-danger').text('Please enter valid Body Type');
                     isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {

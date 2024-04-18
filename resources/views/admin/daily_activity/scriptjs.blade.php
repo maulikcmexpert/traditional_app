@@ -21,12 +21,23 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
+            var isValid = true;
             $('#daily_activitys .daily_activity').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Daily Activity');
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Daily Activity');
+                    isValid = false;
+
+                } else if (/^\d+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Daily Activity');
+                    isValid = false;
+                } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Daily Activity');
+                    isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -56,7 +67,10 @@
                     promises.push(promise);
                 }
             });
-
+            if (!isValid) {
+                console.log("Validation failed, cannot submit the form");
+                return;
+            }
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
@@ -73,7 +87,14 @@
 
 
 
-
+        $.validator.addMethod("customValidation", function(value, element) {
+            var isValid = true;
+            var thatVal = value.trim();
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                isValid = false;
+            }
+            return isValid;
+        });
 
         $("#daily_activity").validate({
             rules: {
@@ -103,6 +124,7 @@
                 daily_activity: {
                     required: "Please enter Daily Activity",
                     remote: "Daily Activity already exist",
+                    customValidation: "Daily Activity"
                 },
 
             },
