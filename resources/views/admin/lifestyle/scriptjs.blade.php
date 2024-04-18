@@ -21,12 +21,28 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
+            var isValid = true; // Flag to track overall form validity
             $('#life_style .lifestyle').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
-                if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter lifestyle');
+                // Reset previous error messages
+                that.next('.text-danger').text('');
+
+                // Validation checks
+                if (thatVal === '') {
+                    that.next('.text-danger').text('Please enter Lifestyle');
+                    isValid = false;
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Lifestyle');
+                    isValid = false;
+
+                } else if (/^\d+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Lifestyle');
+                    isValid = false;
+                } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Lifestyle');
+                    isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -57,6 +73,13 @@
                 }
             });
 
+            // If any validation failed, do not submit the form
+            if (!isValid) {
+                console.log("Validation failed, cannot submit the form");
+                return;
+            }
+
+            // If all validations passed, wait for AJAX requests to complete
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
