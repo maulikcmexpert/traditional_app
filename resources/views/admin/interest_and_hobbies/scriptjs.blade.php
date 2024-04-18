@@ -40,7 +40,7 @@
                     that.next('.text-danger').text('Please enter valid interest and hobby');
                     isValid = false;
 
-                } else if (!/^\d+$/.test(thatVal)) {
+                } else if (/^\d+$/.test(thatVal)) {
                     that.next('.text-danger').text('Please enter valid interest and hobby');
                     isValid = false;
                 } else {
