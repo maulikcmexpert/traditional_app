@@ -41,7 +41,7 @@
                     isValid = false;
 
                 } else if (/^\D*$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid interest and hobby');
+                    that.next('.text-danger').text('Please enter valifffd interest and hobby');
                     isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
