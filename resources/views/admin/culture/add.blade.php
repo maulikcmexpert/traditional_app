@@ -29,7 +29,7 @@
                                         <div class="w-100 mb-2 position-relative">
                                             <label class="form-label">Culture</label>
                                             <input type="text" class="form-control culture" name="culture[]" />
-                                            <span class="text-danger"> @if ($errors->has('culture*.')){{ $errors->first('culture*.') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('culture*')){{ $errors->first('culture*') }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                 <label class="form-label">Culture</label>
                 <input type="text" class="form-control culture" name="culture[]" />
 
-                <span class="text-danger"> @if($errors->has('culture*.')){{ $errors->first('culture*.') }} @endif</span>
+                <span class="text-danger"> @if($errors->has('culture*')){{ $errors->first('culture*') }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>
