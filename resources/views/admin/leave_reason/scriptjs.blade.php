@@ -55,6 +55,7 @@
                             success: function(output) {
                                 if (output == false) {
                                     that.next('.text-danger').text('Leave Reason already exist');
+                                    isValid = false;
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
