@@ -36,8 +36,8 @@ class InterestAndHobbiesController extends Controller
     {
         $page = 'admin.interest_and_hobbies.add';
         $title = 'Add Interest and hobby';
-        // $js = 'admin.interest_and_hobbies.scriptjs';
-        return view('layouts.layout', compact('page', 'title'));
+        $js = 'admin.interest_and_hobbies.scriptjs';
+        return view('layouts.layout', compact('page', 'title', 'js'));
     }
 
     /**
