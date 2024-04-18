@@ -23,12 +23,24 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
+
             $('#block_reason .reason').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
+                var isValid = true;
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Block Reason');
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Block Reason');
+                    isValid = false;
+
+                } else if (/^\d+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Block Reason');
+                    isValid = false;
+                } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Block Reason');
+                    isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -59,6 +71,10 @@
                 }
             });
 
+            if (!isValid) {
+                console.log("Validation failed, cannot submit the form");
+                return;
+            }
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
@@ -75,6 +91,14 @@
 
 
 
+        $.validator.addMethod("customValidation", function(value, element) {
+            var isValid = true;
+            var thatVal = value.trim();
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                isValid = false;
+            }
+            return isValid;
+        });
 
 
         $("#blockreason").validate({
@@ -98,6 +122,8 @@
                             },
                         },
                     },
+                    customValidation: true
+
                 },
 
             },
@@ -105,6 +131,7 @@
                 reason: {
                     required: "Please enter Block Reason",
                     remote: "Block Reason already exist",
+                    customValidation: "Please enter vaild Block Reason"
                 },
 
             },

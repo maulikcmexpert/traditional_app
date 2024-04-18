@@ -28,7 +28,7 @@
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Block Reason</label>
                                             <input type="text" class="form-control reason" name="reason[]" />
-                                            <span class="text-danger"> @if ($errors->has('reason*.')){{ $errors->first('reason*.') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('reason*')){{ $errors->first('reason*') }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@
                             </div>
                         </div>
 
-                        <div class="text-center"><input type="button" id="add" class="btn btn-primary submitButton" value="Add Block Reason"></div>
+                        <div class="text-center"><input type="button" id="add" class="btn btn-primary submitButton" value="Add"></div>
 
                     </form>
                     <!--end row-->
@@ -58,7 +58,7 @@
                 <label class="form-label">Block Reason</label>
                 <input type="text" class="form-control reason" name="reason[]" />
 
-                <span class="text-danger"> @if($errors->has('reason*.')){{ $errors->first('reason*.') }} @endif</span>
+                <span class="text-danger"> @if($errors->has('reason*')){{ $errors->first('reason*') }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>
