@@ -117,6 +117,7 @@
                             },
                         },
                     },
+                    customValidation: true
                 },
 
             },
