@@ -31,14 +31,14 @@
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Curse Word');
                 } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter Curse Word');
+                    that.next('.text-danger').text('Please enter valid Curse Word');
                     isValid = false;
 
                 } else if (/^\d+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter Curse Word');
+                    that.next('.text-danger').text('Please enter valid Curse Word');
                     isValid = false;
                 } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter Curse Word');
+                    that.next('.text-danger').text('Please enter valid Curse Word');
                     isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
@@ -127,7 +127,7 @@
                 words: {
                     required: "Please enter Curse Word",
                     remote: "Curse Word already exist",
-                    customValidation: "Please enter Curse Word"
+                    customValidation: "Please enter vaild Curse Word"
                 },
 
             },
