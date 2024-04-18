@@ -3,17 +3,21 @@
 
         $('.ckeditor').ckeditor();
 
-        CKEDITOR.replace('privacy_policy');
-        CKEDITOR.replace('term_and_condition');
-
         // Form Validation
         $("#legal_agreement").validate({
+
+            ignore: [],
+            debug: false,
             rules: {
                 privacy_policy: {
-                    required: true,
+                    required: function() {
+                        CKEDITOR.instances.privacy_policy.updateElement();
+                    },
                 },
                 term_and_condition: {
-                    required: true,
+                    required: function() {
+                        CKEDITOR.instances.term_and_condition.updateElement();
+                    },
                 },
             },
             messages: {
