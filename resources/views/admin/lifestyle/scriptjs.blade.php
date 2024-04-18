@@ -97,7 +97,14 @@
 
 
 
-
+        $.validator.addMethod("customValidation", function(value, element) {
+            var isValid = true;
+            var thatVal = value.trim();
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                isValid = false;
+            }
+            return isValid;
+        });
         $("#lifestyle").validate({
             rules: {
                 lifestyle: {
@@ -119,13 +126,15 @@
                             },
                         },
                     },
+                    customValidation: true
                 },
 
             },
             messages: {
                 lifestyle: {
-                    required: "Please enter lifestyle",
-                    remote: "Iifestyle already exist",
+                    required: "Please enter Lifestyle",
+                    remote: "Lifestyle already exist",
+                    customValidation: "Please enter valid Lifestyle"
                 },
 
             },
