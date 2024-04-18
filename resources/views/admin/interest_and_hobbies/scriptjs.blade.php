@@ -36,7 +36,11 @@
                 if (thatVal === '') {
                     that.next('.text-danger').text('Please enter interest and hobby');
                     isValid = false;
-                } else if (!/^[a-zA-Z0-9 ]+$/.test(thatVal)) {
+                } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid interest and hobby');
+                    isValid = false;
+
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
                     that.next('.text-danger').text('Please enter valid interest and hobby');
                     isValid = false;
 
