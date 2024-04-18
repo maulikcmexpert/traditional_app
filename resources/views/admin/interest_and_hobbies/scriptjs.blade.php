@@ -29,6 +29,13 @@
 
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter interest and hobby');
+                } else if (/[^a-zA-Z0-9\s]/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid interest and hobby');
+
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid interest and hobby');
+                } else if (/^\D*$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid interest and hobby');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
