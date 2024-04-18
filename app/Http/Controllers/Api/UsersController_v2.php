@@ -1247,7 +1247,7 @@ class UsersController_v2 extends BaseController
                     'city' => ['required', new AlphaNumericCity],
                     'date_of_birth' => ['required'],
                     // 'zodiac_sign_id' => 'required',
-                    // 'about_me' => 'required',
+                    'about_me' => ['required', 'between:5,500'],
                     // 'height' => 'numeric',
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
                     // 'weight' => 'numeric',
@@ -1266,7 +1266,8 @@ class UsersController_v2 extends BaseController
                     'date_of_birth.required' => 'Please select Date Of Birth',
                     // 'zodiac_sign_id.required' => 'Please select Zodiac Sign',
                     //'religion_id.required' => 'Please select Religion',
-                    // 'about_me.required' => 'Please enter some information about yourself',
+                    'about_me.required' => 'Please enter some information about yourself',
+                    'about_me.between' => 'Please enter character between 5 to 500',
                     // 'height.required' => 'Please enter your Height',
                     // 'height.numeric' => 'Height must be a number',
                     // 'weight.required' => 'Please Enter your Weight',
@@ -1450,10 +1451,10 @@ class UsersController_v2 extends BaseController
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
-                    // 'about_us' => 'required',
+                    'about_us' => 'between:5,500',
                     'size_of_organization_id' => 'required',
                     'established_year' => ['required', 'numeric', 'digits:4', 'lte:' . date('Y')],
-                    'address' => ['required', new AddressValidation, 'between:5,500']
+                    'address' => ['required', new AddressValidation, 'between:5,250']
                 ],
                 [
                     'full_name.required' => 'Please enter Name of Church/Organization',
@@ -1461,13 +1462,14 @@ class UsersController_v2 extends BaseController
                     'email.required' => 'Please enter Email',
                     'email.unique' => 'Email is already taken',
                     'city.required' => 'Please enter City',
-                    // 'about_us.required' => 'Please enter About us',
+                    'about_us.between' => 'Please enter About us character between 5 to 500',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please enter Established Year',
                     'established_year.numeric' => ' Please enter valid Established Year',
                     'established_year.digits' => ' Please enter valid Established Year',
                     'established_year.lte' => ' Please enter valid Established Year',
-                    'address.required' => 'Please enter Address'
+                    'address.required' => 'Please enter Address',
+                    'address.between' => 'Please enter Address character between 5 to 500'
                 ]
             );
 
