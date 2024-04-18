@@ -35,12 +35,19 @@
                                 <div class="col-xxl-2 col-md-3 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
-                                            <label class="form-label">Android In Force</label>
+                                            <!-- <label class="form-label">Android In Force</label>
                                             <select class="form-control" name="android_in_force" id="android_in_force">
                                                 <option value="0">0</option>
                                                 <option value="1">1</option>
                                             </select>
-                                            <span class="text-danger"> @if ($errors->has('android_in_force')){{ $errors->first('android_in_force') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('android_in_force')){{ $errors->first('android_in_force') }} @endif</span> -->
+                                            <div class="d-flex flex-column">
+                                                <label class="form-label">Android Version</label>
+                                                <label class="switch">
+                                                    <input type="checkbox">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
