@@ -23,12 +23,23 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
+            var isValid = true;
             $('#curse_word .words').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Curse Word');
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter Curse Word');
+                    isValid = false;
+
+                } else if (/^\d+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter Curse Word');
+                    isValid = false;
+                } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter Curse Word');
+                    isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -58,7 +69,10 @@
                     promises.push(promise);
                 }
             });
-
+            if (!isValid) {
+                console.log("Validation failed, cannot submit the form");
+                return;
+            }
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
@@ -74,7 +88,14 @@
         });
 
 
-
+        $.validator.addMethod("customValidation", function(value, element) {
+            var isValid = true;
+            var thatVal = value.trim();
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                isValid = false;
+            }
+            return isValid;
+        });
 
 
         $("#curseword").validate({
@@ -98,6 +119,7 @@
                             },
                         },
                     },
+                    customValidation: true
                 },
 
             },
@@ -105,6 +127,7 @@
                 words: {
                     required: "Please enter Curse Word",
                     remote: "Curse Word already exist",
+                    customValidation: "Please enter Curse Word"
                 },
 
             },
