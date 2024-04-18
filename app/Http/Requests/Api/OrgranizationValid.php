@@ -41,7 +41,7 @@ class OrgranizationValid extends FormRequest
             'size_of_organization' => ['required', 'exists:size_of_organizations,id'],
             'state_id' => ['required', 'integer'],
             'city' => ['required', new AlphaNumericCity],
-            'address' => ['required', new AddressValidation],
+            'address' => ['required', new AddressValidation, 'between:5,250'],
 
         ];
     }
@@ -62,7 +62,8 @@ class OrgranizationValid extends FormRequest
             'established_year.lte' => 'Please enter valid Established Year',
             'city.required' => 'Please enter City',
 
-            'address' => 'Please enter Address'
+            'address' => 'Please enter Address',
+            'address.between' => 'Please enter a valid Address with a maximum of 250 characters'
         ];
     }
 

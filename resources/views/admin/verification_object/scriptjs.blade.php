@@ -1,7 +1,14 @@
 <script>
     $(document).ready(function() {
         // Validate the form with ID 'interest_and_hobbies'
-
+        $.validator.addMethod("customValidation", function(value, element) {
+            var isValid = true;
+            var thatVal = value.trim();
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                isValid = false;
+            }
+            return isValid;
+        });
         $("#verificationobject").validate({
             rules: {
                 object_type: {
@@ -23,6 +30,7 @@
                             },
                         },
                     },
+                    customValidation: true
                 },
                 object_image: {
                     required: true,
@@ -41,6 +49,7 @@
                 object_type: {
                     required: "Please enter Object Type",
                     remote: "Object Type already exist",
+                    customValidation: "Please enter valid Object Type"
                 },
                 object_image: {
                     required: "Please upload Object Image",

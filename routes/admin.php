@@ -23,6 +23,7 @@ use App\Http\Controllers\admin\{
     EatingHabitController,
     ExerciseController,
     FaithController,
+    LegalAgreementController,
     UserReportController
 };
 use App\Http\Controllers\ProfileController;
@@ -48,6 +49,7 @@ Route::middleware(['admin', 'web', 'auth'])->group(function () {
         'generalsetting' => GeneralSettingController::class,
         'announcement' => AnnouncementController::class,
         'version_setting' => AppVersionSettingController::class,
+        'legal_agreement' => LegalAgreementController::class,
         'report_management' => UserReportController::class,
         'faith' => FaithController::class,
         'culture' => CultureController::class,

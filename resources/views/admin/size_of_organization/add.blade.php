@@ -28,7 +28,7 @@
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Size Of Organization</label>
                                             <input type="text" class="form-control size_range" name="size_range[]" />
-                                            <span class="text-danger"> @if ($errors->has('size_range*.')){{ $errors->first('size_range*.') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('size_range*')){{ $errors->first('size_range*') }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                 <label class="form-label">Size Of Organization</label>
                 <input type="text" class="form-control size_range" name="size_range[]" />
 
-                <span class="text-danger"> @if($errors->has('size_range*.')){{ $errors->first('size_range*.') }} @endif</span>
+                <span class="text-danger"> @if($errors->has('size_range*')){{ $errors->first('size_range*') }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>
