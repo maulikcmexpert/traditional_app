@@ -21,12 +21,23 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
+            var isValid = true;
             $('#eating_habits .eating_habit').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Eating Habit');
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Eating Habit');
+                    isValid = false;
+
+                } else if (/^\d+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Eating Habit');
+                    isValid = false;
+                } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Eating Habit');
+                    isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -56,7 +67,10 @@
                     promises.push(promise);
                 }
             });
-
+            if (!isValid) {
+                console.log("Validation failed, cannot submit the form");
+                return;
+            }
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
@@ -73,6 +87,14 @@
 
 
 
+        $.validator.addMethod("customValidation", function(value, element) {
+            var isValid = true;
+            var thatVal = value.trim();
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                isValid = false;
+            }
+            return isValid;
+        });
 
 
         $("#eating_habit").validate({
@@ -96,6 +118,7 @@
                             },
                         },
                     },
+                    customValidation: true
                 },
 
             },
@@ -103,6 +126,7 @@
                 eating_habit: {
                     required: "Please enter Eating Habit",
                     remote: "Eating Habit already exist",
+                    customValidation: "Please enter valid Eating Habit"
                 },
 
             },
