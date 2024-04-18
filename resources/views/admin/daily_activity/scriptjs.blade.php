@@ -125,7 +125,7 @@
                 daily_activity: {
                     required: "Please enter Daily Activity",
                     remote: "Daily Activity already exist",
-                    customValidation: "Daily Activity"
+                    customValidation: "Please enter vaild Daily Activity"
                 },
 
             },
