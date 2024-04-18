@@ -23,37 +23,40 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
+            var isValid = true; // Flag to track overall form validity
+
             $('#interest .interest_and_hobby').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
-                if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter interest and hobby');
-                } else if (/[^a-zA-Z0-9\s]/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid interest and hobby');
+                // Reset previous error messages
+                that.next('.text-danger').text('');
 
-                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid interest and hobby');
-                } else if (/^\D*$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid interest and hobby');
+                // Validation checks
+                if (thatVal === '') {
+                    that.next('.text-danger').text('Please enter interest and hobby');
+                    isValid = false;
+                } else if (!/^[a-zA-Z0-9 ]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid interest and hobby (only letters, digits, and spaces are allowed)');
+                    isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
                             headers: {
                                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                             },
-                            dataType: 'Json',
+                            dataType: 'json',
                             type: "POST",
-                            url: "{{route('interest_and_hobby.exist')}}",
+                            url: "{{ route('interest_and_hobby.exist') }}",
                             data: {
                                 interest_and_hobby: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('interest and hobby already exist');
+                                    that.next('.text-danger').text('Interest and hobby already exist');
+                                    isValid = false;
                                     resolve(false);
                                 } else {
-                                    that.next('.text-danger').text('');
                                     resolve(true);
                                 }
                             },
@@ -66,11 +69,18 @@
                 }
             });
 
+            // If any validation failed, do not submit the form
+            if (!isValid) {
+                console.log("Validation failed, cannot submit the form");
+                return;
+            }
+
+            // If all validations passed, wait for AJAX requests to complete
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
                     console.log("Duplicate interest and hobby found");
-                } else if (results.includes(true)) {
+                } else {
                     // If all results are true, submit the form
                     console.log("No duplicate interest and hobby, submitting form");
                     $("#interest_and_hobby").submit();
@@ -79,6 +89,7 @@
                 console.error("Error occurred during AJAX request:", error);
             });
         });
+
 
 
 
