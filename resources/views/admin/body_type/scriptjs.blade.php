@@ -28,6 +28,7 @@
 
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Body Type');
+                    isValid = false;
                 } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
                     that.next('.text-danger').text('Please enter valid Body Type');
                     isValid = false;
@@ -53,6 +54,7 @@
                             success: function(output) {
                                 if (output == false) {
                                     that.next('.text-danger').text('Body Type already exist');
+                                    isValid = false;
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');

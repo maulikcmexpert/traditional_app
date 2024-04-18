@@ -28,6 +28,7 @@
 
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Daily Activity');
+                    isValid = false;
                 } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
                     that.next('.text-danger').text('Please enter valid Daily Activity');
                     isValid = false;
@@ -53,6 +54,7 @@
                             success: function(output) {
                                 if (output == false) {
                                     that.next('.text-danger').text('Daily Activity already exist');
+                                    isValid = false;
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');

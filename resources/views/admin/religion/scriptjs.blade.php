@@ -23,12 +23,24 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
+            isValid = false;
             $('#religions .religion').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
 
                 if (thatVal == '') {
                     that.next('.text-danger').text('Please enter Religion');
+                    isValid = false;
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Religion');
+                    isValid = false;
+
+                } else if (/^\d+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Religion');
+                    isValid = false;
+                } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Religion');
+                    isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -44,7 +56,9 @@
                             success: function(output) {
                                 if (output == false) {
                                     that.next('.text-danger').text('Religion already exist');
+                                    isValid = false;
                                     resolve(false);
+
                                 } else {
                                     that.next('.text-danger').text('');
                                     resolve(true);
@@ -59,6 +73,10 @@
                 }
             });
 
+            if (!isValid) {
+                console.log("Validation failed, cannot submit the form");
+                return;
+            }
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
@@ -75,7 +93,14 @@
 
 
 
-
+        $.validator.addMethod("customValidation", function(value, element) {
+            var isValid = true;
+            var thatVal = value.trim();
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                isValid = false;
+            }
+            return isValid;
+        });
 
         $("#religion").validate({
             rules: {
@@ -98,6 +123,7 @@
                             },
                         },
                     },
+                    customValidation: true
                 },
 
             },
@@ -105,6 +131,7 @@
                 religion: {
                     required: "Please enter Religion",
                     remote: "Religion already exist",
+                    customValidation: "Please enter valid Religion"
                 },
 
             },
