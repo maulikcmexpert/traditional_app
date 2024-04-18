@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Faith</li>
+                <li class="breadcrumb-item active" aria-current="page">Culture</li>
             </ol>
         </nav>
     </div>
@@ -14,7 +14,7 @@
     <div class="">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Faith</h4>
+                <h4 class="card-title">Culture</h4>
                 <a href="{{route('culture.create')}}" class="btn btn-primary text-right">Add</a>
 
             </div>
