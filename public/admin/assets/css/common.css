@@ -367,6 +367,8 @@ table.dataTable thead > tr > th.sorting:before
     padding: 40px !important;
 }
 
+
+
 @media only screen and (max-width:768px){
     p{
         font-size: 14px !important;
