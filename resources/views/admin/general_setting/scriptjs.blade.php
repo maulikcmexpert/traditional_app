@@ -39,6 +39,10 @@
                     required: true,
                     numeric: true
                 },
+                no_chat_day_duration: {
+                    required: true,
+                    numeric: true
+                },
             },
             messages: {
                 min_age: {
