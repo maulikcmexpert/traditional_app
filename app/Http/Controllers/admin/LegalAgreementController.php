@@ -14,7 +14,7 @@ class LegalAgreementController extends Controller
     public function index()
     {
         $page = 'admin.legal_agreement.add';
-        $title = 'App Version Setting';
+        $title = 'Legal Agreement';
         $js = 'admin.legal_agreement.scriptjs';
         $legalAgreement = LegalAgreement::first();
         return view('layouts.layout', compact('page', 'title', 'js', 'legalAgreement'));
