@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\NameValidation;
 
 class PostInterestAndHobbies extends FormRequest
 {
@@ -22,7 +23,7 @@ class PostInterestAndHobbies extends FormRequest
     public function rules(): array
     {
         return [
-            'interest_and_hobby.*' => ['required', 'string', 'max:255', 'unique:interest_and_hobbies,interest_and_hobby'],
+            'interest_and_hobby.*' => ['required', new NameValidation, 'max:255', 'unique:interest_and_hobbies,interest_and_hobby'],
         ];
     }
 }
