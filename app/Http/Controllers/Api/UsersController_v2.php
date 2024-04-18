@@ -1266,8 +1266,8 @@ class UsersController_v2 extends BaseController
                     'date_of_birth.required' => 'Please select Date Of Birth',
                     // 'zodiac_sign_id.required' => 'Please select Zodiac Sign',
                     //'religion_id.required' => 'Please select Religion',
-                    'about_me.required' => 'Please enter some information about yourself',
-                    'about_me.between' => 'Please enter character between 5 to 500',
+                    'about_me.required' => 'Please enter About me',
+                    'about_me.between' => 'Please enter a valid About me with a maximum of 500 characters.',
                     // 'height.required' => 'Please enter your Height',
                     // 'height.numeric' => 'Height must be a number',
                     // 'weight.required' => 'Please Enter your Weight',
@@ -1469,7 +1469,7 @@ class UsersController_v2 extends BaseController
                     'established_year.digits' => ' Please enter valid Established Year',
                     'established_year.lte' => ' Please enter valid Established Year',
                     'address.required' => 'Please enter Address',
-                    'address.between' => 'Please enter Address character between 5 to 500'
+                    'address.between' => 'Please enter a valid Address with a maximum of 250 characters'
                 ]
             );
 
