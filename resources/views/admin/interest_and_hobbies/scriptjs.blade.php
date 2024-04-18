@@ -31,7 +31,7 @@
 
                 // Reset previous error messages
                 that.next('.text-danger').text('');
-
+                ///^[^a-zA-Z0-9 ]+$/
                 // Validation checks
                 if (thatVal === '') {
                     that.next('.text-danger').text('Please enter interest and hobby');
