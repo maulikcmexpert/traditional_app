@@ -21,51 +21,51 @@
                 min_age: {
                     required: true,
                     minMaxAgeComparison: true,
-                    numeric: true
+                    number: true
                 },
                 max_age: {
                     required: true,
                     minMaxAgeComparison: true,
-                    numeric: true
+                    number: true
                 },
 
                 ghost_count: {
 
                     required: true,
-                    numeric: true
+                    number: true
                 },
 
                 ghost_day: {
                     required: true,
-                    numeric: true
+                    number: true
                 },
                 no_chat_day_duration: {
                     required: true,
-                    numeric: true
+                    number: true
                 },
             },
             messages: {
                 min_age: {
                     required: "Please enter Min Age",
-                    numeric: "Please enter in digit"
+                    number: "Please enter in digit"
                 },
                 max_age: {
                     required: "Please enter Max Age",
-                    numeric: "Please enter in digit"
+                    number: "Please enter in digit"
                 },
 
                 ghost_count: {
                     required: "Please enter Ghost Count",
-                    numeric: "Please enter in digit"
+                    number: "Please enter in digit"
                 },
 
                 ghost_day: {
                     required: "Please enter Ghost Day",
-                    numeric: "Please enter in digit"
+                    number: "Please enter in digit"
                 },
                 no_chat_day_duration: {
                     required: "Please enter No Chat Day Duration",
-                    numeric: "Please enter in digit"
+                    number: "Please enter in digit"
 
                 }
             },
