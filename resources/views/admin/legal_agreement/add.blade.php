@@ -27,7 +27,7 @@
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Privacy Policy:-</label>
 
-                                            <textarea class="ckeditor form-control privacy_policy" id="privacy_policy" name="privacy_policy">{{($legalAgreement == null)? '':$legalAgreement->privacy_policy }}</textarea>
+                                            <textarea class="ckeditor form-control privacy_policy" id="privacy_policy" name="privacy_policy"></textarea>
                                             <span class="text-danger"> @if ($errors->has('privacy_policy')){{ $errors->first('privacy_policy') }} @endif</span>
                                         </div>
                                     </div>
@@ -54,11 +54,8 @@
         </div>
     </div>
     <!--end col-->
-    <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.ckeditor').ckeditor();
-        });
-    </script>
+
+    <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+
 
 </div>

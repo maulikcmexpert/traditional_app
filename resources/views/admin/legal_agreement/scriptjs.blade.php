@@ -1,53 +1,42 @@
 <script>
     $(document).ready(function() {
 
+        // $("#legal_agreement").validate({
 
-        $("#version_setting").validate({
+        //     rules: {
+        //         privacy_policy: {
+        //             required: true
+        //         }
+        //     },
+        //     messages: {
+
+        //         privacy_policy: {
+        //             required: "Please enter Privacy Policy"
+
+        //         }
+        //     }
+        // });
+
+
+        $("#legal_agreement").validate({
+            ignore: [],
+            debug: true,
             rules: {
-                android_version: {
-                    required: true,
 
-                },
-                android_in_force: {
-                    required: true,
+                privacy_policy: {
+                    required: function() {
+                        CKEDITOR.instances.privacy_policy.updateElement();
+                    },
 
-                },
 
-                ios_version: {
-
-                    required: true,
-
-                },
-
-                ios_in_force: {
-
-                    required: true,
-                },
+                }
             },
             messages: {
-                android_version: {
-                    required: "Please enter android version",
 
-                },
-                android_in_force: {
-                    required: "Please select android in force",
-
-                },
-
-                ios_version: {
-
-                    required: "Please enter Ios version",
-
-                },
-
-                ios_in_force: {
-
-                    required: "Please select Ios in force",
-                },
-            },
+                privacy_policy: {
+                    required: "Please enter Privacy Policy",
+                }
+            }
         });
-
-
-
     });
 </script>
