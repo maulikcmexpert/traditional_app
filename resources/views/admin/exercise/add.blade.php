@@ -29,7 +29,7 @@
                                         <div class="w-100 mb-2 position-relative">
                                             <label class="form-label">Exercise</label>
                                             <input type="text" class="form-control exercise" name="exercise[]" />
-                                            <span class="text-danger"> @if ($errors->has('exercise*.')){{ $errors->first('exercise*.') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('exercise*')){{ $errors->first('exercise*') }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                 <label class="form-label">Exercise</label>
                 <input type="text" class="form-control exercise" name="exercise[]" />
 
-                <span class="text-danger"> @if($errors->has('exercise*.')){{ $errors->first('exercise*.') }} @endif</span>
+                <span class="text-danger"> @if($errors->has('exercise*')){{ $errors->first('exercise*') }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>
