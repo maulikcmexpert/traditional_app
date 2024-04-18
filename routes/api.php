@@ -98,10 +98,6 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::get('eating_habit_list', [UsersController_v2::class, 'EatingHabitList']);
     Route::post('otp_verify', [UsersController_v2::class, 'otpVerify'])->name('otp_verify');
 
-
-
-
-
     Route::post('store_profile', [UsersController_v2::class, 'storeProfile'])->middleware('check_user');
     Route::post('store_profilere', [UsersController_v2::class, 'storeProfilere'])->middleware('check_user');
     Route::post('user_personalities', [UsersController_v2::class, 'userPersonalities'])->middleware('check_user');
@@ -149,7 +145,6 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v2'], function () {
     Route::get('get_verify_object', [UsersController_v2::class, 'getVerifyObject'])->middleware('check_user');
     Route::post('verified_user_profile', [UsersController_v2::class, 'verifiedUserProfile'])->middleware('check_user');
     Route::get('get_file_size', [UsersController_v2::class, 'getFileSize']);
-
 
     // Route::middleware(['check_user'])->group( function () {
     //     Route::get('country_list_login', [ListController::class, 'CountryList']);
