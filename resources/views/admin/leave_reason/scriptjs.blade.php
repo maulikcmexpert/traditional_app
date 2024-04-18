@@ -86,6 +86,7 @@
                 console.error("Error occurred during AJAX request:", error);
             });
         });
+
         $.validator.addMethod("customValidation", function(value, element) {
             var isValid = true;
             var thatVal = value.trim();
@@ -94,9 +95,6 @@
             }
             return isValid;
         });
-
-
-
 
         $("#leavereason").validate({
             rules: {
