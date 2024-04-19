@@ -5,7 +5,9 @@
              <div class="mobile-toggle-menu"><i class="fa-solid fa-bars"></i>
              </div>
 
+             <div class="top-menu ms-auto">
 
+             </div>
              <div class="user-box dropdown">
                  <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                      <div class="user-img-wrp">
