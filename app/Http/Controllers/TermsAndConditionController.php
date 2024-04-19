@@ -15,7 +15,7 @@ class TermsAndConditionController extends Controller
 
         $title = 'Terms and Conditions';
         $termAndCondition = LegalAgreement::select('term_and_condition')->first();
-        return view('web.termsandcondition', compact('title', 'termAndCondition'));
+        return view('web.term_and_condition', compact('title', 'termAndCondition'));
     }
 
     /**
