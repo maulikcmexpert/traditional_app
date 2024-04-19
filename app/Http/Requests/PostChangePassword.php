@@ -25,14 +25,29 @@ class PostChangePassword extends FormRequest
     public function rules(): array
     {
         return [
-            'current_password' => ['required', function ($attribute, $value, $fail) {
+            'current_password' => ['required', 'min:8', function ($attribute, $value, $fail) {
                 if (!Hash::check($value, Auth::user()->password)) {
                     return $fail(__('The current password is incorrect.'));
                 }
             }],
             'new_password' => ['required', 'string', 'min:8', 'different:current_password'],
-            'confirm_password' => ['required', 'same:new_password'],
+            'confirm_password' => ['required', 'min:8', 'same:new_password'],
 
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'current_password.required' => 'Please enter Current Password',
+            'current_password.min' => 'Current Password must be at least 8 characters',
+            'new_password.required' => 'Please enter New Password',
+            'new_password.min' => 'Password must be at least 8 characters',
+            'new_password.different' => 'New Password must be different from old Password',
+
+            'confirm_password.required' => 'Please enter Confirm Password',
+            'confirm_password.min' => 'Confirm Password must be at least 8 characters',
+            'confirm_password.same' => 'Confirm Password does not match with New Password',
         ];
     }
 }
