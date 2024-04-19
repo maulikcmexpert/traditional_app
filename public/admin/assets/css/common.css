@@ -440,6 +440,17 @@ table.dataTable thead > tr > th.sorting:before
     border-radius: 50%;
 }
 
+.version-setting .toggle-wrapper::after{
+    content: '';
+    position: absolute;
+    right: 60px;
+    background-color: #9495a3;
+    width: 1px;
+    height: 50px;
+    top: 20px;
+
+}
+
 @media only screen and (max-width:768px){
     p{
         font-size: 14px !important;
