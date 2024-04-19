@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    {{!! $privacyPolicy->privacy_policy !!}}
+    {!! $privacyPolicy->privacy_policy !!}
 </body>
 
 </html>
