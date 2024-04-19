@@ -14,8 +14,6 @@ use App\Http\Controllers\PrivacyPolicyController;
 |
 */
 
-Route::group(['middleware' => 'guest'], function () {
-    Route::resources([
-        'privacy_policy' => PrivacyPolicyController::class,
-    ]);
-});
+Route::get('/change_password', [PrivacyPolicyController::class, 'index']);
+
+require __DIR__ . '/auth.php';
