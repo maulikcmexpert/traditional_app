@@ -78,9 +78,6 @@
         });
 
 
-
-
-
         $("#sizeoforganization").validate({
             rules: {
                 size_range: {
@@ -109,7 +106,7 @@
             messages: {
                 size_range: {
                     required: "Please enter Size Of Organization",
-                    pattern: "The value must be in the format 0-50, and is a digit",
+                    pattern: "Please enter vaild Size Of Organization",
                     remote: "Size Of Organization already exist",
                 },
 
