@@ -44,8 +44,8 @@
                                             <div class="d-flex flex-column">
                                                 <label class="form-label">Android Version</label>
                                                 <label class="switch">
-                                                    <input type="checkbox">
-                                                    <span class="slider"></span>
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
                                                 </label>
                                             </div>
                                         </div>

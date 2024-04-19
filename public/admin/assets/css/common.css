@@ -408,11 +408,11 @@ table.dataTable thead > tr > th.sorting:before
   }
   
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #6366f1;
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #6366f1;
   }
   
   input:checked + .slider:before {
@@ -429,6 +429,16 @@ table.dataTable thead > tr > th.sorting:before
   .slider.round:before {
     border-radius: 50%;
   }
+
+  
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+}
 
 @media only screen and (max-width:768px){
     p{
