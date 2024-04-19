@@ -19,4 +19,4 @@ use App\Http\Controllers\TermsAndConditionController;
 Route::get('privacy_policy', [PrivacyPolicyController::class, 'index']);
 Route::get('terms_and_conditions', [TermsAndConditionController::class, 'index']);
 
-// require __DIR__ . '/auth.php';
+require __DIR__ . '/auth.php';
