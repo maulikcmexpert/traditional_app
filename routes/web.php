@@ -17,7 +17,7 @@ use App\Http\Controllers\PrivacyPolicyController;
 Route::get('/privacy_policy', function () {
     return view('welcome');
 });
-Route::group(function () {
+Route::group(['middleware' => 'guest'], function () {
     Route::resources([
         'privacy_policy' => PrivacyPolicyController::class,
     ]);
