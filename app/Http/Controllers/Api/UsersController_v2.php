@@ -1247,7 +1247,7 @@ class UsersController_v2 extends BaseController
                     'city' => ['required', new AlphaNumericCity],
                     'date_of_birth' => ['required'],
                     // 'zodiac_sign_id' => 'required',
-                    'about_me' => ['between:5,500'],
+                    'about_me' => ['between:0,500'],
                     // 'height' => 'numeric',
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
                     // 'weight' => 'numeric',
@@ -1451,10 +1451,10 @@ class UsersController_v2 extends BaseController
                     'state_id' => 'required',
                     'city' => ['required', new AlphaNumericCity],
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
-                    'about_us' => 'between:5,500',
+                    'about_us' => 'between:0,500',
                     'size_of_organization_id' => 'required',
                     'established_year' => ['required', 'numeric', 'digits:4', 'lte:' . date('Y')],
-                    'address' => ['required', new AddressValidation, 'between:5,250']
+                    'address' => ['required', new AddressValidation, 'between:0,250']
                 ],
                 [
                     'full_name.required' => 'Please enter Name of Church/Organization',
@@ -1462,7 +1462,7 @@ class UsersController_v2 extends BaseController
                     'email.required' => 'Please enter Email',
                     'email.unique' => 'Email is already taken',
                     'city.required' => 'Please enter City',
-                    'about_us.between' => 'Please enter About us character between 5 to 500',
+                    'about_us.between' => 'Please enter a valid About us with a maximum of 500 characters',
                     'size_of_organization_id.required' => 'Please select the Size Of Organization.',
                     'established_year.required' => 'Please enter Established Year',
                     'established_year.numeric' => ' Please enter valid Established Year',
