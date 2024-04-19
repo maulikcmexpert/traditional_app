@@ -32,7 +32,7 @@
                     that.next('.text-danger').text('Please enter Size Of Organization');
                 } else if (!pattern.test(thatVal)) {
 
-                    that.next('.text-danger').text('The value must be in the format 0-50, and is a digit.');
+                    that.next('.text-danger').text('Please enter valid Size Of Organization');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
