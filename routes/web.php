@@ -14,6 +14,6 @@ use App\Http\Controllers\PrivacyPolicyController;
 |
 */
 
-Route::get('/change_password', [PrivacyPolicyController::class, 'index']);
+Route::get('privacy_policy', [PrivacyPolicyController::class, 'index']);
 
 require __DIR__ . '/auth.php';
