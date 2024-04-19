@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{route('sizeoforganization.index')}}">Size Of Organization</a></li>
+                <li class="breadcrumb-item"><a href="{{route('sizeoforganization.index')}}">Size of Organization</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Add</li>
             </ol>
         </nav>
@@ -26,7 +26,7 @@
                                 <div class="col-xxl-6 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
-                                            <label class="form-label">Size Of Organization</label>
+                                            <label class="form-label">Size of Organization</label>
                                             <input type="text" class="form-control size_range" name="size_range[]" />
                                             <span class="text-danger"> @if ($errors->has('size_range*')){{ $errors->first('size_range*') }} @endif</span>
                                         </div>
@@ -55,7 +55,7 @@
     <div class="col-xl-6 mb-2">
         <div class="d-flex align-items-end gap-2">
             <div class="w-100 position-relative">
-                <label class="form-label">Size Of Organization</label>
+                <label class="form-label">Size of Organization</label>
                 <input type="text" class="form-control size_range" name="size_range[]" />
 
                 <span class="text-danger"> @if($errors->has('size_range*')){{ $errors->first('size_range*') }} @endif</span>
