@@ -521,7 +521,7 @@ function OrganizationerrorAlert(moduleName) {
     swal({
         title: `Error`,
         text:
-            "church/organization (s) belongs to deleted " +
+            "Church/Organization(s) belongs to deleted " +
             moduleName +
             ". can not delete " +
             moduleName,
