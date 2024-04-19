@@ -20,7 +20,7 @@
                 <div class="live-preview">
                     <form method="POST" id="version_setting" action="{{ route('version_setting.store')}}" enctype="multipart/form-data">
                         @csrf
-                        <div class="mb-3 form-group AddMoreForm">
+                        <div class="mb-3 form-group AddMoreForm version-setting">
                             <div class="row" id="versionsetting">
                                 <div class="col-xxl-2 col-md-3 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
@@ -41,7 +41,7 @@
                                                 <option value="1">1</option>
                                             </select>
                                             <span class="text-danger"> @if ($errors->has('android_in_force')){{ $errors->first('android_in_force') }} @endif</span> -->
-                                            <div class="d-flex flex-column">
+                                            <div class="d-flex flex-column toggle-wrapper position-relative">
                                                 <label class="form-label">Android Version</label>
                                                 <label class="switch">
                                                     <input type="checkbox" checked>
@@ -64,20 +64,25 @@
 
                                 <div class="col-xxl-2 col-md-3 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
-                                        <div class="w-100 position-relative">
-                                            <label class="form-label">Ios In Force</label>
-                                            <select class="form-control" name="ios_in_force" id="ios_in_force">
-                                                <option value="0">0</option>
-                                                <option value="1">1</option>
-                                            </select>
+                                        <div class="w-100 position-relative toggle-wrapper">
+                                            <div class="d-flex flex-column">
+                                                <label class="form-label">Ios In Force</label>
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
                                             <span class="text-danger"> @if ($errors->has('ios_in_force')){{ $errors->first('ios_in_force') }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-xxl-2 col-md-3 mt-4">
+                                    <div class="text-center"><input type="submit" id="add" class="btn btn-primary submitButton" value="{{($setting == null)? 'Add' : 'Update' }}"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="text-center"><input type="submit" id="add" class="btn btn-primary submitButton" value="{{($setting == null)? 'Add' : 'Update' }}"></div>
+                        
 
                     </form>
                     <!--end row-->
