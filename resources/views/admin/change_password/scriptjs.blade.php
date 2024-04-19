@@ -32,16 +32,16 @@
             },
             messages: {
                 current_password: {
-                    required: "Please enter your current password.",
+                    required: "Please enter Current Password",
                     remote: "The current password is incorrect."
                 },
                 new_password: {
-                    required: "Please enter a new password.",
+                    required: "Please enter New Password",
                     minlength: "Password must be at least 8 characters long.",
-                    notEqualTo: "New password must be different from the current password."
+                    notEqualTo: "New Password must be different from Current Password"
                 },
                 confirm_password: {
-                    required: "Please confirm your new password.",
+                    required: "Please enter Confirm Password",
                     equalTo: "Passwords do not match."
                 }
             }
