@@ -44,16 +44,26 @@ class AppVersionSettingController extends Controller
 
                 $setting = new VersionSetting();
                 $setting->android_version = $request->android_version;
-                $setting->android_in_force = $request->android_in_force;
+                if ($request->android_in_force != null) {
+                    $setting->android_in_force = $request->android_in_force;
+                }
                 $setting->ios_version = $request->ios_version;
-                $setting->ios_in_force = $request->ios_in_force;
+                if ($request->ios_in_force != null) {
+                    $setting->ios_in_force = $request->ios_in_force;
+                }
                 $setting->save();
             } else {
-                dd($request->android_in_force);
                 $checkSetting->android_version = $request->android_version;
-                $checkSetting->android_in_force = $request->android_in_force;
+                if ($request->android_in_force != null) {
+
+                    $checkSetting->android_in_force = $request->android_in_force;
+                }
                 $checkSetting->ios_version = $request->ios_version;
-                $checkSetting->ios_in_force = $request->ios_in_force;
+                if ($request->ios_in_force != null) {
+
+                    $checkSetting->ios_in_force = $request->ios_in_force;
+                }
+
                 $checkSetting->save();
             }
 
