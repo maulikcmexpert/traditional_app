@@ -20,7 +20,7 @@
 
         $("#legal_agreement").validate({
             ignore: [],
-            debug: true,
+            debug: false,
             rules: {
 
                 privacy_policy: {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\LegalAgreement;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class LegalAgreementController extends Controller
 {
@@ -33,7 +35,36 @@ class LegalAgreementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+            $leagalAgreement = LegalAgreement::first();
+            if ($leagalAgreement == null) {
+
+                $agreement = new LegalAgreement();
+                $agreement->privacy_policy = $request->privacy_policy;
+                $agreement->term_and_condition = $request->term_and_condition;
+                $agreement->save();
+            } else {
+                $leagalAgreement->privacy_policy = $request->privacy_policy;
+
+                $leagalAgreement->term_and_condition = $request->term_and_condition;
+                $leagalAgreement->save();
+            }
+
+
+            DB::commit();
+            toastr()->success('Legal Agreement updated successfully !');
+            return redirect()->route('legal_agreement.index');
+        } catch (Exception $e) {
+
+            toastr()->error("something went wrong");
+            return redirect()->route('legal_agreement.create');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            toastr()->error($e->getMessage());
+            return redirect()->route('legal_agreement.create');
+        }
     }
 
     /**
