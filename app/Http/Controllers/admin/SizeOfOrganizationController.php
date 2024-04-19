@@ -99,7 +99,7 @@ class SizeOfOrganizationController extends Controller
             $update->size_range = $request->size_range;
             $update->save();
             DB::commit();
-            toastr()->success('Size Of Organization updated successfully !');
+            toastr()->success('Size of Organization updated successfully !');
             return redirect()->route('sizeoforganization.index');
         } catch (Exception $e) {
 
