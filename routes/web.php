@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\TermsAndConditionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,5 +17,6 @@ use App\Http\Controllers\PrivacyPolicyController;
 */
 
 Route::get('privacy_policy', [PrivacyPolicyController::class, 'index']);
+Route::get('terms_and_conditions', [TermsAndConditionController::class, 'index']);
 
 require __DIR__ . '/auth.php';
