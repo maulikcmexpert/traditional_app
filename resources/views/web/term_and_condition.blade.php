@@ -14,7 +14,9 @@
 </head>
 
 <body>
+@if($termAndCondition != null)
     {!! $termAndCondition->term_and_condition !!}
+    @endif
 </body>
 
 </html>

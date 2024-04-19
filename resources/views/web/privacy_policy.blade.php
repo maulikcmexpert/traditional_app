@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width'>
-    <title>{{$title }}</title>
+    <title>{{$title}}</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -16,7 +16,9 @@
 <body>
     <div class="container">
         <div class="privacy-policy">
+            @if($privacyPolicy != null)
             {!! $privacyPolicy->privacy_policy !!}
+            @endif
         </div>
     </div>
 </body>
