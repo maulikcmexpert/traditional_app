@@ -2,7 +2,7 @@
     $(document).ready(function() {
 
         $("#add").on('click', function() {
-            alert();
+            $("span .text-danger").html("");
         });
         $("#changePasswordForm").validate({
             rules: {
