@@ -15,7 +15,7 @@ class PrivacyPolicyController extends Controller
         $page = 'web.privacy_policy';
         $title = 'Privacy Policy';
         $privacyPolicy = LegalAgreement::select('privacy_policy')->first();
-        return view('layouts.layout', compact('page', 'title', 'privacyPolicy'));
+        return view(compact('page', 'title', 'privacyPolicy'));
     }
 
     /**
