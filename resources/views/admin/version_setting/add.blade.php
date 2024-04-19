@@ -44,8 +44,9 @@
                                             <div class="d-flex flex-column toggle-wrapper position-relative">
                                                 <label class="form-label">Android Version</label>
                                                 <label class="switch">
-                                                    <input type="checkbox" checked>
+                                                    <input type="checkbox" name="android_in_force" id="android_in_force" value="1" {{ ($setting != null && $setting->android_in_force == 1) ? 'checked' : '' }}>
                                                     <span class="slider round"></span>
+
                                                 </label>
                                             </div>
                                         </div>
@@ -68,7 +69,7 @@
                                             <div class="d-flex flex-column">
                                                 <label class="form-label">Ios In Force</label>
                                                 <label class="switch">
-                                                    <input type="checkbox" checked>
+                                                    <input type="checkbox" name="ios_in_force" id="ios_in_force" value="1" {{ ($setting != null && $setting->ios_in_force == 1) ? 'checked' : '' }}>
                                                     <span class="slider round"></span>
                                                 </label>
                                             </div>
@@ -82,7 +83,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
 
                     </form>
                     <!--end row-->
