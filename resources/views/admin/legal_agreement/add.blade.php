@@ -22,7 +22,7 @@
                         @csrf
                         <div class="mb-3 form-group AddMoreForm">
                             <div class="row" id="legalagreement">
-                                <div class="col-xxl-2 col-md-3 mb-2">
+                                <div class="col-xxl-2 col-md-12 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Privacy Policy</label>
@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xxl-2 col-md-3 mb-2">
+                                <div class="col-xxl-2 col-md-12 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Term And Condition</label>
