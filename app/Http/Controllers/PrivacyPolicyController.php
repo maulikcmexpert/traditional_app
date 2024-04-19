@@ -18,6 +18,7 @@ class PrivacyPolicyController extends Controller
         return view('web.privacy_policy', compact('title', 'privacyPolicy'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
