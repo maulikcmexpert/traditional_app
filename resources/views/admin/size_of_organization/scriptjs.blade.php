@@ -29,10 +29,10 @@
                 var pattern = /^(\d+\.?\d*) ?- ?(\d+\.?\d*)$/;
 
                 if (thatVal == '') {
-                    that.next('.text-danger').text('Please enter Size Of Organization');
+                    that.next('.text-danger').text('Please enter Size of Organization');
                 } else if (!pattern.test(thatVal)) {
 
-                    that.next('.text-danger').text('Please enter valid Size Of Organization');
+                    that.next('.text-danger').text('Please enter valid Size of Organization');
                 } else {
                     var promise = new Promise(function(resolve, reject) {
                         $.ajax({
@@ -66,10 +66,10 @@
             Promise.all(promises).then(function(results) {
                 if (results.includes(false)) {
                     // If any result is false, do not submit the form
-                    console.log("Duplicate Size Of Organization found");
+                    console.log("Duplicate Size of Organization found");
                 } else if (results.includes(true)) {
                     // If all results are true, submit the form
-                    console.log("No duplicate Size Of Organization, submitting form");
+                    console.log("No duplicate Size of Organization, submitting form");
                     $("#sizeoforganization").submit();
                 }
             }).catch(function(error) {
@@ -105,9 +105,9 @@
             },
             messages: {
                 size_range: {
-                    required: "Please enter Size Of Organization",
-                    pattern: "Please enter vaild Size Of Organization",
-                    remote: "Size Of Organization already exist",
+                    required: "Please enter Size of Organization",
+                    pattern: "Please enter vaild Size of Organization",
+                    remote: "Size of Organization already exist",
                 },
 
             },
@@ -145,7 +145,7 @@
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        OrganizationerrorAlert("Size Of Organization");
+                        OrganizationerrorAlert("Size of Organization");
 
                     } else {
                         swal({
@@ -172,7 +172,7 @@
                                             location.reload();
 
                                         } else {
-                                            OrganizationerrorAlert("Size Of Organization");
+                                            OrganizationerrorAlert("Size of Organization");
                                         }
                                     },
                                 });
@@ -185,7 +185,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Size Of Organization deleted successfully !");
+            toastr.success("Size of Organization deleted successfully !");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }
