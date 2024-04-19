@@ -12,10 +12,10 @@ class PrivacyPolicyController extends Controller
      */
     public function index()
     {
-        $page = 'web.privacy_policy';
+
         $title = 'Privacy Policy';
         $privacyPolicy = LegalAgreement::select('privacy_policy')->first();
-        return view(compact('page', 'title', 'privacyPolicy'));
+        return view('web.privacy_policy', compact('title', 'privacyPolicy'));
     }
 
     /**
