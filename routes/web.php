@@ -22,5 +22,3 @@ Route::group(['middleware' => 'guest'], function () {
         'privacy_policy' => PrivacyPolicyController::class,
     ]);
 });
-
-require __DIR__ . '/auth.php';
