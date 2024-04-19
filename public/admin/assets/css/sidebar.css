@@ -425,7 +425,10 @@
 
 .sidebar-wrapper .metismenu a:focus,
 
-.sidebar-wrapper .metismenu a:hover {
+.sidebar-wrapper .metismenu a:hover,
+
+.sidebar-wrapper .metismenu a:active
+{
 
 	color: var(--white);
 
