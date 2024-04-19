@@ -1247,7 +1247,7 @@ class UsersController_v2 extends BaseController
                     'city' => ['required', new AlphaNumericCity],
                     'date_of_birth' => ['required'],
                     // 'zodiac_sign_id' => 'required',
-                    'about_me' => ['required', 'between:5,500'],
+                    'about_me' => ['between:5,500'],
                     // 'height' => 'numeric',
                     'email' => ['required', new CustomEmailValidation, Rule::unique('users')->ignore($this->user->id)],
                     // 'weight' => 'numeric',
@@ -1266,7 +1266,7 @@ class UsersController_v2 extends BaseController
                     'date_of_birth.required' => 'Please select Date Of Birth',
                     // 'zodiac_sign_id.required' => 'Please select Zodiac Sign',
                     //'religion_id.required' => 'Please select Religion',
-                    'about_me.required' => 'Please enter About me',
+
                     'about_me.between' => 'Please enter a valid About me with a maximum of 500 characters.',
                     // 'height.required' => 'Please enter your Height',
                     // 'height.numeric' => 'Height must be a number',
