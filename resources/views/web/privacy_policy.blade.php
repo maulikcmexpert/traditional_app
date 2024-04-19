@@ -14,7 +14,11 @@
 </head>
 
 <body>
-    {!! $privacyPolicy->privacy_policy !!}
+    <div class="container">
+        <div class="privacy-policy">
+            {!! $privacyPolicy->privacy_policy !!}
+        </div>
+    </div>
 </body>
 
 </html>
