@@ -427,7 +427,7 @@
 
 .sidebar-wrapper .metismenu a:hover,
 
-.sidebar-wrapper .metismenu a:active
+.sidebar-wrapper .metismenu a.active
 {
 
 	color: var(--white);
