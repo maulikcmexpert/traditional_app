@@ -1993,7 +1993,7 @@ class UsersController_v2 extends BaseController
             ];
 
             notification($notificationData);
-            return response()->json(["status" => true, 'message' => 'Your approach request has been sent successfully!']);
+            return response()->json(["status" => true, 'message' => 'Your approach request has been sent successfully']);
         } catch (QueryException $e) {
 
             DB::rollBack();
@@ -2590,7 +2590,7 @@ class UsersController_v2 extends BaseController
             ];
 
             notification($notificationData);
-            return response()->json(["status" => true, 'message' => 'Your request has been sent successfully!']);
+            return response()->json(["status" => true, 'message' => 'Your request has been sent successfully']);
         } catch (QueryException $e) {
 
             DB::rollBack();
