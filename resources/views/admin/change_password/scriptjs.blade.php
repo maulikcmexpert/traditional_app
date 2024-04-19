@@ -35,17 +35,17 @@
             messages: {
                 current_password: {
                     required: "Please enter Current Password",
-                    minlength: "Current Password must be at least 6 characters",
+                    minlength: "Current Password must be at least 8 characters",
                     remote: "The Current Password is incorrect."
                 },
                 new_password: {
                     required: "Please enter New Password",
-                    minlength: "New Password must be at least 6 characters",
+                    minlength: "New Password must be at least 8 characters",
                     notEqualTo: "New Password must be different from Current Password"
                 },
                 confirm_password: {
                     required: "Please enter Confirm Password",
-                    minlength: "Confirm Password must be at least 6 characters",
+                    minlength: "Confirm Password must be at least 8 characters",
                     equalTo: "Confirm Password does not match with New Password"
                 }
             }
