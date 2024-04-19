@@ -1,5 +1,18 @@
 <script>
     $(document).ready(function() {
+
+        $("#add").on('click', function() {
+            $(".text-danger").each(function() {
+                // Get the content of the div
+                var passwordPrompt = $(this).html();
+
+                // Remove HTML tags using jQuery
+                var plainText = $(passwordPrompt).text();
+
+                // Display the plain text
+                $(this).text(plainText);
+            });
+        });
         $("#changePasswordForm").validate({
             rules: {
 
