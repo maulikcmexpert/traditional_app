@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsAndConditionController;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +16,12 @@ use App\Http\Controllers\TermsAndConditionController;
 |
 */
 
+Route::get('/', [AuthenticatedSessionController::class, 'create'])
+    ->name('login');
+
+Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
 Route::get('privacy_policy', [PrivacyPolicyController::class, 'index']);
 Route::get('terms_and_conditions', [TermsAndConditionController::class, 'index']);
 
-// require __DIR__ . '/auth.php';
+require __DIR__ . '/auth.php';
