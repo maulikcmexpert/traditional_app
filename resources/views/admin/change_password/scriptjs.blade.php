@@ -5,6 +5,7 @@
 
                 current_password: {
                     required: true,
+                    minlength: 8,
                     remote: {
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -27,21 +28,24 @@
                 },
                 confirm_password: {
                     required: true,
+                    minlength: 8,
                     equalTo: "#new_password"
                 }
             },
             messages: {
                 current_password: {
                     required: "Please enter Current Password",
+                    minlength: "Current Password must be at least 6 characters",
                     remote: "The Current Password is incorrect."
                 },
                 new_password: {
                     required: "Please enter New Password",
-                    minlength: "New Password must be at least 8 characters long.",
+                    minlength: "New Password must be at least 6 characters",
                     notEqualTo: "New Password must be different from Current Password"
                 },
                 confirm_password: {
                     required: "Please enter Confirm Password",
+                    minlength: "Confirm Password must be at least 6 characters",
                     equalTo: "Confirm Password does not match with New Password"
                 }
             }
