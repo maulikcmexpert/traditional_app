@@ -14,7 +14,7 @@ class NameValidation implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        dd($attribute);
+
         if ($attribute == 'interest_and_hobby.0') {
             $attribute = "Interest and Hobby";
         }
