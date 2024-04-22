@@ -21,7 +21,15 @@ class UserDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))->setRowId('id');
+        return (new EloquentDataTable($query))
+            ->addColumn('mobile_number', function ($row) {
+
+
+
+
+                return $row->country_code . ' ' . $row->mobile_number;;
+            })
+            ->setRowId('id');
     }
 
     /**
@@ -63,7 +71,7 @@ class UserDataTable extends DataTable
         return [
             Column::make('full_name'),
             Column::make('email'),
-            Column::make('phone_number'),
+            Column::make('mobile_number'),
 
         ];
     }
