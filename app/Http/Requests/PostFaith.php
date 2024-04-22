@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostFaith extends FormRequest
@@ -22,7 +23,16 @@ class PostFaith extends FormRequest
     public function rules(): array
     {
         return [
-            'faith.*' => ['required', 'string', 'max:255', 'unique:faiths,faith'],
+            'faith.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:faiths,faith'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'lifestyle.*.required' => 'Please enter a valid Faith',
+
+            'lifestyle.*.unique' => 'Faith already exist',
         ];
     }
 }
