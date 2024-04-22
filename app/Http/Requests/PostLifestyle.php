@@ -30,7 +30,7 @@ class PostLifestyle extends FormRequest
     public function messages(): array
     {
         return [
-            'lifestyle.*.required' => 'Please enter a valid Lifestyle.',
+            'lifestyle.*.required' => 'Please enter a valid Lifestyle',
 
             'lifestyle.*.unique' => 'Lifestyle already exist',
         ];
