@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\NameValidation;
 
 class PostLifestyle extends FormRequest
 {
@@ -22,7 +23,7 @@ class PostLifestyle extends FormRequest
     public function rules(): array
     {
         return [
-            'lifestyle.*' => ['required', 'string', 'max:255', 'unique:lifestyles,life_style'],
+            'lifestyle.*' => ['required', new NameValidation, 'string', 'max:255', 'unique:lifestyles,life_style'],
         ];
     }
 }
