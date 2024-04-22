@@ -12,9 +12,6 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-use libphonenumber\PhoneNumberUtil;
-use libphonenumber\PhoneNumberFormat;
-
 class UserDataTable extends DataTable
 {
     /**
@@ -27,10 +24,9 @@ class UserDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('mobile_number', function ($row) {
 
-                $phoneUtil = PhoneNumberUtil::getInstance();
-                $numberProto = $phoneUtil->parse($row->mobile_number, $row->country_code);
-                $formattedPhoneNumber = $phoneUtil->format($numberProto, PhoneNumberFormat::INTERNATIONAL);
-                return $formattedPhoneNumber;
+
+
+                return '+' . $row->country_code . ' ' . substr($row->mobile_number, 0, 3) . ' ' . substr($row->mobile_number, 3, 3) . ' ' . substr($row->mobile_number, 6);
             })
             ->setRowId('id');
     }
