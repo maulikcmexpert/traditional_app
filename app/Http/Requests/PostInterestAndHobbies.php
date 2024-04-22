@@ -26,4 +26,12 @@ class PostInterestAndHobbies extends FormRequest
             'interest_and_hobby.*' => ['required', new NameValidation, 'max:255', 'unique:interest_and_hobbies,interest_and_hobby'],
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'interest_and_hobby.*.required' => 'Please enter a valid Interest and Hobby.',
+
+            'interest_and_hobby.*.unique' => 'Interest and Hobby already exist',
+        ];
+    }
 }

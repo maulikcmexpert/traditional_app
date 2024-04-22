@@ -31,7 +31,7 @@ class PostLifestyle extends FormRequest
     {
         return [
             'lifestyle.*.required' => 'Please enter a valid Lifestyle.',
-            'lifestyle.*.string' => 'Please enter a valid Lifestyle.',
+
             'lifestyle.*.unique' => 'Lifestyle already exist',
         ];
     }
