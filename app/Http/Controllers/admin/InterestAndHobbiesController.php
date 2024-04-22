@@ -24,7 +24,7 @@ class InterestAndHobbiesController extends Controller
     public function index(InterestAndHobbiesDataTable $dataTable)
     {
         $page = 'admin.interest_and_hobbies.list';
-        $title = 'Interest and hobby';
+        $title = 'Interest and Hobbies';
         $js = 'admin.interest_and_hobbies.scriptjs';
         return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -35,7 +35,7 @@ class InterestAndHobbiesController extends Controller
     public function create()
     {
         $page = 'admin.interest_and_hobbies.add';
-        $title = 'Add Interest and hobby';
+        $title = 'Add Interest and Hobby';
         $js = 'admin.interest_and_hobbies.scriptjs';
         return view('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -83,7 +83,7 @@ class InterestAndHobbiesController extends Controller
     {
         $ids = decrypt($id);
         $page = 'admin.interest_and_hobbies.edit';
-        $title = 'Update interest and hobby';
+        $title = 'Update Interest and Hobby';
         $js = 'admin.interest_and_hobbies.scriptjs';
         $getData = InterestAndHobby::Findorfail($ids);
         return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
