@@ -33,10 +33,23 @@
                 that.next('.text-danger').text('');
 
                 // Validation checks
+
+                for (var i = 0; i < thatVal.length; i++) {
+                    var char = thatVal.charAt(i);
+                    if (/[a-zA-Z]/.test(char)) { // Check if the character is a letter using regex
+                        charCount++;
+                    }
+                }
+
+
                 if (thatVal === '') {
                     that.next('.text-danger').text('Please enter Interest and Hobby');
                     isValid = false;
-                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+
+                } else if (charCount < 2) {
+                    that.next('.text-danger').text('Please enter Interest and Hobby');
+                    isValid = false;
+                } else if ('/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/'.test(thatVal)) {
                     that.next('.text-danger').text('Please enter valid Interest and Hobby');
                     isValid = false;
 
