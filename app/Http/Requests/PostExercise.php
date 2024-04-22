@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostExercise extends FormRequest
@@ -22,7 +23,16 @@ class PostExercise extends FormRequest
     public function rules(): array
     {
         return [
-            'exercise.*' => ['required', 'string', 'max:255', 'unique:exercises,exercise'],
+            'exercise.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:exercises,exercise'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'exercise.*.required' => 'Please enter Exercise',
+
+            'exercise.*.unique' => 'Exercise already exist',
         ];
     }
 }

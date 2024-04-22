@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostReligion extends FormRequest
@@ -22,7 +23,16 @@ class PostReligion extends FormRequest
     public function rules(): array
     {
         return [
-            'religion.*' => ['required', 'string', 'max:255', 'unique:religions,religion'],
+            'religion.*' => ['required', 'string', 'max:255', new NameValidation, 'unique:religions,religion'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'religion.*.required' => 'Please enter Religion',
+
+            'religion.*.unique' => 'Religion already exist',
         ];
     }
 }

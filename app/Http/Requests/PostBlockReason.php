@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostBlockReason extends FormRequest
@@ -22,7 +23,16 @@ class PostBlockReason extends FormRequest
     public function rules(): array
     {
         return [
-            'reason.*' => ['required', 'string', 'max:255', 'unique:block_reasons,reason'],
+            'reason.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:block_reasons,reason'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'reason.*.required' => 'Please enter Block Reason',
+
+            'reason.*.unique' => 'Block Reason already exist',
         ];
     }
 }

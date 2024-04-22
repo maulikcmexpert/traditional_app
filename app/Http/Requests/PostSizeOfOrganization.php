@@ -26,4 +26,13 @@ class PostSizeOfOrganization extends FormRequest
             'size_range.*' => ['required', 'unique:size_of_organizations,size_range', new RangeValidation],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'size_range.*.required' => 'Please enter Size of Organization',
+
+            'size_range.*.unique' => 'Size of Organization already exist',
+        ];
+    }
 }

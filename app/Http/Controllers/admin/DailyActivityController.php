@@ -55,7 +55,7 @@ class DailyActivityController extends Controller
                 $daily_activity->save();
             }
             DB::commit();
-            toastr()->success('Daily Activity created successfully !');
+            toastr()->success('Daily Activity created successfully!');
             return redirect()->route('daily_activity.index');
         } catch (Exception $e) {
 
@@ -101,7 +101,7 @@ class DailyActivityController extends Controller
             $update->daily_activity = $request->daily_activity;
             $update->save();
             DB::commit();
-            toastr()->success('Body Type updated successfully !');
+            toastr()->success('Body Type updated successfully!');
             return redirect()->route('daily_activity.index');
         } catch (Exception $e) {
 

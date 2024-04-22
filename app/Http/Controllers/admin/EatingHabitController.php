@@ -55,7 +55,7 @@ class EatingHabitController extends Controller
                 $eating_habit->save();
             }
             DB::commit();
-            toastr()->success('Eating Habit created successfully !');
+            toastr()->success('Eating Habit created successfully!');
             return redirect()->route('eating_habit.index');
         } catch (Exception $e) {
 
@@ -101,7 +101,7 @@ class EatingHabitController extends Controller
             $update->eating_habit = $request->eating_habit;
             $update->save();
             DB::commit();
-            toastr()->success('Eating Habit updated successfully !');
+            toastr()->success('Eating Habit updated successfully!');
             return redirect()->route('eating_habit.index');
         } catch (Exception $e) {
 

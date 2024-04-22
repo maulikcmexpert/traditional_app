@@ -30,7 +30,7 @@ class PostFaith extends FormRequest
     public function messages(): array
     {
         return [
-            'faith.*.required' => 'Please enter a valid Faith',
+            'faith.*.required' => 'Please enter Faith',
 
             'faith.*.unique' => 'Faith already exist',
         ];

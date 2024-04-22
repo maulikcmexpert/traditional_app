@@ -53,7 +53,7 @@ class FeedbackReviewListController extends Controller
                 $feedbackrev->save();
             }
             DB::commit();
-            toastr()->success('Feedback Review created successfully !');
+            toastr()->success('Feedback Review created successfully!');
             return redirect()->route('feedbackreviewlist.index');
         } catch (Exception $e) {
 
@@ -99,7 +99,7 @@ class FeedbackReviewListController extends Controller
             $update->feedback_review = $request->feedback_review;
             $update->save();
             DB::commit();
-            toastr()->success('Feedback Review successfully !');
+            toastr()->success('Feedback Review successfully!');
             return redirect()->route('feedbackreviewlist.index');
         } catch (Exception $e) {
 

@@ -51,7 +51,7 @@ class BlockReasonController extends Controller
                 $blockReason->save();
             }
             DB::commit();
-            toastr()->success('Block Reason created successfully !');
+            toastr()->success('Block Reason created successfully!');
             return redirect()->route('blockreason.index');
         } catch (Exception $e) {
 
@@ -98,7 +98,7 @@ class BlockReasonController extends Controller
             $update->reason = $request->reason;
             $update->save();
             DB::commit();
-            toastr()->success('Block Reason updated successfully !');
+            toastr()->success('Block Reason updated successfully!');
             return redirect()->route('blockreason.index');
         } catch (Exception $e) {
 

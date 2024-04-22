@@ -52,7 +52,7 @@ class CurseWordController extends Controller
                 $curseWord->save();
             }
             DB::commit();
-            toastr()->success('Curse Word created successfully !');
+            toastr()->success('Curse Word created successfully!');
             return redirect()->route('curseword.index');
         } catch (Exception $e) {
 
@@ -98,7 +98,7 @@ class CurseWordController extends Controller
             $update->words = $request->words;
             $update->save();
             DB::commit();
-            toastr()->success('Curse Word updated successfully !');
+            toastr()->success('Curse Word updated successfully!');
             return redirect()->route('curseword.index');
         } catch (Exception $e) {
 

@@ -25,11 +25,21 @@
             $('#eating_habits .eating_habit').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
-
-                if (thatVal == '') {
+                var charCount = 0;
+                for (var i = 0; i < thatVal.length; i++) {
+                    var char = thatVal.charAt(i);
+                    if (/[a-zA-Z]/.test(char)) { // Check if the character is a letter using regex
+                        charCount++;
+                    }
+                }
+                if (thatVal === '') {
                     that.next('.text-danger').text('Please enter Eating Habit');
                     isValid = false;
-                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+
+                } else if (charCount < 2) {
+                    that.next('.text-danger').text('Please enter valid Eating Habit');
+                    isValid = false;
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/.test(thatVal)) {
                     that.next('.text-danger').text('Please enter valid Eating Habit');
                     isValid = false;
 
@@ -89,14 +99,38 @@
 
 
 
+
         $.validator.addMethod("customValidation", function(value, element) {
-            var isValid = true;
             var thatVal = value.trim();
-            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
-                isValid = false;
+            if (thatVal === '') {
+                return false; // Empty input is invalid
             }
-            return isValid;
-        });
+            // Check if input consists only of special characters or digits
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                return false;
+            }
+            // Check if input consists only of digits
+            if (/^\d+$/.test(thatVal)) {
+                return false;
+            }
+            // Check if input consists only of non-alphanumeric characters
+            if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                return false;
+            }
+            // Check if input contains at least 2 alphabetical characters
+            var charCount = 0;
+            for (var i = 0; i < thatVal.length; i++) {
+                var char = thatVal.charAt(i);
+                if (/[a-zA-Z]/.test(char)) { // Check if the character is a letter using regex
+                    charCount++;
+                }
+            }
+            if (charCount < 2) {
+                return false;
+            }
+            return true; // If none of the above conditions are met, input is valid
+        }, 'Please enter valid Eating Habit');
+
 
 
         $("#eating_habit").validate({
@@ -208,7 +242,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Eating Habit deleted successfully !");
+            toastr.success("Eating Habit deleted successfully!");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }

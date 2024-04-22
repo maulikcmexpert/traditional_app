@@ -29,7 +29,7 @@
                                         <div class="w-100 mb-2 position-relative">
                                             <label class="form-label">Eating Habit</label>
                                             <input type="text" class="form-control eating_habit" name="eating_habit[]" />
-                                            <span class="text-danger"> @if ($errors->has('eating_habit*')){{ $errors->first('eating_habit*') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('eating_habit*')){{ str_replace('.0','',$errors->first('eating_habit*')) }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                 <label class="form-label">Eating Habit</label>
                 <input type="text" class="form-control eating_habit" name="eating_habit[]" />
 
-                <span class="text-danger"> @if($errors->has('eating_habit*')){{ $errors->first('eating_habit*') }} @endif</span>
+                <span class="text-danger"> @if($errors->has('eating_habit*')){{ str_replace('.0','',$errors->first('eating_habit*')) }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>

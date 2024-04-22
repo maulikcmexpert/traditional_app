@@ -53,7 +53,7 @@ class ReligionController extends Controller
                 $religion->save();
             }
             DB::commit();
-            toastr()->success('Lifestyle created successfully !');
+            toastr()->success('Lifestyle created successfully!');
             return redirect()->route('religion.index');
         } catch (Exception $e) {
 
@@ -99,7 +99,7 @@ class ReligionController extends Controller
             $update->religion = $request->religion;
             $update->save();
             DB::commit();
-            toastr()->success('Religion updated successfully !');
+            toastr()->success('Religion updated successfully!');
             return redirect()->route('religion.index');
         } catch (Exception $e) {
 

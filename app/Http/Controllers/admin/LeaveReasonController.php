@@ -53,7 +53,7 @@ class LeaveReasonController extends Controller
                 $leavereason->save();
             }
             DB::commit();
-            toastr()->success('Leave Reason created successfully !');
+            toastr()->success('Leave Reason created successfully!');
             return redirect()->route('leavereason.index');
         } catch (Exception $e) {
 
@@ -99,7 +99,7 @@ class LeaveReasonController extends Controller
             $update->reason = $request->reason;
             $update->save();
             DB::commit();
-            toastr()->success('Leave Reason updated successfully !');
+            toastr()->success('Leave Reason updated successfully!');
             return redirect()->route('leavereason.index');
         } catch (Exception $e) {
 

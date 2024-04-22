@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostCurseWord extends FormRequest
@@ -22,7 +23,16 @@ class PostCurseWord extends FormRequest
     public function rules(): array
     {
         return [
-            'words.*' => ['required', 'string', 'max:255', 'unique:bad_words,words'],
+            'words.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:bad_words,words'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'words.*.required' => 'Please enter Curse Word',
+
+            'words.*.unique' => 'Curse Word already exist',
         ];
     }
 }

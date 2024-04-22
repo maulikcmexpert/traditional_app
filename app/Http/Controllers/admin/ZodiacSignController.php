@@ -55,7 +55,7 @@ class ZodiacSignController extends Controller
                 $zodiacSign->save();
             }
             DB::commit();
-            toastr()->success('Zodiac Sign created successfully !');
+            toastr()->success('Zodiac Sign created successfully!');
             return redirect()->route('zodiacsign.index');
         } catch (Exception $e) {
 
@@ -101,7 +101,7 @@ class ZodiacSignController extends Controller
             $update->zodiac_sign = $request->zodiac_sign;
             $update->save();
             DB::commit();
-            toastr()->success('Zodiac Sign updated successfully !');
+            toastr()->success('Zodiac Sign updated successfully!');
             return redirect()->route('zodiacsign.index');
         } catch (Exception $e) {
 
