@@ -26,8 +26,7 @@ class UserDataTable extends DataTable
 
 
 
-
-                return $row->country_code . ' ' . $row->mobile_number;;
+                return '+' . $row->country_code . ' ' . substr($row->mobile_number, 0, 3) . ' ' . substr($row->mobile_number, 3, 3) . ' ' . substr($row->mobile_number, 6);
             })
             ->setRowId('id');
     }
