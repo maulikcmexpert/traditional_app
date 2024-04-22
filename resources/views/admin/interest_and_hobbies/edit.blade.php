@@ -32,7 +32,7 @@
                                     <label class="form-label">Interest and Hobby</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control interest_and_hobby_id" name="id" />
                                     <input type="text" value="{{$getData->interest_and_hobby}}" class="form-control interest_and_hobby " name="intrest_and_hobby" />
-                                    <span class="text-danger"> @if ($errors->has('interest_and_hobby*')){{ str_replace(".0", "", $errors->first('interest_and_hobby*')); }} @endif</span>
+
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="col-xxl-2">

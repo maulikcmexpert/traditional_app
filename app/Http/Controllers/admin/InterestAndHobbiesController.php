@@ -95,6 +95,7 @@ class InterestAndHobbiesController extends Controller
     public function update(Request $request, string $id)
     {
         try {
+            dd($request->interest_and_hobby);
             DB::beginTransaction();
             $ids = decrypt($id);
             $update = InterestAndHobby::Findorfail($ids);
