@@ -16,15 +16,15 @@ class NameValidation implements ValidationRule
     {
 
         if (ctype_digit(trim($value))) {
-            $fail("Please enter valid " . $attribute);
+            $fail("Please enter valid " . str_replace('_', " ", $attribute));
         }
 
         if (!preg_match('/^[^a-zA-Z0-9 ]+$/', trim($value))) {
-            $fail("Please enter valid " . $attribute);
+            $fail("Please enter valid " . str_replace('_', " ", $attribute));
         }
 
         if (preg_match('/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/', $value)) {
-            $fail("Please enter valid " . $attribute);
+            $fail("Please enter valid " . str_replace('_', " ", $attribute));
         }
 
         $charCount = 0;
