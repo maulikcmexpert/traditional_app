@@ -47,7 +47,7 @@
                     isValid = false;
 
                 } else if (charCount < 2) {
-                    that.next('.text-danger').text('Please enter Interest and Hobby');
+                    that.next('.text-danger').text('Please enter valid Interest and Hobby');
                     isValid = false;
                 } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/.test(thatVal)) {
                     that.next('.text-danger').text('Please enter valid Interest and Hobby');
