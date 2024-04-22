@@ -15,17 +15,6 @@ class NameValidation implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
 
-        if (ctype_digit(trim($value))) {
-            $fail("Please enter valid " . str_replace('_', " ", $attribute));
-        }
-
-        if (!preg_match('/^[^a-zA-Z0-9 ]+$/', trim($value))) {
-            $fail("Please enter valid " . str_replace('_', " ", $attribute));
-        }
-
-        if (preg_match('/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/', $value)) {
-            $fail("Please enter valid " . str_replace('_', " ", $attribute));
-        }
 
         $charCount = 0;
         foreach (str_split($value) as $char) {
@@ -35,6 +24,17 @@ class NameValidation implements ValidationRule
         }
         if ($charCount < 2) {
             $fail("Please enter valid " . $attribute);
+        }
+        if (ctype_digit(trim($value))) {
+            $fail("Please enter valid " . str_replace('_', " ", $attribute));
+        }
+
+        if (preg_match('/^[^a-zA-Z0-9 ]+$/', trim($value))) {
+            $fail("Please enter valid " . str_replace('_', " ", $attribute));
+        }
+
+        if (preg_match('/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/', $value)) {
+            $fail("Please enter valid " . str_replace('_', " ", $attribute));
         }
     }
 }
