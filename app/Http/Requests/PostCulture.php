@@ -30,9 +30,9 @@ class PostCulture extends FormRequest
     public function messages(): array
     {
         return [
-            'culture.*.required' => 'Please enter a valid Faith',
+            'culture.*.required' => 'Please enter a valid Culture',
 
-            'culture.*.unique' => 'Faith already exist',
+            'culture.*.unique' => 'Culture already exist',
         ];
     }
 }
