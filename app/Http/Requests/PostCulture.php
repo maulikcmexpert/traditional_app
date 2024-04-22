@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostCulture extends FormRequest
@@ -22,7 +23,16 @@ class PostCulture extends FormRequest
     public function rules(): array
     {
         return [
-            'culture.*' => ['required', 'string', 'max:255', 'unique:cultures,culture'],
+            'culture.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:cultures,culture'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'culture.*.required' => 'Please enter a valid Faith',
+
+            'culture.*.unique' => 'Faith already exist',
         ];
     }
 }
