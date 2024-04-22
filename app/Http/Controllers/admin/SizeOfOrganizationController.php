@@ -23,7 +23,7 @@ class SizeOfOrganizationController extends Controller
     public function index(SizeOfOrganizationDataTable $dataTable)
     {
         $page = 'admin.size_of_organization.list';
-        $title = 'Size Of Organization';
+        $title = 'Size of Organization';
         $js = 'admin.size_of_organization.scriptjs';
         return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -34,7 +34,7 @@ class SizeOfOrganizationController extends Controller
     public function create()
     {
         $page = 'admin.size_of_organization.add';
-        $title = 'Add Size Of Organization';
+        $title = 'Add Size of Organization';
         $js = 'admin.size_of_organization.scriptjs';
         return view('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -53,7 +53,7 @@ class SizeOfOrganizationController extends Controller
                 $sizeRange->save();
             }
             DB::commit();
-            toastr()->success('Size Of Organization created successfully !');
+            toastr()->success('Size of Organization created successfully !');
             return redirect()->route('sizeoforganization.index');
         } catch (Exception $e) {
 
@@ -81,7 +81,7 @@ class SizeOfOrganizationController extends Controller
     {
         $ids = decrypt($id);
         $page = 'admin.size_of_organization.edit';
-        $title = 'Update Size Of Organization';
+        $title = 'Update Size of Organization';
         $js = 'admin.size_of_organization.scriptjs';
         $getData = SizeOfOrganization::Findorfail($ids);
         return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
