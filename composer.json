@@ -31,7 +31,6 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "libphonenumber\\": "vendor/giggsey/libphonenumber-for-php/src/",
             "Kreait\\": "vendor/kreait/laravel-firebase/src/"
         },
         "files": [
