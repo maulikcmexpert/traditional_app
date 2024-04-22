@@ -240,7 +240,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Faith deleted successfully !");
+            toastr.success("Faith deleted successfully!");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }

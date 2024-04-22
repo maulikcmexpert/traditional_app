@@ -256,7 +256,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Interest and Hobby deleted successfully !");
+            toastr.success("Interest and Hobby deleted successfully!");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }
