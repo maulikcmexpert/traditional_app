@@ -29,7 +29,7 @@ class PostInterestAndHobbies extends FormRequest
     public function messages(): array
     {
         return [
-            'interest_and_hobby.*.required' => 'Please enter a valid Interest and Hobby',
+            'interest_and_hobby.*.required' => 'Please enter Interest and Hobby',
 
             'interest_and_hobby.*.unique' => 'Interest and Hobby already exist',
         ];

@@ -30,7 +30,7 @@ class PostBodyType extends FormRequest
     public function messages(): array
     {
         return [
-            'body_type.*.required' => 'Please enter a valid Body Type',
+            'body_type.*.required' => 'Please enter Body Type',
 
             'body_type.*.unique' => 'Body Type already exist',
         ];
