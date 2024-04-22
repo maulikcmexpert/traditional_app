@@ -31,7 +31,7 @@
                             <div class="row gy-4 align-items-end">
                                 <div class="col-xxl-6 col-md-6 position-relative">
                                     <label class="form-label">Interest and Hobby</label>
-                                    <input type="text" value="{{$getData->interest_and_hobby}}" class="form-control interest_and_hobby " name="intrest_and_hobby" />
+                                    <input type="text" value="{{$getData->interest_and_hobby}}" class="form-control interest_and_hobby " name="interest_and_hobby" />
 
                                     <span class="text-danger"></span>
                                 </div>
