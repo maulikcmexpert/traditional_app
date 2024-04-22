@@ -28,7 +28,7 @@
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Interest And Hobby</label>
                                             <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" />
-                                            <span class="text-danger"> @if ($errors->has('interest_and_hobby*')){{ $errors->first('interest_and_hobby*') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('interest_and_hobby*')){{ str_replace(".0", "", $errors->first('interest_and_hobby*')); }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
