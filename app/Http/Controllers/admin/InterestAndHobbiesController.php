@@ -56,7 +56,7 @@ class InterestAndHobbiesController extends Controller
                 $interestandhobby->save();
             }
             DB::commit();
-            toastr()->success('Interest and Hobby created successfully !');
+            toastr()->success('Interest and Hobby created successfully!');
             return redirect()->route('interest_and_hobby.index');
         } catch (Exception $e) {
 
@@ -102,7 +102,7 @@ class InterestAndHobbiesController extends Controller
             $update->interest_and_hobby = $request->interest_and_hobby;
             $update->save();
             DB::commit();
-            toastr()->success('Interest and Hobby updated successfully !');
+            toastr()->success('Interest and Hobby updated successfully!');
             return redirect()->route('interest_and_hobby.index');
         } catch (Exception $e) {
 
