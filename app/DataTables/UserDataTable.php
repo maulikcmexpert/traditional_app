@@ -63,6 +63,7 @@ class UserDataTable extends DataTable
         return [
             Column::make('full_name'),
             Column::make('email'),
+            Column::make('phone_number'),
 
         ];
     }
