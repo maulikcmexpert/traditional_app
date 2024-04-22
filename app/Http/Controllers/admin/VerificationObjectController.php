@@ -59,7 +59,7 @@ class VerificationObjectController extends Controller
 
 
             DB::commit();
-            toastr()->success('Verfication Object created successfully !');
+            toastr()->success('Verfication Object created successfully!');
             return redirect()->route('verificationobject.index');
         } catch (Exception $e) {
 
@@ -118,7 +118,7 @@ class VerificationObjectController extends Controller
             $updateVerifyObj->object_type = $request->object_type;
             $updateVerifyObj->save();
             DB::commit();
-            toastr()->success('Verification Object updated successfully !');
+            toastr()->success('Verification Object updated successfully!');
             return redirect()->route('verificationobject.index');
         } catch (Exception $e) {
 
@@ -144,7 +144,7 @@ class VerificationObjectController extends Controller
         try {
 
             $eventType = VerificationObject::where(['object_type' => $request->object_type])->get();
-           
+
             if (count($eventType) > 0) {
 
                 if (isset($request->id) && !empty($request->id)) {
