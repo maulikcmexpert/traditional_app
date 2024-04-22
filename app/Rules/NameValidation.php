@@ -15,6 +15,9 @@ class NameValidation implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
 
+        if ($attribute == 'interest_and_hobby') {
+            $attribute = "Interest and Hobby";
+        }
 
         $charCount = 0;
         foreach (str_split($value) as $char) {
@@ -23,7 +26,7 @@ class NameValidation implements ValidationRule
             }
         }
         if ($charCount < 2) {
-            $fail("Please enter valid " . $attribute);
+            $fail("Please enter valid " . str_replace('_', " ", $attribute));
         }
         if (ctype_digit(trim($value))) {
             $fail("Please enter valid " . str_replace('_', " ", $attribute));
