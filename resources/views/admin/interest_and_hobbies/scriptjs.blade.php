@@ -33,7 +33,7 @@
                 that.next('.text-danger').text('');
 
                 // Validation checks
-
+                var charCount = 0;
                 for (var i = 0; i < thatVal.length; i++) {
                     var char = thatVal.charAt(i);
                     if (/[a-zA-Z]/.test(char)) { // Check if the character is a letter using regex
