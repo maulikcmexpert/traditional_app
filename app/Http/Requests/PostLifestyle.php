@@ -23,7 +23,16 @@ class PostLifestyle extends FormRequest
     public function rules(): array
     {
         return [
-            'lifestyle.*' => ['required', new NameValidation, 'string', 'max:255', 'unique:lifestyles,life_style'],
+            'lifestyle.*' => ['required', new NameValidation, 'max:255', 'unique:lifestyles,life_style'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'lifestyle.*.required' => 'Please enter a valid Lifestyle.',
+            'lifestyle.*.string' => 'Please enter a valid Lifestyle.',
+            'lifestyle.*.unique' => 'Lifestyle already exist',
         ];
     }
 }
