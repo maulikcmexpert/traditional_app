@@ -92,7 +92,7 @@ class InterestAndHobbiesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(string $id, Request $request)
     {
         try {
             dd($request->interest_and_hobby);
