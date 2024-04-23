@@ -17,7 +17,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+
+        $js = 'auth.scriptjs';
+        return view('auth.login', compact('js'));
     }
 
     /**
