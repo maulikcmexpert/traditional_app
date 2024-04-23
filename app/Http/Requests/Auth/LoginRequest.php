@@ -54,7 +54,7 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-        $user = User::where('email', $this->input('email'))->first();
+        $user = User::where(['email' => $this->input('email'), 'user_type' => 'admin'])->first();
         dd($user);
         if ($user != null) {
 
