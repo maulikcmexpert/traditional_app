@@ -16,10 +16,10 @@ class NameValidation implements ValidationRule
     {
 
         $attribute = ucwords(str_replace('_', " ", $attribute));
-        if ($attribute == 'interest_and_hobby.0') {
+        if ($attribute == 'Interest And Hobby') {
             $attribute = "Interest and Hobby";
         }
-        if ($attribute == 'size_of_organization.0') {
+        if ($attribute == 'Size Of Organization') {
             $attribute = "Size of Organization";
         }
 
