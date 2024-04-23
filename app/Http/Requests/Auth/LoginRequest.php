@@ -61,7 +61,7 @@ class LoginRequest extends FormRequest
         }
         if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-            toastr()->error("Password is invalid");
+            toastr()->error("Invalid Password");
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
