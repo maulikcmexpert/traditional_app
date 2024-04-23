@@ -15,8 +15,12 @@ class NameValidation implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
 
+        $attribute = ucfirst($attribute);
         if ($attribute == 'interest_and_hobby.0') {
             $attribute = "Interest and Hobby";
+        }
+        if ($attribute == 'size_of_organization.0') {
+            $attribute = "Size of Organization";
         }
 
         $charCount = 0;
