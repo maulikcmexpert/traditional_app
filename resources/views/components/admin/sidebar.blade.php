@@ -354,7 +354,7 @@
              </a>
 
          </li>
-         </li>
+
 
      </ul>
      <!--end navigation-->
