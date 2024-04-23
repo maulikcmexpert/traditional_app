@@ -68,10 +68,10 @@
 <script src="{{asset('admin/assets/js/app.js')}}"></script>
 <script src="{{asset('admin/assets/js/jquery.validate.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/additional-methods.min.js')}}"></script>
-
+<!-- 
 <script>
     new PerfectScrollbar(".app-container");
-</script>
+</script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 
