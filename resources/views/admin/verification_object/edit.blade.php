@@ -28,7 +28,7 @@
                         @method('PUT')
                         <div class="form-group mb-3 AddMoreForm">
                             <div class="row" id="interest">
-                                <div class="col-xxl-4 col-md-6 mb-2">
+                                <div class="col-xxl-4 col-md-4 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Object Type</label>
@@ -38,14 +38,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xxl-4">
+                                <div class="col-xxl-4 col-md-4">
                                     <div>
                                         <label class="form-label">Object Image</label>
 
                                         <input id="file-upload" class="form-control" type="file" name="object_image_edit" accept="image/*" onchange="readURL(this);" />
                                     </div>
                                 </div>
-                                <div class="col-xxl-4">
+                                <div class="col-xxl-4 col-md-4 mt-lg-0 mt-md-0 mt-2">
                                     <div class="preview-Img">
 
                                         <img id="blah" src="{{($getData->object_image != NULL || $getData->object_image != '')?asset('storage/verification_object/'.$getData->object_image):''}}" alt="your image" />

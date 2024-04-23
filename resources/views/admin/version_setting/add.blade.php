@@ -22,7 +22,7 @@
                         @csrf
                         <div class="mb-3 form-group AddMoreForm version-setting">
                             <div class="row" id="versionsetting">
-                                <div class="col-xxl-2 col-md-3 mb-2">
+                                <div class="col-xxl-2 col-md-3 col-sm-3 col-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Android Version</label>
@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xxl-2 col-md-3 mb-2">
+                                <div class="col-xxl-2 col-md-3 col-sm-3 col-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <!-- <label class="form-label">Android In Force</label>
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xxl-2 col-md-3 mb-2">
+                                <div class="col-xxl-2 col-md-3 col-sm-3 col-6  mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Ios Version</label>
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xxl-2 col-md-3 mb-2">
+                                <div class="col-xxl-2 col-md-3 col-sm-3 col-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative toggle-wrapper">
                                             <div class="d-flex flex-column">

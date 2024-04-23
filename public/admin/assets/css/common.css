@@ -398,10 +398,10 @@ table.dataTable thead > tr > th.sorting:before
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 24px;
+    width: 24px;
     left: 4px;
-    bottom: 6px;
+    bottom: 5px;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
@@ -443,16 +443,27 @@ table.dataTable thead > tr > th.sorting:before
 .version-setting .toggle-wrapper::after{
     content: '';
     position: absolute;
-    right: 60px;
+    right: 50%;
     background-color: #9495a3;
     width: 1px;
     height: 50px;
     top: 20px;
-
+    transform: translateX(50px);
 }
 
 @media only screen and (max-width:768px){
     p{
         font-size: 14px !important;
+    }
+
+    .card .card-body{
+        overflow: hidden;
+        overflow-x: scroll;
+    }
+}
+
+@media only screen and (max-width:575px){
+    .version-setting .toggle-wrapper::after{
+        display: none;
     }
 }

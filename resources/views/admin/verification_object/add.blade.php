@@ -22,7 +22,7 @@
                         @csrf
                         <div class="mb-3 form-group AddMoreForm">
                             <div class="row" id="interest">
-                                <div class="col-xxl-4 col-md-6 mb-2">
+                                <div class="col-xxl-4 col-md-4 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Object Type</label>
@@ -31,13 +31,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xxl-3">
+                                <div class="col-xxl-3 col-md-4">
                                     <div>
                                         <label class="form-label">Object Image</label>
                                         <input id="file-upload" class="form-control" type="file" name="object_image" accept="image/*" onchange="readURL(this);" />
                                     </div>
                                 </div>
-                                <div class="col-xxl-4">
+                                <div class="col-xxl-4 col-md-4">
                                     <div class="preview-Img">
                                         <img id="blah" src="http://placehold.it/180" alt="your image" />
                                     </div>
