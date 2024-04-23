@@ -54,27 +54,11 @@
 <!-- Sweet Alerts js -->
 <script src="{{asset('admin/assets/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 
-<!-- <script src="{{asset('admin/assets/js/invoicedetails.js')}}"></script> -->
 
-<!-- dropzone min -->
-<script src="{{asset('admin/assets/plugins/dropzone/dropzone-min.js')}}"></script>
-
-<!-- cleave.js -->
-<script src="{{asset('admin/assets/plugins/cleave.js/cleave.min.js')}}"></script>
-
-<!--Invoice create init js-->
-<!-- <script src="{{asset('admin/assets/js/invoicecreate.init.js')}}"></script> -->
-
-<!-- prismjs plugin -->
-<script src="{{asset('admin/assets/plugins/prismjs/prism.js')}}"></script>
 
 <!-- ckeditor -->
 <script src="{{asset('admin/assets/plugins/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js')}}"></script>
 
-<!-- quill js -->
-<!-- <script src="{{asset('admin/assets/plugins/quill/quill.min.js')}}"></script> -->
-
-<!-- init js -->
 <script src="{{asset('admin/assets/js/form-editor.init.js')}}"></script>
 
 
