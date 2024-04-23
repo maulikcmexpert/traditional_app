@@ -55,7 +55,10 @@
                 email: true,
                 customValidation: true
             },
-
+            password: {
+                required: true,
+                minlength: 8,
+            }
         },
         messages: {
             email: {
@@ -63,6 +66,10 @@
                 email: "Please enter valid Email",
                 customValidation: "Please enter vaild Email"
             },
+            password: {
+                required: "Please enter Password",
+                minlength: "Password must be at least 8 characters",
+            }
         },
 
 
