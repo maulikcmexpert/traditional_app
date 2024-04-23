@@ -47,7 +47,7 @@
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('Religion already exist');
+                                    that.next('.text-danger').text('Size of Organization already exist');
                                     resolve(false);
                                 } else {
                                     that.next('.text-danger').text('');
