@@ -24,7 +24,7 @@ class InterestAndHobbiesController extends Controller
     public function index(InterestAndHobbiesDataTable $dataTable)
     {
         $page = 'admin.interest_and_hobbies.list';
-        $title = 'Interest and hobby';
+        $title = 'Interest and Hobbies';
         $js = 'admin.interest_and_hobbies.scriptjs';
         return $dataTable->render('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -35,7 +35,7 @@ class InterestAndHobbiesController extends Controller
     public function create()
     {
         $page = 'admin.interest_and_hobbies.add';
-        $title = 'Add Interest and hobby';
+        $title = 'Add Interest and Hobby';
         $js = 'admin.interest_and_hobbies.scriptjs';
         return view('layouts.layout', compact('page', 'title', 'js'));
     }
@@ -56,7 +56,7 @@ class InterestAndHobbiesController extends Controller
                 $interestandhobby->save();
             }
             DB::commit();
-            toastr()->success('Interest and hobby created successfully !');
+            toastr()->success('Interest and Hobby created successfully!');
             return redirect()->route('interest_and_hobby.index');
         } catch (Exception $e) {
 
@@ -83,7 +83,7 @@ class InterestAndHobbiesController extends Controller
     {
         $ids = decrypt($id);
         $page = 'admin.interest_and_hobbies.edit';
-        $title = 'Update interest and hobby';
+        $title = 'Update Interest and Hobby';
         $js = 'admin.interest_and_hobbies.scriptjs';
         $getData = InterestAndHobby::Findorfail($ids);
         return view('layouts.layout', compact('page', 'title', 'getData', 'js'));
@@ -92,16 +92,17 @@ class InterestAndHobbiesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(string $id, Request $request)
     {
         try {
+
             DB::beginTransaction();
             $ids = decrypt($id);
             $update = InterestAndHobby::Findorfail($ids);
             $update->interest_and_hobby = $request->interest_and_hobby;
             $update->save();
             DB::commit();
-            toastr()->success('Interest and hobby updated successfully !');
+            toastr()->success('Interest and Hobby updated successfully!');
             return redirect()->route('interest_and_hobby.index');
         } catch (Exception $e) {
 

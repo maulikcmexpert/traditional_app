@@ -29,7 +29,7 @@
                                         <div class="w-100 mb-2 position-relative">
                                             <label class="form-label">Body Type</label>
                                             <input type="text" class="form-control body_type" name="body_type[]" />
-                                            <span class="text-danger"> @if ($errors->has('body_type*')){{ $errors->first('body_type*') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('body_type*')){{ str_replace('.0','',$errors->first('body_type*')) }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                 <label class="form-label">Body Type</label>
                 <input type="text" class="form-control body_type" name="body_type[]" />
 
-                <span class="text-danger"> @if($errors->has('body_type*')){{ $errors->first('body_type*') }} @endif</span>
+                <span class="text-danger"> @if($errors->has('body_type*')){{ str_replace('.0','',$errors->first('body_type*')) }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>

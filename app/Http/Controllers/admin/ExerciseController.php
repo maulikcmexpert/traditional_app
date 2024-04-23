@@ -56,7 +56,7 @@ class ExerciseController extends Controller
                 $exercise->save();
             }
             DB::commit();
-            toastr()->success('Exercise created successfully !');
+            toastr()->success('Exercise created successfully!');
             return redirect()->route('exercise.index');
         } catch (Exception $e) {
 
@@ -102,7 +102,7 @@ class ExerciseController extends Controller
             $update->exercise = $request->exercise;
             $update->save();
             DB::commit();
-            toastr()->success('Exercise updated successfully !');
+            toastr()->success('Exercise updated successfully!');
             return redirect()->route('exercise.index');
         } catch (Exception $e) {
 

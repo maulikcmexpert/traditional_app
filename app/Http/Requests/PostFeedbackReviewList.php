@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostFeedbackReviewList extends FormRequest
@@ -22,7 +23,16 @@ class PostFeedbackReviewList extends FormRequest
     public function rules(): array
     {
         return [
-            'feedback_review.*' => ['required', 'string', 'max:255', 'unique:feedback_review_lists,feedback_review'],
+            'feedback_review.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:feedback_review_lists,feedback_review'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'feedback_review.*.required' => 'Please enter Feedback Review',
+
+            'feedback_review.*.unique' => 'Feedback Review already exist',
         ];
     }
 }

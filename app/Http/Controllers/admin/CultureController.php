@@ -55,7 +55,7 @@ class CultureController extends Controller
                 $culture->save();
             }
             DB::commit();
-            toastr()->success('Culture created successfully !');
+            toastr()->success('Culture created successfully!');
             return redirect()->route('culture.index');
         } catch (Exception $e) {
 
@@ -101,7 +101,7 @@ class CultureController extends Controller
             $update->culture = $request->culture;
             $update->save();
             DB::commit();
-            toastr()->success('Culture updated successfully !');
+            toastr()->success('Culture updated successfully!');
             return redirect()->route('culture.index');
         } catch (Exception $e) {
 

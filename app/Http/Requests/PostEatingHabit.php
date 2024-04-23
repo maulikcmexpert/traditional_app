@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostEatingHabit extends FormRequest
@@ -22,7 +23,16 @@ class PostEatingHabit extends FormRequest
     public function rules(): array
     {
         return [
-            'eating_habit.*' => ['required', 'string', 'max:255', 'unique:eating_habits,eating_habit'],
+            'eating_habit.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:eating_habits,eating_habit'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'eating_habit.*.required' => 'Please enter Eating Habit',
+
+            'eating_habit.*.unique' => 'Eating Habit already exist',
         ];
     }
 }

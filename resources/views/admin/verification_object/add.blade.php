@@ -27,7 +27,7 @@
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Object Type</label>
                                             <input type="text" class="form-control object_type" name="object_type" />
-                                            <span class="text-danger"> @if ($errors->has('object_type*.')){{ $errors->first('object_type*.') }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('object_type*.')){{ str_replace('.0','',$errors->first('object_type*')) }} @endif</span>
                                         </div>
                                     </div>
                                 </div>

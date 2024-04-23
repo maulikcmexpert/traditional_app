@@ -5,7 +5,7 @@
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Interest and hobby</li>
+                <li class="breadcrumb-item active" aria-current="page">Interest and Hobbies</li>
             </ol>
         </nav>
     </div>
@@ -15,7 +15,7 @@
     <div class="">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Interest and hobby</h4>
+                <h4 class="card-title">Interest and Hobbies</h4>
                 <a href="{{route('interest_and_hobby.create')}}" class="btn btn-primary text-right">Add</a>
             </div>
             <div class="card-body">

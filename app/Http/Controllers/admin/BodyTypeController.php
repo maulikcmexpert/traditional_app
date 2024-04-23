@@ -55,7 +55,7 @@ class BodyTypeController extends Controller
                 $body_type->save();
             }
             DB::commit();
-            toastr()->success('Body Type created successfully !');
+            toastr()->success('Body Type created successfully!');
             return redirect()->route('body_type.index');
         } catch (Exception $e) {
 
@@ -101,7 +101,7 @@ class BodyTypeController extends Controller
             $update->body_type = $request->body_type;
             $update->save();
             DB::commit();
-            toastr()->success('Body Type updated successfully !');
+            toastr()->success('Body Type updated successfully!');
             return redirect()->route('body_type.index');
         } catch (Exception $e) {
 

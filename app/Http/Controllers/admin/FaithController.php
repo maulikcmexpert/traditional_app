@@ -56,7 +56,7 @@ class FaithController extends Controller
                 $faith->save();
             }
             DB::commit();
-            toastr()->success('Faith created successfully !');
+            toastr()->success('Faith created successfully!');
             return redirect()->route('faith.index');
         } catch (Exception $e) {
 
@@ -102,7 +102,7 @@ class FaithController extends Controller
             $update->faith = $request->faith;
             $update->save();
             DB::commit();
-            toastr()->success('Faith updated successfully !');
+            toastr()->success('Faith updated successfully!');
             return redirect()->route('faith.index');
         } catch (Exception $e) {
 

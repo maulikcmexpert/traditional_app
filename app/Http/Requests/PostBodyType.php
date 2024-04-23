@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostBodyType extends FormRequest
@@ -22,7 +23,16 @@ class PostBodyType extends FormRequest
     public function rules(): array
     {
         return [
-            'body_type.*' => ['required', 'string', 'max:255', 'unique:body_types,body_type'],
+            'body_type.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:body_types,body_type'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'body_type.*.required' => 'Please enter Body Type',
+
+            'body_type.*.unique' => 'Body Type already exist',
         ];
     }
 }

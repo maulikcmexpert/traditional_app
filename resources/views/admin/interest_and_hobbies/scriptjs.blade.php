@@ -33,18 +33,31 @@
                 that.next('.text-danger').text('');
 
                 // Validation checks
+                var charCount = 0;
+                for (var i = 0; i < thatVal.length; i++) {
+                    var char = thatVal.charAt(i);
+                    if (/[a-zA-Z]/.test(char)) { // Check if the character is a letter using regex
+                        charCount++;
+                    }
+                }
+
+
                 if (thatVal === '') {
-                    that.next('.text-danger').text('Please enter Interest And Hobby');
+                    that.next('.text-danger').text('Please enter Interest and Hobby');
                     isValid = false;
-                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid Interest And Hobby');
+
+                } else if (charCount < 2) {
+                    that.next('.text-danger').text('Please enter valid Interest and Hobby');
+                    isValid = false;
+                } else if (/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/.test(thatVal)) {
+                    that.next('.text-danger').text('Please enter valid Interest and Hobby');
                     isValid = false;
 
                 } else if (/^\d+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid Interest And Hobby');
+                    that.next('.text-danger').text('Please enter valid Interest and Hobby');
                     isValid = false;
                 } else if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
-                    that.next('.text-danger').text('Please enter valid Interest And Hobby');
+                    that.next('.text-danger').text('Please enter valid Interest and Hobby');
                     isValid = false;
                 } else {
                     var promise = new Promise(function(resolve, reject) {
@@ -60,7 +73,7 @@
                             },
                             success: function(output) {
                                 if (output == false) {
-                                    that.next('.text-danger').text('Interest And Hobby already exist');
+                                    that.next('.text-danger').text('Interest and Hobby already exist');
                                     isValid = false;
                                     resolve(false);
                                 } else {
@@ -101,13 +114,35 @@
 
 
         $.validator.addMethod("customValidation", function(value, element) {
-            var isValid = true;
             var thatVal = value.trim();
-            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal) || /^\d+$/.test(thatVal) || /^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
-                isValid = false;
+            if (thatVal === '') {
+                return false; // Empty input is invalid
             }
-            return isValid;
-        });
+            // Check if input consists only of special characters or digits
+            if (/^[0-9@#$%^&*()_+=\[\]{};:,.\/<>?|\\/-]+$/.test(thatVal)) {
+                return false;
+            }
+            // Check if input consists only of digits
+            if (/^\d+$/.test(thatVal)) {
+                return false;
+            }
+            // Check if input consists only of non-alphanumeric characters
+            if (/^[^a-zA-Z0-9 ]+$/.test(thatVal)) {
+                return false;
+            }
+            // Check if input contains at least 2 alphabetical characters
+            var charCount = 0;
+            for (var i = 0; i < thatVal.length; i++) {
+                var char = thatVal.charAt(i);
+                if (/[a-zA-Z]/.test(char)) { // Check if the character is a letter using regex
+                    charCount++;
+                }
+            }
+            if (charCount < 2) {
+                return false;
+            }
+            return true; // If none of the above conditions are met, input is valid
+        }, 'Please enter valid Interest and Hobby');
 
         $("#interest_and_hobby").validate({
             rules: {
@@ -136,9 +171,9 @@
             },
             messages: {
                 interest_and_hobby: {
-                    required: "Please enter Interest And Hobby",
-                    remote: "Interest And Hobby already exist",
-                    customValidation: "Please enter valid Interest And Hobby "
+                    required: "Please enter Interest and Hobby",
+                    remote: "Interest and Hobby already exist",
+                    customValidation: "Please enter valid Interest and Hobby "
                 },
 
             },
@@ -175,7 +210,7 @@
                 dataType: "json",
                 success: function(output) {
                     if (output == false) {
-                        errorAlert("Interest And Hobby");
+                        errorAlert("Interest and Hobby");
 
                     } else {
                         swal({
@@ -205,7 +240,7 @@
 
 
                                         } else {
-                                            errorAlert("Interest And Hobby");
+                                            errorAlert("Interest and Hobby");
 
                                         }
                                     },
@@ -221,7 +256,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Interest And Hobby deleted successfully !");
+            toastr.success("Interest and Hobby deleted successfully!");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostDailyActivity extends FormRequest
@@ -22,7 +23,16 @@ class PostDailyActivity extends FormRequest
     public function rules(): array
     {
         return [
-            'daily_activity.*' => ['required', 'string', 'max:255', 'unique:daily_activities,daily_activity'],
+            'daily_activity.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:daily_activities,daily_activity'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'daily_activity.*.required' => 'Please enter Daily Activity',
+
+            'daily_activity.*.unique' => 'Daily Activity already exist',
         ];
     }
 }

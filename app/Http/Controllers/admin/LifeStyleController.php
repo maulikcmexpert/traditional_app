@@ -55,7 +55,7 @@ class LifeStyleController extends Controller
                 $lifestyle->save();
             }
             DB::commit();
-            toastr()->success('Lifestyle created successfully !');
+            toastr()->success('Lifestyle created successfully!');
             return redirect()->route('lifestyle.index');
         } catch (Exception $e) {
 
@@ -101,7 +101,7 @@ class LifeStyleController extends Controller
             $update->life_style = $request->lifestyle;
             $update->save();
             DB::commit();
-            toastr()->success('Lifestyle updated successfully !');
+            toastr()->success('Lifestyle updated successfully!');
             return redirect()->route('lifestyle.index');
         } catch (Exception $e) {
 

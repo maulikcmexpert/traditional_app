@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostLeaveReason extends FormRequest
@@ -22,7 +23,16 @@ class PostLeaveReason extends FormRequest
     public function rules(): array
     {
         return [
-            'reason.*' => ['required', 'string', 'max:255', 'unique:leave_reasons,reason'],
+            'reason.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:leave_reasons,reason'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'reason.*.required' => 'Please enter Leave Reason',
+
+            'reason.*.unique' => 'Leave Reason already exist',
         ];
     }
 }
