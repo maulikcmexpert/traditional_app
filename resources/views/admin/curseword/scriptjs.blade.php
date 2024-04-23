@@ -144,7 +144,7 @@
                         url: "{{route('curseword.exist')}}",
                         method: "POST",
                         data: {
-                            words: function() {
+                            curse_word: function() {
                                 return $("input[name='curse_word']").val();
                             },
                             id: function() {

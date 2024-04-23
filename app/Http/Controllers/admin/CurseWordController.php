@@ -45,7 +45,7 @@ class CurseWordController extends Controller
     {
         try {
             DB::beginTransaction();
-            foreach ($request->words as $val) {
+            foreach ($request->curse_word as $val) {
 
                 $curseWord = new BadWord();
                 $curseWord->words = $val;
@@ -95,7 +95,7 @@ class CurseWordController extends Controller
             DB::beginTransaction();
             $ids = decrypt($id);
             $update = BadWord::Findorfail($ids);
-            $update->words = $request->words;
+            $update->words = $request->curse_word;
             $update->save();
             DB::commit();
             toastr()->success('Curse Word updated successfully!');
@@ -132,7 +132,7 @@ class CurseWordController extends Controller
     {
         try {
 
-            $eventType = BadWord::where(['words' => $request->words])->get();
+            $eventType = BadWord::where(['words' => $request->curse_word])->get();
 
             if (count($eventType) > 0) {
 

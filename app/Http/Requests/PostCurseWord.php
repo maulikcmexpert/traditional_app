@@ -23,16 +23,16 @@ class PostCurseWord extends FormRequest
     public function rules(): array
     {
         return [
-            'words.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:bad_words,words'],
+            'curse_word.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:bad_words,words'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'words.*.required' => 'Please enter Curse Word',
+            'curse_word.*.required' => 'Please enter Curse Word',
 
-            'words.*.unique' => 'Curse Word already exist',
+            'curse_word.*.unique' => 'Curse Word already exist',
         ];
     }
 }
