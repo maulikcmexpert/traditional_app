@@ -65,7 +65,7 @@ class LoginRequest extends FormRequest
                     'email' => trans('auth.failed'),
                 ]);
             }
-            toastr()->success('Login successfully!');
+            toastr()->success('You have a successfully logged in');
             RateLimiter::clear($this->throttleKey());
         } else {
             toastr()->error("User not found");
