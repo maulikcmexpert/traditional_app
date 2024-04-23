@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Lang;
+use App\Models\User;
 
 class LoginRequest extends FormRequest
 {
@@ -53,10 +54,14 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-
+        $user = User::where('email', $this->input('email'))->first();
+        if ($user == null) {
+            toastr()->error("User not found");
+            return;
+        }
         if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-            toastr()->error("Email or Password invalid");
+            toastr()->error("Password is invalid");
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
