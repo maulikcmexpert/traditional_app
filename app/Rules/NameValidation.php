@@ -15,11 +15,17 @@ class NameValidation implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
 
-        $attribute = str_replace('_', " ", ucwords($attribute));
-        dd($attribute);
-        if ($attribute == 'Interest And Hobby') {
+        $attribute = ucwords(str_replace('_', " ", $attribute));
+
+        if ($attribute == 'Interest And Hobby.0') {
             $attribute = "Interest and Hobby";
         }
+
+        if ($attribute == 'Words.0') {
+            $attribute = "Curse Word";
+        }
+
+
 
 
         $charCount = 0;

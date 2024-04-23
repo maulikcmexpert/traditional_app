@@ -8,12 +8,12 @@
 
 
             var addMoreData = $("#addMoreData").html();
-            $("#block_reason").append(addMoreData);
+            $("#block_reasons").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#block_reason .reason").each(function() {
+        $("#block_reasons .block_reason").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -25,7 +25,7 @@
             var promises = [];
 
             var isValid = true;
-            $('#block_reason .reason').each(function() {
+            $('#block_reasons .block_reason').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
                 var charCount = 0;
@@ -62,7 +62,7 @@
                             type: "POST",
                             url: "{{route('blockreason.exist')}}",
                             data: {
-                                reason: thatVal
+                                block_reason: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
@@ -138,7 +138,7 @@
 
         $("#blockreason").validate({
             rules: {
-                reason: {
+                block_reason: {
                     required: true,
                     remote: {
                         headers: {
@@ -149,8 +149,8 @@
                         url: "{{route('blockreason.exist')}}",
                         method: "POST",
                         data: {
-                            reason: function() {
-                                return $("input[name='reason']").val();
+                            block_reason: function() {
+                                return $("input[name='block_reason']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -163,7 +163,7 @@
 
             },
             messages: {
-                reason: {
+                block_reason: {
                     required: "Please enter Block Reason",
                     remote: "Block Reason already exist",
                     customValidation: "Please enter vaild Block Reason"

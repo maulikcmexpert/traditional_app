@@ -31,7 +31,7 @@
                                 <div class="col-xxl-6 col-md-6 position-relative">
                                     <label class="form-label">Interest and hobbies</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control curseword_id" name="id" />
-                                    <input type="text" value="{{$getData->words}}" class="form-control words" name="words" />
+                                    <input type="text" value="{{$getData->words}}" class="form-control curse_word" name="curse_word" />
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="col-xxl-2">

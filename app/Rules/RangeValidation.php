@@ -18,7 +18,7 @@ class RangeValidation implements ValidationRule
         // Check if value matches the specified pattern
         $attribute =   (str_replace('_', " ", $attribute));
         if (!preg_match('/^(\d+\.?\d*) ?- ?(\d+\.?\d*)$/', $value)) {
-            $fail("Please enter valid Size Of Validation");
+            $fail("Please enter valid Size of Organization");
             return;
         }
     }

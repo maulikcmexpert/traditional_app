@@ -23,16 +23,16 @@ class PostBlockReason extends FormRequest
     public function rules(): array
     {
         return [
-            'reason.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:block_reasons,reason'],
+            'block_reason.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:block_reasons,reason'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'reason.*.required' => 'Please enter Block Reason',
+            'block_reason.*.required' => 'Please enter Block Reason',
 
-            'reason.*.unique' => 'Block Reason already exist',
+            'block_reason.*.unique' => 'Block Reason already exist',
         ];
     }
 }

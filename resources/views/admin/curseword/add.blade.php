@@ -22,13 +22,13 @@
                     <form method="POST" id="curseword" action="{{ route('curseword.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group AddMoreForm">
-                            <div class="row" id="curse_word">
+                            <div class="row" id="curse_words">
                                 <div class="col-xxl-6 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Curse Word</label>
-                                            <input type="text" class="form-control words" name="words[]" />
-                                            <span class="text-danger"> @if ($errors->has('words*')){{ str_replace('.0','',$errors->first('words*')) }} @endif</span>
+                                            <input type="text" class="form-control curse_word" name="curse_word[]" />
+                                            <span class="text-danger"> @if ($errors->has('curse_word*')){{ str_replace('.0','',$errors->first('curse_word*')) }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -56,9 +56,9 @@
         <div class="d-flex align-items-end gap-2">
             <div class="w-100 position-relative">
                 <label class="form-label">Curse Word</label>
-                <input type="text" class="form-control words" name="words[]" />
+                <input type="text" class="form-control curse_word" name="curse_word[]" />
 
-                <span class="text-danger"> @if($errors->has('words*')){{ str_replace('.0','',$errors->first('words*')) }} @endif</span>
+                <span class="text-danger"> @if($errors->has('curse_word*')){{ str_replace('.0','',$errors->first('curse_word*')) }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>
