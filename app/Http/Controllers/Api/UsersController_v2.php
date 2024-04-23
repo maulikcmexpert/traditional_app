@@ -90,51 +90,58 @@ class UsersController_v2 extends BaseController
         $this->user = Auth::guard('api')->user();
     }
 
-    public function deleteMessage()
+    // public function deleteMessage()
+    // {
+    //     $database = Firebase::database();
+    //     $snapshot = $database->getReference('/Overview')->getSnapshot();
+    //     $data = $snapshot->getValue();
+
+    //     // Convert Firebase snapshot data to array
+    //     $dataArray = json_decode(json_encode($data), true);
+
+    //     $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id')->toArray();
+
+    //     foreach ($allUsers as $value) {
+    //         if (isset($dataArray[$value])) {
+    //             $currentTimestamp = Carbon::now();
+    //             foreach ($dataArray[$value] as $val) {
+    //                 if ($value == 14 && $val['contactId'] == 15) {
+
+    //                     $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
+    //                     $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
+    //                     $getDay = Setting::select('no_chat_day_duration')->first();
+    //                     if ($getDay != null) {
+    //                         if ($daysDifference > $getDay->no_chat_day_duration) {
+    //                             $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
+
+    //                             // leave relation by admin //
+
+    //                             $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
+    //                             if ($leaverealtion != null) {
+    //                                 $leaverealtion->status = 'leave';
+    //                                 $leaverealtion->message = 'by admin';
+    //                                 $leaverealtion->save();
+    //                                 $leaverealtion->delete();
+    //                                 $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     dd($data);
+    // }
+
+    public function getUserConnectionList()
     {
-        $database = Firebase::database();
-        $snapshot = $database->getReference('/Overview')->getSnapshot();
-        $data = $snapshot->getValue();
-
-        // Convert Firebase snapshot data to array
-        $dataArray = json_decode(json_encode($data), true);
-
-        $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id')->toArray();
-
-        foreach ($allUsers as $value) {
-            if (isset($dataArray[$value])) {
-                $currentTimestamp = Carbon::now();
-                foreach ($dataArray[$value] as $val) {
-                    if ($value == 14 && $val['contactId'] == 15) {
-
-                        $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
-                        $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
-                        $getDay = Setting::select('no_chat_day_duration')->first();
-                        if ($getDay != null) {
-                            if ($daysDifference > $getDay->no_chat_day_duration) {
-                                $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
-
-                                // leave relation by admin //
-
-                                $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
-                                if ($leaverealtion != null) {
-                                    $leaverealtion->status = 'leave';
-                                    $leaverealtion->message = 'by admin';
-                                    $leaverealtion->save();
-                                    $leaverealtion->delete();
-                                    $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        dd($data);
+        $userId = $this->user->id;
+        $asSender  =  ApproachRequest::with('receiver_user')->where(['sender_id' => $userId, 'status' => 'accepted'])->get();
+        $asReciver  =  ApproachRequest::with('sender_user')->where(['receiver_id' => $userId, 'status' => 'accepted'])->get();
+        $mergedData = $asSender->merge($asReciver);
+        dd($mergedData);
     }
-
-
     public function userSignup(UserValidate $request)
     {
         try {
