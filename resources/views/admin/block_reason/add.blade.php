@@ -22,13 +22,13 @@
                     <form method="POST" id="blockreason" action="{{ route('blockreason.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group AddMoreForm">
-                            <div class="row" id="block_reason">
+                            <div class="row" id="block_reasons">
                                 <div class="col-xxl-6 col-md-6 mb-2">
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Block Reason</label>
-                                            <input type="text" class="form-control reason" name="reason[]" />
-                                            <span class="text-danger"> @if ($errors->has('reason*')){{ str_replace('.0','',$errors->first('reason*')) }} @endif</span>
+                                            <input type="text" class="form-control block_reason" name="block_reason[]" />
+                                            <span class="text-danger"> @if ($errors->has('block_reason*')){{ str_replace('.0','',$errors->first('block_reason*')) }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -56,9 +56,9 @@
         <div class="d-flex align-items-end gap-2">
             <div class="w-100 position-relative">
                 <label class="form-label">Block Reason</label>
-                <input type="text" class="form-control reason" name="reason[]" />
+                <input type="text" class="form-control block_reason" name="block_reason[]" />
 
-                <span class="text-danger"> @if($errors->has('reason*')){{ str_replace('.0','',$errors->first('reason*')) }} @endif</span>
+                <span class="text-danger"> @if($errors->has('block_reason*')){{ str_replace('.0','',$errors->first('block_reason*')) }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>

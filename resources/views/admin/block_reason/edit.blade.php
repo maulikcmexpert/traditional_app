@@ -31,7 +31,7 @@
                                 <div class="col-xxl-6 col-md-6 position-relative">
                                     <label class="form-label">Block Reason</label>
                                     <input type="hidden" value="{{encrypt($getData->id)}}" class="form-control blockreason_id" name="id" />
-                                    <input type="text" value="{{$getData->reason}}" class="form-control reason" name="reason" />
+                                    <input type="text" value="{{$getData->reason}}" class="form-control block_reason" name="block_reason" />
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="col-xxl-2">

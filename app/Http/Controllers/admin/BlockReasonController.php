@@ -44,7 +44,7 @@ class BlockReasonController extends Controller
     {
         try {
             DB::beginTransaction();
-            foreach ($request->reason as $val) {
+            foreach ($request->block_reason as $val) {
 
                 $blockReason = new BlockReason();
                 $blockReason->reason = $val;
@@ -95,7 +95,7 @@ class BlockReasonController extends Controller
             DB::beginTransaction();
             $ids = decrypt($id);
             $update = BlockReason::Findorfail($ids);
-            $update->reason = $request->reason;
+            $update->reason = $request->block_reason;
             $update->save();
             DB::commit();
             toastr()->success('Block Reason updated successfully!');
@@ -132,7 +132,7 @@ class BlockReasonController extends Controller
     {
         try {
 
-            $eventType = BlockReason::where(['reason' => $request->reason])->get();
+            $eventType = BlockReason::where(['reason' => $request->block_reason])->get();
 
             if (count($eventType) > 0) {
 
