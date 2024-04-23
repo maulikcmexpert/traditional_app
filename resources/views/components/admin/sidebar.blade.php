@@ -7,7 +7,7 @@
                  <!-- <img src="assets/img/close-nav-logo.png" class="small-icon" alt=""> -->
              </a>
          </div>
-         <div class="toggle-icon "><i class="fa-solid fa-bars"></i>
+         <div class="toggle-icon ms-auto"><i class="fa-solid fa-bars"></i>
          </div>
      </div>
      <!--navigation-->
