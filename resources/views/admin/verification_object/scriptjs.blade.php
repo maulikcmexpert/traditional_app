@@ -128,7 +128,7 @@
 
 
                             } else {
-                                toastr.error("Object don't Deleted !");
+                                toastr.error("Verification Object don't Deleted !");
                             }
                         },
                     });
@@ -138,7 +138,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Interest and hobby deleted successfully !");
+            toastr.success("Verification Object deleted successfully!");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }
