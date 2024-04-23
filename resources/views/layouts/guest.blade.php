@@ -15,11 +15,7 @@
     <script src="{{asset('admin/assets/js/jquery.min.js')}}"></script>
     <script src="{{asset('admin/assets/js/jquery.validate.min.js')}}"></script>
     <script src="{{asset('admin/assets/js/additional-methods.min.js')}}"></script>
-    <style>
-        label.error {
-            color: red;
-        }
-    </style>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
