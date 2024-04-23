@@ -27,8 +27,8 @@
                                     <div class="w-100 d-flex align-items-end gap-2">
                                         <div class="w-100 position-relative">
                                             <label class="form-label">Leave Reason</label>
-                                            <input type="text" class="form-control reason" name="reason[]" />
-                                            <span class="text-danger"> @if ($errors->has('reason*')){{ str_replace('.0','',$errors->first('reason*')) }} @endif</span>
+                                            <input type="text" class="form-control leave_reason" name="leave_reason[]" />
+                                            <span class="text-danger"> @if ($errors->has('leave_reason*')){{ str_replace('.0','',$errors->first('leave_reason*')) }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
@@ -56,9 +56,9 @@
         <div class="d-flex align-items-end gap-2">
             <div class="w-100 position-relative">
                 <label class="form-label">Leave Reason</label>
-                <input type="text" class="form-control reason" name="reason[]" />
+                <input type="text" class="form-control leave_reason" name="leave_reason[]" />
 
-                <span class="text-danger"> @if($errors->has('reason*')){{ str_replace('.0','',$errors->first('reason*')) }} @endif</span>
+                <span class="text-danger"> @if($errors->has('leave_reason*')){{ str_replace('.0','',$errors->first('leave_reason*')) }} @endif</span>
             </div>
             <span class="btn remove"><i class="fa-solid fa-delete-left"></i></span>
         </div>
