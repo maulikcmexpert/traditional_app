@@ -20,9 +20,7 @@ class NameValidation implements ValidationRule
         if ($attribute == 'Interest And Hobby') {
             $attribute = "Interest and Hobby";
         }
-        if ($attribute == 'Size Of Organization') {
-            $attribute = "Size of Organization";
-        }
+
 
         $charCount = 0;
         foreach (str_split($value) as $char) {
