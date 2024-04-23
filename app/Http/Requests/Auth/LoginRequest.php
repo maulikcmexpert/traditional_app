@@ -55,19 +55,20 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
         $user = User::where('email', $this->input('email'))->first();
-        if ($user == null) {
+        if ($user != null) {
+
+            if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+                RateLimiter::hit($this->throttleKey());
+                toastr()->error("Invalid Password");
+                throw ValidationException::withMessages([
+                    'email' => trans('auth.failed'),
+                ]);
+            }
+            toastr()->success('Login successfully!');
+            RateLimiter::clear($this->throttleKey());
+        } else {
             toastr()->error("User not found");
-            return;
         }
-        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-            toastr()->error("Invalid Password");
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
-        }
-        toastr()->success('Login successfully!');
-        RateLimiter::clear($this->throttleKey());
     }
 
     /**
