@@ -440,6 +440,14 @@
 
 }
 
+.sidebar-wrapper .metismenu a.active svg path{
+	fill: #fff !important;
+}
+
+.sidebar-wrapper .metismenu a.active .menu-title{
+	color: #fff !important;
+}
+
 .sidebar-wrapper .metismenu .mm-active>a .parent-icon svg path,
 
 .sidebar-wrapper .metismenu a:active .parent-icon svg path,
