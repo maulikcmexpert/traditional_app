@@ -56,8 +56,7 @@
 
 
 
-<!-- ckeditor -->
-<script src="{{asset('admin/assets/plugins/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js')}}"></script>
+
 
 <script src="{{asset('admin/assets/js/form-editor.init.js')}}"></script>
 
