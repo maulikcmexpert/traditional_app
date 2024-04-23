@@ -17,38 +17,36 @@
     <script src="{{asset('admin/assets/js/additional-methods.min.js')}}"></script>
     <style>
         label.error {
-            color: red
+            color: red;
         }
     </style>
-
+    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div><a href="/"><x-application-logo class="w-20 h-20 fill-current text-gray-500" /></a></div>
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"> {
-            {
-            $slot
-            }
-            }
+        <div>
+            <a href="/">
+                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            </a>
+        </div>
 
+        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            {{ $slot }}
         </div>
     </div>
 </body>
 <script>
     $.validator.addMethod("customValidation", function(value, element) {
-            var thatVal = value.trim();
-
-            // Check if input consists only of digits
-            if (/^\d+$/.test(thatVal)) {
-                return false;
-            }
-
-            return true; // If none of the above conditions are met, input is valid
+        var thatVal = value.trim();
+        // Check if input consists only of digits
+        if (/^\d+$/.test(thatVal)) {
+            return false;
         }
 
-        , 'Please enter valid Email');
+        return true; // If none of the above conditions are met, input is valid
+    }, 'Please enter valid Email');
 
     $("#loginForm").validate({
         rules: {
@@ -56,24 +54,16 @@
                 required: true,
                 email: true,
                 customValidation: true
-            }
+            },
 
-            ,
-
-        }
-
-        ,
+        },
         messages: {
             email: {
                 required: "Please enter Email",
                 email: "Please enter valid Email",
                 customValidation: "Please enter vaild Email"
-            }
-
-            ,
-        }
-
-        ,
+            },
+        },
 
 
     });
