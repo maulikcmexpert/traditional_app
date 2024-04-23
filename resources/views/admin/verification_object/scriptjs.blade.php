@@ -128,7 +128,7 @@
 
 
                             } else {
-                                toastr.error("Interest and hobby don't Deleted !");
+                                toastr.error("Object don't Deleted !");
                             }
                         },
                     });

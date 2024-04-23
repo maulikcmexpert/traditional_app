@@ -136,7 +136,16 @@ class VerificationObjectController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $ids = decrypt($id);
+            $delete = VerificationObject::Findorfail($ids)->delete();
+            return response()->json(true);
+        } catch (Exception $e) {
+            return response()->json(false);
+        } catch (QueryException $e) {
+
+            return response()->json(false);
+        }
     }
 
     public function VerificationObjectExist(Request $request)
