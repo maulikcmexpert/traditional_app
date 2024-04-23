@@ -15,6 +15,7 @@ return [
     'email_required_message' => 'Please enter Email',
     'email_email_message' => 'Please enter valid Email',
     'password_required_message' => 'Please enter Password',
+    'password_min_message' => 'Password must be at least 6 characters',
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',

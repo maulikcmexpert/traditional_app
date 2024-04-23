@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:8'],
         ];
     }
 
@@ -39,6 +39,7 @@ class LoginRequest extends FormRequest
             'email.required' => Lang::get('auth.email_required_message'),
             'email.email' => Lang::get('auth.email_email_message'),
             'password.required' => Lang::get('auth.password_required_message'),
+            'password.min' => Lang::get('auth.password_min_message'),
 
         ];
     }
