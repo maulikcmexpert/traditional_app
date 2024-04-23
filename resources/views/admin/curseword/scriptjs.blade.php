@@ -61,7 +61,7 @@
                             type: "POST",
                             url: "{{route('curseword.exist')}}",
                             data: {
-                                words: thatVal
+                                curse_word: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
