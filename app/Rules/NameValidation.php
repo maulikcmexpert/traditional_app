@@ -26,6 +26,8 @@ class NameValidation implements ValidationRule
         }
 
 
+
+
         $charCount = 0;
         foreach (str_split($value) as $char) {
             if (ctype_alpha($char)) { // Check if the character is a letter

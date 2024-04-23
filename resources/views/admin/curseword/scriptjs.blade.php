@@ -8,12 +8,12 @@
 
 
             var addMoreData = $("#addMoreData").html();
-            $("#curse_word").append(addMoreData);
+            $("#curse_words").append(addMoreData);
         });
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#curse_word .words").each(function() {
+        $("#curse_words .curse_word").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -24,7 +24,7 @@
             e.preventDefault();
             var promises = [];
             var isValid = true;
-            $('#curse_word .words').each(function() {
+            $('#curse_words .curse_word').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
                 var charCount = 0;
@@ -133,7 +133,7 @@
 
         $("#curseword").validate({
             rules: {
-                words: {
+                curse_word: {
                     required: true,
                     remote: {
                         headers: {
@@ -145,7 +145,7 @@
                         method: "POST",
                         data: {
                             words: function() {
-                                return $("input[name='words']").val();
+                                return $("input[name='curse_word']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -157,7 +157,7 @@
 
             },
             messages: {
-                words: {
+                curse_word: {
                     required: "Please enter Curse Word",
                     remote: "Curse Word already exist",
                     customValidation: "Please enter vaild Curse Word"
