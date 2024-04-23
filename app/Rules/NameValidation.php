@@ -15,7 +15,7 @@ class NameValidation implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
 
-        $attribute = ucwords($attribute);
+        $attribute = ucwords(str_replace('_', " ", $attribute));
         if ($attribute == 'interest_and_hobby.0') {
             $attribute = "Interest and Hobby";
         }
@@ -30,18 +30,18 @@ class NameValidation implements ValidationRule
             }
         }
         if ($charCount < 2) {
-            $fail("Please enter valid " . str_replace('_', " ", $attribute));
+            $fail("Please enter valid " . $attribute);
         }
         if (ctype_digit(trim($value))) {
-            $fail("Please enter valid " . str_replace('_', " ", $attribute));
+            $fail("Please enter valid " . $attribute);
         }
 
         if (preg_match('/^[^a-zA-Z0-9 ]+$/', trim($value))) {
-            $fail("Please enter valid " . str_replace('_', " ", $attribute));
+            $fail("Please enter valid " . $attribute);
         }
 
         if (preg_match('/^[0-9@#$%^&*()_+=\[\]{};:,.<>?|\\/-]+$/', $value)) {
-            $fail("Please enter valid " . str_replace('_', " ", $attribute));
+            $fail("Please enter valid " . $attribute);
         }
     }
 }
