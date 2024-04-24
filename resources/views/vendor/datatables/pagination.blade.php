@@ -8,7 +8,7 @@
         </li>
         @else
         <li class="page-item">
-            <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+            <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.prev')">&lsaquo;</a>
         </li>
         @endif
 
