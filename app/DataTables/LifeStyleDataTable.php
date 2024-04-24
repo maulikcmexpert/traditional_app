@@ -22,12 +22,7 @@ class LifeStyleDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('lifestyle', function ($row) {
 
-
-
-                return $row->life_style;
-            })
             ->addColumn('action', function ($row) {
 
                 $id = encrypt($row->id);
@@ -79,9 +74,10 @@ class LifeStyleDataTable extends DataTable
     {
         return [
 
-            Column::make('lifestyle'),
 
-            Column::make('action'),
+            Column::make('life_style')->title('Lifestyle'),
+            Column::make('action')->title('Action')->orderable(false)->searchable(false),
+
 
         ];
     }
