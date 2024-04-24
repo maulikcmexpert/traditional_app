@@ -52,7 +52,7 @@ class UserDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->orderBy(1)
-            ->lengthMenu([10, 25, 50, 100])
+
             ->buttons(
                 Button::make('csv'),
                 Button::make('excel')
