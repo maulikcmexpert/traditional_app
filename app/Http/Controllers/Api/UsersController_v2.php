@@ -134,19 +134,32 @@ class UsersController_v2 extends BaseController
     //     dd($data);
     // }
 
-    public function getUserConnectionList()
+    public function getUserConnectionList(Request $request)
     {
+
+        $page = 1;
+        if (isset($request->page) && $request->page != "") {
+            $page = $request->page;
+        }
         $userId = $this->user->id;
+        $count =  ApproachRequest::with(['sender_user', 'receiver_user'])
+            ->where(function ($query) use ($userId) {
+                $query->orWhere(['sender_id' => $userId, 'receiver_id' => $userId]);
+            })->where(['status' => 'accepted'])
+            ->orderBy('updated_at', 'desc')
+            ->count();
+        $total_page  = ceil($count / 10);
+
         $getRelations =  ApproachRequest::with(['sender_user', 'receiver_user'])
             ->where(function ($query) use ($userId) {
                 $query->orWhere(['sender_id' => $userId, 'receiver_id' => $userId]);
             })->where(['status' => 'accepted'])
             ->orderBy('updated_at', 'desc')
-            ->get();
+            ->paginate(10, ['*'], 'page', $page);
 
         $getUsers = [];
         foreach ($getRelations as $val) {
-            $is_role = "";
+
             if ($val->sender_id == $userId) {
 
                 $userData['id'] = $val->receiver_user->id;
@@ -160,7 +173,7 @@ class UsersController_v2 extends BaseController
                 $getUsers[] = $userData;
             }
         }
-        return response()->json(['status' => true, 'message' => "User List", 'data' => $getUsers]);
+        return response()->json(['status' => true, 'message' => "User List", 'total_page' => $total_page, 'total_user' => $count, 'data' => $getUsers]);
     }
     public function userSignup(UserValidate $request)
     {
