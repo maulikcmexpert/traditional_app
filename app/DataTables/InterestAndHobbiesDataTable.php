@@ -82,7 +82,7 @@ class InterestAndHobbiesDataTable extends DataTable
     {
         return [
 
-            Column::make('interest_and_hobbies'),
+            Column::make('interest_and_hobby'),
 
             Column::make('action'),
 
