@@ -44,22 +44,17 @@ class UserDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
+
         return $this->builder()
             ->setTableId('user-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->orderBy(1)
-            ->selectStyleSingle()
-            ->buttons([
-                Button::make('add'),
-                Button::make('excel'),
+            ->buttons(
                 Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload'),
-            ]);
+                Button::make('excel')
+            );
     }
 
     /**

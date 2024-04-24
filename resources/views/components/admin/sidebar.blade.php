@@ -2,7 +2,7 @@
  <div class="sidebar-wrapper" data-simplebar="true">
      <div class="sidebar-header">
          <div class="sidebar-logo">
-             <a href="index.php">
+             <a href="{{route('dashboard')}}">
                  <img src="{{asset('admin/assets/logo/logo.png')}}" class="logo-icon" alt="logo icon">
                  <!-- <img src="assets/img/close-nav-logo.png" class="small-icon" alt=""> -->
              </a>
