@@ -417,8 +417,6 @@
 
 }
 
-
-
 .sidebar-wrapper .metismenu .mm-active>a,
 
 .sidebar-wrapper .metismenu a:active,
@@ -1531,7 +1529,7 @@
 
 	.sidebar-wrapper {
 
-		left: -300px;
+		left: -320px;
 
 		box-shadow: none
 
