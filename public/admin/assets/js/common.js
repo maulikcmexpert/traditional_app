@@ -3,7 +3,6 @@ $(document).ready(function () {
 });
 
 $(document).on("click", ".mobile-toggle-menu", function () {
-    alert();
     $(".wrapper").addClass("toggled");
 });
 $(".progress-card").each(function () {
