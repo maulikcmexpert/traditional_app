@@ -48,17 +48,11 @@ class UserDataTable extends DataTable
             ->setTableId('user-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
-            ->buttons([
-                Button::make('add'),
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload'),
+            ->parameters([
+                'dom' => 'Bfrtip',
+                'buttons' => ['excel', 'csv', 'pdf', 'print'],
             ]);
     }
 
