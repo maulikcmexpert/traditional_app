@@ -28,12 +28,12 @@
                                         <div class="w-100 position-relative">
                                             <label class="form-label" tabindex="5">Interest and Hobby</label>
                                             <input type="text" class="form-control interest_and_hobby" name="interest_and_hobby[]" tabindex="6" />
-                                            <span class="text-danger" tabindex="7"> @if ($errors->has('interest_and_hobby*')){{ str_replace(".0", "", $errors->first('interest_and_hobby*')); }} @endif</span>
+                                            <span class="text-danger"> @if ($errors->has('interest_and_hobby*')){{ str_replace(".0", "", $errors->first('interest_and_hobby*')); }} @endif</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-3 mb-2" tabindex="8">
+                            <div class="mt-3 mb-2" tabindex="7">
                                 <span class="btn btn-primary" id="addMore"><i class="fa-solid fa-plus"></i></span>
                             </div>
                         </div>
