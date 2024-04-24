@@ -53,7 +53,7 @@ class ReligionController extends Controller
                 $religion->save();
             }
             DB::commit();
-            toastr()->success('Lifestyle created successfully!');
+            toastr()->success('Religion created successfully!');
             return redirect()->route('religion.index');
         } catch (Exception $e) {
 
