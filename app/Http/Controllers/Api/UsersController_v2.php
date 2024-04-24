@@ -140,7 +140,7 @@ class UsersController_v2 extends BaseController
         $asSender  =  ApproachRequest::with('receiver_user')->where(['sender_id' => $userId, 'status' => 'accepted'])->get();
         $asReciver  =  ApproachRequest::with('sender_user')->where(['receiver_id' => $userId, 'status' => 'accepted'])->get();
         $mergedData = $asSender->merge($asReciver);
-        dd($asReciver);
+        dd($asSender);
     }
     public function userSignup(UserValidate $request)
     {
