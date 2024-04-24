@@ -25,8 +25,7 @@ class ReportDataTable extends DataTable
             ->filter(function ($query) {
                 if ($this->request->has('search')) {
                     $keyword = $this->request->get('search');
-                    print_r($keyword);
-                    dd($keyword['value']);
+                    $keyword = $keyword['value'];
                     $query->whereHas('reporter_user', function ($q) use ($keyword) {
                         $q->where('full_name', 'LIKE', "%{$keyword}%");
                     });
