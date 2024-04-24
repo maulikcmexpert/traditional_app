@@ -27,7 +27,7 @@ class ReportDataTable extends DataTable
                     $keyword = $this->request->get('search');
                     $keyword = $keyword['value'];
                     $query->orWhere(function ($q) use ($keyword) {
-                        $q->whereHas('reporter_user', function ($q) use ($keyword) {
+                        $q->orWhereHas('reporter_user', function ($q) use ($keyword) {
                             $q->where('full_name', 'LIKE', "%{$keyword}%");
                         })
                             ->orWhereHas('to_reporter_user', function ($q) use ($keyword) {
