@@ -10,9 +10,7 @@
             }
         });
 
-
         $(document).on('click', '#addMore', function() {
-
             $("#parentAddBtn").hide();
             var addMoreData = $("#addMoreData").html();
             $("#interest").append(addMoreData);
