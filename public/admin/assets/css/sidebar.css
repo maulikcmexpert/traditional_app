@@ -1817,7 +1817,7 @@
 
 @media only screen and (max-width: 575px) {
 	.dropdown-menu-end[data-bs-popper] {
-		right: -50px;
+		/* right: -50px; */
 		left: auto;
 	}
 	.dropdown-large .dropdown-menu {
