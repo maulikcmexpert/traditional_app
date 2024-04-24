@@ -3,92 +3,55 @@
 namespace App\DataTables;
 
 use App\Models\InterestAndHobby;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
+use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class InterestAndHobbiesDataTable extends DataTable
 {
-    /**
-     * Build the DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable($query)
     {
-
-        return (new EloquentDataTable($query))
-
+        return datatables()
+            ->eloquent($query)
             ->addColumn('action', function ($row) {
+                $editRoute = route('interest_and_hobby.edit', encrypt($row->id));
+                $deleteRoute = route('interest_and_hobby.destroy', encrypt($row->id));
 
-                $id = encrypt($row->id);
-                $editRoute = route('interest_and_hobby.edit', $id);
-                $deleteRoute = route('interest_and_hobby.destroy', $id);
-
-
-                return '<div class="d-flex gap-2"><a class="editBtns" href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
-                <a class="deleteBtns" href="javascript:" data-id="' . $id . '" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a></div>
-                ';
+                return '<div class="d-flex gap-2">
+                            <a class="editBtns" href="' . $editRoute . '"><i class="fas fa-edit"></i></a>
+                            <a class="deleteBtns" href="javascript:" data-id="' . encrypt($row->id) . '" data-url="' . $deleteRoute . '" id="delete"><i class="fas fa-trash text-danger"></i></a>
+                        </div>';
             })
             ->setRowId('id');
     }
 
-    /**
-     * Get the query source of dataTable.
-     */
-    public function query(InterestAndHobby $model): QueryBuilder
+    public function query(InterestAndHobby $model)
     {
-        return $model->newQuery()->orderBy('id', 'desc');
+        return $model->newQuery()->orderByDesc('id');
     }
 
-    /**
-     * Optional method if you want to use the html builder.
-     */
-    public function html(): HtmlBuilder
+    public function html()
     {
         return $this->builder()
             ->setTableId('interestandhobbies-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            //->dom('Bfrtip')
             ->orderBy(1)
-            ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            ])
             ->parameters([
-                'buttons' => ['pdf'],
+                'dom' => 'Bfrtip',
+                'buttons' => ['excel', 'csv', 'pdf', 'print', 'reset', 'reload']
             ]);
     }
 
-    /**
-     * Get the dataTable columns definition.
-     */
-    public function getColumns(): array
+    protected function getColumns()
     {
         return [
-
-            Column::make('interest_and_hobby')->label('Interest and Hobbies'),
-
-            Column::make('action'),
-
+            Column::make('interest_and_hobby')->title('Interest and Hobbies'),
+            Column::make('action')->title('Action')->orderable(false)->searchable(false),
         ];
     }
 
-    /**
-     * Get the filename for export.
-     */
-    protected function filename(): string
+    protected function filename()
     {
         return 'InterestAndHobbies_' . date('YmdHis');
     }
