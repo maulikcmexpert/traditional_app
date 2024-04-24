@@ -91,8 +91,8 @@ class ReportDataTable extends DataTable
     {
         return [
 
-            Column::make('report_user')->searchable(true),
-            Column::make('to_be_reporter_user')->searchable(true),
+            Column::make('reporter_full_name')->searchable(true),
+            Column::make('to_reporter_full_name')->searchable(true),
             Column::make('report_message'),
             Column::make('report_media'),
             Column::make('action'),
