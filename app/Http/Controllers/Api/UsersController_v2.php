@@ -137,10 +137,13 @@ class UsersController_v2 extends BaseController
     public function getUserConnectionList()
     {
         $userId = $this->user->id;
-        $asSender  =  ApproachRequest::with('receiver_user')->where(['sender_id' => $userId, 'status' => 'accepted'])->get();
-        $asReciver  =  ApproachRequest::with('sender_user')->where(['receiver_id' => $userId, 'status' => 'accepted'])->get();
-        $mergedData = $asSender->merge($asReciver);
-        dd($asReciver);
+        $getRelations =  ApproachRequest::with(['sender_user', 'receiver_user'])
+            ->where(function ($query) use ($userId) {
+                $query->orWhere(['sender_id' => $userId, 'receiver_id' => $userId]);
+            })->where(['status' => 'accepted'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
+        dd($getRelations);
     }
     public function userSignup(UserValidate $request)
     {
