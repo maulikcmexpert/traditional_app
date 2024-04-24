@@ -101,7 +101,7 @@ class DailyActivityController extends Controller
             $update->daily_activity = $request->daily_activity;
             $update->save();
             DB::commit();
-            toastr()->success('Body Type updated successfully!');
+            toastr()->success('Daily Activity updated successfully!');
             return redirect()->route('daily_activity.index');
         } catch (Exception $e) {
 
