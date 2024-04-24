@@ -87,6 +87,7 @@ class ReportDataTable extends DataTable
         return [
 
             Column::make('report_user'),
+
             Column::make('to_be_reporter_user'),
             Column::make('report_message'),
             Column::make('report_media'),
