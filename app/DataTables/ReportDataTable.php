@@ -23,7 +23,7 @@ class ReportDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->filter(function ($query) {
-                dd($this->request->has('search.report_user'));
+                dd($this->request->has('search'));
                 if ($this->request->has('search.report_user')) {
                     $keyword = $this->request->get('search.report_user');
                     $query->whereHas('reporter_user', function ($q) use ($keyword) {
