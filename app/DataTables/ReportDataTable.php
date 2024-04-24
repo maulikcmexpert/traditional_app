@@ -57,7 +57,7 @@ class ReportDataTable extends DataTable
         // return $model->newQuery()->with(['reporter_user', 'to_reporter_user'])->orderBy('id', 'DESC');
         return $model->newQuery()
             ->join('users as reporter_user', 'reports.reporter_user_id', '=', 'reporter_user.id')
-            ->join('users as to_reporter_user', 'reports.to_reporter_user_id', '=', 'to_reporter_user.id')
+            ->join('users as to_reporter_user', 'reports.to_be_reported_user_id', '=', 'to_reporter_user.id')
             ->select('reports.*', 'reporter_user.full_name as reporter_full_name', 'to_reporter_user.full_name as to_reporter_full_name')
             ->orderBy('reports.id', 'DESC');
     }
