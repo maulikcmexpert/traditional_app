@@ -2,6 +2,9 @@ $(document).ready(function () {
     $("#example").DataTable();
 });
 
+$(document).on("click", ".mobile-toggle-menu", function () {
+    alert();
+});
 $(".progress-card").each(function () {
     var $bar = $(this).find(".bar");
     var $val = $(this).find("span");
