@@ -32,7 +32,8 @@ class ReportDataTable extends DataTable
                         })
                             ->orWhereHas('to_reporter_user', function ($q) use ($keyword) {
                                 $q->where('full_name', 'LIKE', "%{$keyword}%");
-                            });
+                            })
+                            ->orWhere('report_message', 'LIKE', "%{$keyword}%");
                     });
                 }
             })
@@ -103,7 +104,7 @@ class ReportDataTable extends DataTable
             Column::make('report_user'),
 
             Column::make('to_be_reporter_user'),
-            Column::make('report_message')->searchable(),
+            Column::make('report_message'),
             Column::make('report_media'),
             Column::make('action'),
 
