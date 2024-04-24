@@ -26,10 +26,13 @@ class ReportDataTable extends DataTable
                 if ($this->request->has('search')) {
                     $keyword = $this->request->get('search');
                     $keyword = $keyword['value'];
-                    $query->whereHas('reporter_user', function ($q) use ($keyword) {
-                        $q->where('full_name', 'LIKE', "%{$keyword}%");
-                    })->whereHas('to_reporter_user', function ($q) use ($keyword) {
-                        $q->where('full_name', 'LIKE', "%{$keyword}%");
+                    $query->where(function ($q) use ($keyword) {
+                        $q->whereHas('reporter_user', function ($q) use ($keyword) {
+                            $q->where('full_name', 'LIKE', "%{$keyword}%");
+                        })
+                            ->orWhereHas('to_reporter_user', function ($q) use ($keyword) {
+                                $q->where('full_name', 'LIKE', "%{$keyword}%");
+                            });
                     });
                 }
             })
