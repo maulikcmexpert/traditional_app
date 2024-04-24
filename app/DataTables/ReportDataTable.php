@@ -23,11 +23,11 @@ class ReportDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('report_user', function ($row) {
-                return $row->reporter_user->full_name;
+                return $row->reporter_full_name;
             })
             ->addColumn('to_be_reporter_user', function ($row) {
 
-                return $row->to_reporter_user->full_name;
+                return $row->to_reporter_full_name;
             })
             ->addColumn('report_media', function ($row) {
                 $img = "-";
