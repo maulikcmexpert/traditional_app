@@ -54,7 +54,7 @@ class ReportDataTable extends DataTable
      */
     public function query(Report $model): QueryBuilder
     {
-        return $model->newQuery()->with(['reporter_user:full_name', 'to_reporter_user:full_name'])->orderBy('id', 'DESC');
+        return $model->newQuery()->with(['reporter_user', 'to_reporter_user'])->orderBy('id', 'DESC');
     }
 
     /**
@@ -68,7 +68,6 @@ class ReportDataTable extends DataTable
             ->minifiedAjax()
             //->dom('Bfrtip')
             ->orderBy(1)
-            ->searching(true) // Enable searching
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -87,8 +86,9 @@ class ReportDataTable extends DataTable
     {
         return [
 
-            Column::make('report_user')->searchable(), // Enable searching for this column
-            Column::make('to_be_reporter_user')->searchable(),
+            Column::make('report_user'),
+
+            Column::make('to_be_reporter_user'),
             Column::make('report_message'),
             Column::make('report_media'),
             Column::make('action'),
