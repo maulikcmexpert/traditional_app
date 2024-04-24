@@ -29,6 +29,10 @@ class ReportDataTable extends DataTable
                     $query->whereHas('reporter_user', function ($q) use ($keyword) {
                         $q->where('full_name', 'LIKE', "%{$keyword}%");
                     });
+
+                    $query->whereHas('to_be_reporter_user', function ($q) use ($keyword) {
+                        $q->where('full_name', 'LIKE', "%{$keyword}%");
+                    });
                 }
             })
             ->addColumn('report_user', function ($row) {
