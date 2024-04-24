@@ -143,7 +143,24 @@ class UsersController_v2 extends BaseController
             })->where(['status' => 'accepted'])
             ->orderBy('updated_at', 'desc')
             ->get();
-        dd($getRelations);
+
+        $getUsers = [];
+        foreach ($getRelations as $val) {
+            $is_role = "";
+            if ($val->sender_id == $userId) {
+
+                $userData['id'] = $val->receiver_user->id;
+                $userData['name'] = $val->receiver_user->full_name;
+                $userData['profile'] = getProfile($val->receiver_user->id);
+                $getUsers[] = $userData;
+            } else if ($val->receiver_id == $userId) {
+                $userData['id'] = $val->sender_user->id;
+                $userData['name'] = $val->sender_user->full_name;
+                $userData['profile'] = getProfile($val->sender_user->id);
+                $getUsers[] = $userData;
+            }
+        }
+        return response()->json(['status' => true, 'message' => "User List", 'data' => $getUsers]);
     }
     public function userSignup(UserValidate $request)
     {
