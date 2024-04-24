@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                             <div class="mt-3 mb-2" tabindex="7">
-                                <span class="btn btn-primary" id="addMore"><i class="fa-solid fa-plus"></i></span>
+                                <button class="btn btn-primary" id="addMore"><i class="fa-solid fa-plus"></i></button>
                             </div>
                         </div>
 

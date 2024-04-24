@@ -1,10 +1,9 @@
 <script>
     $(document).ready(function() {
         // Validate the form with ID 'interest_and_hobbies'
-        $('#interest_and_hobby').on('keypress', '#addmore', function(e) {
+        $('#interest_and_hobby').on('keypress', 'input', function(e) {
             // Check if the Enter key is pressed (key code 13)
             if (e.which === 13) {
-                alert();
                 // Trigger click event of the "Add More" button
                 $('#addMore').click();
             }
