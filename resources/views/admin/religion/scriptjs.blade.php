@@ -23,7 +23,7 @@
         $('#add').click(function(e) {
             e.preventDefault();
             var promises = [];
-            isValid = false;
+            isValid = true;
             $('#religions .religion').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
