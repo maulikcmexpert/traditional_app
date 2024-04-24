@@ -23,8 +23,9 @@ function distanceCalculation($latitude1, $longitude1, $latitude2, $longitude2)
     return ($d / 1000);
 }
 
-function calculateAge($birthdate, $endDate = null)
+function calculateAge($birthdate)
 {
+    $endDate = date('Y-m-d');
     // Create a DateTime object from the birthdate
     $birthDateObj = new DateTime($birthdate);
 
