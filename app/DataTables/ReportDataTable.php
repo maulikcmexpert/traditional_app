@@ -45,7 +45,7 @@ class ReportDataTable extends DataTable
                 return '<div class="d-flex gap-2"><a class="editBtns" href="' . $view . '"><i class="fas fa-comment"></i></a></div>
             ';
             })
-            ->rawColumns(['report_user', 'to_be_reporter_user', 'report_media', 'action'])
+            ->rawColumns(['report_user:full_name', 'to_be_reporter_user:full_name', 'report_media', 'action'])
             ->setRowId('id');
     }
 
