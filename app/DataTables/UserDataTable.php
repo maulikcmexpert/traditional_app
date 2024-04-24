@@ -55,7 +55,7 @@ class UserDataTable extends DataTable
                 Button::make('csv'),
                 Button::make('excel')
             )
-            ->setCustomPagination('custom-pagination');
+            ->setCustomPagination('pagination');
     }
 
     /**
