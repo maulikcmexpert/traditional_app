@@ -12,6 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+
 class UserDataTable extends DataTable
 {
     /**
@@ -54,8 +55,7 @@ class UserDataTable extends DataTable
             ->buttons(
                 Button::make('csv'),
                 Button::make('excel')
-            )
-            ->setCustomPagination('pagination');
+            );
     }
 
     /**
