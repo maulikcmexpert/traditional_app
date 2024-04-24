@@ -90,51 +90,91 @@ class UsersController_v2 extends BaseController
         $this->user = Auth::guard('api')->user();
     }
 
-    public function deleteMessage()
+    // public function deleteMessage()
+    // {
+    //     $database = Firebase::database();
+    //     $snapshot = $database->getReference('/Overview')->getSnapshot();
+    //     $data = $snapshot->getValue();
+
+    //     // Convert Firebase snapshot data to array
+    //     $dataArray = json_decode(json_encode($data), true);
+
+    //     $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id')->toArray();
+
+    //     foreach ($allUsers as $value) {
+    //         if (isset($dataArray[$value])) {
+    //             $currentTimestamp = Carbon::now();
+    //             foreach ($dataArray[$value] as $val) {
+    //                 if ($value == 14 && $val['contactId'] == 15) {
+
+    //                     $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
+    //                     $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
+    //                     $getDay = Setting::select('no_chat_day_duration')->first();
+    //                     if ($getDay != null) {
+    //                         if ($daysDifference > $getDay->no_chat_day_duration) {
+    //                             $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
+
+    //                             // leave relation by admin //
+
+    //                             $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
+    //                             if ($leaverealtion != null) {
+    //                                 $leaverealtion->status = 'leave';
+    //                                 $leaverealtion->message = 'by admin';
+    //                                 $leaverealtion->save();
+    //                                 $leaverealtion->delete();
+    //                                 $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     dd($data);
+    // }
+
+    public function getUserConnectionList(Request $request)
     {
-        $database = Firebase::database();
-        $snapshot = $database->getReference('/Overview')->getSnapshot();
-        $data = $snapshot->getValue();
 
-        // Convert Firebase snapshot data to array
-        $dataArray = json_decode(json_encode($data), true);
+        $page = 1;
+        if (isset($request->page) && $request->page != "") {
+            $page = $request->page;
+        }
+        $userId = $this->user->id;
+        $count =  ApproachRequest::with(['sender_user', 'receiver_user'])
+            ->where(function ($query) use ($userId) {
+                $query->orWhere(['sender_id' => $userId, 'receiver_id' => $userId]);
+            })->where(['status' => 'accepted'])
+            ->orderBy('updated_at', 'desc')
+            ->count();
+        $total_page  = ceil($count / 10);
 
-        $allUsers = User::select('id')->where('id', '!=', 1)->get()->pluck('id')->toArray();
+        $getRelations =  ApproachRequest::with(['sender_user', 'receiver_user'])
+            ->where(function ($query) use ($userId) {
+                $query->orWhere(['sender_id' => $userId, 'receiver_id' => $userId]);
+            })->where(['status' => 'accepted'])
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10, ['*'], 'page', $page);
 
-        foreach ($allUsers as $value) {
-            if (isset($dataArray[$value])) {
-                $currentTimestamp = Carbon::now();
-                foreach ($dataArray[$value] as $val) {
-                    if ($value == 14 && $val['contactId'] == 15) {
+        $getUsers = [];
+        foreach ($getRelations as $val) {
 
-                        $messageTimestamp = Carbon::createFromTimestampMs($val['timeStamp']);
-                        $daysDifference = $currentTimestamp->diffInDays($messageTimestamp);
-                        $getDay = Setting::select('no_chat_day_duration')->first();
-                        if ($getDay != null) {
-                            if ($daysDifference > $getDay->no_chat_day_duration) {
-                                $data = $database->getReference('/Messages/' . $val['conversationId'])->remove();
+            if ($val->sender_id == $userId) {
 
-                                // leave relation by admin //
-
-                                $leaverealtion = ApproachRequest::where('conversation_id', $val['conversationId'])->first();
-                                if ($leaverealtion != null) {
-                                    $leaverealtion->status = 'leave';
-                                    $leaverealtion->message = 'by admin';
-                                    $leaverealtion->save();
-                                    $leaverealtion->delete();
-                                    $data = $database->getReference('/Overview/' . $value . '/' .  $val['conversationId'])->remove();
-                                }
-                            }
-                        }
-                    }
-                }
+                $userData['id'] = $val->receiver_user->id;
+                $userData['name'] = $val->receiver_user->full_name;
+                $userData['profile'] = getProfile($val->receiver_user->id);
+                $getUsers[] = $userData;
+            } else if ($val->receiver_id == $userId) {
+                $userData['id'] = $val->sender_user->id;
+                $userData['name'] = $val->sender_user->full_name;
+                $userData['profile'] = getProfile($val->sender_user->id);
+                $getUsers[] = $userData;
             }
         }
-
-        dd($data);
+        return response()->json(['status' => true, 'message' => "User List", 'total_page' => $total_page, 'total_user' => $count, 'data' => $getUsers]);
     }
-
-
     public function userSignup(UserValidate $request)
     {
         try {

@@ -13,7 +13,7 @@
         $(document).on('click', '.remove', function() {
             $(this).parent().parent().remove();
         });
-        $("#reason .reason").each(function() {
+        $("#reason .leave_reason").each(function() {
             $(this).focus(function() {
                 $(this).next("span").text("");
             });
@@ -24,7 +24,7 @@
             e.preventDefault();
             var promises = [];
             var isValid = true;
-            $('#reason .reason').each(function() {
+            $('#reason .leave_reason').each(function() {
                 var that = $(this);
                 var thatVal = that.val().trim();
                 var charCount = 0;
@@ -61,7 +61,7 @@
                             type: "POST",
                             url: "{{route('leavereason.exist')}}",
                             data: {
-                                reason: thatVal
+                                leave_reason: thatVal
                             },
                             success: function(output) {
                                 if (output == false) {
@@ -131,7 +131,7 @@
 
         $("#leavereason").validate({
             rules: {
-                reason: {
+                leave_reason: {
                     required: true,
                     remote: {
                         headers: {
@@ -142,8 +142,8 @@
                         url: "{{route('leavereason.exist')}}",
                         method: "POST",
                         data: {
-                            reason: function() {
-                                return $("input[name='reason']").val();
+                            leave_reason: function() {
+                                return $("input[name='leave_reason']").val();
                             },
                             id: function() {
                                 return $("input[name='id']").val();
@@ -155,7 +155,7 @@
 
             },
             messages: {
-                reason: {
+                leave_reason: {
                     required: "Please enter Leave Reason",
                     remote: "Leave Reason already exist",
                     customValidation: "Please enter vaild Leave Reason"

@@ -63,7 +63,7 @@
              </a>
 
          </li>
-         <!-- <li>
+         <li class="d-none">
              <a href="{{ route('zodiacsign.index')}}" class="">
                  <div class="parent-icon">
                      <svg width="17" height="17" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +74,7 @@
                  <div class="menu-title">Zodiac Sign</div>
              </a>
 
-         </li> -->
+         </li>
          <li>
              <a href="{{ route('faith.index')}}" class="{{ (Request::is('admin/faith') || Request::is('admin/faith/*')) ? 'active' : '' }}">
                  <div class="parent-icon">
@@ -354,7 +354,7 @@
              </a>
 
          </li>
-         </li>
+
 
      </ul>
      <!--end navigation-->

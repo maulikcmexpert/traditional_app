@@ -23,16 +23,16 @@ class PostLeaveReason extends FormRequest
     public function rules(): array
     {
         return [
-            'reason.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:leave_reasons,reason'],
+            'leave_reason.*' => ['required', 'string', new NameValidation, 'max:255', 'unique:leave_reasons,reason'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'reason.*.required' => 'Please enter Leave Reason',
+            'leave_reason.*.required' => 'Please enter Leave Reason',
 
-            'reason.*.unique' => 'Leave Reason already exist',
+            'leave_reason.*.unique' => 'Leave Reason already exist',
         ];
     }
 }

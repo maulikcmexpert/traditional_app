@@ -46,7 +46,7 @@ class LeaveReasonController extends Controller
     {
         try {
             DB::beginTransaction();
-            foreach ($request->reason as $val) {
+            foreach ($request->leave_reason as $val) {
 
                 $leavereason = new LeaveReason();
                 $leavereason->reason = $val;
@@ -96,7 +96,7 @@ class LeaveReasonController extends Controller
             DB::beginTransaction();
             $ids = decrypt($id);
             $update = LeaveReason::Findorfail($ids);
-            $update->reason = $request->reason;
+            $update->reason = $request->leave_reason;
             $update->save();
             DB::commit();
             toastr()->success('Leave Reason updated successfully!');
@@ -133,7 +133,7 @@ class LeaveReasonController extends Controller
     {
         try {
 
-            $eventType = LeaveReason::where(['reason' => $request->reason])->get();
+            $eventType = LeaveReason::where(['reason' => $request->leave_reason])->get();
 
             if (count($eventType) > 0) {
 
