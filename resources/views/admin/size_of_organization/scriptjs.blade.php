@@ -185,7 +185,7 @@
         if (sessionStorage.getItem('showSuccessNotification')) {
             // Show the success notification using Toastr
 
-            toastr.success("Size of Organization deleted successfully !");
+            toastr.success("Size of Organization deleted successfully!");
             // Remove the flag from sessionStorage
             sessionStorage.removeItem('showSuccessNotification');
         }

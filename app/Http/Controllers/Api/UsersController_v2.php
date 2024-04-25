@@ -922,6 +922,7 @@ class UsersController_v2 extends BaseController
             $data['about_me'] = ($user->userdetail->about_me != "") ? $user->userdetail->about_me : "";
             $data['state_id'] = ($user->userdetail->state_id != "") ? $user->userdetail->state_id : "";
             $data['date_of_birth'] = (date('d-m-Y', strtotime($user->userdetail->date_of_birth)) != "") ? date('d-m-Y', strtotime($user->userdetail->date_of_birth)) : "";
+            $data['age'] = calculateAge($user->userdetail->date_of_birth);
             $data['height'] = ($user->userdetail->height != "") ? $user->userdetail->height : "";
             $data['weight'] = ($user->userdetail->weight != "") ? $user->userdetail->weight : "";
             $data['education'] = ($user->userdetail->education != "") ? $user->userdetail->education : "";
@@ -1767,7 +1768,7 @@ class UsersController_v2 extends BaseController
 
                 $approachPreferences = ApproachPreference::where('user_id', $femaleId)->first();
 
-                $maleAge = calculateAge($this->user->userdetail->date_of_birth, date('Y-m-d'));
+                $maleAge = calculateAge($this->user->userdetail->date_of_birth);
                 $maleHeight = $this->user->userdetail->height;
                 if ($this->user->userdetail->height_type == 'feet') {
                     $maleHeight = $maleHeight * 30.48;
@@ -1836,7 +1837,7 @@ class UsersController_v2 extends BaseController
                         $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                         $userInfo['name'] = $val->full_name;
                         $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
-                        $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
+                        $userInfo['age'] = calculateAge($val->userdetail->date_of_birth);
                         $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
                         $userInfo['state'] = $val->userdetail->state->state;
                         $userInfo['country'] = $val->country->country;
@@ -1894,7 +1895,7 @@ class UsersController_v2 extends BaseController
                     $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                     $userInfo['name'] = $val->full_name;
                     $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
-                    $userInfo['age'] = calculateAge($val->userdetail->date_of_birth, date('Y-m-d'));
+                    $userInfo['age'] = calculateAge($val->userdetail->date_of_birth);
                     $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
                     $userInfo['state'] = $val->userdetail->state->state;
                     $userInfo['country'] = $val->country->country;

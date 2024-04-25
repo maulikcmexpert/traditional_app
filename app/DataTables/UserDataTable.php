@@ -12,6 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+
 class UserDataTable extends DataTable
 {
     /**
@@ -51,6 +52,7 @@ class UserDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->orderBy(1)
+
             ->buttons(
                 Button::make('csv'),
                 Button::make('excel')

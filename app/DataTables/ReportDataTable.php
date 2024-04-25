@@ -22,6 +22,21 @@ class ReportDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->filter(function ($query) {
+                if ($this->request->has('search')) {
+                    $keyword = $this->request->get('search');
+                    $keyword = $keyword['value'];
+                    $query->orWhere(function ($q) use ($keyword) {
+                        $q->orWhereHas('reporter_user', function ($q) use ($keyword) {
+                            $q->where('full_name', 'LIKE', "%{$keyword}%");
+                        })
+                            ->orWhereHas('to_reporter_user', function ($q) use ($keyword) {
+                                $q->where('full_name', 'LIKE', "%{$keyword}%");
+                            })
+                            ->orWhere('report_message', 'LIKE', "%{$keyword}%");
+                    });
+                }
+            })
             ->addColumn('report_user', function ($row) {
                 return $row->reporter_user->full_name;
             })

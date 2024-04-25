@@ -23,11 +23,7 @@ class InterestAndHobbiesDataTable extends DataTable
     {
 
         return (new EloquentDataTable($query))
-            ->addColumn('interest_and_hobbies', function ($row) {
 
-
-                return $row->interest_and_hobby;
-            })
             ->addColumn('action', function ($row) {
 
                 $id = encrypt($row->id);
@@ -82,9 +78,8 @@ class InterestAndHobbiesDataTable extends DataTable
     {
         return [
 
-            Column::make('interest_and_hobbies'),
-
-            Column::make('action'),
+            Column::make('interest_and_hobby')->title('Interest and Hobbies'),
+            Column::make('action')->title('Action')->orderable(false)->searchable(false),
 
         ];
     }
