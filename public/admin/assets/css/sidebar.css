@@ -1770,6 +1770,10 @@
 
 	}
 
+	.wrapper.toggled:not(.sidebar-hovered) .sidebar-logo{
+		justify-content: flex-start !important;
+	}
+
 }
 
 
