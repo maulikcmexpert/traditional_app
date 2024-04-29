@@ -15,7 +15,7 @@ return [
     'options' => [
         'closeButton'       => true,
         'closeClass'        => 'toast-close-button',
-        'closeDuration'     => 300,
+        'closeDuration'     => 1000,
         'closeEasing'       => 'swing',
         'closeHtml'         => '<button><i class="fa fa-window-close"></i></button>',
         'closeMethod'       => 'fadeOut',
@@ -23,8 +23,8 @@ return [
         'containerId'       => 'toast-container',
         'debug'             => false,
         'escapeHtml'        => false,
-        'extendedTimeOut'   => 10000,
-        'hideDuration'      => 1000,
+        'extendedTimeOut'   => 100000,
+        'hideDuration'      => 100000,
         'hideEasing'        => 'linear',
         'hideMethod'        => 'fadeOut',
         'iconClasses'       => [
