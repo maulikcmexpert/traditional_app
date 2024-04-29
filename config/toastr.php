@@ -17,7 +17,7 @@ return [
         'closeClass'        => 'toast-close-button',
         'closeDuration'     => 300,
         'closeEasing'       => 'swing',
-        'closeHtml'         => '<button><i class="icon-off"></i></button>',
+        'closeHtml'         => '<button><i class="fa fa-window-close"></i></button>',
         'closeMethod'       => 'fadeOut',
         'closeOnHover'      => true,
         'containerId'       => 'toast-container',
