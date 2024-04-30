@@ -45,8 +45,6 @@ class InterestAndHobbiesController extends Controller
      */
     public function store(PostInterestAndHobbies $request)
     {
-
-
         try {
             DB::beginTransaction();
             foreach ($request->interest_and_hobby as $val) {
