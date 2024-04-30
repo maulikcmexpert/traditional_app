@@ -1255,8 +1255,8 @@ class UsersController_v2 extends BaseController
 
 
         $loginUserGender = UserDetail::select('gender')->where('user_id', $user_id)->first();
-        $latitude = "0";
-        $longitude = "0";
+        $latitude = 0;
+        $longitude = 0;
         if ($loginUserGender->gender == 'male') {
 
             $maleIds = array_keys($data['male']);
