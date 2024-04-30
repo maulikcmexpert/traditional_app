@@ -1,11 +1,10 @@
 $(document).ready(function () {
     $("#example").DataTable();
+    toastr.options = {
+        closeButton: true,
+        // Other options...
+    };
 });
-
-toastr.options = {
-    closeButton: true,
-    // Other options...
-};
 
 $(document).on("click", ".mobile-toggle-menu", function () {
     $(".wrapper").addClass("toggled");
