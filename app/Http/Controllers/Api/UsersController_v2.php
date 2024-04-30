@@ -947,7 +947,7 @@ class UsersController_v2 extends BaseController
             $data['state'] = ($user->userdetail->state->state != "") ? $user->userdetail->state->state : "";
             $data['city'] = ($user->userdetail->city != null) ? $user->userdetail->city : "";
             $data['country'] = ($user->country->country != null) ? $user->country->country : "";
-            $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : "";
+            $data['organization_id'] = ($user->userdetail->organization_id != null) ? $user->userdetail->organization_id : 0;
             $data['organization_name'] = ($user->userdetail->organization_id != null)  ? $user->userdetail->organization->full_name : "";
             $data['is_ghost'] = is_ghost($request->user_id);
             $data['is_verify'] = isVerify($request->user_id);
