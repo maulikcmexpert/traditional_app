@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command('app:delete-old-messages')->everyMinute(); // Run the command daily
+        $schedule->command('app:delete-old-messages')->hourly(); // Run the command daily
 
     }
 
