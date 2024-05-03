@@ -2678,7 +2678,7 @@ class UsersController_v2 extends BaseController
                 }
             }
             DB::commit();
-            return response()->json(['status' => true, 'message' => "block user lists", 'data' => $blockUserList]);
+            return response()->json(['status' => true, 'message' => "block user lists", 'data' => $blockUserList, 'total_page' => $total_page]);
         } catch (QueryException $e) {
             DB::rollBack();
 
