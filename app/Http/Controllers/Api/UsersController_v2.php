@@ -3231,7 +3231,7 @@ class UsersController_v2 extends BaseController
 
                 return response()->json(['status' => true, 'message' => "verified successfully"]);
             }
-            return response()->json(['status' => true, 'message' => "try again"]);
+            return response()->json(['status' => true, 'message' => "try aaagain"]);
         } catch (QueryException $e) {
             DB::rollBack();
 
