@@ -3217,7 +3217,7 @@ class UsersController_v2 extends BaseController
                     $image = $request->file('profile');
 
                     // Resize the image
-                    $resizedImage = Image::make($image)->resize(500, 667)->encode($image->getClientOriginalExtension());
+
 
                     $imageName = time() . 'verified.' . $image->getClientOriginalExtension();
 
