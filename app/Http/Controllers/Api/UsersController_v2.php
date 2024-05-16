@@ -3174,7 +3174,7 @@ class UsersController_v2 extends BaseController
     public function getVerifyObject()
     {
         // $objectVerification =  VerificationObject::inRandomOrder()->first();
-        $objectVerification =  VerificationObject::where('object_type', 'laptop')->first();
+        $objectVerification =  VerificationObject::where('object_type', 'couch')->first();
         $verifyObj = null;
         if ($objectVerification != null) {
             $userProfile = UserProfile::where(['user_id' => $this->user->id, 'is_default' => '1'])->first();
