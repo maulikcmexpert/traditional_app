@@ -197,7 +197,7 @@ function notification($notificationData)
             addNotificationCount($notificationData['receiver_id']);
             // firebase count add //
             $reciverUser = User::where('id', $notificationData['receiver_id'])->first();
-            $notification->message = 'Hey $MYNAME ! $NAME has accepted your request. now you can message to her';
+            $notification->message = 'Hey $MYNAME! $NAME has accepted your request. now you can message to her';
             $notificationData['notification_message'] =  'Hey ' . $reciverUser->full_name . ' ! ' . $user->full_name . ' has accepted your request. now you can message to her';
         }
 
