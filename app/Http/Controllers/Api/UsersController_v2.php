@@ -1619,9 +1619,15 @@ class UsersController_v2 extends BaseController
 
                     $image->move(public_path('storage/profile/'), $imageName);
                 }
+
+                $checkIsHaveImg = UserProfile::where(['user_id', $this->user->id])->count();
+
                 $profile_add = new UserProfile();
                 $profile_add->user_id = $this->user->id;
                 $profile_add->profile = $imageName;
+                if ($checkIsHaveImg == 0) {
+                    $profile_add->is_default = '1';
+                }
                 $profile_add->save();
                 $user_profile = UserProfile::where('id', $profile_add->id)->select('is_default')->first();
 
