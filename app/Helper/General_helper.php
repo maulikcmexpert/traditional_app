@@ -234,11 +234,17 @@ function send_notification_FCM($deviceToken, $notifyData)
     $SERVER_API_KEY = 'key=AAAAvDIpzpQ:APA91bF3RZ_PxZdlMcEVsPEKMYNZS6njxggdyBd5SBlCCX8UStE-gE3Ed3kHv4SF_LSBZndTyvp_wCOeLDczQkAYl41OwKzAGYHnfent6jLAEBl0B-KaCMO6_Uu_cq083Q2Qz_HDiPkS';
     $URL = 'https://fcm.googleapis.com/fcm/send';
 
+    if (isset($notifyData['message'])) {
+        $messageNotify = $notifyData['message'];
+    } else {
+
+        $messageNotify = $notifyData['notification_message'];
+    }
     $notificationLoad =  [
         'title' => "Yesvite",
-        "body" => $notifyData['message'],
+        "body" => $messageNotify,
         'sound' => "default",
-        'message' => $notifyData['message'],
+        'message' => $messageNotify,
         'color' => "#79bc64",
         "data" => $notifyData
     ];
