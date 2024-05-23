@@ -137,10 +137,10 @@ class UsersController_v2 extends BaseController
     public function getUserConnectionList(Request $request)
     {
 
-        $page = 1;
-        if (isset($request->page) && $request->page != "") {
-            $page = $request->page;
-        }
+        // $page = 1;
+        // if (isset($request->page) && $request->page != "") {
+        //     $page = $request->page;
+        // }
         $userId = $this->user->id;
         $count =  ApproachRequest::with(['sender_user', 'receiver_user'])
             ->where(function ($query) use ($userId) {
@@ -154,8 +154,8 @@ class UsersController_v2 extends BaseController
             ->where(function ($query) use ($userId) {
                 $query->orWhere(['sender_id' => $userId, 'receiver_id' => $userId]);
             })->where(['status' => 'accepted'])
-            ->orderBy('updated_at', 'desc')
-            ->paginate(10, ['*'], 'page', $page);
+            ->orderBy('updated_at', 'desc')->get();
+        // ->paginate(10, ['*'], 'page', $page);
 
         $getUsers = [];
         foreach ($getRelations as $val) {
