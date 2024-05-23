@@ -110,6 +110,9 @@ function notification($notificationData)
             if ($deviceToken != null) {
                 $user = User::where('id', $notificationData['sender_id'])->first();
                 $notificationData['notification_message'] = 'Hey! you got connection approach from ' . $user->full_name;
+                if ($deviceToken->model == 'ios') {
+                    send_notification_FCM($deviceToken->device_token, $notificationData);
+                }
                 send_notification_FCM_and($deviceToken->device_token, $notificationData);
             }
         }
@@ -213,7 +216,54 @@ function notification($notificationData)
 }
 
 
+function send_notification_FCM($deviceToken, $notifyData)
+{
+    // $SERVER_API_KEY = 'key=AAAAP6m84T0:APA91bHeuAm2ME_EmPEsOjMe2FatmHn2QU98ADg4Y5UxNMmXGg4MDD4OJQQhvsixNfhV1g2BWbgOCQGEf9_c3ngB8qH_N3MEMsgD7uuAQAq0_IO2GGPqCxjJPuwAME9MVX9ZvWgYbcPh';
+    $SERVER_API_KEY = 'key=AAAAZh4vQmc:APA91bFTE_caQlb57lsvsBgbHRwWjobttbG8TbHcSeKzRuF4OhAbscz9Trwur9ATVYIj5Wnse9GspEtSHc2WO9Czk_DKWN2IS8EK4GPWWTQRnK3G1jp5_gpuNUIaMjaa-CFwinqS--4r';
+    $URL = 'https://fcm.googleapis.com/fcm/send';
 
+    $notificationLoad =  [
+        'title' => "Yesvite",
+        "body" => $notifyData['notification_message'],
+        'sound' => "default",
+        'message' => $notifyData['notification_message'],
+        'color' => "#79bc64",
+        "data" => $notifyData
+    ];
+
+    $dataPayload = [
+        "to" => $deviceToken,
+        "data" => $notifyData,
+        "notification" => $notificationLoad,
+        "priority" => "high",
+    ];
+
+    $post_data = json_encode($dataPayload);
+
+    $crl = curl_init();
+
+    $headr = array();
+    $headr[] = 'Content-type: application/json';
+    $headr[] = 'Authorization: ' . $SERVER_API_KEY;
+    curl_setopt($crl, CURLOPT_SSL_VERIFYPEER, false);
+
+    curl_setopt($crl, CURLOPT_URL, $URL);
+    curl_setopt($crl, CURLOPT_HTTPHEADER, $headr);
+
+    curl_setopt($crl, CURLOPT_POST, true);
+    curl_setopt($crl, CURLOPT_POSTFIELDS, $post_data);
+    curl_setopt($crl, CURLOPT_RETURNTRANSFER, true);
+
+    $rest = curl_exec($crl);
+
+    if ($rest === false) {
+        $result_noti = 0;
+    } else {
+        $result_noti = 1;
+    }
+
+    return $result_noti;
+}
 
 function send_notification_FCM_and($deviceToken, $notifyData)
 {
