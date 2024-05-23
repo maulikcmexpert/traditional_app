@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('leave_reason_id')->nullable()->after('message');
             $table->foreign('leave_reason_id')
                 ->references('id')
-                ->on('leave_reasons')
+                ->on('block_reasons')
                 ->onDelete('cascade');
         });
     }
