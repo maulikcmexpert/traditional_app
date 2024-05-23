@@ -19,8 +19,7 @@ class AnnouncementController extends Controller
     {
 
 
-        send_notification_FCM('cHXV3gK_9kIqpG1D0h2aW7:APA91bHXLLwGkpNTe2X8XTFnkNaLiZJFtLbTpM_uUUrecZUMMUmj3zzkQ8ZmbnS_F_k8y_SK7qyzIYZ3x6V_0M8ftsXJcUkUBzn5lORktbw2cIu3eSXp17Vt1vYx_pPrkfqhlWbEUVXh', 'hii');
-        exit;
+
         $page = 'admin.announcement.add';
         $title = 'General Announcement';
         $js = 'admin.announcement.scriptjs';
