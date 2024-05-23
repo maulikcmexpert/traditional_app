@@ -3120,7 +3120,7 @@ class UsersController_v2 extends BaseController
     {
 
 
-        try {
+        // try {
 
             $validator = Validator::make($request->all(), [
 
@@ -3174,11 +3174,11 @@ class UsersController_v2 extends BaseController
         //     return response()->json(['status' => false, 'message' => "db error"]);
         // }
         
-        catch (\Exception $e) {
+        // catch (\Exception $e) {
 
 
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
-        }
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
     public function getVerifyObject()
