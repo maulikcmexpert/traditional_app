@@ -48,7 +48,8 @@ class AnnouncementController extends Controller
 
         foreach ($users as $key => $token) {
             if ($token->device_model == 'ios') {
-
+                echo "hi";
+                exit;
                 send_notification_FCM($token->device_token, $notificationData);
             } else {
                 send_notification_FCM_and($token->device_token, $notificationData);
