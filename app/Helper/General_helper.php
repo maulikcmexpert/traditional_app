@@ -216,7 +216,7 @@ function notification($notificationData)
 function send_notification_FCM($deviceToken, $notifyData)
 {
     // $SERVER_API_KEY = 'key=AAAAP6m84T0:APA91bHeuAm2ME_EmPEsOjMe2FatmHn2QU98ADg4Y5UxNMmXGg4MDD4OJQQhvsixNfhV1g2BWbgOCQGEf9_c3ngB8qH_N3MEMsgD7uuAQAq0_IO2GGPqCxjJPuwAME9MVX9ZvWgYbcPh';
-    $SERVER_API_KEY = 'key=AAAAZh4vQmc:APA91bFTE_caQlb57lsvsBgbHRwWjobttbG8TbHcSeKzRuF4OhAbscz9Trwur9ATVYIj5Wnse9GspEtSHc2WO9Czk_DKWN2IS8EK4GPWWTQRnK3G1jp5_gpuNUIaMjaa-CFwinqS--4r';
+    $SERVER_API_KEY = 'key=AAAAvDIpzpQ:APA91bF3RZ_PxZdlMcEVsPEKMYNZS6njxggdyBd5SBlCCX8UStE-gE3Ed3kHv4SF_LSBZndTyvp_wCOeLDczQkAYl41OwKzAGYHnfent6jLAEBl0B-KaCMO6_Uu_cq083Q2Qz_HDiPkS';
     $URL = 'https://fcm.googleapis.com/fcm/send';
 
     $notificationLoad =  [
