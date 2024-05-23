@@ -3122,58 +3122,58 @@ class UsersController_v2 extends BaseController
 
         // try {
 
-            $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
 
-                'user_id' => ['required', 'integer', 'exists:users,id'],
-                'disconnect_reason_id' => ['required'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'disconnect_reason_id' => ['required'],
 
-            ]);
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->first()]);
+        }
+
+
+        $approch_check = ApproachRequest::where(function ($query) use ($request) {
+            $query->where('sender_id', $this->user->id)
+                ->where('receiver_id', $request->user_id)
+                ->orWhere(function ($query) use ($request) {
+                    $query->where('sender_id', $request->user_id)
+                        ->where('receiver_id', $this->user->id);
+                });
+        })
+            ->where('status', 'accepted')
+            ->orderBy('id', 'DESC')
+            ->first();
+        if ($approch_check != null) {
+            DB::beginTransaction();
+            $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
+
+
+            $approch_check->status  = 'leave';
+            $approch_check->leave_reason_id   = $request->disconnect_reason_id;
+            $approch_check->message = $checkReason->message;
+            if ($checkReason != null && $checkReason->reason == 'Others') {
+                $approch_check->message = $request->message;
             }
+            $approch_check->save();
+            $approch_check->delete();
 
+            DB::commit();
 
-            $approch_check = ApproachRequest::where(function ($query) use ($request) {
-                $query->where('sender_id', $this->user->id)
-                    ->where('receiver_id', $request->user_id)
-                    ->orWhere(function ($query) use ($request) {
-                        $query->where('sender_id', $request->user_id)
-                            ->where('receiver_id', $this->user->id);
-                    });
-            })
-                ->where('status', 'accepted')
-                ->orderBy('id', 'DESC')
-                ->first();
-            if ($approch_check != null) {
-                DB::beginTransaction();
-                $checkReason = BlockReason::where('id', $request->disconnect_reason_id)->first();
+            return response()->json(['status' => true, 'message' => "Leave successfully"]);
+        }
+        return response()->json(['status' => true, 'message' => "Already leave"]);
 
+        return response()->json(['status' => true, 'message' => "try again"]);
+        // } 
 
-                $approch_check->status  = 'leave';
-                $approch_check->leave_reason_id   = $request->disconnect_reason_id;
-                $approch_check->message = $checkReason->message;
-                if ($checkReason != null && $checkReason->reason == 'Others') {
-                    $approch_check->message = $request->message;
-                }
-                $approch_check->save();
-                $approch_check->delete();
-
-                DB::commit();
-
-                return response()->json(['status' => true, 'message' => "Leave successfully"]);
-            }
-            return response()->json(['status' => true, 'message' => "Already leave"]);
-
-            return response()->json(['status' => true, 'message' => "try again"]);
-        } 
-        
         // catch (QueryException $e) {
         //     DB::rollBack();
 
         //     return response()->json(['status' => false, 'message' => "db error"]);
         // }
-        
+
         // catch (\Exception $e) {
 
 
