@@ -106,11 +106,15 @@ function notification($notificationData)
             // firebase count add //
             addNotificationCount($notificationData['receiver_id']);
             // firebase count add //
-            $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
+            $deviceToken = Device::where('user_id', $notificationData['receiver_id'])->first();
             if ($deviceToken != null) {
                 $user = User::where('id', $notificationData['sender_id'])->first();
                 $notificationData['notification_message'] = 'Hey! you got connection approach from ' . $user->full_name;
-                send_notification_FCM_and($deviceToken->device_token, $notificationData);
+                if ($deviceToken->model == 'ios') {
+                    send_notification_FCM($deviceToken->device_token, $notificationData);
+                } else {
+                    send_notification_FCM_and($deviceToken->device_token, $notificationData);
+                }
             }
         }
     }
@@ -127,11 +131,16 @@ function notification($notificationData)
             // firebase count add //
             addNotificationCount($notificationData['receiver_id']);
             // firebase count add //
-            $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
+            $deviceToken = Device::where('user_id', $notificationData['receiver_id'])->first();
             if ($deviceToken != null) {
                 $user = User::where('id', $notificationData['sender_id'])->first();
                 $notificationData['notification_message'] = $user->full_name . ' wants to talk with you';
-                send_notification_FCM_and($deviceToken->device_token, $notificationData);
+
+                if ($deviceToken->model == 'ios') {
+                    send_notification_FCM($deviceToken->device_token, $notificationData);
+                } else {
+                    send_notification_FCM_and($deviceToken->device_token, $notificationData);
+                }
             }
         }
     }
@@ -156,7 +165,7 @@ function notification($notificationData)
             // firebase count add //
             addNotificationCount($notificationData['receiver_id']);
             // firebase count add //
-            $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
+            $deviceToken = Device::where('user_id', $notificationData['receiver_id'])->first();
             $user = User::where('id', $notificationData['sender_id'])->first();
             if ($notificationData['type'] == 'approach') {
 
@@ -168,8 +177,11 @@ function notification($notificationData)
 
 
             if ($deviceToken != null) {
-
-                send_notification_FCM_and($deviceToken->device_token, $notificationData);
+                if ($deviceToken->model == 'ios') {
+                    send_notification_FCM($deviceToken->device_token, $notificationData);
+                } else {
+                    send_notification_FCM_and($deviceToken->device_token, $notificationData);
+                }
             }
         }
     }
@@ -203,10 +215,13 @@ function notification($notificationData)
 
         $notification->status = $notificationData['status'];
         if ($notification->save()) {
-            $deviceToken = Device::select('device_token')->where('user_id', $notificationData['receiver_id'])->first();
+            $deviceToken = Device::where('user_id', $notificationData['receiver_id'])->first();
             if ($deviceToken != null) {
-
-                send_notification_FCM_and($deviceToken->device_token, $notificationData);
+                if ($deviceToken->model == 'ios') {
+                    send_notification_FCM($deviceToken->device_token, $notificationData);
+                } else {
+                    send_notification_FCM_and($deviceToken->device_token, $notificationData);
+                }
             }
         }
     }
