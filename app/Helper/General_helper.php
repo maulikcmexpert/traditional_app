@@ -221,9 +221,9 @@ function send_notification_FCM($deviceToken, $notifyData)
 
     $notificationLoad =  [
         'title' => "Yesvite",
-        "body" => $notifyData['notification_message'],
+        "body" => $notifyData['message'],
         'sound' => "default",
-        'message' => $notifyData['notification_message'],
+        'message' => $notifyData['message'],
         'color' => "#79bc64",
         "data" => $notifyData
     ];
