@@ -47,8 +47,12 @@ class AnnouncementController extends Controller
         $adminId = "1";
 
         foreach ($users as $key => $token) {
+            if ($token->device_model == 'ios') {
 
-            send_notification_FCM_and($token->device_token, $notificationData);
+                send_notification_FCM($token->device_token, $notificationData);
+            } else {
+                send_notification_FCM_and($token->device_token, $notificationData);
+            }
 
             $database = Firebase::database();
             $data = $database->getReference('/Overview/' . $token->user_id)->getValue();

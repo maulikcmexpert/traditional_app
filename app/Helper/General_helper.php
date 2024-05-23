@@ -110,9 +110,6 @@ function notification($notificationData)
             if ($deviceToken != null) {
                 $user = User::where('id', $notificationData['sender_id'])->first();
                 $notificationData['notification_message'] = 'Hey! you got connection approach from ' . $user->full_name;
-                if ($deviceToken->model == 'ios') {
-                    send_notification_FCM($deviceToken->device_token, $notificationData);
-                }
                 send_notification_FCM_and($deviceToken->device_token, $notificationData);
             }
         }
