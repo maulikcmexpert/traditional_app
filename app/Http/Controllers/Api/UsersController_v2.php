@@ -3166,11 +3166,15 @@ class UsersController_v2 extends BaseController
             return response()->json(['status' => true, 'message' => "Already leave"]);
 
             return response()->json(['status' => true, 'message' => "try again"]);
-        } catch (QueryException $e) {
-            DB::rollBack();
+        } 
+        
+        // catch (QueryException $e) {
+        //     DB::rollBack();
 
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // }
+        
+        catch (\Exception $e) {
 
 
             return response()->json(['status' => false, 'message' => "something went wrong"]);
