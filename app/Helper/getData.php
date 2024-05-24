@@ -319,7 +319,7 @@ function getSearchUser($filter, $page, $user_id)
         $query->whereHas('userdetail', function ($q) use ($minAge, $maxAge) {
             $q->whereBetween('date_of_birth', [
                 now()->subYears($maxAge + 1)->format('Y-m-d'),
-                now()->subYears($minAge)->format('Y-m-d'),
+                now()->subYears($minAge - 1)->format('Y-m-d'),
             ]);
         });
     }
