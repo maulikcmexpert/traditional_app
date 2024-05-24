@@ -1668,7 +1668,7 @@ class UsersController_v2 extends BaseController
                 $profile_img = UserProfile::where('id', $request->profile_id)->first();
                 $profile_img->profile = $imageName;
                 $profile_img->save();
-                $profile_photo = asset('storage/profile/' . $profile_img->profile);
+                $profile_photo = asset('public/storage/profile/' . $profile_img->profile);
                 // update profile in firebase //
                 updateProfileOnFirebase($this->user->id, $profile_photo);
                 // update profile in firebase //
