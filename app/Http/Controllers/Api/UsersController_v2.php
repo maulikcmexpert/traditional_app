@@ -705,7 +705,7 @@ class UsersController_v2 extends BaseController
                     foreach ($user_profile as $key => $val) {
 
                         $image['profile_id'] = $val->id;
-                        $image['profile'] = asset('storage/profile/' . $val->profile);
+                        $image['profile'] = asset('public/storage/profile/' . $val->profile);
                         $image['is_default'] = $val->is_default;
                         $data['profile_image'][] = $image;
                     }
@@ -818,7 +818,7 @@ class UsersController_v2 extends BaseController
             if (!empty($user->user_profile)) {
                 foreach ($user->user_profile as $key => $val) {
                     $image['profile_id'] = $val->id;
-                    $image['profile'] = asset('storage/profile/' . $val->profile);
+                    $image['profile'] = asset('public/storage/profile/' . $val->profile);
                     $image['is_default'] = $val->is_default;
                     $data['profile_image'][] = $image;
                 }
@@ -981,7 +981,7 @@ class UsersController_v2 extends BaseController
             if (!empty($user->user_profile)) {
                 foreach ($user->user_profile as $key => $val) {
                     $image['profile_id'] = $val->id;
-                    $image['profile'] = asset('storage/profile/' . $val->profile);
+                    $image['profile'] = asset('public/storage/profile/' . $val->profile);
                     $image['is_default'] = $val->is_default;
                     $data['profile_image'][] = $image;
                 }
@@ -1631,7 +1631,7 @@ class UsersController_v2 extends BaseController
                 $profile_add->save();
                 $user_profile = UserProfile::where('id', $profile_add->id)->select('is_default')->first();
 
-                $profile_img = asset('storage/profile/' . $profile_add->profile);
+                $profile_img = asset('public/storage/profile/' . $profile_add->profile);
 
                 DB::commit();
 
@@ -1848,7 +1848,7 @@ class UsersController_v2 extends BaseController
                         $userInfo['id'] = $val->id;
                         $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                         $userInfo['name'] = $val->full_name;
-                        $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
+                        $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('public/storage/profile/' . $profile->profile) : "";
                         $userInfo['age'] = calculateAge($val->userdetail->date_of_birth);
                         $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
                         $userInfo['state'] = $val->userdetail->state->state;
@@ -1906,7 +1906,7 @@ class UsersController_v2 extends BaseController
                     $userInfo['id'] = $val->id;
                     $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
                     $userInfo['name'] = $val->full_name;
-                    $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
+                    $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('public/storage/profile/' . $profile->profile) : "";
                     $userInfo['age'] = calculateAge($val->userdetail->date_of_birth);
                     $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
                     $userInfo['state'] = $val->userdetail->state->state;
@@ -2529,7 +2529,7 @@ class UsersController_v2 extends BaseController
             $profile['image']  = "";
 
             if ($val->user->user_profile->isNotEmpty()) {
-                $profile['image'] = asset('storage/profile/' . $val->user->user_profile->first()->profile);
+                $profile['image'] = asset('public/storage/profile/' . $val->user->user_profile->first()->profile);
             }
             $data[] = $profile;
         }
@@ -2589,7 +2589,7 @@ class UsersController_v2 extends BaseController
                 foreach ($user->user_profile as $key => $val) {
 
                     $image['profile_id'] = $val->id;
-                    $image['profile'] = asset('storage/profile/' . $val->profile);
+                    $image['profile'] = asset('public/storage/profile/' . $val->profile);
                     $image['is_default'] = $val->is_default;
                     $data['profile_image'][] = $image;
                 }
@@ -2684,7 +2684,7 @@ class UsersController_v2 extends BaseController
                 foreach ($blockUser as $val) {
                     $data['id'] = $val->blocked_user->id;
                     $data['name'] = $val->blocked_user->full_name;
-                    $data['profile_image'] = ($val->blocked_user->user_profile != null) ? asset('storage/profile/' . $val->blocked_user->user_profile[0]->profile) : "";
+                    $data['profile_image'] = ($val->blocked_user->user_profile != null) ? asset('public/storage/profile/' . $val->blocked_user->user_profile[0]->profile) : "";
                     $data['reason'] = $val->reason;
                     $blockUserList[] = $data;
                 }
@@ -3193,7 +3193,7 @@ class UsersController_v2 extends BaseController
             $verifyObj['id'] = $objectVerification->id;
             $verifyObj['object_type'] = $objectVerification->object_type;
             $verifyObj['object_image'] = ($objectVerification->object_image != null || $objectVerification->object_image != "") ? asset('storage/verification_object/' . $objectVerification->object_image) : "";
-            $verifyObj['profile'] = ($userProfile != null && ($userProfile->profile != null || $userProfile->profile != "")) ? asset('storage/profile/' . $userProfile->profile) : "";
+            $verifyObj['profile'] = ($userProfile != null && ($userProfile->profile != null || $userProfile->profile != "")) ? asset('public/storage/profile/' . $userProfile->profile) : "";
         }
 
 
