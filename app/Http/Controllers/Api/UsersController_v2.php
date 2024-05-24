@@ -1784,10 +1784,14 @@ class UsersController_v2 extends BaseController
 
 
                 if ($approachPreferences != null) {
+
+
+
                     if (
-                        ($approachPreferences->min_age <= $maleAge && $approachPreferences->max_age >= $maleAge) &&
-                        ($approachPreferences->min_weight <= $maleWeight && $approachPreferences->max_weight >= $maleWeight) &&
-                        ($approachPreferences->min_height <= $maleHeight && $approachPreferences->max_height >= $maleHeight)
+                        (($approachPreferences->min_age <= $maleAge && $approachPreferences->max_age >= $maleAge) &&
+                            ($approachPreferences->min_weight <= $maleWeight && $approachPreferences->max_weight >= $maleWeight) &&
+                            ($approachPreferences->min_height <= $maleHeight && $approachPreferences->max_height >= $maleHeight)) ||
+                        (($maleHeight == NULL || $maleHeight == "") || ($maleWeight == NULL || $maleWeight == ""))
 
                     ) {
 
@@ -1853,24 +1857,6 @@ class UsersController_v2 extends BaseController
                         $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
 
                         $userData[] = $userInfo;
-                    } else {
-
-                        if (
-                            ($maleHeight == NULL || $maleHeight == "") || ($maleWeight == NULL || $maleWeight == "")
-                        ) {
-
-                            $userInfo['id'] = $val->id;
-                            $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
-                            $userInfo['name'] = $val->full_name;
-                            $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
-                            $userInfo['age'] = calculateAge($val->userdetail->date_of_birth);
-                            $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
-                            $userInfo['state'] = $val->userdetail->state->state;
-                            $userInfo['country'] = $val->country->country;
-                            $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
-                            $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
-                            $userData[] = $userInfo;
-                        }
                     }
                 } else {
                     $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
