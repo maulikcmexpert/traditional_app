@@ -1781,6 +1781,8 @@ class UsersController_v2 extends BaseController
                 }
                 $maleWeight = $this->user->userdetail->weight;
                 $male_religion_id = (isNotNullOrBlank($this->user->userdetail->religion_id)) ? $this->user->userdetail->religion_id : 0;
+
+
                 if ($approachPreferences != null) {
                     if (
                         ($approachPreferences->min_age <= $maleAge && $approachPreferences->max_age >= $maleAge) &&
@@ -1851,6 +1853,22 @@ class UsersController_v2 extends BaseController
                         $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
 
                         $userData[] = $userInfo;
+                    } else {
+
+                        if (
+                            ($maleHeight == NULL || $maleHeight == "") || ($maleWeight == NULL || $maleWeight == "")
+                        ) {
+
+                            $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
+                            $userInfo = [
+                                'id' => $val->id,
+                                'name' => $val->full_name,
+                                'city' => $val->userdetail->city ?? "",
+                                'is_ghost' => is_ghost($val->id),
+                                'profile' => ($userProfile != null) ? asset('public/storage/profile/' . $userProfile->profile) : ""
+                            ];
+                            $userData[] = $userInfo;
+                        }
                     }
                 } else {
                     $already_friend = ApproachRequest::where(function ($query) use ($femaleId, $maleId) {
