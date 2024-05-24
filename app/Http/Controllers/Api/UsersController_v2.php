@@ -2543,63 +2543,63 @@ class UsersController_v2 extends BaseController
 
     public function organizationProfileId(Request $request)
     {
-        try {
-            DB::beginTransaction();
+        // try {
+        DB::beginTransaction();
 
-            $organizationId = $request->user_id;
-            $user = User::with(['organizationdetail' => function ($query) {
-                return $query->with('state_data', 'city_data', 'size_of_organization');
-            }, 'country', 'user_profile'])->where(['id' => $organizationId, 'status' => 'active'])->first();
+        $organizationId = $request->user_id;
+        $user = User::with(['organizationdetail' => function ($query) {
+            return $query->with('state_data', 'city_data', 'size_of_organization');
+        }, 'country', 'user_profile'])->where(['id' => $organizationId, 'status' => 'active'])->first();
 
-            $totalMember = UserDetail::where('organization_id', $organizationId)->count();
-            $user_id =  $user->id;
-            $full_name = ($user->full_name != "") ?  $user->full_name : "";
-            $mobile_number = ($user->mobile_number != "") ?  $user->mobile_number : "";
-            $email = ($user->email != "") ?  $user->email : "";
-            // dd($this->user);
-            $data = [];
-            $data = [
-                'name' => $full_name,
-                'mobile_number' => $mobile_number,
-                'email' => $email,
-            ];
+        $totalMember = UserDetail::where('organization_id', $organizationId)->count();
+        $user_id =  $user->id;
+        $full_name = ($user->full_name != "") ?  $user->full_name : "";
+        $mobile_number = ($user->mobile_number != "") ?  $user->mobile_number : "";
+        $email = ($user->email != "") ?  $user->email : "";
+        // dd($this->user);
+        $data = [];
+        $data = [
+            'name' => $full_name,
+            'mobile_number' => $mobile_number,
+            'email' => $email,
+        ];
 
-            if ($user_id) {
+        if ($user_id) {
 
-                $data['member_count'] = $totalMember;
-                $data['established_year'] = $user->organizationdetail->established_year;
-                $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
-                $data['about_us'] = ($user->organizationdetail->about_us != "") ? $user->organizationdetail->about_us : " ";
-                $data['state'] = ($user->organizationdetail->state != "") ? $user->organizationdetail->state : "";
-                $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
-                $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
-                $data['state_name'] = ($user->organizationdetail->state_data->state != "") ? $user->organizationdetail->state_data->state : "";
-                $data['city'] = ($user->organizationdetail->city_data != null) ? $user->organizationdetail->city_data->city : "";
-                $data['size_of_church_id'] = ($user->organizationdetail->size_of_organization_id != "") ? $user->organizationdetail->size_of_organization_id : "";
-                $data['size_of_church'] = ($user->organizationdetail->size_of_organization->size_range != "") ? $user->organizationdetail->size_of_organization->size_range : "";
+            $data['member_count'] = $totalMember;
+            $data['established_year'] = $user->organizationdetail->established_year;
+            $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
+            $data['about_us'] = ($user->organizationdetail->about_us != "") ? $user->organizationdetail->about_us : " ";
+            $data['state'] = ($user->organizationdetail->state != "") ? $user->organizationdetail->state : "";
+            $data['country_code'] = ($user->country->iso != "") ? $user->country->iso : "";
+            $data['country_dial_code'] = ($user->country_code != "") ? $user->country_code : "";
+            $data['state_name'] = ($user->organizationdetail->state_data->state != "") ? $user->organizationdetail->state_data->state : "";
+            $data['city'] = ($user->organizationdetail->city_data != null) ? $user->organizationdetail->city_data->city : "";
+            $data['size_of_church_id'] = ($user->organizationdetail->size_of_organization_id != "") ? $user->organizationdetail->size_of_organization_id : "";
+            $data['size_of_church'] = ($user->organizationdetail->size_of_organization->size_range != "") ? $user->organizationdetail->size_of_organization->size_range : "";
 
-                $data['profile_image'] = [];
-                if (count($user->user_profile)) {
-                    foreach ($user->user_profile as $key => $val) {
+            $data['profile_image'] = [];
+            if (count($user->user_profile)) {
+                foreach ($user->user_profile as $key => $val) {
 
-                        $image['profile_id'] = $val->id;
-                        $image['profile'] = asset('storage/profile/' . $val->profile);
-                        $image['is_default'] = $val->is_default;
-                        $data['profile_image'][] = $image;
-                    }
+                    $image['profile_id'] = $val->id;
+                    $image['profile'] = asset('storage/profile/' . $val->profile);
+                    $image['is_default'] = $val->is_default;
+                    $data['profile_image'][] = $image;
                 }
             }
-            DB::commit();
-            return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json(['status' => false, 'message' => "db error"]);
-        } catch (\Exception $e) {
-
-
-            return response()->json(['status' => false, 'message' => "something went wrong"]);
         }
+        DB::commit();
+        return response()->json(['status' => true, 'message' => "Suceess", 'data' => $data]);
+        // } catch (QueryException $e) {
+        //     DB::rollBack();
+
+        //     return response()->json(['status' => false, 'message' => "db error"]);
+        // } catch (\Exception $e) {
+
+
+        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
+        // }
     }
 
 
