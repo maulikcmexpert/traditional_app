@@ -682,7 +682,7 @@ class UsersController_v2 extends BaseController
                 $organization_detail = OrganizationDetail::where('organization_id', $user_id)->get();
                 $data['established_year'] = $organization_detail[0]->established_year;
                 $data['address'] = ($organization_detail[0]->address != "") ? $organization_detail[0]->address : "";
-                $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : " ";
+                $data['about_us'] = ($organization_detail[0]->about_us != "") ? $organization_detail[0]->about_us : "";
                 $data['state'] = ($organization_detail[0]->state != "") ? $organization_detail[0]->state : "";
                 $data['country_code'] = ($country->iso != "") ? $country->iso : "";
                 $data['country_dial_code'] = ($this->user->country_code != "") ? $this->user->country_code : "";
