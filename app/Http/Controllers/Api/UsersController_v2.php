@@ -1859,14 +1859,16 @@ class UsersController_v2 extends BaseController
                             ($maleHeight == NULL || $maleHeight == "") || ($maleWeight == NULL || $maleWeight == "")
                         ) {
 
-                            $userProfile = UserProfile::where(['user_id' => $val->id, 'is_default' => '1'])->first();
-                            $userInfo = [
-                                'id' => $val->id,
-                                'name' => $val->full_name,
-                                'city' => $val->userdetail->city ?? "",
-                                'is_ghost' => is_ghost($val->id),
-                                'profile' => ($userProfile != null) ? asset('public/storage/profile/' . $userProfile->profile) : ""
-                            ];
+                            $userInfo['id'] = $val->id;
+                            $profile = UserProfile::select('profile')->where(['user_id' => $val->id, 'is_default' => '1'])->first();
+                            $userInfo['name'] = $val->full_name;
+                            $userInfo['profile'] = ($profile != null && !empty($profile->profile)) ? asset('storage/profile/' . $profile->profile) : "";
+                            $userInfo['age'] = calculateAge($val->userdetail->date_of_birth);
+                            $userInfo['city'] = ($val->userdetail->city != null) ? $val->userdetail->city : "";
+                            $userInfo['state'] = $val->userdetail->state->state;
+                            $userInfo['country'] = $val->country->country;
+                            $userInfo['latitude'] = $data['female'][$val->id]['latitude'];
+                            $userInfo['longitude'] = $data['female'][$val->id]['longitude'];
                             $userData[] = $userInfo;
                         }
                     }
