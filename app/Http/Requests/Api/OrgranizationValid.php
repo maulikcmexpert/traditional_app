@@ -51,6 +51,7 @@ class OrgranizationValid extends FormRequest
         return [
             'organization_name.required' => 'Please enter Name of Church/Organization',
             'mobile_number.required' => 'Please enter Mobile Number',
+            'mobile_number.unique' => 'Church/Organization with this mobile number is already registered',
             'mobile_number.numeric' => 'Please enter mobile number in digit',
             'email.required' => 'Please enter Email',
             'email.unique' => 'Email is already taken',
