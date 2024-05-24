@@ -358,7 +358,7 @@ class UsersController_v2 extends BaseController
         $otp = $request->otp;
         $mobile_number = $request->mobile_number;
 
-        // try {
+        try {
             DB::beginTransaction();
             $user = User::with('user_profile')->where('mobile_number', $mobile_number)
                 ->where('otp', $otp)
@@ -442,16 +442,16 @@ class UsersController_v2 extends BaseController
             }
             DB::commit();
             return response()->json($response);
-        // } catch (QueryException $e) {
+        } catch (QueryException $e) {
 
-        //     DB::rollBack();
+            DB::rollBack();
 
-        //     return response()->json(['status' => false, 'message' => "db error"]);
-        // } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => "db error"]);
+        } catch (\Exception $e) {
 
 
-        //     return response()->json(['status' => false, 'message' => "something went wrong"]);
-        // }
+            return response()->json(['status' => false, 'message' => "something went wrong"]);
+        }
     }
 
     public function storeProfile(StoreProfileRequest $request)
