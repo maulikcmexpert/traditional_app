@@ -2564,8 +2564,8 @@ class UsersController_v2 extends BaseController
             'email' => $email,
         ];
 
-        if ($user_id) {
-
+        if ($user) {
+            dd($user);
             $data['member_count'] = $totalMember;
             $data['established_year'] = $user->organizationdetail->established_year;
             $data['address'] = ($user->organizationdetail->address != "") ? $user->organizationdetail->address : "";
