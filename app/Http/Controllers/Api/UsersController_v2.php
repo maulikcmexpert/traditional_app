@@ -742,7 +742,9 @@ class UsersController_v2 extends BaseController
 
         $relationArray = [
             'userdetail',
-            'user_profile',
+            'user_profile' => function ($query) {
+                $query->orderBy('is_default', 'desc');
+            },
             'user_lifestyle',
             'user_lifestyle.lifestyle',
             'user_interest_and_hobby',
