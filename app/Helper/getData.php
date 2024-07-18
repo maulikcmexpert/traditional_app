@@ -297,6 +297,7 @@ function getSearchUser($filter, $page, $user_id)
     // Apply filters based on search criteria
     $query->with('userdetail');
     $query->where('full_name', 'like', "%$search_name%");
+    $query->where('city', 'like', "%$search_name%");
     $query->where('user_type', 'user');
     $query->where('status', 'active');
 
