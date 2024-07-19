@@ -794,6 +794,7 @@ class UsersController_v2 extends BaseController
             $data['city_name'] = ($user->userdetail->city != "") ? $user->userdetail->city : "";
             $data['organization_id'] = ($user->userdetail->organization_id != "") ? $user->userdetail->organization_id : 0;
             $data['organization_name'] = ($user->userdetail->organization_id != NULL) ? $user->userdetail['organization']->full_name : "";
+            $data['zip_code'] = ($user->userdetail->zip_code != "") ? $user->userdetail->zip_code : "";
 
             $data['life_style'] = [];
             if (!empty($user->user_lifestyle)) {
@@ -1355,6 +1356,9 @@ class UsersController_v2 extends BaseController
             $user_detail->religion_id = ($request->religion_id == "" ||  $request->religion_id == 0) ? NULL : $request->religion_id;
             $user_detail->about_me = $request->about_me;
             $user_detail->height_type = $request->height_type;
+            $user_detail->zip_code = $request->zip_code;
+
+
             // dd($user_detail)
             $user_detail->save();
 
