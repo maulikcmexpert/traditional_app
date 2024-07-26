@@ -265,8 +265,10 @@ function getManageRequestByMale($type, $page, $receiver_id)
     return array('userData' => $userData, 'total_page' => $total_page);
 }
 
-function getSearchUser($filter, $page, $user_id)
+// function getSearchUser($filter, $page, $user_id)
+function getSearchUser($filter, $page, $user_id, $isSearchByUser = true, $lat = null, $long = null)
 {
+    // dd($isSearchByUser);
     $userData = [];
     $total_page = 0;
 
@@ -285,92 +287,148 @@ function getSearchUser($filter, $page, $user_id)
     $quality_time_max = $filter['quality_time_max'];
     $physical_touch_min = $filter['physical_touch_min'];
     $physical_touch_max = $filter['physical_touch_max'];
-    // Input validation
-    if (empty($search_name)) {
-        return array('userData' => $userData, 'total_page' => $total_page);
-    }
 
-    // Construct query for user search
-    $query = User::query();
+    if ($isSearchByUser == true) {
+        // Input validation
+        if (empty($search_name)) {
+            return array('userData' => $userData, 'total_page' => $total_page);
+        }
 
-    // Apply filters based on search criteria
-    $query->with('userdetail');
-    $query->where('full_name', 'like', "%$search_name%");
-    $query->where('city', 'like', "%$search_name%");
-    $query->where('user_type', 'user');
-    $query->where('status', 'active');
+        // Construct query for user search
+        $query = User::query();
 
-    if (!empty($city)) {
+        // Apply filters based on search criteria
+        $query->with('userdetail');
+        // $query->where('full_name', 'like', "%$search_name%");
+        $query->where('user_type', 'user');
+        $query->where('status', 'active');
 
-        $query->whereHas('userdetail', function ($q) use ($city) {
-            $q->Where('city', 'like', "%$city%");
-        });
-    }
+        if (!empty($city)) {
 
-    if ($organizationName != "") {
-        $organizationIds = User::where('full_name', 'like', "%$organizationName%")->pluck('id');
-        $query->whereHas('userdetail', function ($q) use ($organizationIds) {
-            $q->whereIn('organization_id', $organizationIds);
-        });
-    }
+            $query->whereHas('userdetail', function ($q) use ($city, $search_name) {
+                $q->where('city', 'like', "%$city%")
+                    ->where(function ($qq) use ($search_name) {
+                        $qq->orWhere('zip_code', 'like', "%$search_name%")
+                            ->orWhere('full_name', 'like', "%$search_name%");
+                    });
+            });
+
+            // $query->whereHas('userdetail', function ($q) use ($city,$search_name) {
+            //     $q->where('city', 'like', "%$city%");
+            // })->where('full_name', 'like', "%$search_name%");
+
+        } else {
+            $query->whereHas('userdetail', function ($q) use ($search_name) {
+                $q->Where('city', 'like', "%$search_name%")
+                    ->orWhere('zip_code', 'like', "%$search_name%");
+            })->orWhere('full_name', 'like', "%$search_name%");
+        }
+
+        if ($organizationName != "") {
+            $organizationIds = User::where('full_name', 'like', "%$organizationName%")->pluck('id');
+            $query->whereHas('userdetail', function ($q) use ($organizationIds) {
+                $q->whereIn('organization_id', $organizationIds);
+            });
+        }
 
 
-    if (isset($minAge) && isset($maxAge)) {
-        $query->whereHas('userdetail', function ($q) use ($minAge, $maxAge) {
-            $q->whereBetween('date_of_birth', [
-                now()->subYears($maxAge + 1)->format('Y-m-d'),
-                now()->subYears($minAge - 1)->format('Y-m-d'),
-            ]);
-        });
-    }
+        if (isset($minAge) && isset($maxAge)) {
+            $query->whereHas('userdetail', function ($q) use ($minAge, $maxAge) {
+                $q->whereBetween('date_of_birth', [
+                    now()->subYears($maxAge + 1)->format('Y-m-d'),
+                    now()->subYears($minAge - 1)->format('Y-m-d'),
+                ]);
+            });
+        }
 
-    $query->whereHas('user_love_lang', function ($q) use ($words_of_affirmation_min, $words_of_affirmation_max, $act_of_services_min, $act_of_services_max, $gifts_min, $gifts_max, $quality_time_min, $quality_time_max, $physical_touch_min, $physical_touch_max) {
-        $loveLanguages = [
-            'words_of_affirmation' => [$words_of_affirmation_min, $words_of_affirmation_max],
-            'act_of_services' => [$act_of_services_min, $act_of_services_max],
-            'gifts' => [$gifts_min, $gifts_max],
-            'quality_time' => [$quality_time_min, $quality_time_max],
-            'physical_touch' => [$physical_touch_min, $physical_touch_max],
-        ];
-        $i = 0;
-        foreach ($loveLanguages as $loveLang => $range) {
-            [$min, $max] = $range;
-            if ($i == 0) {
-                if ($min !== null && $max !== null) {
-                    $q->whereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
+        $query->whereHas('user_love_lang', function ($q) use ($words_of_affirmation_min, $words_of_affirmation_max, $act_of_services_min, $act_of_services_max, $gifts_min, $gifts_max, $quality_time_min, $quality_time_max, $physical_touch_min, $physical_touch_max) {
+            $loveLanguages = [
+                'words_of_affirmation' => [$words_of_affirmation_min, $words_of_affirmation_max],
+                'act_of_services' => [$act_of_services_min, $act_of_services_max],
+                'gifts' => [$gifts_min, $gifts_max],
+                'quality_time' => [$quality_time_min, $quality_time_max],
+                'physical_touch' => [$physical_touch_min, $physical_touch_max],
+            ];
+            $i = 0;
+            foreach ($loveLanguages as $loveLang => $range) {
+                [$min, $max] = $range;
+                if ($i == 0) {
+                    if ($min !== null && $max !== null) {
+                        $q->whereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
+                    }
+                } else {
+
+                    if ($min !== null && $max !== null) {
+
+                        $q->orWhereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
+                    }
                 }
-            } else {
+                $i++;
+            }
+        });
 
-                if ($min !== null && $max !== null) {
+        // // Exclude blocked users
+        // $query->whereNotIn('id', function ($q) use ($user_id) {
+        //     $q->select('to_be_blocked_user_id')
+        //         ->from('profile_blocks')
+        //         ->where('to_be_blocked_user_id', $user_id)
+        //         ->whereNull('deleted_at');
+        // });
 
-                    $q->orWhereBetween('rate', [$min, $max])->where('love_lang', $loveLang);
+        // $query->whereNotIn('id', function ($q) use ($user_id) {
+        //     $q->select('blocker_user_id')
+        //         ->from('profile_blocks')
+        //         ->where('blocker_user_id', $user_id)
+        //         ->whereNull('deleted_at');
+        // });
+
+
+        $query->where('id', '!=', $user_id);
+
+        // Paginate the results
+        $result = $query->paginate(10, ['*'], 'page', $page);
+    } else {
+        $latitude = $lat;
+        $longitude = $long;
+
+        $database = Firebase::database();
+        $data = $database->getReference('/user_locations')->getValue();
+
+        $femaleDataArray = [];
+        if (isset($data['female'])) {
+
+            foreach ($data['female'] as $keyId => $val) {
+
+                $distance = distanceCalculation($latitude, $longitude, $val['latitude'], $val['longitude']);
+
+                if ($distance <= 5) {
+
+                    $femaleDataArray[] = $keyId;
                 }
             }
-            $i++;
         }
-    });
+        if (isset($data['male'])) {
 
-    // // Exclude blocked users
-    // $query->whereNotIn('id', function ($q) use ($user_id) {
-    //     $q->select('to_be_blocked_user_id')
-    //         ->from('profile_blocks')
-    //         ->where('to_be_blocked_user_id', $user_id)
-    //         ->whereNull('deleted_at');
-    // });
+            foreach ($data['male'] as $keyId => $val) {
 
-    // $query->whereNotIn('id', function ($q) use ($user_id) {
-    //     $q->select('blocker_user_id')
-    //         ->from('profile_blocks')
-    //         ->where('blocker_user_id', $user_id)
-    //         ->whereNull('deleted_at');
-    // });
+                $distance = distanceCalculation($latitude, $longitude, $val['latitude'], $val['longitude']);
 
+                if ($distance <= 5) {
 
-    $query->where('id', '!=', $user_id);
+                    $femaleDataArray[] = $keyId;
+                }
+            }
+        }
 
-    // Paginate the results
-    $result = $query->paginate(10, ['*'], 'page', $page);
-
+        $users = User::query();
+        $users->with([
+            'userdetail',
+        ])->whereIn('id', $femaleDataArray)
+            ->where('status', 'active')
+            ->where('user_type', 'user')
+            ->where('id', '!=', $user_id);
+        $result = $users->paginate(10, ['*'], 'page', $page);
+    }
     // Format results
     foreach ($result as $val) {
 

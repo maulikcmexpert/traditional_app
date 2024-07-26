@@ -1357,8 +1357,6 @@ class UsersController_v2 extends BaseController
             $user_detail->about_me = $request->about_me;
             $user_detail->height_type = $request->height_type;
             $user_detail->zip_code = $request->zip_code;
-
-
             // dd($user_detail)
             $user_detail->save();
 
@@ -2239,6 +2237,18 @@ class UsersController_v2 extends BaseController
         // try {
 
         $page = 1;
+        $isSearchByUser = "";
+        $lat = null;
+        $long = null;
+        if (isset($request->isSearchByUser)) {
+            $isSearchByUser = $request->isSearchByUser;
+        }
+        if (isset($request->lat) && $request->lat != "") {
+            $lat = $request->lat;
+        }
+        if (isset($request->lng) && $request->lng != "") {
+            $long = $request->lng;
+        }
         if (isset($request->page) && $request->page != "") {
             $page = $request->page;
         }
@@ -2276,9 +2286,17 @@ class UsersController_v2 extends BaseController
         $requests = getSearchUser(
             $filter,
             $page,
-            $this->user->id
-
+            $this->user->id,
+            $isSearchByUser,
+            $lat,
+            $long
         );
+        // $requests = getSearchUser(
+        //     $filter,
+        //     $page,
+        //     $this->user->id
+
+        // );
         $userData = $requests['userData'];
         $total_page = $requests['total_page'];
 
