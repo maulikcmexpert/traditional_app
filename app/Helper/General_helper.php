@@ -240,23 +240,47 @@ function send_notification_FCM($deviceToken, $notifyData)
 
         $messageNotify = $notifyData['notification_message'];
     }
-    $notificationLoad =  [
-        'title' => "Yesvite",
-        "body" => $messageNotify,
-        'sound' => "default",
+    // $notificationLoad =  [
+    //     'title' => "Yesvite",
+    //     "body" => $messageNotify,
+    //     'sound' => "default",
+    //     'message' => $messageNotify,
+    //     'color' => "#79bc64",
+    //     "data" => $notifyData
+    // ];
+
+    // $dataPayload = [
+    //     "to" => $deviceToken,
+    //     "data" => $notifyData,
+    //     "notification" => $notificationLoad,
+    //     "priority" => "high",
+    // ];
+
+    $notification = array(
+        'title' => 'Traditional',
+        'body' => $messageNotify,
+        'sound' => 'default',
         'message' => $messageNotify,
         'color' => "#79bc64",
-        "data" => $notifyData
-    ];
+        'image' => $notifyData['notification_image'],
+        'category' => 'content_added_notification',
+    );
+    $message = array(
+        'to' => $deviceToken,
+        'notification' => $notification,
+        'data' => $notifyData,
+        'aps' => array(
+            'alert' => array(
+                'title' => "Traditional",
+                'body' => $messageNotify
+            ),
+            'category' => 'content_added_notification',
+            'mutable-content' => true,
+            'content-available' => true,
+        ),
+    );
 
-    $dataPayload = [
-        "to" => $deviceToken,
-        "data" => $notifyData,
-        "notification" => $notificationLoad,
-        "priority" => "high",
-    ];
-
-    $post_data = json_encode($dataPayload);
+    $post_data = json_encode($message);
 
     $crl = curl_init();
 
