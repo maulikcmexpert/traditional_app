@@ -230,8 +230,16 @@ function notification($notificationData)
 
 function send_notification_FCM($deviceToken, $notifyData)
 {
+    // Live //
+
+    $SERVER_API_KEY = 'key=AAAAW0MrN-E:APA91bEMAssl6Kl4HzSTLuiYSsXJzRXJRYuCZMz4XyJTsXxJTQLPcgkx42MmwpNTtWPqean_SeIw5PspZ6fAy1cqqfA2JsOVWH-IzF82EqmX6JAcC0LWTwE6o1kl-QMM1KmhiOvp4q2o';
+
+    // Dev //
+
+    // $SERVER_API_KEY = 'key=AAAAvDIpzpQ:APA91bF3RZ_PxZdlMcEVsPEKMYNZS6njxggdyBd5SBlCCX8UStE-gE3Ed3kHv4SF_LSBZndTyvp_wCOeLDczQkAYl41OwKzAGYHnfent6jLAEBl0B-KaCMO6_Uu_cq083Q2Qz_HDiPkS';
+
     // $SERVER_API_KEY = 'key=AAAAP6m84T0:APA91bHeuAm2ME_EmPEsOjMe2FatmHn2QU98ADg4Y5UxNMmXGg4MDD4OJQQhvsixNfhV1g2BWbgOCQGEf9_c3ngB8qH_N3MEMsgD7uuAQAq0_IO2GGPqCxjJPuwAME9MVX9ZvWgYbcPh';
-    $SERVER_API_KEY = 'key=AAAAvDIpzpQ:APA91bF3RZ_PxZdlMcEVsPEKMYNZS6njxggdyBd5SBlCCX8UStE-gE3Ed3kHv4SF_LSBZndTyvp_wCOeLDczQkAYl41OwKzAGYHnfent6jLAEBl0B-KaCMO6_Uu_cq083Q2Qz_HDiPkS';
+    // $SERVER_API_KEY = 'key=AAAAvDIpzpQ:APA91bF3RZ_PxZdlMcEVsPEKMYNZS6njxggdyBd5SBlCCX8UStE-gE3Ed3kHv4SF_LSBZndTyvp_wCOeLDczQkAYl41OwKzAGYHnfent6jLAEBl0B-KaCMO6_Uu_cq083Q2Qz_HDiPkS';
     $URL = 'https://fcm.googleapis.com/fcm/send';
 
     if (isset($notifyData['message'])) {
@@ -312,11 +320,11 @@ function send_notification_FCM_and($deviceToken, $notifyData)
 
     // Live //
 
-    //$SERVER_API_KEY = 'key=AAAAW0MrN-E:APA91bEMAssl6Kl4HzSTLuiYSsXJzRXJRYuCZMz4XyJTsXxJTQLPcgkx42MmwpNTtWPqean_SeIw5PspZ6fAy1cqqfA2JsOVWH-IzF82EqmX6JAcC0LWTwE6o1kl-QMM1KmhiOvp4q2o';
+    $SERVER_API_KEY = 'key=AAAAW0MrN-E:APA91bEMAssl6Kl4HzSTLuiYSsXJzRXJRYuCZMz4XyJTsXxJTQLPcgkx42MmwpNTtWPqean_SeIw5PspZ6fAy1cqqfA2JsOVWH-IzF82EqmX6JAcC0LWTwE6o1kl-QMM1KmhiOvp4q2o';
 
     // Dev //
 
-    $SERVER_API_KEY = 'key=AAAAvDIpzpQ:APA91bF3RZ_PxZdlMcEVsPEKMYNZS6njxggdyBd5SBlCCX8UStE-gE3Ed3kHv4SF_LSBZndTyvp_wCOeLDczQkAYl41OwKzAGYHnfent6jLAEBl0B-KaCMO6_Uu_cq083Q2Qz_HDiPkS';
+    // $SERVER_API_KEY = 'key=AAAAvDIpzpQ:APA91bF3RZ_PxZdlMcEVsPEKMYNZS6njxggdyBd5SBlCCX8UStE-gE3Ed3kHv4SF_LSBZndTyvp_wCOeLDczQkAYl41OwKzAGYHnfent6jLAEBl0B-KaCMO6_Uu_cq083Q2Qz_HDiPkS';
     $URL = 'https://fcm.googleapis.com/fcm/send';
 
 
