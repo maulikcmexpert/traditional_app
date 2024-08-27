@@ -319,8 +319,17 @@ function getSearchUser($filter, $page, $user_id, $isSearchByUser = true, $lat = 
 
         } else {
             $query->whereHas('userdetail', function ($q) use ($search_name) {
-                $q->Where('city', 'like', "%$search_name%")
-                    ->orWhere('zip_code', 'like', "%$search_name%");
+                if (isset($minAge) && isset($maxAge)) {
+                    $q->whereBetween('date_of_birth', [
+                        now()->subYears($maxAge + 1)->format('Y-m-d'),
+                        now()->subYears($minAge - 1)->format('Y-m-d'),
+                    ])
+                        ->where('city', 'like', "%$search_name%")
+                        ->orWhere('zip_code', 'like', "%$search_name%");
+                } else {
+                    $q->where('city', 'like', "%$search_name%")
+                        ->orWhere('zip_code', 'like', "%$search_name%");
+                }
             })->orWhere('full_name', 'like', "%$search_name%");
         }
 
