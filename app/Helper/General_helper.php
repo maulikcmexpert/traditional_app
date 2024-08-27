@@ -193,7 +193,9 @@ function notification($notificationData)
         $notification->user_id  = $notificationData['receiver_id'];
         $notification->sender_id = $notificationData['sender_id'];
         $notification->notification_type = $notificationData['type'];
-        $user = User::where('id', $notificationData['sender_id'])->first();
+        $user = User::with(['userdetail' => function ($query) {
+            $query->select('gender', 'user_id');
+        }])->where('id', $notificationData['sender_id'])->first();
         if ($notificationData['status'] == 'rejected') {
             addNotificationCount($notificationData['receiver_id']);
             if ($notificationData['type'] == 'friend') {
@@ -209,8 +211,12 @@ function notification($notificationData)
             addNotificationCount($notificationData['receiver_id']);
             // firebase count add //
             $reciverUser = User::where('id', $notificationData['receiver_id'])->first();
-            $notification->message = 'Hey $MYNAME! $NAME has accepted your request. now you can message to her';
-            $notificationData['notification_message'] =  'Hey ' . $reciverUser->full_name . ' ! ' . $user->full_name . ' has accepted your request. now you can message to her';
+            $her_him = 'her';
+            if (isset($user->userdetail->gender) && $user->userdetail->gender == 'male') {
+                $her_him = 'him';
+            }
+            $notification->message = 'Hey $MYNAME! $NAME has accepted your request. now you can message to ' . $her_him;
+            $notificationData['notification_message'] =  'Hey ' . $reciverUser->full_name . ' ! ' . $user->full_name . ' has accepted your request. now you can message to ' . $her_him;
         }
 
         $notification->status = $notificationData['status'];
